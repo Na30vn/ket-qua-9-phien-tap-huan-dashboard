@@ -1,0 +1,1347 @@
+{
+  "version": 3,
+  "updatedAt": "2026-08-31T11:59:35.795Z",
+  "sessions": [
+    {
+      "id": 1,
+      "name": "Phiên 1",
+      "kind": "quiz",
+      "typeLabel": "Trắc nghiệm 6 câu",
+      "description": "Phân cấp thu, chi và lập dự toán ngân sách cấp xã",
+      "totalResponses": 48,
+      "participatingUnits": 12,
+      "scoreStats": {
+        "count": 48,
+        "maxScore": 60,
+        "average": 35.625,
+        "averagePercent": 59.375,
+        "mode": "Dữ liệu giả lập",
+        "distribution": [
+          {
+            "label": "0/60",
+            "count": 1
+          },
+          {
+            "label": "10/60",
+            "count": 3
+          },
+          {
+            "label": "20/60",
+            "count": 7
+          },
+          {
+            "label": "30/60",
+            "count": 11
+          },
+          {
+            "label": "40/60",
+            "count": 13
+          },
+          {
+            "label": "50/60",
+            "count": 9
+          },
+          {
+            "label": "60/60",
+            "count": 4
+          }
+        ]
+      },
+      "questions": [
+        {
+          "title": "Trong phân cấp ngân sách địa phương, khoản thu nào sau đây không thuộc nguồn thu ngân sách cấp xã:",
+          "totalAnswers": 48,
+          "correctAnswer": "Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã",
+          "referenceNote": "",
+          "correctCount": 36,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã",
+              "count": 36,
+              "isCorrect": true
+            },
+            {
+              "label": "Lệ phí do các cơ quan nhà nước thuộc cấp xã thực hiện thu",
+              "count": 4,
+              "isCorrect": false
+            },
+            {
+              "label": "Tiền thu từ xử phạt vi phạm hành chính, xử phạt khác theo quy định của pháp luật do các cơ quan nhà nước cấp xã thực hiện",
+              "count": 4,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 4,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 12,
+          "correctPercent": 75,
+          "explanations": []
+        },
+        {
+          "title": "Yêu cầu nào sau đây không đúng khi quản lý thu phí, lệ phí:",
+          "totalAnswers": 48,
+          "correctAnswer": "Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước",
+          "referenceNote": "",
+          "correctCount": 34,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước",
+              "count": 34,
+              "isCorrect": true
+            },
+            {
+              "label": "Tổ chức thu lệ phí phải nộp đầy đủ, kịp thời số tiền lệ phí thu được vào ngân sách nhà nước",
+              "count": 5,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 5,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 4,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 14,
+          "correctPercent": 70.83333333333334,
+          "explanations": []
+        },
+        {
+          "title": "Yêu cầu nào là không đúng khi lập dự toán ngân sách cấp xã:",
+          "totalAnswers": 48,
+          "correctAnswer": "Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)",
+          "referenceNote": "",
+          "correctCount": 30,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)",
+              "count": 30,
+              "isCorrect": true
+            },
+            {
+              "label": "Dự toán ngân sách nhà nước phải tổng hợp theo từng khoản thu, chi và theo cơ cấu chi đầu tư phát triển, chi thường xuyên, dự phòng ngân sách",
+              "count": 6,
+              "isCorrect": false
+            },
+            {
+              "label": "Dự toán thu phải thể hiện đầy đủ các khoản thu, sát khả năng thực tế",
+              "count": 6,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 6,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 18,
+          "correctPercent": 62.5,
+          "explanations": []
+        },
+        {
+          "title": "Nội dung nào dưới đây không đúng về sử dụng dự phòng ngân sách cấp huyện:",
+          "totalAnswers": 48,
+          "correctAnswer": "Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn",
+          "referenceNote": "",
+          "correctCount": 24,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn",
+              "count": 24,
+              "isCorrect": true
+            },
+            {
+              "label": "Chi cho nhiệm vụ quan trọng về quốc phòng, an ninh",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Chi phòng, chống, khắc phục hậu quả thiên tai, thảm họa, dịch bệnh, cứu đói",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 8,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 24,
+          "correctPercent": 50,
+          "explanations": []
+        },
+        {
+          "title": "Thẩm quyền quyết định sử dụng dự phòng ngân sách cấp xã:",
+          "totalAnswers": 48,
+          "correctAnswer": "Uỷ ban nhân dân cấp xã",
+          "referenceNote": "",
+          "correctCount": 27,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Uỷ ban nhân dân cấp xã",
+              "count": 27,
+              "isCorrect": true
+            },
+            {
+              "label": "Thường trực Hội đồng nhân dân cấp xã",
+              "count": 7,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 7,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 7,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 21,
+          "correctPercent": 56.25,
+          "explanations": []
+        },
+        {
+          "title": "Cơ quan nào có quyền tạm đình chỉ chi ngân sách của các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã khi không chấp hành đúng chế độ báo cáo kế toán, quyết toán, báo cáo tài chính khác và chịu trách nhiệm về quyết định của mình:",
+          "totalAnswers": 48,
+          "correctAnswer": "Cơ quan tài chính cấp xã",
+          "referenceNote": "",
+          "correctCount": 20,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Cơ quan tài chính cấp xã",
+              "count": 20,
+              "isCorrect": true
+            },
+            {
+              "label": "Kho bạc nhà nước",
+              "count": 10,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 9,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 9,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 28,
+          "correctPercent": 41.66666666666667,
+          "explanations": []
+        }
+      ],
+      "quizSummary": {
+        "averageCorrectPercent": 59.375,
+        "hardestQuestion": {
+          "number": 6,
+          "title": "Cơ quan nào có quyền tạm đình chỉ chi ngân sách của các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã khi không chấp hành đúng chế độ báo cáo kế toán, quyết toán, báo cáo tài chính khác và chịu trách nhiệm về quyết định của mình:",
+          "correctPercent": 41.66666666666667
+        },
+        "perfectCount": 4,
+        "perfectRate": 8.333333333333332,
+        "correctDistribution": [
+          {
+            "label": "0",
+            "count": 1
+          },
+          {
+            "label": "1",
+            "count": 3
+          },
+          {
+            "label": "2",
+            "count": 7
+          },
+          {
+            "label": "3",
+            "count": 11
+          },
+          {
+            "label": "4",
+            "count": 13
+          },
+          {
+            "label": "5",
+            "count": 9
+          },
+          {
+            "label": "6",
+            "count": 4
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Phiên 2",
+      "kind": "ordering",
+      "typeLabel": "Sắp xếp thứ tự",
+      "description": "Quy trình quản lý ngân sách cấp xã theo thời gian",
+      "totalResponses": 46,
+      "participatingUnits": 10,
+      "scoreStats": {
+        "count": 46,
+        "maxScore": 10,
+        "average": 1.9565217391304348,
+        "averagePercent": 19.565217391304348,
+        "mode": "Dữ liệu giả lập",
+        "distribution": [
+          {
+            "label": "0/10",
+            "count": 37
+          },
+          {
+            "label": "10/10",
+            "count": 9
+          }
+        ]
+      },
+      "ordering": {
+        "correctSequence": "3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7",
+        "correctCount": 9,
+        "correctRate": 19.565217391304348,
+        "uniqueSequenceCount": 18,
+        "positionAccuracy": [
+          {
+            "step": "3",
+            "position": 1,
+            "count": 42,
+            "percent": 91.30434782608695
+          },
+          {
+            "step": "5",
+            "position": 2,
+            "count": 39,
+            "percent": 84.78260869565217
+          },
+          {
+            "step": "1",
+            "position": 3,
+            "count": 35,
+            "percent": 76.08695652173914
+          },
+          {
+            "step": "6",
+            "position": 4,
+            "count": 31,
+            "percent": 67.3913043478261
+          },
+          {
+            "step": "4",
+            "position": 5,
+            "count": 29,
+            "percent": 63.04347826086957
+          },
+          {
+            "step": "11",
+            "position": 6,
+            "count": 25,
+            "percent": 54.347826086956516
+          },
+          {
+            "step": "9",
+            "position": 7,
+            "count": 30,
+            "percent": 65.21739130434783
+          },
+          {
+            "step": "8",
+            "position": 8,
+            "count": 27,
+            "percent": 58.69565217391305
+          },
+          {
+            "step": "10",
+            "position": 9,
+            "count": 24,
+            "percent": 52.17391304347826
+          },
+          {
+            "step": "13",
+            "position": 10,
+            "count": 22,
+            "percent": 47.82608695652174
+          },
+          {
+            "step": "2",
+            "position": 11,
+            "count": 20,
+            "percent": 43.47826086956522
+          },
+          {
+            "step": "12",
+            "position": 12,
+            "count": 18,
+            "percent": 39.130434782608695
+          },
+          {
+            "step": "7",
+            "position": 13,
+            "count": 16,
+            "percent": 34.78260869565217
+          }
+        ],
+        "commonSequences": [
+          {
+            "value": "3,5,1,4,6,11,9,8,10,13,2,12,7",
+            "count": 8
+          },
+          {
+            "value": "3,5,1,6,11,4,9,8,10,13,2,12,7",
+            "count": 6
+          },
+          {
+            "value": "3,1,5,6,4,11,9,8,10,13,2,12,7",
+            "count": 5
+          },
+          {
+            "value": "5,3,1,6,4,11,9,8,10,13,2,12,7",
+            "count": 4
+          },
+          {
+            "value": "3,5,1,6,4,11,8,9,10,13,2,12,7",
+            "count": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "Phiên 3",
+      "kind": "open",
+      "typeLabel": "Tình huống tự luận",
+      "description": "Thực hiện công khai ngân sách cấp xã",
+      "totalResponses": 36,
+      "participatingUnits": 9,
+      "scoreStats": {
+        "count": 0,
+        "distribution": [],
+        "mode": "Không chấm tự động"
+      },
+      "referenceAnswer": [
+        "Thiếu công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình Hội đồng nhân dân cấp xã.",
+        "Thiếu công khai thuyết minh quyết toán ngân sách cấp xã đã được Hội đồng nhân dân cấp xã phê chuẩn, gồm kết quả thu và kết quả chi ngân sách cấp xã.",
+        "Tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và năm; không ghi chung là hàng quý."
+      ],
+      "responses": [
+        "Cần công khai số liệu dự toán trình Hội đồng nhân dân cùng phần thuyết minh để người dân có thể theo dõi.",
+        "Nội dung còn thiếu phần giải trình quyết toán đã được phê chuẩn, bao gồm kết quả thu và chi.",
+        "Các mốc công khai tình hình thực hiện dự toán nên là 03 tháng, 06 tháng, 09 tháng và cả năm.",
+        "Tình huống mới nêu công khai dự toán được giao nhưng chưa nói đến hồ sơ trình Hội đồng nhân dân.",
+        "Cần bổ sung thuyết minh nguyên nhân tăng giảm các khoản thu, chi so với dự toán.",
+        "Việc ghi công khai hàng quý chưa phản ánh đúng các mốc thời gian mà quy định yêu cầu.",
+        "Theo tôi phải công khai cả dự toán, tình hình thực hiện và quyết toán ngân sách cấp xã.",
+        "Quyết toán được phê chuẩn cần có số liệu thu ngân sách nhà nước trên địa bàn và chi ngân sách xã.",
+        "Hồ sơ công khai cần bảo đảm người dân tiếp cận được số liệu và phần giải thích kèm theo.",
+        "Cần xác định rõ thời điểm công khai sau khi Hội đồng nhân dân phê chuẩn quyết toán.",
+        "Tình huống còn thiếu nội dung công khai kết quả thực hiện các kiến nghị sau thanh tra, kiểm toán.",
+        "Nên tách rõ công khai dự toán trình, dự toán được giao, thực hiện dự toán và quyết toán."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Phiên 4",
+      "kind": "quiz",
+      "typeLabel": "Trắc nghiệm 9 câu",
+      "description": "Quản lý ngân sách cấp xã",
+      "totalResponses": 52,
+      "participatingUnits": 11,
+      "scoreStats": {
+        "count": 52,
+        "maxScore": 90,
+        "average": 52.69230769230769,
+        "averagePercent": 58.54700854700855,
+        "mode": "Dữ liệu giả lập",
+        "distribution": [
+          {
+            "label": "0/90",
+            "count": 1
+          },
+          {
+            "label": "10/90",
+            "count": 1
+          },
+          {
+            "label": "20/90",
+            "count": 3
+          },
+          {
+            "label": "30/90",
+            "count": 5
+          },
+          {
+            "label": "40/90",
+            "count": 7
+          },
+          {
+            "label": "50/90",
+            "count": 10
+          },
+          {
+            "label": "60/90",
+            "count": 10
+          },
+          {
+            "label": "70/90",
+            "count": 8
+          },
+          {
+            "label": "80/90",
+            "count": 5
+          },
+          {
+            "label": "90/90",
+            "count": 2
+          }
+        ]
+      },
+      "questions": [
+        {
+          "title": "Số tăng thu so với dự toán của ngân sách cấp xã không được sử dụng cho những nội dung sau đây:",
+          "totalAnswers": 52,
+          "correctAnswer": "B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã",
+          "referenceNote": "",
+          "correctCount": 38,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã",
+              "count": 38,
+              "isCorrect": true
+            },
+            {
+              "label": "A. Bổ sung tăng dự phòng ngân sách trong phạm vi quy định",
+              "count": 5,
+              "isCorrect": false
+            },
+            {
+              "label": "D. Tăng chi đầu tư một số dự án quan trọng",
+              "count": 5,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 4,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 14,
+          "correctPercent": 73.07692307692307,
+          "explanations": []
+        },
+        {
+          "title": "Việc xử lý số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã được thực hiện:",
+          "totalAnswers": 52,
+          "correctAnswer": "C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất",
+          "referenceNote": "",
+          "correctCount": 33,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất",
+              "count": 33,
+              "isCorrect": true
+            },
+            {
+              "label": "B. Hội đồng nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã",
+              "count": 7,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 6,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 6,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 19,
+          "correctPercent": 63.46153846153846,
+          "explanations": []
+        },
+        {
+          "title": "Ủy ban nhân dân cấp xã phải hoàn thành việc giao dự toán ngân sách cho từng cơ quan, đơn vị trực thuộc:",
+          "totalAnswers": 52,
+          "correctAnswer": "C. Trước ngày 31 tháng 12 năm trước",
+          "referenceNote": "",
+          "correctCount": 31,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "C. Trước ngày 31 tháng 12 năm trước",
+              "count": 31,
+              "isCorrect": true
+            },
+            {
+              "label": "B. Trước ngày 10 tháng 12 năm trước",
+              "count": 7,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 7,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 7,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 21,
+          "correctPercent": 59.61538461538461,
+          "explanations": []
+        },
+        {
+          "title": "Yêu cầu nào sau đây không đúng quyết toán ngân sách cấp xã:",
+          "totalAnswers": 52,
+          "correctAnswer": "B. Số quyết toán thu ngân sách nhà nước là số thu đã thực nộp và số thu đã hạch toán thu ngân sách nhà nước theo quy định. Các khoản thu thuộc ngân sách các năm trước nộp ngân sách năm sau phải hạch toán vào thu ngân sách năm trước",
+          "referenceNote": "",
+          "correctCount": 29,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "B. Số quyết toán thu ngân sách nhà nước là số thu đã thực nộp và số thu đã hạch toán thu ngân sách nhà nước theo quy định. Các khoản thu thuộc ngân sách các năm trước nộp ngân sách năm sau phải hạch toán vào thu ngân sách năm trước",
+              "count": 29,
+              "isCorrect": true
+            },
+            {
+              "label": "C. Số liệu quyết toán ngân sách của đơn vị sử dụng ngân sách, của chủ đầu tư và của ngân sách các cấp phải được đối chiếu, xác nhận với Kho bạc Nhà nước nơi giao dịch",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 7,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 23,
+          "correctPercent": 55.769230769230774,
+          "explanations": []
+        },
+        {
+          "title": "Đến hết thời gian chỉnh lý quyết toán, các khoản dự toán chi ngân sách nhà nước (bao gồm cả các khoản dự toán chưa phân bổ chi tiết ở cấp ngân sách, các khoản tạm ứng trong dự toán, số dư tài khoản tiền gửi các khoản ngân sách nhà nước cấp) chưa thực hiện được hoặc chưa chi hết, không được chuyển nguồn sang năm sau tiếp tục sử dụng, bao gồm:",
+          "totalAnswers": 52,
+          "correctAnswer": "A. Các khoản dự toán được Ủy ban nhân dân các cấp bổ sung sau ngày 30 tháng 9 năm thực hiện dự toán đã hết nhiệm vụ chi",
+          "referenceNote": "",
+          "correctCount": 35,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "A. Các khoản dự toán được Ủy ban nhân dân các cấp bổ sung sau ngày 30 tháng 9 năm thực hiện dự toán đã hết nhiệm vụ chi",
+              "count": 35,
+              "isCorrect": true
+            },
+            {
+              "label": "C. Kinh phí được giao tự chủ của các đơn vị sự nghiệp công lập và các cơ quan nhà nước",
+              "count": 6,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 6,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 5,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 17,
+          "correctPercent": 67.3076923076923,
+          "explanations": []
+        },
+        {
+          "title": "Thời gian chỉnh lý quyết toán ngân sách nhà nước kết thúc vào thời điểm nào theo quy định hiện nay:",
+          "totalAnswers": 52,
+          "correctAnswer": "C. 31 tháng 01 năm sau",
+          "referenceNote": "",
+          "correctCount": 28,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "C. 31 tháng 01 năm sau",
+              "count": 28,
+              "isCorrect": true
+            },
+            {
+              "label": "Phương án minh họa B",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 8,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 24,
+          "correctPercent": 53.84615384615385,
+          "explanations": []
+        },
+        {
+          "title": "Yêu cầu nào dưới đây không đúng khi khóa sổ kế toán và xử lý thu, chi ngân sách nhà nước cuối năm:",
+          "totalAnswers": 52,
+          "correctAnswer": "B. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản được ngân sách thành phố cấp kinh phí bổ sung có mục tiêu còn thừa, đã hết nhiệm vụ chi được chuyển nguồn, không phải nộp trả",
+          "referenceNote": "",
+          "correctCount": 25,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "B. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản được ngân sách thành phố cấp kinh phí bổ sung có mục tiêu còn thừa, đã hết nhiệm vụ chi được chuyển nguồn, không phải nộp trả",
+              "count": 25,
+              "isCorrect": true
+            },
+            {
+              "label": "A. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản dự toán chi, bao gồm cả các khoản bổ sung trong năm, chưa thực hiện, chưa chi hết hoặc hết nhiệm vụ chi phải hủy dự toán, trừ các trường hợp được chuyển nguồn sang năm sau để tiếp tục thực hiện theo quy định",
+              "count": 9,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 9,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 9,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 27,
+          "correctPercent": 48.07692307692308,
+          "explanations": []
+        },
+        {
+          "title": "Thời điểm nào dưới đây không đúng khi quyết toán ngân sách cấp xã:",
+          "totalAnswers": 52,
+          "correctAnswer": "D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc",
+          "referenceNote": "",
+          "correctCount": 30,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc",
+              "count": 30,
+              "isCorrect": true
+            },
+            {
+              "label": "A. Ủy ban nhân dân cấp xã lập quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã báo cáo Thường trực Hội đồng nhân dân cùng cấp cho ý kiến trước ngày 10 tháng 3 năm sau",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 7,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 7,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 22,
+          "correctPercent": 57.692307692307686,
+          "explanations": []
+        },
+        {
+          "title": "Nội dung nào dưới đây không đúng đối với nguồn thực hiện chính sách cải cách tiền lương:",
+          "totalAnswers": 52,
+          "correctAnswer": "B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)",
+          "referenceNote": "",
+          "correctCount": 25,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)",
+              "count": 25,
+              "isCorrect": true
+            },
+            {
+              "label": "A. Nguồn thực hiện cải cách chính sách tiền lương được sử dụng để bảo đảm điều chỉnh mức lương cơ sở hằng năm và bảo đảm các chính sách an sinh xã hội do Trung ương ban hành (đối với ngân sách địa phương)",
+              "count": 9,
+              "isCorrect": false
+            },
+            {
+              "label": "D. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã sau khi đã cân đối nguồn mà chưa đáp ứng đủ nhu cầu theo chế độ quy định",
+              "count": 9,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 9,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 27,
+          "correctPercent": 48.07692307692308,
+          "explanations": []
+        }
+      ],
+      "quizSummary": {
+        "averageCorrectPercent": 58.54700854700855,
+        "hardestQuestion": {
+          "number": 7,
+          "title": "Yêu cầu nào dưới đây không đúng khi khóa sổ kế toán và xử lý thu, chi ngân sách nhà nước cuối năm:",
+          "correctPercent": 48.07692307692308
+        },
+        "perfectCount": 2,
+        "perfectRate": 3.8461538461538463,
+        "correctDistribution": [
+          {
+            "label": "0",
+            "count": 1
+          },
+          {
+            "label": "1",
+            "count": 1
+          },
+          {
+            "label": "2",
+            "count": 3
+          },
+          {
+            "label": "3",
+            "count": 5
+          },
+          {
+            "label": "4",
+            "count": 7
+          },
+          {
+            "label": "5",
+            "count": 10
+          },
+          {
+            "label": "6",
+            "count": 10
+          },
+          {
+            "label": "7",
+            "count": 8
+          },
+          {
+            "label": "8",
+            "count": 5
+          },
+          {
+            "label": "9",
+            "count": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Phiên 5",
+      "kind": "open",
+      "typeLabel": "Tình huống tự luận",
+      "description": "Xét duyệt và tổng hợp quyết toán năm",
+      "totalResponses": 33,
+      "participatingUnits": 8,
+      "scoreStats": {
+        "count": 0,
+        "distribution": [],
+        "mode": "Không chấm tự động"
+      },
+      "referenceAnswer": [
+        "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách, đơn vị lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ và khớp đúng với xác nhận của Kho bạc Nhà nước.",
+        "Thủ trưởng đơn vị chịu trách nhiệm về quyết toán ngân sách của đơn vị mình."
+      ],
+      "responses": [
+        "Đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán và gửi cơ quan tài chính kiểm tra.",
+        "Cơ quan tài chính kiểm tra tính đầy đủ của báo cáo và đối chiếu số liệu với xác nhận của Kho bạc Nhà nước.",
+        "Thủ trưởng đơn vị chịu trách nhiệm về tính chính xác, trung thực của số liệu quyết toán.",
+        "Không cần tổ chức xét duyệt cho chính đơn vị mình theo quy trình áp dụng với đơn vị trực thuộc.",
+        "Báo cáo quyết toán phải khớp với số liệu thu, chi đã được Kho bạc Nhà nước xác nhận.",
+        "Cần phân biệt trường hợp đơn vị cấp I có đơn vị trực thuộc với trường hợp đồng thời là đơn vị sử dụng ngân sách.",
+        "Hồ sơ gửi cơ quan tài chính phải đầy đủ biểu mẫu, thuyết minh và xác nhận số liệu theo quy định.",
+        "Trách nhiệm cuối cùng về báo cáo quyết toán thuộc người đứng đầu đơn vị.",
+        "Cơ quan tài chính thực hiện kiểm tra thay vì đơn vị tự xét duyệt quyết toán cho chính mình.",
+        "Nếu có chênh lệch với Kho bạc Nhà nước thì đơn vị phải rà soát, điều chỉnh trước khi tổng hợp.",
+        "Báo cáo cần phản ánh đúng nguồn kinh phí, nhiệm vụ chi và số chuyển nguồn nếu có.",
+        "Căn cứ xử lý là khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Phiên 6",
+      "kind": "true_false",
+      "typeLabel": "Đúng/Sai và giải thích",
+      "description": "Định mức trang thiết bị, tài sản",
+      "totalResponses": 45,
+      "participatingUnits": 10,
+      "scoreStats": {
+        "count": 45,
+        "maxScore": 70,
+        "average": 41.11111111111111,
+        "averagePercent": 58.730158730158735,
+        "mode": "Dữ liệu giả lập",
+        "distribution": []
+      },
+      "questions": [
+        {
+          "title": "Bí thư đảng ủy xã hiện nay mới được trang bị máy tính xách tay 15 triệu đồng, cần mua thêm 1 máy tính xách tay 25 triệu đồng và 1 máy tính để bàn 20 triệu đồng.",
+          "totalAnswers": 45,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Bí thư đảng ủy xã chỉ được trang bị 1 máy tính xách tay tối đa 25 triệu đồng và 1 máy tính để bàn tối đa 20 triệu đồng.",
+          "correctCount": 28,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 17,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 28,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 17,
+          "correctPercent": 62.22222222222222,
+          "explanations": [
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 1.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 2.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 3.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 4.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 5.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 6.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 7.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Phòng Văn hoá - Xã hội có 4 cán bộ được bố trí ngồi 2 phòng làm việc. Hiện mới có 1 máy in, cần mua thêm 3 máy in với giá 4 triệu đồng/máy.",
+          "totalAnswers": 45,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Mỗi phòng làm việc không quá 3 người chỉ được trang bị 1 máy in tối đa 13 triệu đồng.",
+          "correctCount": 25,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 20,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 25,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 20,
+          "correctPercent": 55.55555555555556,
+          "explanations": [
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 1.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 2.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 3.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 4.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 5.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 6.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 7.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Chuyên viên phòng Kinh tế hiện chưa được trang bị máy tính, cần mua 1 máy tính xách tay với giá 20 triệu đồng, và cài đặt bản quyền sản phẩm phần mềm thêm 10 triệu đồng.",
+          "totalAnswers": 45,
+          "correctAnswer": "Đúng",
+          "referenceNote": "Đúng: Mức giá tối đa của máy tính xách tay là 20 triệu đồng, chưa bao gồm bản quyền phần mềm.",
+          "correctCount": 35,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 35,
+              "isCorrect": true
+            },
+            {
+              "label": "Sai",
+              "count": 10,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 10,
+          "correctPercent": 77.77777777777779,
+          "explanations": [
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 1.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 2.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 3.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 4.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 5.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 6.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 7.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Phòng Văn hoá - Xã hội trên địa bàn của thành phố Đà Nẵng được trang bị điều hoà cho phòng làm việc trị giá 10 triệu đồng.",
+          "totalAnswers": 45,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Điều hòa là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.",
+          "correctCount": 21,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 24,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 21,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 24,
+          "correctPercent": 46.666666666666664,
+          "explanations": [
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 1.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 2.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 3.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 4.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 5.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 6.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 7.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Văn phòng HĐND - UBND xã trên địa bàn của thành phố Đà Nẵng được trang bị màn hình LED tại Hội trường trị giá 20 triệu đồng.",
+          "totalAnswers": 45,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Màn hình LED tại hội trường là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.",
+          "correctCount": 18,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 27,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 18,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 27,
+          "correctPercent": 40,
+          "explanations": [
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 1.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 2.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 3.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 4.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 5.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 6.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 7.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Trường mầm non trên địa bàn của thành phố Đà Nẵng được trang bị máy chiếu cho lớp học trị giá 20 triệu đồng.",
+          "totalAnswers": 45,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Máy chiếu tại lớp học là thiết bị chuyên dùng; theo phân cấp phải trình Sở Giáo dục và Đào tạo quyết định.",
+          "correctCount": 26,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 19,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 26,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 19,
+          "correctPercent": 57.77777777777777,
+          "explanations": [
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 1.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 2.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 3.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 4.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 5.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 6.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 7.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Trường tiểu học trên địa bàn của thành phố Đà Nẵng được trang bị 10 bộ bàn ghế cho lớp học trị giá 20 triệu đồng.",
+          "totalAnswers": 45,
+          "correctAnswer": "Đúng",
+          "referenceNote": "Đúng: Bàn ghế lớp học là thiết bị chuyên dùng; nếu không đủ điều kiện là tài sản cố định thì thủ trưởng đơn vị quyết định.",
+          "correctCount": 32,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 32,
+              "isCorrect": true
+            },
+            {
+              "label": "Sai",
+              "count": 13,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 13,
+          "correctPercent": 71.11111111111111,
+          "explanations": [
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 1.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 2.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 3.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 4.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 5.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 6.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 7.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 8."
+          ]
+        }
+      ],
+      "quizSummary": {
+        "averageCorrectPercent": 58.730158730158735,
+        "hardestQuestion": {
+          "number": 5,
+          "title": "Văn phòng HĐND - UBND xã trên địa bàn của thành phố Đà Nẵng được trang bị màn hình LED tại Hội trường trị giá 20 triệu đồng.",
+          "correctPercent": 40
+        },
+        "perfectCount": 5,
+        "perfectRate": 11.11111111111111,
+        "correctDistribution": []
+      },
+      "explanationStats": {
+        "count": 266,
+        "rate": 84.44444444444444
+      }
+    },
+    {
+      "id": 7,
+      "name": "Phiên 7",
+      "kind": "open",
+      "typeLabel": "Phân tích hồ sơ",
+      "description": "Tình huống mua sắm máy phát điện",
+      "totalResponses": 38,
+      "participatingUnits": 10,
+      "scoreStats": {
+        "count": 0,
+        "distribution": [],
+        "mode": "Không chấm tự động"
+      },
+      "referenceAnswer": [
+        "Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan, đơn vị.",
+        "Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; theo Quyết định số 80/2026/QĐ-UBND, người đứng đầu đơn vị dự toán cấp I thuộc UBND cấp xã quyết định nội dung này."
+      ],
+      "responses": [
+        "Hồ sơ thiếu quyết định của Chủ tịch UBND xã về tiêu chuẩn, định mức máy phát điện.",
+        "Máy phát điện là thiết bị phục vụ hoạt động chung nên phải xác định đúng thẩm quyền quyết định định mức.",
+        "Việc trình UBND xã phê duyệt chủ trương và dự kiến kinh phí là bước không cần thiết trong tình huống này.",
+        "Người đứng đầu đơn vị dự toán cấp I quyết định nội dung mua sắm theo phân cấp tại Quyết định số 80/2026/QĐ-UBND.",
+        "Cần bổ sung căn cứ xác định nhu cầu, công suất và số lượng máy phát điện phù hợp.",
+        "Hồ sơ nên làm rõ nguồn kinh phí và dự toán mua sắm đã được giao.",
+        "Thiếu bước đối chiếu tiêu chuẩn, định mức trước khi lập kế hoạch lựa chọn nhà thầu.",
+        "Thẩm quyền không thuộc tập thể UBND xã đối với quyết định tiêu chuẩn, định mức nêu trong tình huống.",
+        "Cần rà soát lại tờ trình để bỏ thủ tục xin phê duyệt chủ trương không cần thiết.",
+        "Sau khi đủ căn cứ về định mức mới thực hiện các bước lựa chọn nhà thầu theo quy định.",
+        "Hồ sơ có thể gộp phần giải trình nhu cầu sử dụng và hiệu quả đầu tư để tránh lặp nội dung.",
+        "Trách nhiệm phê duyệt phải bám đúng phân cấp cho đơn vị dự toán cấp I."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Phiên 8",
+      "kind": "open",
+      "typeLabel": "Phân tích hồ sơ",
+      "description": "Tình huống mua sắm màn hình LED",
+      "totalResponses": 35,
+      "participatingUnits": 9,
+      "scoreStats": {
+        "count": 0,
+        "distribution": [],
+        "mode": "Không chấm tự động"
+      },
+      "referenceAnswer": [
+        "Trình Chủ tịch UBND xã, không phải UBND xã, quyết định tiêu chuẩn và định mức màn hình LED vì đây là thiết bị phục vụ hoạt động chung.",
+        "Không phải trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; thẩm quyền thuộc người đứng đầu đơn vị dự toán cấp I theo Quyết định số 80/2026/QĐ-UBND.",
+        "Thừa bước thẩm định kế hoạch lựa chọn nhà thầu.",
+        "Thay “Quyết định chỉ định thầu” bằng “Quyết định phê duyệt kết quả lựa chọn nhà thầu”."
+      ],
+      "responses": [
+        "Phải trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức màn hình LED, không trình tập thể UBND xã.",
+        "Không cần trình UBND xã phê duyệt chủ trương và dự kiến kinh phí trong trường hợp thuộc thẩm quyền đơn vị dự toán cấp I.",
+        "Quy trình đang thừa bước thẩm định kế hoạch lựa chọn nhà thầu.",
+        "Tên văn bản cuối phải là quyết định phê duyệt kết quả lựa chọn nhà thầu.",
+        "Màn hình LED tại hội trường là thiết bị phục vụ hoạt động chung nên cần có căn cứ về tiêu chuẩn, định mức.",
+        "Cần làm rõ kích thước, cấu hình và nhu cầu sử dụng để xác định dự toán phù hợp.",
+        "Hồ sơ nên bỏ nội dung xin phê duyệt chủ trương nếu pháp luật phân cấp cho người đứng đầu đơn vị.",
+        "Thẩm quyền quyết định tiêu chuẩn, định mức và thẩm quyền mua sắm là hai nội dung cần tách rõ.",
+        "Bước phê duyệt kết quả lựa chọn nhà thầu chỉ thực hiện sau khi hoàn thành đánh giá hồ sơ.",
+        "Cần rà soát lại căn cứ pháp lý dẫn chiếu trong tờ trình.",
+        "Không sử dụng cụm từ quyết định chỉ định thầu nếu quy trình thực tế là phê duyệt kết quả lựa chọn nhà thầu.",
+        "Nguồn kinh phí và dự toán được giao cần thể hiện rõ trong hồ sơ mua sắm."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Phiên 9",
+      "kind": "quiz",
+      "typeLabel": "Trắc nghiệm 2 câu",
+      "description": "Quản lý và khai thác tài sản công",
+      "totalResponses": 50,
+      "participatingUnits": 9,
+      "scoreStats": {
+        "count": 50,
+        "maxScore": 20,
+        "average": 12,
+        "averagePercent": 60,
+        "mode": "Dữ liệu giả lập",
+        "distribution": [
+          {
+            "label": "0/20",
+            "count": 8
+          },
+          {
+            "label": "10/20",
+            "count": 24
+          },
+          {
+            "label": "20/20",
+            "count": 18
+          }
+        ]
+      },
+      "questions": [
+        {
+          "title": "Nội dung nào dưới đây không đúng về các biện pháp của xã nhằm nâng cao hiệu quả quản lý tài sản công:",
+          "totalAnswers": 50,
+          "correctAnswer": "C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công",
+          "referenceNote": "",
+          "correctCount": 34,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công",
+              "count": 34,
+              "isCorrect": true
+            },
+            {
+              "label": "Phương án minh họa B",
+              "count": 6,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 5,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 5,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 16,
+          "correctPercent": 68,
+          "explanations": []
+        },
+        {
+          "title": "Nội dung nào dưới đây không đúng khi sử dụng tài sản công tại đơn vị sự nghiệp công lập thuộc phạm vi quản lý của phường, xã trên địa bàn thành phố Đà Nẵng:",
+          "totalAnswers": 50,
+          "correctAnswer": "B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê",
+          "referenceNote": "",
+          "correctCount": 26,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê",
+              "count": 26,
+              "isCorrect": true
+            },
+            {
+              "label": "Phương án minh họa B",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa C",
+              "count": 8,
+              "isCorrect": false
+            },
+            {
+              "label": "Phương án minh họa D",
+              "count": 8,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 24,
+          "correctPercent": 52,
+          "explanations": []
+        }
+      ],
+      "quizSummary": {
+        "averageCorrectPercent": 60,
+        "hardestQuestion": {
+          "number": 2,
+          "title": "Nội dung nào dưới đây không đúng khi sử dụng tài sản công tại đơn vị sự nghiệp công lập thuộc phạm vi quản lý của phường, xã trên địa bàn thành phố Đà Nẵng:",
+          "correctPercent": 52
+        },
+        "perfectCount": 18,
+        "perfectRate": 36,
+        "correctDistribution": [
+          {
+            "label": "0",
+            "count": 8
+          },
+          {
+            "label": "1",
+            "count": 24
+          },
+          {
+            "label": "2",
+            "count": 18
+          }
+        ]
+      }
+    }
+  ],
+  "fake": true
+}

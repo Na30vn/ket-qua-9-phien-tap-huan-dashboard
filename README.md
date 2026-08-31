@@ -41,6 +41,22 @@ Mở thư mục bằng một máy chủ web tĩnh, sau đó truy cập `index.ht
 
 Kiểm tra bộ tổng hợp dữ liệu bằng lệnh `node tests/aggregate.test.js`.
 
+## Chạy bản dữ liệu giả trên máy
+
+Nhấp đúp `CHAY_DEMO_LOCAL.cmd`. Trình duyệt sẽ mở:
+
+```text
+http://127.0.0.1:8765/?phien=1&demo=1
+```
+
+Tham số `demo=1` buộc dashboard dùng `data/fake.json` thay vì API thật. Dữ liệu giả có đủ cả 9 phiên và đủ số liệu để kiểm tra KPI, biểu đồ, bộ chọn câu hỏi, bảng trình tự và danh sách phản hồi. Đóng cửa sổ lệnh để dừng máy chủ local.
+
+Nếu muốn cập nhật file giả theo cấu trúc API mới nhất, lưu JSON API vào một file rồi chạy:
+
+```text
+node scripts/generate-fake-data.js <api-schema.json> data/fake.json
+```
+
 ## GitHub Pages
 
 Workflow trong `.github/workflows/pages.yml` tự triển khai khi nhánh `main` được đẩy lên GitHub. Trong repository, chọn **Settings → Pages → Source: GitHub Actions** nếu Pages chưa được bật.

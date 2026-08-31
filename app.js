@@ -9,6 +9,7 @@
   const subtitle = document.getElementById("session-subtitle");
   const sessionTitle = document.getElementById("session-title");
   const formatNumber = new Intl.NumberFormat("vi-VN");
+  const fakeMode = new URLSearchParams(location.search).get("demo") === "1";
 
   let payload = null;
   let activeSession = getSessionFromUrl();
@@ -39,12 +40,13 @@
     isLoading = true;
     if (!payload) setStatus("loading", "Đang tải dữ liệu…");
     try {
-      if (!config.apiUrl) throw new Error("API_URL_EMPTY");
-      const separator = config.apiUrl.includes("?") ? "&" : "?";
-      const response = await fetch(`${config.apiUrl}${separator}_=${Date.now()}`, { cache: "no-store" });
+      const dataUrl = fakeMode ? (config.fakeDataUrl || "data/fake.json") : config.apiUrl;
+      if (!dataUrl) throw new Error("DATA_URL_EMPTY");
+      const separator = dataUrl.includes("?") ? "&" : "?";
+      const response = await fetch(`${dataUrl}${separator}_=${Date.now()}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       payload = await response.json();
-      setStatus("live", "Dữ liệu trực tiếp");
+      setStatus(fakeMode ? "demo" : "live", fakeMode ? "Dữ liệu giả lập" : "Dữ liệu trực tiếp");
     } catch (error) {
       const response = await fetch(`${config.demoDataUrl || "data/demo.json"}?_=${Date.now()}`, { cache: "no-store" });
       payload = await response.json();
@@ -94,7 +96,9 @@
       activeSession = Number(button.dataset.session);
       selectedQuestion = 0;
       responseSearch = "";
-      history.replaceState({}, "", `${location.pathname}?phien=${activeSession}`);
+      const params = new URLSearchParams(location.search);
+      params.set("phien", activeSession);
+      history.replaceState({}, "", `${location.pathname}?${params.toString()}`);
       render();
       scrollTo({ top: 0, behavior: "smooth" });
     }));
