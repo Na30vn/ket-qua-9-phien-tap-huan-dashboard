@@ -7,7 +7,7 @@ Dashboard trình chiếu độc lập kết quả của từng tab `Phiên 1` đ
 - Mỗi phiên có một màn hình tổng hợp riêng.
 - Hỗ trợ trắc nghiệm, sắp xếp thứ tự, tự luận, Đúng/Sai kèm giải thích.
 - Không công khai Họ tên, đơn vị hoặc email.
-- Tự làm mới dữ liệu sau mỗi 30 giây.
+- Tự làm mới dữ liệu sau mỗi 10 giây; API dùng bộ nhớ đệm 5 giây để cân bằng độ trễ và hạn mức Google.
 - Có chế độ toàn màn hình và bản in.
 
 ## Kết nối dữ liệu Google Sheet

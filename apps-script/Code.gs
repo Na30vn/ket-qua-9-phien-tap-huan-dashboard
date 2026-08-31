@@ -1,4 +1,4 @@
-const CACHE_SECONDS = 30;
+const CACHE_SECONDS = 5;
 const MAX_PUBLIC_TEXT_RESPONSES = 40;
 
 const SESSION_CONFIG = [

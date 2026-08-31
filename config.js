@@ -1,6 +1,5 @@
 window.DASHBOARD_CONFIG = {
-  // Dán URL Web App của Google Apps Script vào đây sau khi triển khai.
-  apiUrl: "",
-  refreshSeconds: 30,
+  apiUrl: "https://script.google.com/macros/s/AKfycbyTomCQ_7QtDH89H4LrXDphpRKFQUpnqR-0kuqHw8-NoibLp1TKsbuD-xTBmZrJiX3d/exec",
+  refreshSeconds: 10,
   demoDataUrl: "data/demo.json"
 };
