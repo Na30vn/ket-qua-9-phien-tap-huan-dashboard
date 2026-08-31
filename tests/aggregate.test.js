@@ -60,15 +60,30 @@ assert.equal(data.sessions[0].totalResponses, 1);
 assert.equal(data.sessions[0].questions.length, 6);
 assert.equal(data.sessions[0].scoreStats.averagePercent, 50 / 60 * 100);
 assert.equal(data.sessions[0].scoreStats.mode, "Tính lại từ đáp án chuẩn");
+assert.equal(data.sessions[0].participatingUnits, 1);
+assert.equal(data.sessions[0].quizSummary.hardestQuestion.number, 6);
+assert.deepEqual(
+  JSON.parse(JSON.stringify(data.sessions[0].quizSummary.correctDistribution)),
+  [{ label: "5", count: 1 }]
+);
 assert.equal(data.sessions[1].ordering.correctCount, 1);
 assert.equal(data.sessions[1].scoreStats.average, 10);
+assert.equal(data.sessions[1].ordering.correctRate, 100);
+assert.equal(data.sessions[1].ordering.uniqueSequenceCount, 1);
+assert.equal(data.sessions[1].ordering.positionAccuracy.length, 13);
+assert.equal(data.sessions[1].ordering.positionAccuracy[0].percent, 100);
+assert.equal(data.sessions[2].referenceAnswer.length, 3);
+assert.equal(data.sessions[2].participatingUnits, 1);
 assert.equal(data.sessions[5].questions[0].options[0].label, "Sai");
 assert.equal(data.sessions[5].questions[0].explanations[0], "Giải thích 1");
+assert.match(data.sessions[5].questions[0].referenceNote, /^Sai:/);
 assert.equal(data.sessions[5].scoreStats.average, 70);
 assert.equal(data.sessions[5].scoreStats.maxScore, 70);
+assert.equal(data.sessions[5].explanationStats.rate, 100);
 
 const serialized = JSON.stringify(data);
 assert.equal(serialized.includes("Nguyễn Văn A"), false);
+assert.equal(serialized.includes("Đơn vị A"), false);
 assert.equal(serialized.includes("a@example.com"), false);
 assert.equal(serialized.includes("0912345678"), false);
 assert.equal(serialized.includes("[đã ẩn email]"), true);

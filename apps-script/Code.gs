@@ -11,7 +11,11 @@ const SESSION_CONFIG = [
     'Cơ quan tài chính cấp xã'
   ] },
   { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã theo thời gian', scoreIndex: 4, answerIndex: 3, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
-  { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Thực hiện công khai ngân sách cấp xã', scoreIndex: 4, answerIndex: 3 },
+  { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Thực hiện công khai ngân sách cấp xã', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^(Tình huống|Câu trả lời)/i, referenceAnswer: [
+    'Thiếu công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình Hội đồng nhân dân cấp xã.',
+    'Thiếu công khai thuyết minh quyết toán ngân sách cấp xã đã được Hội đồng nhân dân cấp xã phê chuẩn, gồm kết quả thu và kết quả chi ngân sách cấp xã.',
+    'Tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và năm; không ghi chung là hàng quý.'
+  ] },
   { id: 4, name: 'Phiên 4', kind: 'quiz', typeLabel: 'Trắc nghiệm 9 câu', description: 'Quản lý ngân sách cấp xã', scoreIndex: 1, questionIndexes: [2,3,4,5,6,7,8,9,10], pointsPerQuestion: 10, correctAnswers: [
     'B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã',
     'C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất',
@@ -23,10 +27,29 @@ const SESSION_CONFIG = [
     'D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc',
     'B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)'
   ] },
-  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt và tổng hợp quyết toán năm', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i },
-  { id: 6, name: 'Phiên 6', kind: 'true_false', typeLabel: 'Đúng/Sai và giải thích', description: 'Định mức trang thiết bị, tài sản', scoreIndex: 1, questionIndexes: [2,4,6,8,10,12,14], explanationIndexes: [3,5,7,9,11,13,15], pointsPerQuestion: 10, correctAnswers: ['Sai','Sai','Đúng','Sai','Sai','Sai','Đúng'] },
-  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm máy phát điện', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i },
-  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm màn hình LED', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i },
+  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt và tổng hợp quyết toán năm', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i, referenceAnswer: [
+    'Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách, đơn vị lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ và khớp đúng với xác nhận của Kho bạc Nhà nước.',
+    'Thủ trưởng đơn vị chịu trách nhiệm về quyết toán ngân sách của đơn vị mình.'
+  ] },
+  { id: 6, name: 'Phiên 6', kind: 'true_false', typeLabel: 'Đúng/Sai và giải thích', description: 'Định mức trang thiết bị, tài sản', scoreIndex: 1, questionIndexes: [2,4,6,8,10,12,14], explanationIndexes: [3,5,7,9,11,13,15], pointsPerQuestion: 10, correctAnswers: ['Sai','Sai','Đúng','Sai','Sai','Sai','Đúng'], referenceNotes: [
+    'Sai: Bí thư đảng ủy xã chỉ được trang bị 1 máy tính xách tay tối đa 25 triệu đồng và 1 máy tính để bàn tối đa 20 triệu đồng.',
+    'Sai: Mỗi phòng làm việc không quá 3 người chỉ được trang bị 1 máy in tối đa 13 triệu đồng.',
+    'Đúng: Mức giá tối đa của máy tính xách tay là 20 triệu đồng, chưa bao gồm bản quyền phần mềm.',
+    'Sai: Điều hòa là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.',
+    'Sai: Màn hình LED tại hội trường là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.',
+    'Sai: Máy chiếu tại lớp học là thiết bị chuyên dùng; theo phân cấp phải trình Sở Giáo dục và Đào tạo quyết định.',
+    'Đúng: Bàn ghế lớp học là thiết bị chuyên dùng; nếu không đủ điều kiện là tài sản cố định thì thủ trưởng đơn vị quyết định.'
+  ] },
+  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm máy phát điện', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
+    'Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan, đơn vị.',
+    'Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; theo Quyết định số 80/2026/QĐ-UBND, người đứng đầu đơn vị dự toán cấp I thuộc UBND cấp xã quyết định nội dung này.'
+  ] },
+  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm màn hình LED', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
+    'Trình Chủ tịch UBND xã, không phải UBND xã, quyết định tiêu chuẩn và định mức màn hình LED vì đây là thiết bị phục vụ hoạt động chung.',
+    'Không phải trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; thẩm quyền thuộc người đứng đầu đơn vị dự toán cấp I theo Quyết định số 80/2026/QĐ-UBND.',
+    'Thừa bước thẩm định kế hoạch lựa chọn nhà thầu.',
+    'Thay “Quyết định chỉ định thầu” bằng “Quyết định phê duyệt kết quả lựa chọn nhà thầu”.'
+  ] },
   { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý và khai thác tài sản công', scoreIndex: 1, questionIndexes: [2,3], pointsPerQuestion: 10, correctAnswers: [
     'C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công',
     'B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê'
@@ -47,16 +70,16 @@ function doGet(e) {
 function getDashboardData_(forceRefresh) {
   const cache = CacheService.getScriptCache();
   if (!forceRefresh) {
-    const cached = cache.get('dashboard-v2');
+    const cached = cache.get('dashboard-v3');
     if (cached) return JSON.parse(cached);
   }
   const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
   if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
   const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config));
-  const payload = { version: 2, updatedAt: new Date().toISOString(), sessions };
+  const payload = { version: 3, updatedAt: new Date().toISOString(), sessions };
   const serialized = JSON.stringify(payload);
-  if (serialized.length < 95000) cache.put('dashboard-v2', serialized, CACHE_SECONDS);
+  if (serialized.length < 95000) cache.put('dashboard-v3', serialized, CACHE_SECONDS);
   return payload;
 }
 
@@ -74,6 +97,7 @@ function aggregateSession_(spreadsheet, config) {
     typeLabel: config.typeLabel,
     description: config.description,
     totalResponses: rows.length,
+    participatingUnits: countDistinctField_(rows, headers, /^don vi(?:\s|$)/),
     scoreStats: getScoreStats_(rows, resolvedConfig)
   };
 
@@ -85,12 +109,17 @@ function aggregateSession_(spreadsheet, config) {
         title: cleanQuestionTitle_(headers[columnIndex] || `Câu ${index + 1}`),
         totalAnswers: answers.length,
         correctAnswer: resolvedConfig.correctAnswers[index],
+        referenceNote: resolvedConfig.referenceNotes ? resolvedConfig.referenceNotes[index] : '',
+        correctCount: answers.filter(answer => sameAnswer_(answer, resolvedConfig.correctAnswers[index])).length,
+        unansweredCount: Math.max(0, rows.length - answers.length),
         options: counts.map(item => ({
           label: item.value,
           count: item.count,
           isCorrect: sameAnswer_(item.value, resolvedConfig.correctAnswers[index])
         }))
       };
+      question.incorrectCount = Math.max(0, rows.length - question.correctCount - question.unansweredCount);
+      question.correctPercent = rows.length ? question.correctCount / rows.length * 100 : 0;
       if (resolvedConfig.explanationIndexes) {
         question.explanations = rows
           .map(row => sanitizePublicText_(row[resolvedConfig.explanationIndexes[index]]))
@@ -99,6 +128,16 @@ function aggregateSession_(spreadsheet, config) {
       }
       return question;
     });
+    result.quizSummary = buildQuizSummary_(result.questions, result.scoreStats, config.pointsPerQuestion || 1);
+    if (config.kind === 'true_false') {
+      const possibleExplanations = rows.length * resolvedConfig.explanationIndexes.length;
+      const explanationCount = resolvedConfig.explanationIndexes.reduce((sum, columnIndex) =>
+        sum + rows.filter(row => String(row[columnIndex] || '').trim()).length, 0);
+      result.explanationStats = {
+        count: explanationCount,
+        rate: possibleExplanations ? explanationCount / possibleExplanations * 100 : 0
+      };
+    }
   }
 
   if (config.kind === 'ordering') {
@@ -107,17 +146,82 @@ function aggregateSession_(spreadsheet, config) {
     result.ordering = {
       correctSequence: config.correctSequence,
       correctCount: answers.filter(answer => answer === correct).length,
-      commonSequences: countValues_(answers).slice(0, 8)
+      correctRate: rows.length ? answers.filter(answer => answer === correct).length / rows.length * 100 : 0,
+      uniqueSequenceCount: new Set(answers).size,
+      positionAccuracy: buildPositionAccuracy_(answers, correct),
+      commonSequences: countValues_(answers).filter(item => item.value !== correct).slice(0, 5)
     };
   }
 
   if (config.kind === 'open') {
+    result.referenceAnswer = config.referenceAnswer || [];
     result.responses = rows
       .map(row => sanitizePublicText_(row[resolvedConfig.answerIndex]))
       .filter(Boolean)
       .slice(0, MAX_PUBLIC_TEXT_RESPONSES);
   }
   return result;
+}
+
+function buildQuizSummary_(questions, scoreStats, pointsPerQuestion) {
+  const hardest = scoreStats.count && questions.length
+    ? questions.map((question, index) => ({
+        number: index + 1,
+        title: question.title,
+        correctPercent: question.correctPercent
+      })).sort((a,b) => a.correctPercent - b.correctPercent || a.number - b.number)[0]
+    : null;
+  const correctDistribution = (scoreStats.distribution || []).map(item => {
+    const score = parseFloat(String(item.label).split('/')[0]) || 0;
+    return { label: String(Math.round(score / pointsPerQuestion)), count: item.count };
+  });
+  const maxQuestions = questions.length;
+  const perfectLabel = `${maxQuestions * pointsPerQuestion}/${maxQuestions * pointsPerQuestion}`;
+  const perfectCount = (scoreStats.distribution || []).find(item => item.label === perfectLabel)?.count || 0;
+  return {
+    averageCorrectPercent: scoreStats.averagePercent || 0,
+    hardestQuestion: hardest,
+    perfectCount,
+    perfectRate: scoreStats.count ? perfectCount / scoreStats.count * 100 : 0,
+    correctDistribution
+  };
+}
+
+function buildPositionAccuracy_(answers, correctSequence) {
+  const correctSteps = String(correctSequence || '').split(',').filter(Boolean);
+  const sequences = answers.map(answer => String(answer || '').split(',').filter(Boolean));
+  return correctSteps.map((step, index) => {
+    const count = sequences.filter(sequence => sequence[index] === step).length;
+    return {
+      step,
+      position: index + 1,
+      count,
+      percent: sequences.length ? count / sequences.length * 100 : 0
+    };
+  });
+}
+
+function countDistinctField_(rows, headers, normalizedPattern) {
+  const indexes = headers
+    .map((header, index) => ({ normalized: normalizeLookup_(header), index }))
+    .filter(item => normalizedPattern.test(item.normalized))
+    .map(item => item.index);
+  if (!indexes.length) return 0;
+  const values = rows.map(row => {
+    const candidates = indexes.map(index => String(row[index] || '').trim()).filter(Boolean);
+    return candidates[candidates.length - 1] || '';
+  }).filter(Boolean).map(normalizeAnswer_);
+  return new Set(values).size;
+}
+
+function normalizeLookup_(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[Đđ]/g, 'd')
+    .replace(/[^a-zA-Z0-9]+/g, ' ')
+    .trim()
+    .toLowerCase();
 }
 
 function resolveColumns_(headers, config) {

@@ -5,7 +5,12 @@ Dashboard trình chiếu độc lập kết quả của từng tab `Phiên 1` đ
 ## Đặc điểm
 
 - Mỗi phiên có một màn hình tổng hợp riêng.
-- Hỗ trợ trắc nghiệm, sắp xếp thứ tự, tự luận, Đúng/Sai kèm giải thích.
+- Phiên 1, 4: tỷ lệ đúng theo câu, phân bố số câu đúng và phân bố đáp án động.
+- Phiên 9: tỷ lệ đúng hai câu và phân bố đáp án động, không thêm biểu đồ điểm không cần thiết.
+- Phiên 2: tỷ lệ đặt đúng vị trí từng bước và Top 5 trình tự sai phổ biến.
+- Phiên 6: biểu đồ Đúng/Sai 100%, đáp án tham chiếu và phần giải thích theo câu.
+- Phiên 3, 5, 7, 8: gợi ý tham chiếu, tìm kiếm và danh sách phản hồi ẩn danh.
+- Mỗi phiên chỉ dùng 2–4 KPI có ý nghĩa trực tiếp khi trình chiếu.
 - Không công khai Họ tên, đơn vị hoặc email.
 - Tự làm mới dữ liệu sau mỗi 10 giây; API dùng bộ nhớ đệm 5 giây để cân bằng độ trễ và hạn mức Google.
 - Có chế độ toàn màn hình và bản in.
