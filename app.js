@@ -86,7 +86,7 @@
   function renderMetrics(session) {
     const metrics = [
       ["Lượt làm bài", formatNumber.format(session.totalResponses || 0), "Số dòng phản hồi hợp lệ"],
-      ["Có điểm", formatNumber.format(session.scoreStats?.count || 0), session.scoreStats?.maxScore ? `Thang điểm ${session.scoreStats.maxScore}` : "Không áp dụng chấm điểm"],
+      ["Có điểm", formatNumber.format(session.scoreStats?.count || 0), session.scoreStats?.mode || (session.scoreStats?.maxScore ? `Thang điểm ${session.scoreStats.maxScore}` : "Không áp dụng chấm điểm")],
       ["Điểm trung bình", session.scoreStats?.count ? formatScore(session.scoreStats.average) : "—", session.scoreStats?.count ? `${formatScore(session.scoreStats.averagePercent)}%` : "Chưa có dữ liệu"],
       [session.kind === "ordering" ? "Đúng hoàn toàn" : "Câu hỏi", session.kind === "ordering" ? formatNumber.format(session.ordering?.correctCount || 0) : formatNumber.format(session.questions?.length || 0), session.kind === "ordering" ? escapeHtml(session.ordering?.correctSequence || "") : "Nội dung được tổng hợp"]
     ];
@@ -114,10 +114,12 @@
       const total = Math.max(1, question.totalAnswers || 0);
       const options = (question.options || []).map(option => {
         const percent = option.count / total * 100;
-        return `<div class="option"><span class="option-label">${escapeHtml(option.label)}</span><div class="bar-track"><div class="bar-fill" style="width:${percent}%"></div></div><span class="option-value">${option.count} · ${formatScore(percent)}%</span></div>`;
+        return `<div class="option ${option.isCorrect ? "option-correct" : ""}"><span class="option-label">${escapeHtml(option.label)}${option.isCorrect ? '<strong class="correct-badge">Đáp án đúng</strong>' : ""}</span><div class="bar-track"><div class="bar-fill ${option.isCorrect ? "correct" : ""}" style="width:${percent}%"></div></div><span class="option-value">${option.count} · ${formatScore(percent)}%</span></div>`;
       }).join("");
+      const missingCorrect = question.correctAnswer && !(question.options || []).some(option => option.isCorrect)
+        ? `<div class="correct-answer-note">Đáp án đúng: ${escapeHtml(question.correctAnswer)} · chưa có người chọn</div>` : "";
       const explanations = question.explanations?.length ? `<div class="responses">${question.explanations.map((text, i) => `<div class="response-card"><span class="response-number">GIẢI THÍCH ${i + 1}</span><p>${escapeHtml(text)}</p></div>`).join("")}</div>` : "";
-      return `<section class="question-card"><h3>Câu ${index + 1}. ${escapeHtml(question.title)}</h3>${options || '<div class="empty">Chưa có câu trả lời</div>'}${explanations}</section>`;
+      return `<section class="question-card"><h3>Câu ${index + 1}. ${escapeHtml(question.title)}</h3>${options || '<div class="empty">Chưa có câu trả lời</div>'}${missingCorrect}${explanations}</section>`;
     }).join("")}</div></article>`;
   }
 

@@ -2,15 +2,35 @@ const CACHE_SECONDS = 5;
 const MAX_PUBLIC_TEXT_RESPONSES = 40;
 
 const SESSION_CONFIG = [
-  { id: 1, name: 'Phiên 1', kind: 'quiz', typeLabel: 'Trắc nghiệm 6 câu', description: 'Phân cấp thu, chi và lập dự toán ngân sách cấp xã', scoreIndex: 1, questionIndexes: [4,5,6,7,8,9] },
+  { id: 1, name: 'Phiên 1', kind: 'quiz', typeLabel: 'Trắc nghiệm 6 câu', description: 'Phân cấp thu, chi và lập dự toán ngân sách cấp xã', scoreIndex: 1, questionIndexes: [4,5,6,7,8,9], pointsPerQuestion: 10, correctAnswers: [
+    'Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã',
+    'Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước',
+    'Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)',
+    'Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn',
+    'Uỷ ban nhân dân cấp xã',
+    'Cơ quan tài chính cấp xã'
+  ] },
   { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã theo thời gian', scoreIndex: 4, answerIndex: 3, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
   { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Thực hiện công khai ngân sách cấp xã', scoreIndex: 4, answerIndex: 3 },
-  { id: 4, name: 'Phiên 4', kind: 'quiz', typeLabel: 'Trắc nghiệm 9 câu', description: 'Quản lý ngân sách cấp xã', scoreIndex: 1, questionIndexes: [2,3,4,5,6,7,8,9,10] },
+  { id: 4, name: 'Phiên 4', kind: 'quiz', typeLabel: 'Trắc nghiệm 9 câu', description: 'Quản lý ngân sách cấp xã', scoreIndex: 1, questionIndexes: [2,3,4,5,6,7,8,9,10], pointsPerQuestion: 10, correctAnswers: [
+    'B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã',
+    'C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất',
+    'C. Trước ngày 31 tháng 12 năm trước',
+    'B. Số quyết toán thu ngân sách nhà nước là số thu đã thực nộp và số thu đã hạch toán thu ngân sách nhà nước theo quy định. Các khoản thu thuộc ngân sách các năm trước nộp ngân sách năm sau phải hạch toán vào thu ngân sách năm trước',
+    'A. Các khoản dự toán được Ủy ban nhân dân các cấp bổ sung sau ngày 30 tháng 9 năm thực hiện dự toán đã hết nhiệm vụ chi',
+    'C. 31 tháng 01 năm sau',
+    'B. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản được ngân sách thành phố cấp kinh phí bổ sung có mục tiêu còn thừa, đã hết nhiệm vụ chi được chuyển nguồn, không phải nộp trả',
+    'D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc',
+    'B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)'
+  ] },
   { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt và tổng hợp quyết toán năm', scoreIndex: 2, answerIndex: 1 },
-  { id: 6, name: 'Phiên 6', kind: 'true_false', typeLabel: 'Đúng/Sai và giải thích', description: 'Định mức trang thiết bị, tài sản', scoreIndex: 1, questionIndexes: [2,4,6,8,10,12,14], explanationIndexes: [3,5,7,9,11,13,15] },
+  { id: 6, name: 'Phiên 6', kind: 'true_false', typeLabel: 'Đúng/Sai và giải thích', description: 'Định mức trang thiết bị, tài sản', scoreIndex: 1, questionIndexes: [2,4,6,8,10,12,14], explanationIndexes: [3,5,7,9,11,13,15], pointsPerQuestion: 10, correctAnswers: ['Sai','Sai','Đúng','Sai','Sai','Sai','Đúng'] },
   { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm máy phát điện', scoreIndex: 2, answerIndex: 1 },
   { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm màn hình LED', scoreIndex: 2, answerIndex: 1 },
-  { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý và khai thác tài sản công', scoreIndex: 1, questionIndexes: [2,3] }
+  { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý và khai thác tài sản công', scoreIndex: 1, questionIndexes: [2,3], pointsPerQuestion: 10, correctAnswers: [
+    'C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công',
+    'B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê'
+  ] }
 ];
 
 function doGet(e) {
@@ -27,16 +47,16 @@ function doGet(e) {
 function getDashboardData_(forceRefresh) {
   const cache = CacheService.getScriptCache();
   if (!forceRefresh) {
-    const cached = cache.get('dashboard-v1');
+    const cached = cache.get('dashboard-v2');
     if (cached) return JSON.parse(cached);
   }
   const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
   if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
   const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config));
-  const payload = { version: 1, updatedAt: new Date().toISOString(), sessions };
+  const payload = { version: 2, updatedAt: new Date().toISOString(), sessions };
   const serialized = JSON.stringify(payload);
-  if (serialized.length < 95000) cache.put('dashboard-v1', serialized, CACHE_SECONDS);
+  if (serialized.length < 95000) cache.put('dashboard-v2', serialized, CACHE_SECONDS);
   return payload;
 }
 
@@ -53,7 +73,7 @@ function aggregateSession_(spreadsheet, config) {
     typeLabel: config.typeLabel,
     description: config.description,
     totalResponses: rows.length,
-    scoreStats: aggregateScores_(rows, config.scoreIndex)
+    scoreStats: getScoreStats_(rows, config)
   };
 
   if (config.kind === 'quiz' || config.kind === 'true_false') {
@@ -63,7 +83,12 @@ function aggregateSession_(spreadsheet, config) {
       const question = {
         title: cleanQuestionTitle_(headers[columnIndex] || `Câu ${index + 1}`),
         totalAnswers: answers.length,
-        options: counts.map(item => ({ label: item.value, count: item.count }))
+        correctAnswer: config.correctAnswers[index],
+        options: counts.map(item => ({
+          label: item.value,
+          count: item.count,
+          isCorrect: sameAnswer_(item.value, config.correctAnswers[index])
+        }))
       };
       if (config.explanationIndexes) {
         question.explanations = rows
@@ -92,6 +117,53 @@ function aggregateSession_(spreadsheet, config) {
       .slice(0, MAX_PUBLIC_TEXT_RESPONSES);
   }
   return result;
+}
+
+function getScoreStats_(rows, config) {
+  if (config.correctAnswers && config.questionIndexes) {
+    return aggregateComputedScores_(rows, config.questionIndexes, config.correctAnswers, config.pointsPerQuestion || 1);
+  }
+  if (config.kind === 'ordering') {
+    const correct = normalizeSequence_(config.correctSequence);
+    const answers = rows.map(row => normalizeSequence_(row[config.answerIndex]));
+    return aggregateBinaryScores_(answers.map(answer => Boolean(answer) && answer === correct), 10);
+  }
+  if (config.kind === 'open') return { count: 0, distribution: [], mode: 'Không chấm tự động' };
+  return aggregateScores_(rows, config.scoreIndex);
+}
+
+function aggregateComputedScores_(rows, indexes, correctAnswers, pointsPerQuestion) {
+  const maxScore = indexes.length * pointsPerQuestion;
+  const scores = rows.map(row => indexes.reduce((sum, columnIndex, index) =>
+    sum + (sameAnswer_(row[columnIndex], correctAnswers[index]) ? pointsPerQuestion : 0), 0));
+  return makeScoreStats_(scores, maxScore, 'Tính lại từ đáp án chuẩn');
+}
+
+function aggregateBinaryScores_(matches, maxScore) {
+  return makeScoreStats_(matches.map(match => match ? maxScore : 0), maxScore, 'Tính từ đáp án chuẩn');
+}
+
+function makeScoreStats_(scores, maxScore, mode) {
+  if (!scores.length) return { count: 0, distribution: [], mode };
+  const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+  const distribution = countValues_(scores.map(score => `${score}/${maxScore}`))
+    .sort((a,b) => parseFloat(a.value) - parseFloat(b.value));
+  return {
+    count: scores.length,
+    maxScore,
+    average,
+    averagePercent: maxScore ? average / maxScore * 100 : 0,
+    mode,
+    distribution: distribution.map(item => ({ label: item.value, count: item.count }))
+  };
+}
+
+function sameAnswer_(value, expected) {
+  return Boolean(normalizeAnswer_(value)) && normalizeAnswer_(value) === normalizeAnswer_(expected);
+}
+
+function normalizeAnswer_(value) {
+  return String(value || '').normalize('NFC').replace(/\s+/g, ' ').trim().toLocaleLowerCase('vi');
 }
 
 function aggregateScores_(rows, scoreIndex) {

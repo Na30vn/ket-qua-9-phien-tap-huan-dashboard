@@ -8,7 +8,12 @@ const source = fs.readFileSync(path.join(__dirname, "..", "apps-script", "Code.g
 const rowsBySheet = {
   "Phiên 1": [
     ["Timestamp", "Score", "Họ và tên", "Đơn vị", "C1", "C2", "C3", "C4", "C5", "C6", "Email"],
-    ["31/8/2026", "50 / 60", "Nguyễn Văn A", "Đơn vị A", "A", "B", "C", "D", "A", "B", "a@example.com"]
+    ["31/8/2026", "0 / 60", "Nguyễn Văn A", "Đơn vị A",
+      "Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã",
+      "Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước",
+      "Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)",
+      "Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn",
+      "Uỷ ban nhân dân cấp xã", "Sai", "a@example.com"]
   ],
   "Phiên 2": [
     ["Timestamp", "Họ và tên", "Đơn vị", "Sắp xếp", "Score"],
@@ -54,9 +59,13 @@ assert.equal(data.sessions.length, 9);
 assert.equal(data.sessions[0].totalResponses, 1);
 assert.equal(data.sessions[0].questions.length, 6);
 assert.equal(data.sessions[0].scoreStats.averagePercent, 50 / 60 * 100);
+assert.equal(data.sessions[0].scoreStats.mode, "Tính lại từ đáp án chuẩn");
 assert.equal(data.sessions[1].ordering.correctCount, 1);
+assert.equal(data.sessions[1].scoreStats.average, 10);
 assert.equal(data.sessions[5].questions[0].options[0].label, "Sai");
 assert.equal(data.sessions[5].questions[0].explanations[0], "Giải thích 1");
+assert.equal(data.sessions[5].scoreStats.average, 70);
+assert.equal(data.sessions[5].scoreStats.maxScore, 70);
 
 const serialized = JSON.stringify(data);
 assert.equal(serialized.includes("Nguyễn Văn A"), false);
