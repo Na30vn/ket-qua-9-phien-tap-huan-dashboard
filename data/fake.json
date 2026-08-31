@@ -1,6 +1,6 @@
 {
-  "version": 3,
-  "updatedAt": "2026-08-31T11:59:35.795Z",
+  "version": 4,
+  "updatedAt": "2026-08-31T14:43:36.418Z",
   "sessions": [
     {
       "id": 1,
@@ -286,7 +286,57 @@
             "count": 4
           }
         ]
-      }
+      },
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 4
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 4
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        }
+      ]
     },
     {
       "id": 2,
@@ -420,7 +470,49 @@
             "count": 3
           }
         ]
-      }
+      },
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 5
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 5
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 5
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 5
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        }
+      ]
     },
     {
       "id": 3,
@@ -453,6 +545,44 @@
         "Cần xác định rõ thời điểm công khai sau khi Hội đồng nhân dân phê chuẩn quyết toán.",
         "Tình huống còn thiếu nội dung công khai kết quả thực hiện các kiến nghị sau thanh tra, kiểm toán.",
         "Nên tách rõ công khai dự toán trình, dự toán được giao, thực hiện dự toán và quyết toán."
+      ],
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 4
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 4
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 4
+        }
       ]
     },
     {
@@ -862,7 +992,53 @@
             "count": 2
           }
         ]
-      }
+      },
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 5
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 5
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 5
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 5
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 5
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        }
+      ]
     },
     {
       "id": 5,
@@ -894,6 +1070,40 @@
         "Nếu có chênh lệch với Kho bạc Nhà nước thì đơn vị phải rà soát, điều chỉnh trước khi tổng hợp.",
         "Báo cáo cần phản ánh đúng nguồn kinh phí, nhiệm vụ chi và số chuyển nguồn nếu có.",
         "Căn cứ xử lý là khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15."
+      ],
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 4
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 4
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        }
       ]
     },
     {
@@ -1152,7 +1362,49 @@
       "explanationStats": {
         "count": 266,
         "rate": 84.44444444444444
-      }
+      },
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 5
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 5
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 5
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 4
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        }
+      ]
     },
     {
       "id": 7,
@@ -1184,6 +1436,48 @@
         "Sau khi đủ căn cứ về định mức mới thực hiện các bước lựa chọn nhà thầu theo quy định.",
         "Hồ sơ có thể gộp phần giải trình nhu cầu sử dụng và hiệu quả đầu tư để tránh lặp nội dung.",
         "Trách nhiệm phê duyệt phải bám đúng phân cấp cho đơn vị dự toán cấp I."
+      ],
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 4
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 4
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 3
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 3
+        }
       ]
     },
     {
@@ -1218,6 +1512,44 @@
         "Cần rà soát lại căn cứ pháp lý dẫn chiếu trong tờ trình.",
         "Không sử dụng cụm từ quyết định chỉ định thầu nếu quy trình thực tế là phê duyệt kết quả lựa chọn nhà thầu.",
         "Nguồn kinh phí và dự toán được giao cần thể hiện rõ trong hồ sơ mua sắm."
+      ],
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 4
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 4
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 3
+        }
       ]
     },
     {
@@ -1340,7 +1672,45 @@
             "count": 18
           }
         ]
-      }
+      },
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 6
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 6
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 6
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 6
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 6
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 5
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 5
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 5
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 5
+        }
+      ]
     }
   ],
   "fake": true

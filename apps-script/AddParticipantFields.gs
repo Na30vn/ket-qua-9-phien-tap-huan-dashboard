@@ -16,6 +16,102 @@ const PARTICIPANT_FORM_IDS = {
   9: '1w65HrpYrgI9RX2iYEu7jz57ka0TIG-CCJzJ8rcPBZ-4'
 };
 
+const PARTICIPANT_FORM_TARGETS = {
+  1: { id: '1Y-hWQ48BD7oY5fPDXXQOBSZYq2tCoVTG3CUv2swJirk' },
+  2: { id: '1FUPYBBfxv_4hHHC8RuyatvgmJXhM6bcZz98wElmn6Q4' },
+  3: { id: '107cKSnhSdvMStJPiqi5lTW9jg1Va5LkfgtgUfzMIe1I' },
+  4: { id: PARTICIPANT_FORM_IDS[4] },
+  5: { id: PARTICIPANT_FORM_IDS[5] },
+  6: { id: PARTICIPANT_FORM_IDS[6] },
+  7: { id: PARTICIPANT_FORM_IDS[7] },
+  8: { id: PARTICIPANT_FORM_IDS[8] },
+  9: { id: PARTICIPANT_FORM_IDS[9] }
+};
+
+const ACTIVE_UNIT_OPTIONS = [
+  'Sở Tài chính',
+  'Phường Hải Châu',
+  'Phường Hòa Cường',
+  'Phường Thanh Khê',
+  'Phường An Khê',
+  'Phường An Hải',
+  'Phường Sơn Trà',
+  'Phường Ngũ Hành Sơn',
+  'Phường Hòa Khánh',
+  'Phường Liên Chiểu',
+  'Phường Hải Vân',
+  'Phường Tam Kỳ',
+  'Phường Quảng Phú',
+  'Phường Hương Trà',
+  'Phường Bàn Thạch',
+  'Phường Điện Bàn',
+  'Phường Điện Bàn Đông',
+  'Phường An Thắng',
+  'Phường Điện Bàn Bắc',
+  'Phường Hội An',
+  'Phường Hội An Đông',
+  'Phường Hội An Tây',
+  'Xã Hòa Vang',
+  'Xã Hòa Tiến',
+  'Xã Bà Nà',
+  'Xã Tam Anh',
+  'Xã Tam Xuân',
+  'Xã Tây Hồ',
+  'Xã Chiên Đàn',
+  'Xã Tiên Phước',
+  'Xã Thạnh Bình',
+  'Xã Sơn Cẩm Hà',
+  'Xã Trà Liên',
+  'Xã Trà Giáp',
+  'Xã Trà Tân',
+  'Xã Trà My',
+  'Xã Nam Trà My',
+  'Xã Trà Tập',
+  'Xã Trà Vân',
+  'Xã Trà Leng',
+  'Xã Thăng Bình',
+  'Xã Thăng An',
+  'Xã Thăng Trường',
+  'Xã Thăng Phú',
+  'Xã Đồng Dương',
+  'Xã Quế Sơn Trung',
+  'Xã Xuân Phú',
+  'Xã Nông Sơn',
+  'Xã Quế Phước',
+  'Xã Duy Nghĩa',
+  'Xã Nam Phước',
+  'Xã Duy Xuyên',
+  'Xã Thu Bồn',
+  'Xã Điện Bàn Tây',
+  'Xã Gò Nổi',
+  'Xã Tân Hiệp',
+  'Xã Đại Lộc',
+  'Xã Hà Nha',
+  'Xã Thượng Đức',
+  'Xã Vu Gia',
+  'Xã Phú Thuận',
+  'Xã Thạnh Mỹ',
+  'Xã Bến Giằng',
+  'Xã Nam Giang',
+  'Xã Đắc Pring',
+  'Xã La Dêê',
+  'Xã La Êê',
+  'Xã Sông Vàng',
+  'Xã Sông Kôn',
+  'Xã Đông Giang',
+  'Xã Avương',
+  'Xã Tây Giang',
+  'Xã Hiệp Đức',
+  'Xã Việt An',
+  'Xã Phước Trà',
+  'Xã Khâm Đức',
+  'Xã Phước Năng',
+  'Xã Phước Chánh',
+  'Xã Phước Thành',
+  'Xã Phước Hiệp',
+  'Xã Lãnh Ngọc'
+];
+
 function themThongTinNguoiLamChoPhien4Den9() {
   const report = [];
   Object.keys(PARTICIPANT_FORM_IDS).forEach(sessionNumber => {
@@ -43,6 +139,168 @@ function themThongTinNguoiLamChoPhien4Den9() {
   });
   console.log(JSON.stringify(report, null, 2));
   return report;
+}
+
+/**
+ * Chạy hàm này để:
+ * - tạo/cập nhật tab DM_DON_VI trong KET_QUA_9_PHIEN_TAP_HUAN;
+ * - thay trường Đơn vị công tác bằng dropdown trên cả 9 Form;
+ * - chỉ dùng các đơn vị thực tế có học viên trong danh sách tài khoản.
+ */
+function dongBoDropdownDonViCho9Phien() {
+  const units = updateUnitCatalog_();
+  const report = [];
+  Object.keys(PARTICIPANT_FORM_TARGETS).forEach(sessionNumber => {
+    try {
+      const form = openParticipantForm_(PARTICIPANT_FORM_TARGETS[sessionNumber]);
+      const listItem = replaceUnitItemsWithDropdown_(form, units);
+      report.push({
+        phien: Number(sessionNumber),
+        ok: true,
+        form: form.getTitle(),
+        soDonVi: listItem.getChoices().length,
+        loaiTruong: listItem.getType().toString(),
+        batBuoc: listItem.isRequired()
+      });
+    } catch (error) {
+      report.push({
+        phien: Number(sessionNumber),
+        ok: false,
+        loi: String(error.message || error)
+      });
+    }
+  });
+  console.log(JSON.stringify(report, null, 2));
+  return report;
+}
+
+/**
+ * Báo cáo hiện trạng trường đơn vị trên 9 Form, không sửa dữ liệu.
+ */
+function kiemTraTruongDonVi9Form() {
+  const report = Object.keys(PARTICIPANT_FORM_TARGETS).map(sessionNumber => {
+    try {
+      const form = openParticipantForm_(PARTICIPANT_FORM_TARGETS[sessionNumber]);
+      const items = form.getItems();
+      return {
+        phien: Number(sessionNumber),
+        form: form.getTitle(),
+        tongCauHoi: items.length,
+        hoTen: items.filter(item => isNameTitle_(item.getTitle())).map(describeFormItem_),
+        donVi: items.filter(item => isUnitTitle_(item.getTitle())).map(describeFormItem_)
+      };
+    } catch (error) {
+      return { phien: Number(sessionNumber), loi: String(error.message || error) };
+    }
+  });
+  console.log(JSON.stringify(report, null, 2));
+  return report;
+}
+
+/**
+ * Kiểm tra quyền mở 9 Form trước khi đồng bộ, không sửa dữ liệu.
+ */
+function kiemTraQuyenMo9Form() {
+  const report = Object.keys(PARTICIPANT_FORM_TARGETS).map(sessionNumber => {
+    try {
+      const form = openParticipantForm_(PARTICIPANT_FORM_TARGETS[sessionNumber]);
+      return { phien: Number(sessionNumber), ok: true, form: form.getTitle() };
+    } catch (error) {
+      return { phien: Number(sessionNumber), ok: false, loi: String(error.message || error) };
+    }
+  });
+  console.log(JSON.stringify(report, null, 2));
+  return report;
+}
+
+function yeuCauCapQuyenForm() {
+  return FormApp.openById(PARTICIPANT_FORM_IDS[4]).getTitle();
+}
+
+function timFormUrlTuTabPhien1Den3() {
+  const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  const report = [1, 2, 3].map(sessionNumber => {
+    const sheet = spreadsheet.getSheetByName('Phiên ' + sessionNumber);
+    return {
+      phien: sessionNumber,
+      formUrl: sheet && typeof sheet.getFormUrl === 'function' ? sheet.getFormUrl() : null
+    };
+  });
+  console.log(JSON.stringify(report, null, 2));
+  return report;
+}
+
+function updateUnitCatalog_() {
+  const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
+  const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  const sheet = spreadsheet.getSheetByName('DM_DON_VI') || spreadsheet.insertSheet('DM_DON_VI');
+  sheet.clearContents();
+  sheet.getRange(1, 1, ACTIVE_UNIT_OPTIONS.length + 1, 1)
+    .setValues([['Đơn vị công tác']].concat(ACTIVE_UNIT_OPTIONS.map(unit => [unit])));
+  sheet.setFrozenRows(1);
+  sheet.autoResizeColumn(1);
+  return ACTIVE_UNIT_OPTIONS.slice();
+}
+
+function openParticipantForm_(target) {
+  if (target.id) return FormApp.openById(target.id);
+  if (target.url) return FormApp.openByUrl(target.url);
+  throw new Error('Thiếu ID hoặc URL của Form');
+}
+
+function replaceUnitItemsWithDropdown_(form, units) {
+  const cleanedUnits = Array.from(new Set(units.map(unit => String(unit || '').trim())))
+    .filter(Boolean);
+  if (!cleanedUnits.length || cleanedUnits.length !== units.length) {
+    throw new Error('Danh mục đơn vị có dòng trống hoặc trùng');
+  }
+
+  const unitItems = form.getItems().filter(item => isUnitTitle_(item.getTitle()));
+  let listItem = unitItems
+    .filter(item => item.getType() === FormApp.ItemType.LIST)
+    .map(item => item.asListItem())[0] || null;
+  if (!listItem) listItem = form.addListItem().setTitle('Đơn vị công tác');
+
+  try {
+    listItem.setChoices(cleanedUnits.map(unit => listItem.createChoice(unit)));
+    listItem.setRequired(true);
+  } catch (error) {
+    throw new Error(
+      'Không thể cập nhật ' + cleanedUnits.length + ' lựa chọn cho Form ' +
+      form.getId() + ': ' + String(error.message || error)
+    );
+  }
+  if (form.isQuiz()) listItem.setPoints(0);
+
+  const nameItem = form.getItems().find(item => isNameTitle_(item.getTitle()));
+  const targetIndex = Math.min(
+    nameItem ? nameItem.getIndex() + 1 : 0,
+    form.getItems().length - 1
+  );
+  form.moveItem(listItem, targetIndex);
+
+  // Chỉ xoá các trường đơn vị cũ sau khi dropdown mới đã cấu hình thành công.
+  form.getItems().filter(item =>
+    isUnitTitle_(item.getTitle()) && item.getId() !== listItem.getId()
+  ).slice().reverse().forEach(item => form.deleteItem(item));
+  return listItem;
+}
+
+function describeFormItem_(item) {
+  const result = {
+    viTri: item.getIndex() + 1,
+    id: item.getId(),
+    tieuDe: item.getTitle(),
+    loai: item.getType().toString()
+  };
+  if (item.getType() === FormApp.ItemType.LIST) {
+    const listItem = item.asListItem();
+    result.soLuaChon = listItem.getChoices().length;
+    result.batBuoc = listItem.isRequired();
+  }
+  return result;
 }
 
 function findOrCreateTextItem_(form, title, matcher) {

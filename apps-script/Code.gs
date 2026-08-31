@@ -70,16 +70,16 @@ function doGet(e) {
 function getDashboardData_(forceRefresh) {
   const cache = CacheService.getScriptCache();
   if (!forceRefresh) {
-    const cached = cache.get('dashboard-v3');
+    const cached = cache.get('dashboard-v4');
     if (cached) return JSON.parse(cached);
   }
   const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
   if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
   const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config));
-  const payload = { version: 3, updatedAt: new Date().toISOString(), sessions };
+  const payload = { version: 4, updatedAt: new Date().toISOString(), sessions };
   const serialized = JSON.stringify(payload);
-  if (serialized.length < 95000) cache.put('dashboard-v3', serialized, CACHE_SECONDS);
+  if (serialized.length < 95000) cache.put('dashboard-v4', serialized, CACHE_SECONDS);
   return payload;
 }
 
@@ -90,6 +90,7 @@ function aggregateSession_(spreadsheet, config) {
   const headers = values.shift() || [];
   const rows = values.filter(row => row.some(cell => String(cell).trim() !== ''));
   const resolvedConfig = resolveColumns_(headers, config);
+  const unitBreakdown = aggregateField_(rows, headers, /^don vi(?:\s|$)/);
   const result = {
     id: config.id,
     name: config.name,
@@ -97,7 +98,8 @@ function aggregateSession_(spreadsheet, config) {
     typeLabel: config.typeLabel,
     description: config.description,
     totalResponses: rows.length,
-    participatingUnits: countDistinctField_(rows, headers, /^don vi(?:\s|$)/),
+    participatingUnits: unitBreakdown.length,
+    unitBreakdown,
     scoreStats: getScoreStats_(rows, resolvedConfig)
   };
 
@@ -202,16 +204,29 @@ function buildPositionAccuracy_(answers, correctSequence) {
 }
 
 function countDistinctField_(rows, headers, normalizedPattern) {
+  return aggregateField_(rows, headers, normalizedPattern).length;
+}
+
+function aggregateField_(rows, headers, normalizedPattern) {
   const indexes = headers
     .map((header, index) => ({ normalized: normalizeLookup_(header), index }))
     .filter(item => normalizedPattern.test(item.normalized))
     .map(item => item.index);
-  if (!indexes.length) return 0;
+  if (!indexes.length) return [];
   const values = rows.map(row => {
     const candidates = indexes.map(index => String(row[index] || '').trim()).filter(Boolean);
     return candidates[candidates.length - 1] || '';
-  }).filter(Boolean).map(normalizeAnswer_);
-  return new Set(values).size;
+  }).filter(Boolean);
+  const grouped = {};
+  values.forEach(value => {
+    const key = normalizeLookup_(value);
+    if (!key) return;
+    if (!grouped[key]) grouped[key] = { unit: value.replace(/\s+/g, ' ').trim(), count: 0 };
+    grouped[key].count += 1;
+  });
+  return Object.keys(grouped)
+    .map(key => grouped[key])
+    .sort((a, b) => b.count - a.count || a.unit.localeCompare(b.unit, 'vi'));
 }
 
 function normalizeLookup_(value) {

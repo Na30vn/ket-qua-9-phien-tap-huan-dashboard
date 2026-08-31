@@ -5,12 +5,14 @@ const path = require("node:path");
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "fake.json"), "utf8"));
 
 assert.equal(data.fake, true);
-assert.equal(data.version, 3);
+assert.equal(data.version, 4);
 assert.equal(data.sessions.length, 9);
 assert.deepEqual(data.sessions.map(session => session.id), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
 for (const session of data.sessions) {
   assert.ok(session.totalResponses > 0, `Phiên ${session.id} phải có dữ liệu giả`);
+  assert.equal(session.unitBreakdown.length, session.participatingUnits);
+  assert.equal(session.unitBreakdown.reduce((sum, item) => sum + item.count, 0), session.totalResponses);
 
   if (session.kind === "quiz" || session.kind === "true_false") {
     assert.ok(session.questions.length > 0);

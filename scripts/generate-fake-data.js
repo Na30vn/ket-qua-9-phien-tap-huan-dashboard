@@ -73,6 +73,12 @@ const openResponses = {
   ]
 };
 
+const sampleUnits = [
+  "Sở Tài chính", "Phường Hải Châu", "Phường Hòa Cường", "Phường Thanh Khê",
+  "Phường An Khê", "Phường An Hải", "Phường Sơn Trà", "Phường Ngũ Hành Sơn",
+  "Phường Hòa Khánh", "Phường Liên Chiểu", "Xã Hòa Vang", "Xã Hòa Tiến"
+];
+
 function scoreStatsFromDistribution(counts, pointsPerQuestion) {
   const total = counts.reduce((sum, count) => sum + count, 0);
   const questionCount = counts.length - 1;
@@ -245,9 +251,15 @@ for (const session of payload.sessions) {
     session.scoreStats = { count: 0, distribution: [], mode: "Không chấm tự động" };
     session.responses = openResponses[session.id];
   }
+  const unitCount = Math.min(Number(session.participatingUnits || 0), sampleUnits.length);
+  const unitCounts = splitCounts(session.totalResponses, unitCount).sort((a, b) => b - a);
+  session.unitBreakdown = sampleUnits.slice(0, unitCount)
+    .map((unit, index) => ({ unit, count: unitCounts[index] }))
+    .filter(item => item.count > 0);
+  session.participatingUnits = session.unitBreakdown.length;
 }
 
-payload.version = 3;
+payload.version = 4;
 payload.fake = true;
 payload.updatedAt = new Date().toISOString();
 fs.writeFileSync(outputPath, JSON.stringify(payload, null, 2) + "\n", "utf8");

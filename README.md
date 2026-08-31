@@ -11,7 +11,7 @@ Dashboard trình chiếu độc lập kết quả của từng tab `Phiên 1` đ
 - Phiên 6: biểu đồ Đúng/Sai 100%, đáp án tham chiếu và phần giải thích theo câu.
 - Phiên 3, 5, 7, 8: gợi ý tham chiếu, tìm kiếm và danh sách phản hồi ẩn danh.
 - Mỗi phiên chỉ dùng 2–4 KPI có ý nghĩa trực tiếp khi trình chiếu.
-- Không công khai Họ tên, đơn vị hoặc email.
+- Không công khai họ tên hoặc email; đơn vị chỉ được trả về dưới dạng số lượng bài tổng hợp.
 - Tự làm mới dữ liệu sau mỗi 10 giây; API dùng bộ nhớ đệm 5 giây để cân bằng độ trễ và hạn mức Google.
 - Có chế độ toàn màn hình và bản in.
 
@@ -25,7 +25,9 @@ Dashboard trình chiếu độc lập kết quả của từng tab `Phiên 1` đ
 6. Chọn **Thực thi với tư cách: Tôi** và chỉ đặt phạm vi truy cập phù hợp với đối tượng cần xem dashboard.
 7. Sao chép URL `/exec` và điền vào `apiUrl` trong `config.js`.
 
-Web App chỉ trả dữ liệu tổng hợp và câu trả lời đã ẩn email/số điện thoại; không trả Họ tên, đơn vị hoặc email từ Sheet.
+Web App chỉ trả dữ liệu tổng hợp và câu trả lời đã ẩn email/số điện thoại; không trả họ tên hoặc email từ Sheet. Tên đơn vị chỉ xuất hiện trong bảng đếm số bài theo đơn vị, không gắn với cá nhân.
+
+Danh mục dropdown trên 9 Form được đồng bộ bởi hàm `dongBoDropdownDonViCho9Phien()` trong `apps-script/AddParticipantFields.gs`. Danh mục nguồn gồm các đơn vị thực tế có cán bộ trong danh sách; dashboard chỉ hiển thị đơn vị có ít nhất một bài ở phiên đang xem.
 
 ## Thêm thông tin người làm vào Form 4–9
 

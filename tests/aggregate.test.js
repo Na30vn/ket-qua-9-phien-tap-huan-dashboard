@@ -61,6 +61,10 @@ assert.equal(data.sessions[0].questions.length, 6);
 assert.equal(data.sessions[0].scoreStats.averagePercent, 50 / 60 * 100);
 assert.equal(data.sessions[0].scoreStats.mode, "Tính lại từ đáp án chuẩn");
 assert.equal(data.sessions[0].participatingUnits, 1);
+assert.deepEqual(
+  JSON.parse(JSON.stringify(data.sessions[0].unitBreakdown)),
+  [{ unit: "Đơn vị A", count: 1 }]
+);
 assert.equal(data.sessions[0].quizSummary.hardestQuestion.number, 6);
 assert.deepEqual(
   JSON.parse(JSON.stringify(data.sessions[0].quizSummary.correctDistribution)),
@@ -83,7 +87,7 @@ assert.equal(data.sessions[5].explanationStats.rate, 100);
 
 const serialized = JSON.stringify(data);
 assert.equal(serialized.includes("Nguyễn Văn A"), false);
-assert.equal(serialized.includes("Đơn vị A"), false);
+assert.equal(serialized.includes("Đơn vị A"), true);
 assert.equal(serialized.includes("a@example.com"), false);
 assert.equal(serialized.includes("0912345678"), false);
 assert.equal(serialized.includes("[đã ẩn email]"), true);

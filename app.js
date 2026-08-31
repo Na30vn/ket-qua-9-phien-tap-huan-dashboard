@@ -151,10 +151,34 @@
 
   function renderSessionContent(session) {
     if (session.error) return `<div class="empty">${escapeHtml(session.error)}</div>`;
-    if (session.kind === "quiz") return renderQuizDashboard(session);
-    if (session.kind === "ordering") return renderOrderingDashboard(session);
-    if (session.kind === "true_false") return renderTrueFalseDashboard(session);
-    return renderOpenDashboard(session);
+    let content;
+    if (session.kind === "quiz") content = renderQuizDashboard(session);
+    else if (session.kind === "ordering") content = renderOrderingDashboard(session);
+    else if (session.kind === "true_false") content = renderTrueFalseDashboard(session);
+    else content = renderOpenDashboard(session);
+    return content + renderUnitBreakdown(session);
+  }
+
+  function renderUnitBreakdown(session) {
+    const units = session.unitBreakdown || [];
+    if (!units.length) return "";
+    const maximum = Math.max(1, ...units.map(item => Number(item.count || 0)));
+    return `
+      <section class="content-grid unit-section">
+        <article class="panel full">
+          ${panelHeading("Số bài theo đơn vị", `${formatNumber.format(units.length)} đơn vị có bài trong phiên`)}
+          <div class="unit-list">
+            ${units.map(item => `
+              <div class="unit-row">
+                <span class="unit-name">${escapeHtml(item.unit)}</span>
+                <div class="bar-track"><div class="bar-fill unit-fill" style="width:${Number(item.count || 0) / maximum * 100}%"></div></div>
+                <strong>${formatNumber.format(item.count || 0)}</strong>
+              </div>
+            `).join("")}
+          </div>
+        </article>
+      </section>
+    `;
   }
 
   function renderQuizDashboard(session) {
@@ -359,7 +383,7 @@
             <div><p class="panel-kicker">PHẢN HỒI HỌC VIÊN</p><h3>Danh sách câu trả lời (${filtered.length}/${responses.length})</h3></div>
             <label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>
           </div>
-          <p class="privacy-note">Danh sách công khai chỉ hiển thị nội dung phản hồi ẩn danh; họ tên và đơn vị không được đưa lên API.</p>
+          <p class="privacy-note">Danh sách công khai chỉ hiển thị nội dung phản hồi ẩn danh. Họ tên không được đưa lên API; đơn vị chỉ xuất hiện dưới dạng số liệu tổng hợp.</p>
           ${filtered.length ? `
             <div class="response-list">
               ${filtered.map((text, index) => `
