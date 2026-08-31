@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-08-31T14:43:36.418Z",
+  "updatedAt": "2026-08-31T15:43:13.361Z",
   "sessions": [
     {
       "id": 1,
@@ -8,282 +8,282 @@
       "kind": "quiz",
       "typeLabel": "Trắc nghiệm 6 câu",
       "description": "Phân cấp thu, chi và lập dự toán ngân sách cấp xã",
-      "totalResponses": 48,
-      "participatingUnits": 12,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
-        "count": 48,
+        "count": 274,
         "maxScore": 60,
-        "average": 35.625,
-        "averagePercent": 59.375,
+        "average": 35.583941605839414,
+        "averagePercent": 59.306569343065696,
         "mode": "Dữ liệu giả lập",
         "distribution": [
           {
             "label": "0/60",
-            "count": 1
+            "count": 6
           },
           {
             "label": "10/60",
-            "count": 3
+            "count": 17
           },
           {
             "label": "20/60",
-            "count": 7
+            "count": 40
           },
           {
             "label": "30/60",
-            "count": 11
+            "count": 63
           },
           {
             "label": "40/60",
-            "count": 13
+            "count": 74
           },
           {
             "label": "50/60",
-            "count": 9
+            "count": 51
           },
           {
             "label": "60/60",
-            "count": 4
+            "count": 23
           }
         ]
       },
       "questions": [
         {
           "title": "Trong phân cấp ngân sách địa phương, khoản thu nào sau đây không thuộc nguồn thu ngân sách cấp xã:",
-          "totalAnswers": 48,
+          "totalAnswers": 274,
           "correctAnswer": "Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã",
           "referenceNote": "",
-          "correctCount": 36,
+          "correctCount": 206,
           "unansweredCount": 0,
           "options": [
             {
               "label": "Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã",
-              "count": 36,
+              "count": 206,
               "isCorrect": true
             },
             {
               "label": "Lệ phí do các cơ quan nhà nước thuộc cấp xã thực hiện thu",
-              "count": 4,
+              "count": 23,
               "isCorrect": false
             },
             {
               "label": "Tiền thu từ xử phạt vi phạm hành chính, xử phạt khác theo quy định của pháp luật do các cơ quan nhà nước cấp xã thực hiện",
-              "count": 4,
+              "count": 23,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 4,
+              "count": 22,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 12,
-          "correctPercent": 75,
+          "incorrectCount": 68,
+          "correctPercent": 75.18248175182481,
           "explanations": []
         },
         {
           "title": "Yêu cầu nào sau đây không đúng khi quản lý thu phí, lệ phí:",
-          "totalAnswers": 48,
+          "totalAnswers": 274,
           "correctAnswer": "Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước",
           "referenceNote": "",
-          "correctCount": 34,
+          "correctCount": 194,
           "unansweredCount": 0,
           "options": [
             {
               "label": "Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước",
-              "count": 34,
+              "count": 194,
               "isCorrect": true
             },
             {
               "label": "Tổ chức thu lệ phí phải nộp đầy đủ, kịp thời số tiền lệ phí thu được vào ngân sách nhà nước",
-              "count": 5,
+              "count": 27,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 5,
+              "count": 27,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 4,
+              "count": 26,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 14,
-          "correctPercent": 70.83333333333334,
+          "incorrectCount": 80,
+          "correctPercent": 70.8029197080292,
           "explanations": []
         },
         {
           "title": "Yêu cầu nào là không đúng khi lập dự toán ngân sách cấp xã:",
-          "totalAnswers": 48,
+          "totalAnswers": 274,
           "correctAnswer": "Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)",
           "referenceNote": "",
-          "correctCount": 30,
+          "correctCount": 171,
           "unansweredCount": 0,
           "options": [
             {
               "label": "Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)",
-              "count": 30,
+              "count": 171,
               "isCorrect": true
             },
             {
               "label": "Dự toán ngân sách nhà nước phải tổng hợp theo từng khoản thu, chi và theo cơ cấu chi đầu tư phát triển, chi thường xuyên, dự phòng ngân sách",
-              "count": 6,
+              "count": 35,
               "isCorrect": false
             },
             {
               "label": "Dự toán thu phải thể hiện đầy đủ các khoản thu, sát khả năng thực tế",
-              "count": 6,
+              "count": 34,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 6,
+              "count": 34,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 18,
-          "correctPercent": 62.5,
+          "incorrectCount": 103,
+          "correctPercent": 62.40875912408759,
           "explanations": []
         },
         {
           "title": "Nội dung nào dưới đây không đúng về sử dụng dự phòng ngân sách cấp huyện:",
-          "totalAnswers": 48,
+          "totalAnswers": 274,
           "correctAnswer": "Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn",
           "referenceNote": "",
-          "correctCount": 24,
+          "correctCount": 137,
           "unansweredCount": 0,
           "options": [
             {
               "label": "Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn",
-              "count": 24,
+              "count": 137,
               "isCorrect": true
             },
             {
               "label": "Chi cho nhiệm vụ quan trọng về quốc phòng, an ninh",
-              "count": 8,
+              "count": 46,
               "isCorrect": false
             },
             {
               "label": "Chi phòng, chống, khắc phục hậu quả thiên tai, thảm họa, dịch bệnh, cứu đói",
-              "count": 8,
+              "count": 46,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 8,
+              "count": 45,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 24,
+          "incorrectCount": 137,
           "correctPercent": 50,
           "explanations": []
         },
         {
           "title": "Thẩm quyền quyết định sử dụng dự phòng ngân sách cấp xã:",
-          "totalAnswers": 48,
+          "totalAnswers": 274,
           "correctAnswer": "Uỷ ban nhân dân cấp xã",
           "referenceNote": "",
-          "correctCount": 27,
+          "correctCount": 154,
           "unansweredCount": 0,
           "options": [
             {
               "label": "Uỷ ban nhân dân cấp xã",
-              "count": 27,
+              "count": 154,
               "isCorrect": true
             },
             {
               "label": "Thường trực Hội đồng nhân dân cấp xã",
-              "count": 7,
+              "count": 40,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 7,
+              "count": 40,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 7,
+              "count": 40,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 21,
-          "correctPercent": 56.25,
+          "incorrectCount": 120,
+          "correctPercent": 56.20437956204379,
           "explanations": []
         },
         {
           "title": "Cơ quan nào có quyền tạm đình chỉ chi ngân sách của các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã khi không chấp hành đúng chế độ báo cáo kế toán, quyết toán, báo cáo tài chính khác và chịu trách nhiệm về quyết định của mình:",
-          "totalAnswers": 48,
+          "totalAnswers": 274,
           "correctAnswer": "Cơ quan tài chính cấp xã",
           "referenceNote": "",
-          "correctCount": 20,
+          "correctCount": 114,
           "unansweredCount": 0,
           "options": [
             {
               "label": "Cơ quan tài chính cấp xã",
-              "count": 20,
+              "count": 114,
               "isCorrect": true
             },
             {
               "label": "Kho bạc nhà nước",
-              "count": 10,
+              "count": 54,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 9,
+              "count": 53,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 9,
+              "count": 53,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 28,
-          "correctPercent": 41.66666666666667,
+          "incorrectCount": 160,
+          "correctPercent": 41.605839416058394,
           "explanations": []
         }
       ],
       "quizSummary": {
-        "averageCorrectPercent": 59.375,
+        "averageCorrectPercent": 59.36739659367397,
         "hardestQuestion": {
           "number": 6,
           "title": "Cơ quan nào có quyền tạm đình chỉ chi ngân sách của các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã khi không chấp hành đúng chế độ báo cáo kế toán, quyết toán, báo cáo tài chính khác và chịu trách nhiệm về quyết định của mình:",
-          "correctPercent": 41.66666666666667
+          "correctPercent": 41.605839416058394
         },
-        "perfectCount": 4,
-        "perfectRate": 8.333333333333332,
+        "perfectCount": 23,
+        "perfectRate": 8.394160583941606,
         "correctDistribution": [
           {
             "label": "0",
-            "count": 1
+            "count": 6
           },
           {
             "label": "1",
-            "count": 3
+            "count": 17
           },
           {
             "label": "2",
-            "count": 7
+            "count": 40
           },
           {
             "label": "3",
-            "count": 11
+            "count": 63
           },
           {
             "label": "4",
-            "count": 13
+            "count": 74
           },
           {
             "label": "5",
-            "count": 9
+            "count": 51
           },
           {
             "label": "6",
-            "count": 4
+            "count": 23
           }
         ]
       },
@@ -326,6 +326,54 @@
         },
         {
           "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
           "count": 4
         },
         {
@@ -335,6 +383,234 @@
         {
           "unit": "Xã Hòa Tiến",
           "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
+          "count": 3
         }
       ]
     },
@@ -344,157 +620,157 @@
       "kind": "ordering",
       "typeLabel": "Sắp xếp thứ tự",
       "description": "Quy trình quản lý ngân sách cấp xã theo thời gian",
-      "totalResponses": 46,
-      "participatingUnits": 10,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
-        "count": 46,
+        "count": 274,
         "maxScore": 10,
-        "average": 1.9565217391304348,
-        "averagePercent": 19.565217391304348,
+        "average": 1.9708029197080292,
+        "averagePercent": 19.708029197080293,
         "mode": "Dữ liệu giả lập",
         "distribution": [
           {
             "label": "0/10",
-            "count": 37
+            "count": 220
           },
           {
             "label": "10/10",
-            "count": 9
+            "count": 54
           }
         ]
       },
       "ordering": {
         "correctSequence": "3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7",
-        "correctCount": 9,
-        "correctRate": 19.565217391304348,
-        "uniqueSequenceCount": 18,
+        "correctCount": 54,
+        "correctRate": 19.708029197080293,
+        "uniqueSequenceCount": 96,
         "positionAccuracy": [
           {
             "step": "3",
             "position": 1,
-            "count": 42,
-            "percent": 91.30434782608695
+            "count": 250,
+            "percent": 91.24087591240875
           },
           {
             "step": "5",
             "position": 2,
-            "count": 39,
-            "percent": 84.78260869565217
+            "count": 232,
+            "percent": 84.67153284671532
           },
           {
             "step": "1",
             "position": 3,
-            "count": 35,
-            "percent": 76.08695652173914
+            "count": 208,
+            "percent": 75.91240875912408
           },
           {
             "step": "6",
             "position": 4,
-            "count": 31,
-            "percent": 67.3913043478261
+            "count": 185,
+            "percent": 67.51824817518248
           },
           {
             "step": "4",
             "position": 5,
-            "count": 29,
-            "percent": 63.04347826086957
+            "count": 173,
+            "percent": 63.138686131386855
           },
           {
             "step": "11",
             "position": 6,
-            "count": 25,
-            "percent": 54.347826086956516
+            "count": 149,
+            "percent": 54.379562043795616
           },
           {
             "step": "9",
             "position": 7,
-            "count": 30,
-            "percent": 65.21739130434783
+            "count": 179,
+            "percent": 65.32846715328468
           },
           {
             "step": "8",
             "position": 8,
-            "count": 27,
-            "percent": 58.69565217391305
+            "count": 161,
+            "percent": 58.75912408759124
           },
           {
             "step": "10",
             "position": 9,
-            "count": 24,
-            "percent": 52.17391304347826
+            "count": 143,
+            "percent": 52.18978102189781
           },
           {
             "step": "13",
             "position": 10,
-            "count": 22,
-            "percent": 47.82608695652174
+            "count": 131,
+            "percent": 47.81021897810219
           },
           {
             "step": "2",
             "position": 11,
-            "count": 20,
-            "percent": 43.47826086956522
+            "count": 119,
+            "percent": 43.43065693430657
           },
           {
             "step": "12",
             "position": 12,
-            "count": 18,
-            "percent": 39.130434782608695
+            "count": 107,
+            "percent": 39.05109489051095
           },
           {
             "step": "7",
             "position": 13,
-            "count": 16,
-            "percent": 34.78260869565217
+            "count": 95,
+            "percent": 34.67153284671533
           }
         ],
         "commonSequences": [
           {
             "value": "3,5,1,4,6,11,9,8,10,13,2,12,7",
-            "count": 8
+            "count": 43
           },
           {
             "value": "3,5,1,6,11,4,9,8,10,13,2,12,7",
-            "count": 6
+            "count": 35
           },
           {
             "value": "3,1,5,6,4,11,9,8,10,13,2,12,7",
-            "count": 5
+            "count": 29
           },
           {
             "value": "5,3,1,6,4,11,9,8,10,13,2,12,7",
-            "count": 4
+            "count": 24
           },
           {
             "value": "3,5,1,6,4,11,8,9,10,13,2,12,7",
-            "count": 3
+            "count": 18
           }
         ]
       },
       "unitBreakdown": [
         {
           "unit": "Sở Tài chính",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Hải Châu",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Hòa Cường",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Thanh Khê",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường An Khê",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường An Hải",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Sơn Trà",
@@ -511,6 +787,290 @@
         {
           "unit": "Phường Liên Chiểu",
           "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
+          "count": 3
         }
       ]
     },
@@ -520,8 +1080,8 @@
       "kind": "open",
       "typeLabel": "Tình huống tự luận",
       "description": "Thực hiện công khai ngân sách cấp xã",
-      "totalResponses": 36,
-      "participatingUnits": 9,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
         "count": 0,
         "distribution": [],
@@ -582,6 +1142,294 @@
         {
           "unit": "Phường Hòa Khánh",
           "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
+          "count": 3
         }
       ]
     },
@@ -591,440 +1439,440 @@
       "kind": "quiz",
       "typeLabel": "Trắc nghiệm 9 câu",
       "description": "Quản lý ngân sách cấp xã",
-      "totalResponses": 52,
-      "participatingUnits": 11,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
-        "count": 52,
+        "count": 274,
         "maxScore": 90,
-        "average": 52.69230769230769,
-        "averagePercent": 58.54700854700855,
+        "average": 52.81021897810219,
+        "averagePercent": 58.678021086780205,
         "mode": "Dữ liệu giả lập",
         "distribution": [
           {
             "label": "0/90",
-            "count": 1
+            "count": 5
           },
           {
             "label": "10/90",
-            "count": 1
+            "count": 5
           },
           {
             "label": "20/90",
-            "count": 3
+            "count": 16
           },
           {
             "label": "30/90",
-            "count": 5
+            "count": 26
           },
           {
             "label": "40/90",
-            "count": 7
+            "count": 37
           },
           {
             "label": "50/90",
-            "count": 10
+            "count": 53
           },
           {
             "label": "60/90",
-            "count": 10
+            "count": 53
           },
           {
             "label": "70/90",
-            "count": 8
+            "count": 42
           },
           {
             "label": "80/90",
-            "count": 5
+            "count": 26
           },
           {
             "label": "90/90",
-            "count": 2
+            "count": 11
           }
         ]
       },
       "questions": [
         {
           "title": "Số tăng thu so với dự toán của ngân sách cấp xã không được sử dụng cho những nội dung sau đây:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã",
           "referenceNote": "",
-          "correctCount": 38,
+          "correctCount": 200,
           "unansweredCount": 0,
           "options": [
             {
               "label": "B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã",
-              "count": 38,
+              "count": 200,
               "isCorrect": true
             },
             {
               "label": "A. Bổ sung tăng dự phòng ngân sách trong phạm vi quy định",
-              "count": 5,
+              "count": 25,
               "isCorrect": false
             },
             {
               "label": "D. Tăng chi đầu tư một số dự án quan trọng",
-              "count": 5,
+              "count": 25,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 4,
+              "count": 24,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 14,
-          "correctPercent": 73.07692307692307,
+          "incorrectCount": 74,
+          "correctPercent": 72.99270072992701,
           "explanations": []
         },
         {
           "title": "Việc xử lý số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã được thực hiện:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất",
           "referenceNote": "",
-          "correctCount": 33,
+          "correctCount": 174,
           "unansweredCount": 0,
           "options": [
             {
               "label": "C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất",
-              "count": 33,
+              "count": 174,
               "isCorrect": true
             },
             {
               "label": "B. Hội đồng nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã",
-              "count": 7,
+              "count": 34,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 6,
+              "count": 33,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 6,
+              "count": 33,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 19,
-          "correctPercent": 63.46153846153846,
+          "incorrectCount": 100,
+          "correctPercent": 63.503649635036496,
           "explanations": []
         },
         {
           "title": "Ủy ban nhân dân cấp xã phải hoàn thành việc giao dự toán ngân sách cho từng cơ quan, đơn vị trực thuộc:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "C. Trước ngày 31 tháng 12 năm trước",
           "referenceNote": "",
-          "correctCount": 31,
+          "correctCount": 163,
           "unansweredCount": 0,
           "options": [
             {
               "label": "C. Trước ngày 31 tháng 12 năm trước",
-              "count": 31,
+              "count": 163,
               "isCorrect": true
             },
             {
               "label": "B. Trước ngày 10 tháng 12 năm trước",
-              "count": 7,
+              "count": 37,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 7,
+              "count": 37,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 7,
+              "count": 37,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 21,
-          "correctPercent": 59.61538461538461,
+          "incorrectCount": 111,
+          "correctPercent": 59.48905109489051,
           "explanations": []
         },
         {
           "title": "Yêu cầu nào sau đây không đúng quyết toán ngân sách cấp xã:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "B. Số quyết toán thu ngân sách nhà nước là số thu đã thực nộp và số thu đã hạch toán thu ngân sách nhà nước theo quy định. Các khoản thu thuộc ngân sách các năm trước nộp ngân sách năm sau phải hạch toán vào thu ngân sách năm trước",
           "referenceNote": "",
-          "correctCount": 29,
+          "correctCount": 153,
           "unansweredCount": 0,
           "options": [
             {
               "label": "B. Số quyết toán thu ngân sách nhà nước là số thu đã thực nộp và số thu đã hạch toán thu ngân sách nhà nước theo quy định. Các khoản thu thuộc ngân sách các năm trước nộp ngân sách năm sau phải hạch toán vào thu ngân sách năm trước",
-              "count": 29,
+              "count": 153,
               "isCorrect": true
             },
             {
               "label": "C. Số liệu quyết toán ngân sách của đơn vị sử dụng ngân sách, của chủ đầu tư và của ngân sách các cấp phải được đối chiếu, xác nhận với Kho bạc Nhà nước nơi giao dịch",
-              "count": 8,
+              "count": 41,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 8,
+              "count": 40,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 7,
+              "count": 40,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 23,
-          "correctPercent": 55.769230769230774,
+          "incorrectCount": 121,
+          "correctPercent": 55.839416058394164,
           "explanations": []
         },
         {
           "title": "Đến hết thời gian chỉnh lý quyết toán, các khoản dự toán chi ngân sách nhà nước (bao gồm cả các khoản dự toán chưa phân bổ chi tiết ở cấp ngân sách, các khoản tạm ứng trong dự toán, số dư tài khoản tiền gửi các khoản ngân sách nhà nước cấp) chưa thực hiện được hoặc chưa chi hết, không được chuyển nguồn sang năm sau tiếp tục sử dụng, bao gồm:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "A. Các khoản dự toán được Ủy ban nhân dân các cấp bổ sung sau ngày 30 tháng 9 năm thực hiện dự toán đã hết nhiệm vụ chi",
           "referenceNote": "",
-          "correctCount": 35,
+          "correctCount": 184,
           "unansweredCount": 0,
           "options": [
             {
               "label": "A. Các khoản dự toán được Ủy ban nhân dân các cấp bổ sung sau ngày 30 tháng 9 năm thực hiện dự toán đã hết nhiệm vụ chi",
-              "count": 35,
+              "count": 184,
               "isCorrect": true
             },
             {
               "label": "C. Kinh phí được giao tự chủ của các đơn vị sự nghiệp công lập và các cơ quan nhà nước",
-              "count": 6,
+              "count": 30,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 6,
+              "count": 30,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 5,
+              "count": 30,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 17,
-          "correctPercent": 67.3076923076923,
+          "incorrectCount": 90,
+          "correctPercent": 67.15328467153284,
           "explanations": []
         },
         {
           "title": "Thời gian chỉnh lý quyết toán ngân sách nhà nước kết thúc vào thời điểm nào theo quy định hiện nay:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "C. 31 tháng 01 năm sau",
           "referenceNote": "",
-          "correctCount": 28,
+          "correctCount": 147,
           "unansweredCount": 0,
           "options": [
             {
               "label": "C. 31 tháng 01 năm sau",
-              "count": 28,
+              "count": 147,
               "isCorrect": true
             },
             {
               "label": "Phương án minh họa B",
-              "count": 8,
+              "count": 43,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 8,
+              "count": 42,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 8,
+              "count": 42,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 24,
-          "correctPercent": 53.84615384615385,
+          "incorrectCount": 127,
+          "correctPercent": 53.64963503649635,
           "explanations": []
         },
         {
           "title": "Yêu cầu nào dưới đây không đúng khi khóa sổ kế toán và xử lý thu, chi ngân sách nhà nước cuối năm:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "B. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản được ngân sách thành phố cấp kinh phí bổ sung có mục tiêu còn thừa, đã hết nhiệm vụ chi được chuyển nguồn, không phải nộp trả",
           "referenceNote": "",
-          "correctCount": 25,
+          "correctCount": 132,
           "unansweredCount": 0,
           "options": [
             {
               "label": "B. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản được ngân sách thành phố cấp kinh phí bổ sung có mục tiêu còn thừa, đã hết nhiệm vụ chi được chuyển nguồn, không phải nộp trả",
-              "count": 25,
+              "count": 132,
               "isCorrect": true
             },
             {
               "label": "A. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản dự toán chi, bao gồm cả các khoản bổ sung trong năm, chưa thực hiện, chưa chi hết hoặc hết nhiệm vụ chi phải hủy dự toán, trừ các trường hợp được chuyển nguồn sang năm sau để tiếp tục thực hiện theo quy định",
-              "count": 9,
+              "count": 48,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 9,
+              "count": 47,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 9,
+              "count": 47,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 27,
-          "correctPercent": 48.07692307692308,
+          "incorrectCount": 142,
+          "correctPercent": 48.175182481751825,
           "explanations": []
         },
         {
           "title": "Thời điểm nào dưới đây không đúng khi quyết toán ngân sách cấp xã:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc",
           "referenceNote": "",
-          "correctCount": 30,
+          "correctCount": 158,
           "unansweredCount": 0,
           "options": [
             {
               "label": "D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc",
-              "count": 30,
+              "count": 158,
               "isCorrect": true
             },
             {
               "label": "A. Ủy ban nhân dân cấp xã lập quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã báo cáo Thường trực Hội đồng nhân dân cùng cấp cho ý kiến trước ngày 10 tháng 3 năm sau",
-              "count": 8,
+              "count": 39,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 7,
+              "count": 39,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 7,
+              "count": 38,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 22,
-          "correctPercent": 57.692307692307686,
+          "incorrectCount": 116,
+          "correctPercent": 57.66423357664233,
           "explanations": []
         },
         {
           "title": "Nội dung nào dưới đây không đúng đối với nguồn thực hiện chính sách cải cách tiền lương:",
-          "totalAnswers": 52,
+          "totalAnswers": 274,
           "correctAnswer": "B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)",
           "referenceNote": "",
-          "correctCount": 25,
+          "correctCount": 132,
           "unansweredCount": 0,
           "options": [
             {
               "label": "B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)",
-              "count": 25,
+              "count": 132,
               "isCorrect": true
             },
             {
               "label": "A. Nguồn thực hiện cải cách chính sách tiền lương được sử dụng để bảo đảm điều chỉnh mức lương cơ sở hằng năm và bảo đảm các chính sách an sinh xã hội do Trung ương ban hành (đối với ngân sách địa phương)",
-              "count": 9,
+              "count": 48,
               "isCorrect": false
             },
             {
               "label": "D. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã sau khi đã cân đối nguồn mà chưa đáp ứng đủ nhu cầu theo chế độ quy định",
-              "count": 9,
+              "count": 47,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 9,
+              "count": 47,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 27,
-          "correctPercent": 48.07692307692308,
+          "incorrectCount": 142,
+          "correctPercent": 48.175182481751825,
           "explanations": []
         }
       ],
       "quizSummary": {
-        "averageCorrectPercent": 58.54700854700855,
+        "averageCorrectPercent": 58.51581508515815,
         "hardestQuestion": {
           "number": 7,
           "title": "Yêu cầu nào dưới đây không đúng khi khóa sổ kế toán và xử lý thu, chi ngân sách nhà nước cuối năm:",
-          "correctPercent": 48.07692307692308
+          "correctPercent": 48.175182481751825
         },
-        "perfectCount": 2,
-        "perfectRate": 3.8461538461538463,
+        "perfectCount": 11,
+        "perfectRate": 4.014598540145985,
         "correctDistribution": [
           {
             "label": "0",
-            "count": 1
+            "count": 5
           },
           {
             "label": "1",
-            "count": 1
+            "count": 5
           },
           {
             "label": "2",
-            "count": 3
+            "count": 16
           },
           {
             "label": "3",
-            "count": 5
+            "count": 26
           },
           {
             "label": "4",
-            "count": 7
+            "count": 37
           },
           {
             "label": "5",
-            "count": 10
+            "count": 53
           },
           {
             "label": "6",
-            "count": 10
+            "count": 53
           },
           {
             "label": "7",
-            "count": 8
+            "count": 42
           },
           {
             "label": "8",
-            "count": 5
+            "count": 26
           },
           {
             "label": "9",
-            "count": 2
+            "count": 11
           }
         ]
       },
       "unitBreakdown": [
         {
           "unit": "Sở Tài chính",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Hải Châu",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Hòa Cường",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Thanh Khê",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường An Khê",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường An Hải",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Sơn Trà",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Ngũ Hành Sơn",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Hòa Khánh",
@@ -1035,8 +1883,288 @@
           "count": 4
         },
         {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
           "unit": "Xã Hòa Vang",
           "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
+          "count": 3
         }
       ]
     },
@@ -1046,8 +2174,8 @@
       "kind": "open",
       "typeLabel": "Tình huống tự luận",
       "description": "Xét duyệt và tổng hợp quyết toán năm",
-      "totalResponses": 33,
-      "participatingUnits": 8,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
         "count": 0,
         "distribution": [],
@@ -1074,7 +2202,7 @@
       "unitBreakdown": [
         {
           "unit": "Sở Tài chính",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Hải Châu",
@@ -1091,298 +2219,6 @@
         {
           "unit": "Phường An Khê",
           "count": 4
-        },
-        {
-          "unit": "Phường An Hải",
-          "count": 4
-        },
-        {
-          "unit": "Phường Sơn Trà",
-          "count": 4
-        },
-        {
-          "unit": "Phường Ngũ Hành Sơn",
-          "count": 4
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "name": "Phiên 6",
-      "kind": "true_false",
-      "typeLabel": "Đúng/Sai và giải thích",
-      "description": "Định mức trang thiết bị, tài sản",
-      "totalResponses": 45,
-      "participatingUnits": 10,
-      "scoreStats": {
-        "count": 45,
-        "maxScore": 70,
-        "average": 41.11111111111111,
-        "averagePercent": 58.730158730158735,
-        "mode": "Dữ liệu giả lập",
-        "distribution": []
-      },
-      "questions": [
-        {
-          "title": "Bí thư đảng ủy xã hiện nay mới được trang bị máy tính xách tay 15 triệu đồng, cần mua thêm 1 máy tính xách tay 25 triệu đồng và 1 máy tính để bàn 20 triệu đồng.",
-          "totalAnswers": 45,
-          "correctAnswer": "Sai",
-          "referenceNote": "Sai: Bí thư đảng ủy xã chỉ được trang bị 1 máy tính xách tay tối đa 25 triệu đồng và 1 máy tính để bàn tối đa 20 triệu đồng.",
-          "correctCount": 28,
-          "unansweredCount": 0,
-          "options": [
-            {
-              "label": "Đúng",
-              "count": 17,
-              "isCorrect": false
-            },
-            {
-              "label": "Sai",
-              "count": 28,
-              "isCorrect": true
-            }
-          ],
-          "incorrectCount": 17,
-          "correctPercent": 62.22222222222222,
-          "explanations": [
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 1.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 2.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 3.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 4.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 5.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 6.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 7.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 8."
-          ]
-        },
-        {
-          "title": "Phòng Văn hoá - Xã hội có 4 cán bộ được bố trí ngồi 2 phòng làm việc. Hiện mới có 1 máy in, cần mua thêm 3 máy in với giá 4 triệu đồng/máy.",
-          "totalAnswers": 45,
-          "correctAnswer": "Sai",
-          "referenceNote": "Sai: Mỗi phòng làm việc không quá 3 người chỉ được trang bị 1 máy in tối đa 13 triệu đồng.",
-          "correctCount": 25,
-          "unansweredCount": 0,
-          "options": [
-            {
-              "label": "Đúng",
-              "count": 20,
-              "isCorrect": false
-            },
-            {
-              "label": "Sai",
-              "count": 25,
-              "isCorrect": true
-            }
-          ],
-          "incorrectCount": 20,
-          "correctPercent": 55.55555555555556,
-          "explanations": [
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 1.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 2.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 3.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 4.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 5.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 6.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 7.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 8."
-          ]
-        },
-        {
-          "title": "Chuyên viên phòng Kinh tế hiện chưa được trang bị máy tính, cần mua 1 máy tính xách tay với giá 20 triệu đồng, và cài đặt bản quyền sản phẩm phần mềm thêm 10 triệu đồng.",
-          "totalAnswers": 45,
-          "correctAnswer": "Đúng",
-          "referenceNote": "Đúng: Mức giá tối đa của máy tính xách tay là 20 triệu đồng, chưa bao gồm bản quyền phần mềm.",
-          "correctCount": 35,
-          "unansweredCount": 0,
-          "options": [
-            {
-              "label": "Đúng",
-              "count": 35,
-              "isCorrect": true
-            },
-            {
-              "label": "Sai",
-              "count": 10,
-              "isCorrect": false
-            }
-          ],
-          "incorrectCount": 10,
-          "correctPercent": 77.77777777777779,
-          "explanations": [
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 1.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 2.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 3.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 4.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 5.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 6.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 7.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 8."
-          ]
-        },
-        {
-          "title": "Phòng Văn hoá - Xã hội trên địa bàn của thành phố Đà Nẵng được trang bị điều hoà cho phòng làm việc trị giá 10 triệu đồng.",
-          "totalAnswers": 45,
-          "correctAnswer": "Sai",
-          "referenceNote": "Sai: Điều hòa là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.",
-          "correctCount": 21,
-          "unansweredCount": 0,
-          "options": [
-            {
-              "label": "Đúng",
-              "count": 24,
-              "isCorrect": false
-            },
-            {
-              "label": "Sai",
-              "count": 21,
-              "isCorrect": true
-            }
-          ],
-          "incorrectCount": 24,
-          "correctPercent": 46.666666666666664,
-          "explanations": [
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 1.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 2.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 3.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 4.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 5.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 6.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 7.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 8."
-          ]
-        },
-        {
-          "title": "Văn phòng HĐND - UBND xã trên địa bàn của thành phố Đà Nẵng được trang bị màn hình LED tại Hội trường trị giá 20 triệu đồng.",
-          "totalAnswers": 45,
-          "correctAnswer": "Sai",
-          "referenceNote": "Sai: Màn hình LED tại hội trường là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.",
-          "correctCount": 18,
-          "unansweredCount": 0,
-          "options": [
-            {
-              "label": "Đúng",
-              "count": 27,
-              "isCorrect": false
-            },
-            {
-              "label": "Sai",
-              "count": 18,
-              "isCorrect": true
-            }
-          ],
-          "incorrectCount": 27,
-          "correctPercent": 40,
-          "explanations": [
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 1.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 2.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 3.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 4.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 5.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 6.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 7.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 8."
-          ]
-        },
-        {
-          "title": "Trường mầm non trên địa bàn của thành phố Đà Nẵng được trang bị máy chiếu cho lớp học trị giá 20 triệu đồng.",
-          "totalAnswers": 45,
-          "correctAnswer": "Sai",
-          "referenceNote": "Sai: Máy chiếu tại lớp học là thiết bị chuyên dùng; theo phân cấp phải trình Sở Giáo dục và Đào tạo quyết định.",
-          "correctCount": 26,
-          "unansweredCount": 0,
-          "options": [
-            {
-              "label": "Đúng",
-              "count": 19,
-              "isCorrect": false
-            },
-            {
-              "label": "Sai",
-              "count": 26,
-              "isCorrect": true
-            }
-          ],
-          "incorrectCount": 19,
-          "correctPercent": 57.77777777777777,
-          "explanations": [
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 1.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 2.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 3.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 4.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 5.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 6.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 7.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 8."
-          ]
-        },
-        {
-          "title": "Trường tiểu học trên địa bàn của thành phố Đà Nẵng được trang bị 10 bộ bàn ghế cho lớp học trị giá 20 triệu đồng.",
-          "totalAnswers": 45,
-          "correctAnswer": "Đúng",
-          "referenceNote": "Đúng: Bàn ghế lớp học là thiết bị chuyên dùng; nếu không đủ điều kiện là tài sản cố định thì thủ trưởng đơn vị quyết định.",
-          "correctCount": 32,
-          "unansweredCount": 0,
-          "options": [
-            {
-              "label": "Đúng",
-              "count": 32,
-              "isCorrect": true
-            },
-            {
-              "label": "Sai",
-              "count": 13,
-              "isCorrect": false
-            }
-          ],
-          "incorrectCount": 13,
-          "correctPercent": 71.11111111111111,
-          "explanations": [
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 1.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 2.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 3.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 4.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 5.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 6.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 7.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 8."
-          ]
-        }
-      ],
-      "quizSummary": {
-        "averageCorrectPercent": 58.730158730158735,
-        "hardestQuestion": {
-          "number": 5,
-          "title": "Văn phòng HĐND - UBND xã trên địa bàn của thành phố Đà Nẵng được trang bị màn hình LED tại Hội trường trị giá 20 triệu đồng.",
-          "correctPercent": 40
-        },
-        "perfectCount": 5,
-        "perfectRate": 11.11111111111111,
-        "correctDistribution": []
-      },
-      "explanationStats": {
-        "count": 266,
-        "rate": 84.44444444444444
-      },
-      "unitBreakdown": [
-        {
-          "unit": "Sở Tài chính",
-          "count": 5
-        },
-        {
-          "unit": "Phường Hải Châu",
-          "count": 5
-        },
-        {
-          "unit": "Phường Hòa Cường",
-          "count": 5
-        },
-        {
-          "unit": "Phường Thanh Khê",
-          "count": 5
-        },
-        {
-          "unit": "Phường An Khê",
-          "count": 5
         },
         {
           "unit": "Phường An Hải",
@@ -1403,6 +2239,874 @@
         {
           "unit": "Phường Liên Chiểu",
           "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Phiên 6",
+      "kind": "true_false",
+      "typeLabel": "Đúng/Sai và giải thích",
+      "description": "Định mức trang thiết bị, tài sản",
+      "totalResponses": 274,
+      "participatingUnits": 81,
+      "scoreStats": {
+        "count": 274,
+        "maxScore": 70,
+        "average": 41.09489051094891,
+        "averagePercent": 58.70698644421272,
+        "mode": "Dữ liệu giả lập",
+        "distribution": []
+      },
+      "questions": [
+        {
+          "title": "Bí thư đảng ủy xã hiện nay mới được trang bị máy tính xách tay 15 triệu đồng, cần mua thêm 1 máy tính xách tay 25 triệu đồng và 1 máy tính để bàn 20 triệu đồng.",
+          "totalAnswers": 274,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Bí thư đảng ủy xã chỉ được trang bị 1 máy tính xách tay tối đa 25 triệu đồng và 1 máy tính để bàn tối đa 20 triệu đồng.",
+          "correctCount": 170,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 104,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 170,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 104,
+          "correctPercent": 62.04379562043796,
+          "explanations": [
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 1.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 2.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 3.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 4.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 5.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 6.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 7.",
+            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Phòng Văn hoá - Xã hội có 4 cán bộ được bố trí ngồi 2 phòng làm việc. Hiện mới có 1 máy in, cần mua thêm 3 máy in với giá 4 triệu đồng/máy.",
+          "totalAnswers": 274,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Mỗi phòng làm việc không quá 3 người chỉ được trang bị 1 máy in tối đa 13 triệu đồng.",
+          "correctCount": 152,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 122,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 152,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 122,
+          "correctPercent": 55.47445255474452,
+          "explanations": [
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 1.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 2.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 3.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 4.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 5.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 6.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 7.",
+            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Chuyên viên phòng Kinh tế hiện chưa được trang bị máy tính, cần mua 1 máy tính xách tay với giá 20 triệu đồng, và cài đặt bản quyền sản phẩm phần mềm thêm 10 triệu đồng.",
+          "totalAnswers": 274,
+          "correctAnswer": "Đúng",
+          "referenceNote": "Đúng: Mức giá tối đa của máy tính xách tay là 20 triệu đồng, chưa bao gồm bản quyền phần mềm.",
+          "correctCount": 213,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 213,
+              "isCorrect": true
+            },
+            {
+              "label": "Sai",
+              "count": 61,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 61,
+          "correctPercent": 77.73722627737226,
+          "explanations": [
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 1.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 2.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 3.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 4.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 5.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 6.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 7.",
+            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Phòng Văn hoá - Xã hội trên địa bàn của thành phố Đà Nẵng được trang bị điều hoà cho phòng làm việc trị giá 10 triệu đồng.",
+          "totalAnswers": 274,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Điều hòa là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.",
+          "correctCount": 128,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 146,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 128,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 146,
+          "correctPercent": 46.715328467153284,
+          "explanations": [
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 1.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 2.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 3.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 4.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 5.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 6.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 7.",
+            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Văn phòng HĐND - UBND xã trên địa bàn của thành phố Đà Nẵng được trang bị màn hình LED tại Hội trường trị giá 20 triệu đồng.",
+          "totalAnswers": 274,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Màn hình LED tại hội trường là thiết bị phục vụ hoạt động chung; theo phân cấp phải trình Chủ tịch UBND xã quyết định.",
+          "correctCount": 110,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 164,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 110,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 164,
+          "correctPercent": 40.14598540145985,
+          "explanations": [
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 1.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 2.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 3.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 4.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 5.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 6.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 7.",
+            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Trường mầm non trên địa bàn của thành phố Đà Nẵng được trang bị máy chiếu cho lớp học trị giá 20 triệu đồng.",
+          "totalAnswers": 274,
+          "correctAnswer": "Sai",
+          "referenceNote": "Sai: Máy chiếu tại lớp học là thiết bị chuyên dùng; theo phân cấp phải trình Sở Giáo dục và Đào tạo quyết định.",
+          "correctCount": 158,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 116,
+              "isCorrect": false
+            },
+            {
+              "label": "Sai",
+              "count": 158,
+              "isCorrect": true
+            }
+          ],
+          "incorrectCount": 116,
+          "correctPercent": 57.66423357664233,
+          "explanations": [
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 1.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 2.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 3.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 4.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 5.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 6.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 7.",
+            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 8."
+          ]
+        },
+        {
+          "title": "Trường tiểu học trên địa bàn của thành phố Đà Nẵng được trang bị 10 bộ bàn ghế cho lớp học trị giá 20 triệu đồng.",
+          "totalAnswers": 274,
+          "correctAnswer": "Đúng",
+          "referenceNote": "Đúng: Bàn ghế lớp học là thiết bị chuyên dùng; nếu không đủ điều kiện là tài sản cố định thì thủ trưởng đơn vị quyết định.",
+          "correctCount": 195,
+          "unansweredCount": 0,
+          "options": [
+            {
+              "label": "Đúng",
+              "count": 195,
+              "isCorrect": true
+            },
+            {
+              "label": "Sai",
+              "count": 79,
+              "isCorrect": false
+            }
+          ],
+          "incorrectCount": 79,
+          "correctPercent": 71.16788321167883,
+          "explanations": [
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 1.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 2.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 3.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 4.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 5.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 6.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 7.",
+            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 8."
+          ]
+        }
+      ],
+      "quizSummary": {
+        "averageCorrectPercent": 58.70698644421272,
+        "hardestQuestion": {
+          "number": 5,
+          "title": "Văn phòng HĐND - UBND xã trên địa bàn của thành phố Đà Nẵng được trang bị màn hình LED tại Hội trường trị giá 20 triệu đồng.",
+          "correctPercent": 40.14598540145985
+        },
+        "perfectCount": 30,
+        "perfectRate": 10.948905109489052,
+        "correctDistribution": []
+      },
+      "explanationStats": {
+        "count": 1619,
+        "rate": 84.41084462982273
+      },
+      "unitBreakdown": [
+        {
+          "unit": "Sở Tài chính",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Châu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Cường",
+          "count": 4
+        },
+        {
+          "unit": "Phường Thanh Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Khê",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Hải",
+          "count": 4
+        },
+        {
+          "unit": "Phường Sơn Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Ngũ Hành Sơn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hòa Khánh",
+          "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
+          "count": 3
         }
       ]
     },
@@ -1412,8 +3116,8 @@
       "kind": "open",
       "typeLabel": "Phân tích hồ sơ",
       "description": "Tình huống mua sắm máy phát điện",
-      "totalResponses": 38,
-      "participatingUnits": 10,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
         "count": 0,
         "distribution": [],
@@ -1472,10 +3176,294 @@
         },
         {
           "unit": "Phường Hòa Khánh",
-          "count": 3
+          "count": 4
         },
         {
           "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
           "count": 3
         }
       ]
@@ -1486,8 +3474,8 @@
       "kind": "open",
       "typeLabel": "Phân tích hồ sơ",
       "description": "Tình huống mua sắm màn hình LED",
-      "totalResponses": 35,
-      "participatingUnits": 9,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
         "count": 0,
         "distribution": [],
@@ -1548,6 +3536,294 @@
         },
         {
           "unit": "Phường Hòa Khánh",
+          "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
           "count": 3
         }
       ]
@@ -1558,157 +3834,445 @@
       "kind": "quiz",
       "typeLabel": "Trắc nghiệm 2 câu",
       "description": "Quản lý và khai thác tài sản công",
-      "totalResponses": 50,
-      "participatingUnits": 9,
+      "totalResponses": 274,
+      "participatingUnits": 81,
       "scoreStats": {
-        "count": 50,
+        "count": 274,
         "maxScore": 20,
-        "average": 12,
-        "averagePercent": 60,
+        "average": 12.007299270072993,
+        "averagePercent": 60.03649635036496,
         "mode": "Dữ liệu giả lập",
         "distribution": [
           {
             "label": "0/20",
-            "count": 8
+            "count": 44
           },
           {
             "label": "10/20",
-            "count": 24
+            "count": 131
           },
           {
             "label": "20/20",
-            "count": 18
+            "count": 99
           }
         ]
       },
       "questions": [
         {
           "title": "Nội dung nào dưới đây không đúng về các biện pháp của xã nhằm nâng cao hiệu quả quản lý tài sản công:",
-          "totalAnswers": 50,
+          "totalAnswers": 274,
           "correctAnswer": "C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công",
           "referenceNote": "",
-          "correctCount": 34,
+          "correctCount": 186,
           "unansweredCount": 0,
           "options": [
             {
               "label": "C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công",
-              "count": 34,
+              "count": 186,
               "isCorrect": true
             },
             {
               "label": "Phương án minh họa B",
-              "count": 6,
+              "count": 30,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 5,
+              "count": 29,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 5,
+              "count": 29,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 16,
-          "correctPercent": 68,
+          "incorrectCount": 88,
+          "correctPercent": 67.88321167883211,
           "explanations": []
         },
         {
           "title": "Nội dung nào dưới đây không đúng khi sử dụng tài sản công tại đơn vị sự nghiệp công lập thuộc phạm vi quản lý của phường, xã trên địa bàn thành phố Đà Nẵng:",
-          "totalAnswers": 50,
+          "totalAnswers": 274,
           "correctAnswer": "B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê",
           "referenceNote": "",
-          "correctCount": 26,
+          "correctCount": 142,
           "unansweredCount": 0,
           "options": [
             {
               "label": "B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê",
-              "count": 26,
+              "count": 142,
               "isCorrect": true
             },
             {
               "label": "Phương án minh họa B",
-              "count": 8,
+              "count": 44,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa C",
-              "count": 8,
+              "count": 44,
               "isCorrect": false
             },
             {
               "label": "Phương án minh họa D",
-              "count": 8,
+              "count": 44,
               "isCorrect": false
             }
           ],
-          "incorrectCount": 24,
-          "correctPercent": 52,
+          "incorrectCount": 132,
+          "correctPercent": 51.82481751824818,
           "explanations": []
         }
       ],
       "quizSummary": {
-        "averageCorrectPercent": 60,
+        "averageCorrectPercent": 59.854014598540154,
         "hardestQuestion": {
           "number": 2,
           "title": "Nội dung nào dưới đây không đúng khi sử dụng tài sản công tại đơn vị sự nghiệp công lập thuộc phạm vi quản lý của phường, xã trên địa bàn thành phố Đà Nẵng:",
-          "correctPercent": 52
+          "correctPercent": 51.82481751824818
         },
-        "perfectCount": 18,
-        "perfectRate": 36,
+        "perfectCount": 99,
+        "perfectRate": 36.13138686131387,
         "correctDistribution": [
           {
             "label": "0",
-            "count": 8
+            "count": 44
           },
           {
             "label": "1",
-            "count": 24
+            "count": 131
           },
           {
             "label": "2",
-            "count": 18
+            "count": 99
           }
         ]
       },
       "unitBreakdown": [
         {
           "unit": "Sở Tài chính",
-          "count": 6
+          "count": 4
         },
         {
           "unit": "Phường Hải Châu",
-          "count": 6
+          "count": 4
         },
         {
           "unit": "Phường Hòa Cường",
-          "count": 6
+          "count": 4
         },
         {
           "unit": "Phường Thanh Khê",
-          "count": 6
+          "count": 4
         },
         {
           "unit": "Phường An Khê",
-          "count": 6
+          "count": 4
         },
         {
           "unit": "Phường An Hải",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Sơn Trà",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Ngũ Hành Sơn",
-          "count": 5
+          "count": 4
         },
         {
           "unit": "Phường Hòa Khánh",
-          "count": 5
+          "count": 4
+        },
+        {
+          "unit": "Phường Liên Chiểu",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hải Vân",
+          "count": 4
+        },
+        {
+          "unit": "Phường Tam Kỳ",
+          "count": 4
+        },
+        {
+          "unit": "Phường Quảng Phú",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hương Trà",
+          "count": 4
+        },
+        {
+          "unit": "Phường Bàn Thạch",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường An Thắng",
+          "count": 4
+        },
+        {
+          "unit": "Phường Điện Bàn Bắc",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Đông",
+          "count": 4
+        },
+        {
+          "unit": "Phường Hội An Tây",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Vang",
+          "count": 4
+        },
+        {
+          "unit": "Xã Hòa Tiến",
+          "count": 4
+        },
+        {
+          "unit": "Xã Bà Nà",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Anh",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tam Xuân",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tây Hồ",
+          "count": 4
+        },
+        {
+          "unit": "Xã Chiên Đàn",
+          "count": 4
+        },
+        {
+          "unit": "Xã Tiên Phước",
+          "count": 4
+        },
+        {
+          "unit": "Xã Thạnh Bình",
+          "count": 4
+        },
+        {
+          "unit": "Xã Sơn Cẩm Hà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Liên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Giáp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Trà My",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Tập",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Vân",
+          "count": 3
+        },
+        {
+          "unit": "Xã Trà Leng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Bình",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Trường",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thăng Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đồng Dương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Sơn Trung",
+          "count": 3
+        },
+        {
+          "unit": "Xã Xuân Phú",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nông Sơn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Quế Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Nghĩa",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Phước",
+          "count": 3
+        },
+        {
+          "unit": "Xã Duy Xuyên",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thu Bồn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Điện Bàn Tây",
+          "count": 3
+        },
+        {
+          "unit": "Xã Gò Nổi",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tân Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đại Lộc",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hà Nha",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thượng Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Vu Gia",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phú Thuận",
+          "count": 3
+        },
+        {
+          "unit": "Xã Thạnh Mỹ",
+          "count": 3
+        },
+        {
+          "unit": "Xã Bến Giằng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Nam Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đắc Pring",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Dêê",
+          "count": 3
+        },
+        {
+          "unit": "Xã La Êê",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Vàng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Sông Kôn",
+          "count": 3
+        },
+        {
+          "unit": "Xã Đông Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Avương",
+          "count": 3
+        },
+        {
+          "unit": "Xã Tây Giang",
+          "count": 3
+        },
+        {
+          "unit": "Xã Hiệp Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Việt An",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Trà",
+          "count": 3
+        },
+        {
+          "unit": "Xã Khâm Đức",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Năng",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Chánh",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Thành",
+          "count": 3
+        },
+        {
+          "unit": "Xã Phước Hiệp",
+          "count": 3
+        },
+        {
+          "unit": "Xã Lãnh Ngọc",
+          "count": 3
         }
       ]
     }

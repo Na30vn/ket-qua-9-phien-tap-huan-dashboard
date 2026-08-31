@@ -51,7 +51,7 @@ Nhấp đúp `CHAY_DEMO_LOCAL.cmd`. Trình duyệt sẽ mở:
 http://127.0.0.1:8765/?phien=1&demo=1
 ```
 
-Tham số `demo=1` buộc dashboard dùng `data/fake.json` thay vì API thật. Dữ liệu giả có đủ cả 9 phiên và đủ số liệu để kiểm tra KPI, biểu đồ, bộ chọn câu hỏi, bảng trình tự và danh sách phản hồi. Đóng cửa sổ lệnh để dừng máy chủ local.
+Tham số `demo=1` buộc dashboard dùng `data/fake.json` thay vì API thật. Dữ liệu giả có đủ cả 9 phiên, mỗi phiên mô phỏng 274 học viên thuộc 81 đơn vị thực tế và đủ số liệu để kiểm tra KPI, biểu đồ, bộ chọn câu hỏi, bảng trình tự và danh sách phản hồi. Đóng cửa sổ lệnh để dừng máy chủ local.
 
 Nếu muốn cập nhật file giả theo cấu trúc API mới nhất, lưu JSON API vào một file rồi chạy:
 

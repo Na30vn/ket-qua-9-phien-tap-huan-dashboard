@@ -10,7 +10,8 @@ assert.equal(data.sessions.length, 9);
 assert.deepEqual(data.sessions.map(session => session.id), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
 for (const session of data.sessions) {
-  assert.ok(session.totalResponses > 0, `Phiên ${session.id} phải có dữ liệu giả`);
+  assert.equal(session.totalResponses, 274, `Phiên ${session.id} phải mô phỏng đủ 274 học viên`);
+  assert.equal(session.participatingUnits, 81, `Phiên ${session.id} phải có đủ 81 đơn vị thực tế`);
   assert.equal(session.unitBreakdown.length, session.participatingUnits);
   assert.equal(session.unitBreakdown.reduce((sum, item) => sum + item.count, 0), session.totalResponses);
 

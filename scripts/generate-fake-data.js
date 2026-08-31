@@ -8,10 +8,11 @@ if (!sourcePath) {
 }
 
 const payload = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+const DEMO_TOTAL_RESPONSES = 274;
 const quizProfiles = {
-  1: { total: 48, units: 12, correct: [36, 34, 30, 24, 27, 20], distribution: [1, 3, 7, 11, 13, 9, 4] },
-  4: { total: 52, units: 11, correct: [38, 33, 31, 29, 35, 28, 25, 30, 25], distribution: [1, 1, 3, 5, 7, 10, 10, 8, 5, 2] },
-  9: { total: 50, units: 9, correct: [34, 26], distribution: [8, 24, 18] }
+  1: { total: DEMO_TOTAL_RESPONSES, correct: [206, 194, 171, 137, 154, 114], distribution: [6, 17, 40, 63, 74, 51, 23] },
+  4: { total: DEMO_TOTAL_RESPONSES, correct: [200, 174, 163, 153, 184, 147, 132, 158, 132], distribution: [5, 5, 16, 26, 37, 53, 53, 42, 26, 11] },
+  9: { total: DEMO_TOTAL_RESPONSES, correct: [186, 142], distribution: [44, 131, 99] }
 };
 
 const openResponses = {
@@ -76,7 +77,22 @@ const openResponses = {
 const sampleUnits = [
   "Sở Tài chính", "Phường Hải Châu", "Phường Hòa Cường", "Phường Thanh Khê",
   "Phường An Khê", "Phường An Hải", "Phường Sơn Trà", "Phường Ngũ Hành Sơn",
-  "Phường Hòa Khánh", "Phường Liên Chiểu", "Xã Hòa Vang", "Xã Hòa Tiến"
+  "Phường Hòa Khánh", "Phường Liên Chiểu", "Phường Hải Vân", "Phường Tam Kỳ",
+  "Phường Quảng Phú", "Phường Hương Trà", "Phường Bàn Thạch", "Phường Điện Bàn",
+  "Phường Điện Bàn Đông", "Phường An Thắng", "Phường Điện Bàn Bắc", "Phường Hội An",
+  "Phường Hội An Đông", "Phường Hội An Tây", "Xã Hòa Vang", "Xã Hòa Tiến",
+  "Xã Bà Nà", "Xã Tam Anh", "Xã Tam Xuân", "Xã Tây Hồ", "Xã Chiên Đàn",
+  "Xã Tiên Phước", "Xã Thạnh Bình", "Xã Sơn Cẩm Hà", "Xã Trà Liên", "Xã Trà Giáp",
+  "Xã Trà Tân", "Xã Trà My", "Xã Nam Trà My", "Xã Trà Tập", "Xã Trà Vân",
+  "Xã Trà Leng", "Xã Thăng Bình", "Xã Thăng An", "Xã Thăng Trường", "Xã Thăng Phú",
+  "Xã Đồng Dương", "Xã Quế Sơn Trung", "Xã Xuân Phú", "Xã Nông Sơn", "Xã Quế Phước",
+  "Xã Duy Nghĩa", "Xã Nam Phước", "Xã Duy Xuyên", "Xã Thu Bồn", "Xã Điện Bàn Tây",
+  "Xã Gò Nổi", "Xã Tân Hiệp", "Xã Đại Lộc", "Xã Hà Nha", "Xã Thượng Đức",
+  "Xã Vu Gia", "Xã Phú Thuận", "Xã Thạnh Mỹ", "Xã Bến Giằng", "Xã Nam Giang",
+  "Xã Đắc Pring", "Xã La Dêê", "Xã La Êê", "Xã Sông Vàng", "Xã Sông Kôn",
+  "Xã Đông Giang", "Xã Avương", "Xã Tây Giang", "Xã Hiệp Đức", "Xã Việt An",
+  "Xã Phước Trà", "Xã Khâm Đức", "Xã Phước Năng", "Xã Phước Chánh", "Xã Phước Thành",
+  "Xã Phước Hiệp", "Xã Lãnh Ngọc"
 ];
 
 function scoreStatsFromDistribution(counts, pointsPerQuestion) {
@@ -126,7 +142,7 @@ function fakeQuizQuestion(question, total, correctCount, index) {
 
 function applyQuiz(session, profile) {
   session.totalResponses = profile.total;
-  session.participatingUnits = profile.units;
+  session.participatingUnits = sampleUnits.length;
   session.questions = session.questions.map((question, index) =>
     fakeQuizQuestion(question, profile.total, profile.correct[index], index));
   session.scoreStats = scoreStatsFromDistribution(profile.distribution, 10);
@@ -146,12 +162,12 @@ function applyQuiz(session, profile) {
 }
 
 function applyOrdering(session) {
-  const total = 46;
-  const correctCount = 9;
+  const total = DEMO_TOTAL_RESPONSES;
+  const correctCount = 54;
   const correctSteps = String(session.ordering.correctSequence).split(",").map(value => value.trim());
-  const positionCounts = [42, 39, 35, 31, 29, 25, 30, 27, 24, 22, 20, 18, 16];
+  const positionCounts = [250, 232, 208, 185, 173, 149, 179, 161, 143, 131, 119, 107, 95];
   session.totalResponses = total;
-  session.participatingUnits = 10;
+  session.participatingUnits = sampleUnits.length;
   session.scoreStats = {
     count: total,
     maxScore: 10,
@@ -164,7 +180,7 @@ function applyOrdering(session) {
     ...session.ordering,
     correctCount,
     correctRate: correctCount / total * 100,
-    uniqueSequenceCount: 18,
+    uniqueSequenceCount: 96,
     positionAccuracy: correctSteps.map((step, index) => ({
       step,
       position: index + 1,
@@ -172,18 +188,18 @@ function applyOrdering(session) {
       percent: positionCounts[index] / total * 100
     })),
     commonSequences: [
-      { value: "3,5,1,4,6,11,9,8,10,13,2,12,7", count: 8 },
-      { value: "3,5,1,6,11,4,9,8,10,13,2,12,7", count: 6 },
-      { value: "3,1,5,6,4,11,9,8,10,13,2,12,7", count: 5 },
-      { value: "5,3,1,6,4,11,9,8,10,13,2,12,7", count: 4 },
-      { value: "3,5,1,6,4,11,8,9,10,13,2,12,7", count: 3 }
+      { value: "3,5,1,4,6,11,9,8,10,13,2,12,7", count: 43 },
+      { value: "3,5,1,6,11,4,9,8,10,13,2,12,7", count: 35 },
+      { value: "3,1,5,6,4,11,9,8,10,13,2,12,7", count: 29 },
+      { value: "5,3,1,6,4,11,9,8,10,13,2,12,7", count: 24 },
+      { value: "3,5,1,6,4,11,8,9,10,13,2,12,7", count: 18 }
     ]
   };
 }
 
 function applyTrueFalse(session) {
-  const total = 45;
-  const correctCounts = [28, 25, 35, 21, 18, 26, 32];
+  const total = DEMO_TOTAL_RESPONSES;
+  const correctCounts = [170, 152, 213, 128, 110, 158, 195];
   const explanations = [
     "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời.",
     "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác.",
@@ -194,7 +210,7 @@ function applyTrueFalse(session) {
     "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định."
   ];
   session.totalResponses = total;
-  session.participatingUnits = 10;
+  session.participatingUnits = sampleUnits.length;
   session.questions = session.questions.map((question, index) => {
     const correct = question.correctAnswer;
     const correctCount = correctCounts[index];
@@ -232,11 +248,11 @@ function applyTrueFalse(session) {
       title: session.questions[hardestIndex].title,
       correctPercent: correctCounts[hardestIndex] / total * 100
     },
-    perfectCount: 5,
-    perfectRate: 5 / total * 100,
+    perfectCount: 30,
+    perfectRate: 30 / total * 100,
     correctDistribution: []
   };
-  session.explanationStats = { count: 266, rate: 266 / (total * 7) * 100 };
+  session.explanationStats = { count: 1619, rate: 1619 / (total * 7) * 100 };
 }
 
 for (const session of payload.sessions) {
@@ -244,10 +260,8 @@ for (const session of payload.sessions) {
   else if (session.id === 2) applyOrdering(session);
   else if (session.id === 6) applyTrueFalse(session);
   else if (openResponses[session.id]) {
-    const totals = { 3: 36, 5: 33, 7: 38, 8: 35 };
-    const units = { 3: 9, 5: 8, 7: 10, 8: 9 };
-    session.totalResponses = totals[session.id];
-    session.participatingUnits = units[session.id];
+    session.totalResponses = DEMO_TOTAL_RESPONSES;
+    session.participatingUnits = sampleUnits.length;
     session.scoreStats = { count: 0, distribution: [], mode: "Không chấm tự động" };
     session.responses = openResponses[session.id];
   }
