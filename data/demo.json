@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-31T07:30:00.000Z",
+  "sessions": [
+    {"id":1,"name":"Phiên 1","kind":"quiz","typeLabel":"Trắc nghiệm 6 câu","description":"Phân cấp thu, chi và lập dự toán ngân sách cấp xã","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"questions":[]},
+    {"id":2,"name":"Phiên 2","kind":"ordering","typeLabel":"Sắp xếp thứ tự","description":"Quy trình quản lý ngân sách cấp xã theo thời gian","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"ordering":{"correctSequence":"3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7","correctCount":0,"commonSequences":[]}},
+    {"id":3,"name":"Phiên 3","kind":"open","typeLabel":"Tình huống tự luận","description":"Thực hiện công khai ngân sách cấp xã","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"responses":[]},
+    {"id":4,"name":"Phiên 4","kind":"quiz","typeLabel":"Trắc nghiệm 9 câu","description":"Quản lý ngân sách cấp xã","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"questions":[]},
+    {"id":5,"name":"Phiên 5","kind":"open","typeLabel":"Tình huống tự luận","description":"Xét duyệt và tổng hợp quyết toán năm","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"responses":[]},
+    {"id":6,"name":"Phiên 6","kind":"true_false","typeLabel":"Đúng/Sai và giải thích","description":"Định mức trang thiết bị, tài sản","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"questions":[]},
+    {"id":7,"name":"Phiên 7","kind":"open","typeLabel":"Phân tích hồ sơ","description":"Tình huống mua sắm máy phát điện","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"responses":[]},
+    {"id":8,"name":"Phiên 8","kind":"open","typeLabel":"Phân tích hồ sơ","description":"Tình huống mua sắm màn hình LED","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"responses":[]},
+    {"id":9,"name":"Phiên 9","kind":"quiz","typeLabel":"Trắc nghiệm 2 câu","description":"Quản lý và khai thác tài sản công","totalResponses":0,"scoreStats":{"count":0,"distribution":[]},"questions":[]}
+  ]
+}

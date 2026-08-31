@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123c69">
+  <title>Dashboard kết quả 09 phiên tập huấn</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">TẬP HUẤN QUẢN LÝ NGÂN SÁCH VÀ TÀI SẢN CÔNG</p>
+      <h1>Kết quả 09 phiên tập huấn</h1>
+      <p id="session-subtitle" class="subtitle">Mỗi phiên được tổng hợp độc lập</p>
+    </div>
+    <div class="hero-actions">
+      <span id="data-status" class="status status-loading">Đang tải dữ liệu…</span>
+      <button id="refresh-button" class="button" type="button">Cập nhật</button>
+      <button id="fullscreen-button" class="button button-secondary" type="button">Toàn màn hình</button>
+    </div>
+  </header>
+
+  <nav id="session-nav" class="session-nav" aria-label="Chọn phiên"></nav>
+
+  <main id="dashboard" class="dashboard" aria-live="polite">
+    <section class="loading-panel">
+      <div class="spinner"></div>
+      <p>Đang tổng hợp kết quả…</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>Dữ liệu tổng hợp ẩn danh từ các tab Phiên 1–9</span>
+    <span id="updated-at"></span>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
