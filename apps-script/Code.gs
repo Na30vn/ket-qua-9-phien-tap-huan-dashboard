@@ -23,10 +23,10 @@ const SESSION_CONFIG = [
     'D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc',
     'B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)'
   ] },
-  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt và tổng hợp quyết toán năm', scoreIndex: 2, answerIndex: 1 },
+  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt và tổng hợp quyết toán năm', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i },
   { id: 6, name: 'Phiên 6', kind: 'true_false', typeLabel: 'Đúng/Sai và giải thích', description: 'Định mức trang thiết bị, tài sản', scoreIndex: 1, questionIndexes: [2,4,6,8,10,12,14], explanationIndexes: [3,5,7,9,11,13,15], pointsPerQuestion: 10, correctAnswers: ['Sai','Sai','Đúng','Sai','Sai','Sai','Đúng'] },
-  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm máy phát điện', scoreIndex: 2, answerIndex: 1 },
-  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm màn hình LED', scoreIndex: 2, answerIndex: 1 },
+  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm máy phát điện', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i },
+  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm màn hình LED', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i },
   { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý và khai thác tài sản công', scoreIndex: 1, questionIndexes: [2,3], pointsPerQuestion: 10, correctAnswers: [
     'C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công',
     'B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê'
@@ -66,6 +66,7 @@ function aggregateSession_(spreadsheet, config) {
   const values = sheet.getDataRange().getDisplayValues();
   const headers = values.shift() || [];
   const rows = values.filter(row => row.some(cell => String(cell).trim() !== ''));
+  const resolvedConfig = resolveColumns_(headers, config);
   const result = {
     id: config.id,
     name: config.name,
@@ -73,26 +74,26 @@ function aggregateSession_(spreadsheet, config) {
     typeLabel: config.typeLabel,
     description: config.description,
     totalResponses: rows.length,
-    scoreStats: getScoreStats_(rows, config)
+    scoreStats: getScoreStats_(rows, resolvedConfig)
   };
 
   if (config.kind === 'quiz' || config.kind === 'true_false') {
-    result.questions = config.questionIndexes.map((columnIndex, index) => {
+    result.questions = resolvedConfig.questionIndexes.map((columnIndex, index) => {
       const answers = rows.map(row => String(row[columnIndex] || '').trim()).filter(Boolean);
       const counts = countValues_(answers);
       const question = {
         title: cleanQuestionTitle_(headers[columnIndex] || `Câu ${index + 1}`),
         totalAnswers: answers.length,
-        correctAnswer: config.correctAnswers[index],
+        correctAnswer: resolvedConfig.correctAnswers[index],
         options: counts.map(item => ({
           label: item.value,
           count: item.count,
-          isCorrect: sameAnswer_(item.value, config.correctAnswers[index])
+          isCorrect: sameAnswer_(item.value, resolvedConfig.correctAnswers[index])
         }))
       };
-      if (config.explanationIndexes) {
+      if (resolvedConfig.explanationIndexes) {
         question.explanations = rows
-          .map(row => sanitizePublicText_(row[config.explanationIndexes[index]]))
+          .map(row => sanitizePublicText_(row[resolvedConfig.explanationIndexes[index]]))
           .filter(Boolean)
           .slice(0, 12);
       }
@@ -101,7 +102,7 @@ function aggregateSession_(spreadsheet, config) {
   }
 
   if (config.kind === 'ordering') {
-    const answers = rows.map(row => normalizeSequence_(row[config.answerIndex])).filter(Boolean);
+    const answers = rows.map(row => normalizeSequence_(row[resolvedConfig.answerIndex])).filter(Boolean);
     const correct = normalizeSequence_(config.correctSequence);
     result.ordering = {
       correctSequence: config.correctSequence,
@@ -112,11 +113,41 @@ function aggregateSession_(spreadsheet, config) {
 
   if (config.kind === 'open') {
     result.responses = rows
-      .map(row => sanitizePublicText_(row[config.answerIndex]))
+      .map(row => sanitizePublicText_(row[resolvedConfig.answerIndex]))
       .filter(Boolean)
       .slice(0, MAX_PUBLIC_TEXT_RESPONSES);
   }
   return result;
+}
+
+function resolveColumns_(headers, config) {
+  const resolved = Object.assign({}, config);
+  resolved.scoreIndex = findHeaderIndex_(headers, /^Score$/i, config.scoreIndex);
+
+  if (config.kind === 'quiz') {
+    resolved.questionIndexes = config.correctAnswers.map((answer, index) =>
+      findHeaderIndex_(headers, new RegExp('^\\s*Câu\\s*' + (index + 1) + '\\s*:', 'i'), config.questionIndexes[index]));
+  }
+
+  if (config.kind === 'true_false') {
+    resolved.questionIndexes = config.correctAnswers.map((answer, index) =>
+      findHeaderIndex_(headers, new RegExp('^\\s*' + (index + 1) + '\\.\\s*'), config.questionIndexes[index]));
+    const explanationColumns = headers
+      .map((header, index) => ({ header: String(header || ''), index }))
+      .filter(item => /Giải thích lý do\s*\/\s*căn cứ/i.test(item.header))
+      .map(item => item.index);
+    resolved.explanationIndexes = config.explanationIndexes.map((fallback, index) => explanationColumns[index] ?? fallback);
+  }
+
+  if (config.answerHeaderPattern) {
+    resolved.answerIndex = findHeaderIndex_(headers, config.answerHeaderPattern, config.answerIndex);
+  }
+  return resolved;
+}
+
+function findHeaderIndex_(headers, pattern, fallback) {
+  const found = headers.findIndex(header => pattern.test(String(header || '').trim()));
+  return found >= 0 ? found : fallback;
 }
 
 function getScoreStats_(rows, config) {

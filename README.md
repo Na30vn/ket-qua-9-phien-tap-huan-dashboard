@@ -22,6 +22,14 @@ Dashboard trình chiếu độc lập kết quả của từng tab `Phiên 1` đ
 
 Web App chỉ trả dữ liệu tổng hợp và câu trả lời đã ẩn email/số điện thoại; không trả Họ tên, đơn vị hoặc email từ Sheet.
 
+## Thêm thông tin người làm vào Form 4–9
+
+1. Tạo một tệp `.gs` trong Apps Script và sao chép nội dung `apps-script/AddParticipantFields.gs`.
+2. Chọn hàm `themThongTinNguoiLamChoPhien4Den9` rồi bấm **Chạy**.
+3. Cấp quyền chỉnh sửa Google Forms khi được hỏi.
+
+Hàm có thể chạy lại an toàn: chỉ tạo trường còn thiếu, đưa **Họ và tên** và **Đơn vị công tác** lên đầu Form, đặt bắt buộc và 0 điểm. Dashboard tìm cột theo tên câu hỏi nên không phụ thuộc vị trí hai cột mới trong Sheet.
+
 ## Chạy kiểm tra trên máy
 
 Mở thư mục bằng một máy chủ web tĩnh, sau đó truy cập `index.html`. Khi chưa điền `apiUrl`, trang dùng `data/demo.json` để kiểm tra giao diện.

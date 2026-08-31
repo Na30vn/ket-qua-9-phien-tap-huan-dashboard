@@ -23,15 +23,15 @@ const rowsBySheet = {
     ["Timestamp", "Họ và tên", "Đơn vị", "Tình huống", "Score"],
     ["31/8/2026", "Nguyễn Văn A", "Đơn vị A", "Liên hệ a@example.com hoặc 0912345678", ""]
   ],
-  "Phiên 4": [["Timestamp", "Score", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9"]],
-  "Phiên 5": [["Timestamp", "Câu trả lời", "Score"]],
+  "Phiên 4": [["Timestamp", "Score", "Họ và tên", "Đơn vị công tác", "Câu 1: A", "Câu 2: B", "Câu 3: C", "Câu 4: D", "Câu 5: E", "Câu 6: F", "Câu 7: G", "Câu 8: H", "Câu 9: I"]],
+  "Phiên 5": [["Timestamp", "Họ và tên", "Đơn vị công tác", "Câu trả lời của bạn (Trình bày căn cứ và giải thích chi tiết):", "Score"]],
   "Phiên 6": [
-    ["Timestamp", "Score", "C1", "GT1", "C2", "GT2", "C3", "GT3", "C4", "GT4", "C5", "GT5", "C6", "GT6", "C7", "GT7"],
-    ["31/8/2026", "5 / 7", "Sai", "Giải thích 1", "Sai", "Giải thích 2", "Đúng", "Giải thích 3", "Sai", "Giải thích 4", "Sai", "Giải thích 5", "Sai", "Giải thích 6", "Đúng", "Giải thích 7"]
+    ["Timestamp", "Score", "Họ và tên", "Đơn vị công tác", "1. C1", "-> Giải thích lý do / căn cứ cho câu trên:", "2. C2", "-> Giải thích lý do / căn cứ cho câu trên:", "3. C3", "-> Giải thích lý do / căn cứ cho câu trên:", "4. C4", "-> Giải thích lý do / căn cứ cho câu trên:", "5. C5", "-> Giải thích lý do / căn cứ cho câu trên:", "6. C6", "-> Giải thích lý do / căn cứ cho câu trên:", "7. C7", "-> Giải thích lý do / căn cứ cho câu trên:"],
+    ["31/8/2026", "5 / 7", "Nguyễn Văn A", "Đơn vị A", "Sai", "Giải thích 1", "Sai", "Giải thích 2", "Đúng", "Giải thích 3", "Sai", "Giải thích 4", "Sai", "Giải thích 5", "Sai", "Giải thích 6", "Đúng", "Giải thích 7"]
   ],
-  "Phiên 7": [["Timestamp", "Câu trả lời", "Score"]],
-  "Phiên 8": [["Timestamp", "Câu trả lời", "Score"]],
-  "Phiên 9": [["Timestamp", "Score", "C1", "C2"]]
+  "Phiên 7": [["Timestamp", "Họ và tên", "Đơn vị công tác", "Phân tích hồ sơ (Chỉ ra những nội dung thừa / thiếu và căn cứ pháp lý):", "Score"]],
+  "Phiên 8": [["Timestamp", "Họ và tên", "Đơn vị công tác", "Phân tích hồ sơ (Chỉ ra những nội dung thừa / thiếu và căn cứ pháp lý):", "Score"]],
+  "Phiên 9": [["Timestamp", "Score", "Họ và tên", "Đơn vị công tác", "Câu 1: A", "Câu 2: B"]]
 };
 
 const context = {
