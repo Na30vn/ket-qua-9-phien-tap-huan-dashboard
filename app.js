@@ -10,6 +10,7 @@
   let payload = null;
   let activeSession = getSessionFromUrl();
   let timer = null;
+  let isLoading = false;
 
   const formatNumber = new Intl.NumberFormat("vi-VN");
   const escapeHtml = (value = "") => String(value)
@@ -30,7 +31,9 @@
   }
 
   async function loadData() {
-    setStatus("loading", "Đang tải dữ liệu…");
+    if (isLoading) return;
+    isLoading = true;
+    if (!payload) setStatus("loading", "Đang tải dữ liệu…");
     try {
       if (!config.apiUrl) throw new Error("API_URL_EMPTY");
       const response = await fetch(`${config.apiUrl}${config.apiUrl.includes("?") ? "&" : "?"}_=${Date.now()}`, { cache: "no-store" });
@@ -41,6 +44,8 @@
       const response = await fetch(`${config.demoDataUrl || "data/demo.json"}?_=${Date.now()}`, { cache: "no-store" });
       payload = await response.json();
       setStatus(config.apiUrl ? "error" : "demo", config.apiUrl ? "Không kết nối được dữ liệu" : "Chế độ xem trước");
+    } finally {
+      isLoading = false;
     }
     render();
   }
