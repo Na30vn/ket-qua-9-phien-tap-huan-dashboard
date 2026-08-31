@@ -272,14 +272,14 @@ function replaceUnitItemsWithDropdown_(form, units) {
       form.getId() + ': ' + String(error.message || error)
     );
   }
-  if (form.isQuiz()) listItem.setPoints(0);
-
   const nameItem = form.getItems().find(item => isNameTitle_(item.getTitle()));
   const targetIndex = Math.min(
     nameItem ? nameItem.getIndex() + 1 : 0,
     form.getItems().length - 1
   );
-  form.moveItem(listItem, targetIndex);
+  if (listItem.getIndex() !== targetIndex) {
+    form.moveItem(listItem.getIndex(), targetIndex);
+  }
 
   // Chỉ xoá các trường đơn vị cũ sau khi dropdown mới đã cấu hình thành công.
   form.getItems().filter(item =>
