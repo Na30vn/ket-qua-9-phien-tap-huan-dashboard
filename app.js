@@ -173,12 +173,11 @@
 
   function renderLiveQuiz(session) {
     const questions = session.questions || [];
-    return `<section class="content-grid"><article class="panel full panel-primary">${panelHeading("Phân bố lựa chọn của tất cả câu hỏi", "Theo dõi trực tiếp")}<div class="live-question-list">${questions.length ? questions.map((question, index) => {
-      const total = Math.max(1, Number(question.totalAnswers || 0));
-      return `<section class="live-question-card"><div class="live-question-title"><span>Câu ${index + 1}</span><h3>${escapeHtml(question.title)}</h3></div><div class="live-option-grid">${(question.options || []).map(option => {
-        const percent = Number(option.count || 0) / total * 100;
-        return `<div class="live-option"><p>${escapeHtml(option.label)}</p><div class="live-option-result"><strong>${formatNumber.format(option.count || 0)}</strong><span>${score(percent)}%</span></div><div class="bar-track"><div class="bar-fill" style="width:${clampPercent(percent)}%"></div></div></div>`;
-      }).join("")}</div></section>`;
+    return `<section class="content-grid"><article class="panel full panel-primary">${panelHeading("Tổng quan lựa chọn theo câu", "Chọn một câu để xem 4 phương án")}<div class="quiz-overview">${questions.length ? questions.map((question, index) => {
+      const total = Number(question.totalAnswers || 0);
+      const options = question.options || [];
+      const summary = options.map((option, optionIndex) => `<span class="overview-segment segment-${optionIndex}" style="width:${total ? clampPercent(Number(option.count || 0) / total * 100) : 0}%" title="${escapeHtml(option.label)}: ${formatNumber.format(option.count || 0)} lượt"></span>`).join("");
+      return `<details class="quiz-overview-item" ${index === 0 ? "open" : ""}><summary><span class="overview-number">Câu ${index + 1}</span><span class="overview-title">${escapeHtml(question.title)}</span><span class="overview-total">${formatNumber.format(total)} lượt</span><span class="overview-strip">${summary || '<span class="overview-empty"></span>'}</span><span class="overview-chevron">⌄</span></summary><div class="overview-detail">${options.length ? options.map((option, optionIndex) => { const percent = total ? Number(option.count || 0) / total * 100 : 0; return `<div class="overview-option"><span class="option-dot segment-${optionIndex}"></span><span class="overview-option-label">${escapeHtml(option.label)}</span><strong>${formatNumber.format(option.count || 0)} · ${score(percent)}%</strong></div>`; }).join("") : renderInlineEmpty("Chưa có dữ liệu lựa chọn.")}</div></details>`;
     }).join("") : renderInlineEmpty("Chưa có dữ liệu câu hỏi.")}</div></article></section>`;
   }
 
