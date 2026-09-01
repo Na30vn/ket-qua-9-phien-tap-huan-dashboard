@@ -249,6 +249,9 @@ h1 {
 .overview-empty { flex: 1; }
 .overview-chevron { color: #2374c6; font-size: 20px; font-weight: 900; text-align: center; }
 .overview-detail { display: grid; gap: 8px; padding: 0 24px 18px 38px; border-top: 1px solid #e0e9f1; background: #f8fbfe; }
+.expanded-question { display: grid; gap: 5px; padding: 14px 2px 8px; border-bottom: 2px solid #b9cfe3; color: #0f365e; }
+.expanded-question span { color: #2374c6; font-size: 12px; font-weight: 900; letter-spacing: .08em; }
+.expanded-question strong { font-size: 17px; line-height: 1.5; }
 .overview-option { display: grid; grid-template-columns: 11px minmax(0,1fr) 155px; grid-template-rows: auto 6px; align-items: center; gap: 7px 10px; padding: 11px 14px; border-radius: 9px; color: #263f59; font-size: 15px; font-weight: 550; line-height: 1.45; }
 .overview-option.option-0 { background: #eef6ff; }
 .overview-option.option-1 { background: #edfafa; }
