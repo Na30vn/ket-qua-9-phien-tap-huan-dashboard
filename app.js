@@ -108,7 +108,7 @@
   }
 
   function renderPhaseNotice(session, phase) {
-    if (phase === "LIVE") return `<div class="phase-notice live-notice"><strong>Kết quả đang cập nhật tự động.</strong><span>Mỗi 10 giây dashboard lấy dữ liệu mới; không cần tải lại trang.</span></div>`;
+    if (phase === "LIVE") return "";
     const closedAt = session.closedAt ? new Date(session.closedAt).toLocaleString("vi-VN") : "theo dữ liệu mô phỏng";
     const late = Number(session.lateResponses || 0);
     return `<div class="phase-notice closed-notice"><strong>Số liệu đã chốt: ${formatNumber.format(session.totalResponses || 0)} bài</strong><span>Thời điểm chốt: ${escapeHtml(closedAt)}.${late ? ` Có ${formatNumber.format(late)} bài gửi sau thời điểm chốt và không được cộng vào kết quả.` : ""}</span></div>`;
@@ -177,7 +177,7 @@
       const total = Number(question.totalAnswers || 0);
       const options = question.options || [];
       const summary = options.map((option, optionIndex) => `<span class="overview-segment segment-${optionIndex}" style="width:${total ? clampPercent(Number(option.count || 0) / total * 100) : 0}%" title="${escapeHtml(option.label)}: ${formatNumber.format(option.count || 0)} lượt"></span>`).join("");
-      return `<details class="quiz-overview-item"><summary><span class="overview-number">Câu ${index + 1}</span><span class="overview-title">${escapeHtml(question.title)}</span><span class="overview-total">${formatNumber.format(total)} lượt</span><span class="overview-strip">${summary || '<span class="overview-empty"></span>'}</span><span class="overview-chevron">⌄</span></summary><div class="overview-detail">${options.length ? options.map((option, optionIndex) => { const percent = total ? Number(option.count || 0) / total * 100 : 0; return `<div class="overview-option"><span class="option-dot segment-${optionIndex}"></span><span class="overview-option-label">${escapeHtml(option.label)}</span><strong>${formatNumber.format(option.count || 0)} · ${score(percent)}%</strong></div>`; }).join("") : renderInlineEmpty("Chưa có dữ liệu lựa chọn.")}</div></details>`;
+      return `<details class="quiz-overview-item"><summary><span class="overview-number">Câu ${index + 1}</span><span class="overview-title">${escapeHtml(question.title)}</span><span class="overview-total">${formatNumber.format(total)} lượt</span><span class="overview-strip">${summary || '<span class="overview-empty"></span>'}</span><span class="overview-chevron">⌄</span></summary><div class="overview-detail">${options.length ? options.map((option, optionIndex) => { const percent = total ? Number(option.count || 0) / total * 100 : 0; return `<div class="overview-option"><span class="option-dot segment-${optionIndex}"></span><span class="overview-option-label"><b class="option-letter">${String.fromCharCode(65 + optionIndex)}</b>${escapeHtml(option.label)}</span><strong>${formatNumber.format(option.count || 0)} <em>lượt</em><br><span>${score(percent)}%</span></strong></div>`; }).join("") : renderInlineEmpty("Chưa có dữ liệu lựa chọn.")}</div></details>`;
     }).join("") : renderInlineEmpty("Chưa có dữ liệu câu hỏi.")}</div></article></section>`;
   }
 
