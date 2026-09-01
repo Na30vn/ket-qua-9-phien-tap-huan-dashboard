@@ -31,8 +31,8 @@ button, input { font: inherit; }
   align-items: flex-end;
   justify-content: space-between;
   gap: 26px;
-  min-height: 190px;
-  padding: 34px clamp(20px, 5vw, 72px) 30px;
+  min-height: 164px;
+  padding: 26px clamp(20px, 5vw, 72px) 24px;
   color: #fff;
   background:
     radial-gradient(circle at 88% -20%, rgba(96, 196, 190, .8), transparent 40%),
@@ -47,9 +47,9 @@ button, input { font: inherit; }
 }
 
 .brand-logo {
-  width: 96px;
-  height: 96px;
-  flex: 0 0 96px;
+  width: 78px;
+  height: 78px;
+  flex: 0 0 78px;
   padding: 5px;
   border: 2px solid rgba(255,255,255,.7);
   border-radius: 50%;
@@ -230,6 +230,9 @@ h1 {
 
 .live-question-list { display: grid; gap: 18px; }
 .quiz-overview { display: grid; gap: 10px; }
+.overview-legend { display: flex; flex-wrap: wrap; gap: 12px 18px; margin: -3px 0 15px; color: #3e5b77; font-size: 12px; font-weight: 800; }
+.overview-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.overview-legend i { width: 11px; height: 11px; border-radius: 50%; }
 .quiz-overview-item { overflow: hidden; border: 1px solid #bfd2e1; border-radius: 12px; background: #fff; }
 .quiz-overview-item summary { display: grid; grid-template-columns: 70px minmax(0,1fr) 70px minmax(140px,220px) 22px; align-items: center; gap: 12px; padding: 14px 16px; color: #173654; cursor: pointer; list-style: none; }
 .quiz-overview-item summary::-webkit-details-marker { display: none; }
@@ -239,10 +242,10 @@ h1 {
 .overview-total { color: #48627d; text-align: right; font-size: 12px; font-weight: 800; }
 .overview-strip { display: flex; height: 18px; overflow: hidden; border-radius: 999px; background: #e7eef5; }
 .overview-segment { display: block; min-width: 0; height: 100%; }
-.segment-0 { background: #2878c7; }
-.segment-1 { background: #f09b29; }
-.segment-2 { background: #1da084; }
-.segment-3 { background: #d45c53; }
+.segment-0 { background: #1f65ad; }
+.segment-1 { background: #3b82c4; }
+.segment-2 { background: #68a4d7; }
+.segment-3 { background: #9bc3e3; }
 .overview-empty { flex: 1; }
 .overview-chevron { color: #2374c6; font-size: 20px; font-weight: 900; text-align: center; }
 .overview-detail { display: grid; gap: 8px; padding: 0 16px 15px 98px; border-top: 1px solid #e0e9f1; background: #f8fbfe; }
@@ -362,7 +365,7 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px
 
 @media (max-width: 560px) {
   .hero-brand { align-items: flex-start; gap: 13px; }
-  .brand-logo { width: 68px; height: 68px; flex-basis: 68px; }
+  .brand-logo { width: 62px; height: 62px; flex-basis: 62px; }
   .metrics-4 { grid-template-columns: 1fr; }
   .section-head { flex-direction: column; }
   .section-badges { justify-content: flex-start; }
