@@ -31,7 +31,9 @@ Web App chỉ trả dữ liệu tổng hợp và câu trả lời đã ẩn emai
 
 Danh mục dropdown trên 9 Form được đồng bộ bởi hàm `dongBoDropdownDonViCho9Phien()` trong `apps-script/AddParticipantFields.gs`. Danh mục nguồn gồm các đơn vị thực tế có cán bộ trong danh sách; dashboard chỉ hiển thị đơn vị có ít nhất một bài ở phiên đang xem.
 
-Sau khi cấu hình bài kiểm tra, cả 9 Form đều dùng chế độ **công bố điểm sau khi đánh giá thủ công** và tắt hiển thị câu sai, đáp án đúng, giá trị điểm cho người trả lời. Thiết lập này không ảnh hưởng dữ liệu được ghi vào Sheet hoặc phép tính trên dashboard.
+Sau khi cấu hình, cả 9 Form đều **không thu thập email**, không giới hạn một lần trả lời và cho phép bất kỳ ai có đường liên kết truy cập mà không cần đăng nhập. Ba quyền xem câu sai, đáp án đúng và giá trị điểm đều bị tắt, nên học viên không thấy kết quả sau khi nộp. Khi tắt thu email, Google Forms có thể tự chuyển thời điểm công bố về ngay sau khi nộp; việc này không làm lộ kết quả vì ba quyền xem vẫn đang tắt.
+
+Trong các tab kết quả, cột đang sử dụng được sắp theo thứ tự: thời gian, họ tên, đơn vị công tác, nội dung trả lời và điểm. Các cột phản hồi cũ như `Đơn vị Anh/Chị đang công tác`, `Email Address` và cột thừa được đưa ra cuối rồi ẩn. Google Sheets không cho xóa vật lý các cột đã từng gắn với Form, kể cả khi câu hỏi hoặc chế độ thu email đã tắt.
 
 ## Thêm thông tin người làm vào Form 4–9
 
