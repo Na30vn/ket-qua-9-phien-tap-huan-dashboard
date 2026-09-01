@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Điều khiển Dashboard 09 phiên</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #111; background: #f3f4f6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(1100px, calc(100% - 32px)); margin: 28px auto; }
+    header, .panel { background: #fff; border: 1px solid #cbd5e1; border-radius: 14px; box-shadow: 0 8px 25px rgba(15,23,42,.08); }
+    header { padding: 22px 24px; margin-bottom: 18px; display: flex; gap: 16px; justify-content: space-between; align-items: center; }
+    h1 { margin: 0 0 7px; font-size: 25px; }
+    p { margin: 0; color: #475569; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    button, a.button { border: 1px solid #111; border-radius: 8px; background: #fff; color: #111; cursor: pointer; font: inherit; font-weight: 700; padding: 10px 14px; text-decoration: none; }
+    button.primary { background: #111; color: #fff; }
+    button:disabled { opacity: .45; cursor: wait; }
+    .panel { overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #111; color: #fff; padding: 12px; text-align: left; }
+    td { border-top: 1px solid #d1d5db; padding: 12px; vertical-align: middle; }
+    .status { display: inline-block; border: 1px solid #111; border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 800; }
+    .meta { font-size: 13px; margin-top: 5px; }
+    #notice { min-height: 24px; margin: 12px 2px; font-weight: 700; }
+    @media (max-width: 760px) { header { align-items: flex-start; flex-direction: column; } table, tbody, tr, td { display: block; } thead { display: none; } tr { padding: 12px; border-top: 1px solid #ddd; } td { border: 0; padding: 5px 0; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1>Điều khiển Dashboard 09 phiên</h1><p>Chốt số liệu, mở lại phiên và xuất báo cáo dành cho người quản trị.</p></div>
+    <div class="actions"><button id="refresh" type="button">Cập nhật trạng thái</button><button id="export-all" class="primary" type="button">Xuất tất cả 09 phiên</button></div>
+  </header>
+  <div id="notice">Đang tải dữ liệu…</div>
+  <section class="panel"><table><thead><tr><th>Phiên</th><th>Trạng thái</th><th>Số bài</th><th>Điều khiển</th><th>Báo cáo</th></tr></thead><tbody id="sessions"></tbody></table></section>
+</main>
+<script>
+  const requestedSession = <?!= JSON.stringify(requestedSession) ?>;
+  const requestedView = <?!= JSON.stringify(requestedView) ?>;
+  const body = document.getElementById('sessions');
+  const notice = document.getElementById('notice');
+  const refreshButton = document.getElementById('refresh');
+  const exportAllButton = document.getElementById('export-all');
+
+  function escapeHtml(value) { return String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char])); }
+  function setBusy(isBusy, message) { document.querySelectorAll('button').forEach(button => button.disabled = isBusy); notice.textContent = message || ''; }
+  function fail(error) { setBusy(false, error && error.message ? error.message : String(error)); }
+  function load() {
+    setBusy(true, 'Đang tải dữ liệu…');
+    google.script.run.withSuccessHandler(render).withFailureHandler(fail).getAdminDashboardData();
+  }
+  function render(data) {
+    setBusy(false, `Đăng nhập: ${data.email} · Cập nhật ${new Date(data.updatedAt).toLocaleString('vi-VN')}`);
+    body.innerHTML = data.sessions.map(session => {
+      const closed = session.phase === 'CLOSED';
+      const count = closed ? session.totalResponses : session.currentResponses;
+      const late = closed && session.lateResponses ? `<div class="meta">Có ${session.lateResponses} bài gửi sau khi chốt</div>` : '';
+      return `<tr id="session-${session.id}"><td><strong>Phiên ${session.id}</strong><div class="meta">${escapeHtml(session.description)}</div></td><td><span class="status">${closed ? 'Đã chốt' : 'Đang nhận bài'}</span>${closed && session.closedAt ? `<div class="meta">${new Date(session.closedAt).toLocaleString('vi-VN')}</div>` : ''}</td><td><strong>${Number(count || 0).toLocaleString('vi-VN')} bài</strong>${late}</td><td><button class="${closed ? '' : 'primary'}" data-action="${closed ? 'reopen' : 'close'}" data-id="${session.id}" type="button">${closed ? 'Mở lại' : 'Chốt phiên'}</button></td><td><button data-action="export" data-id="${session.id}" type="button">Xuất Phiên ${session.id}</button></td></tr>`;
+    }).join('');
+    body.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', act));
+    if (requestedSession >= 1 && requestedSession <= 9) document.getElementById(`session-${requestedSession}`)?.scrollIntoView({ block: 'center' });
+    if (requestedView === 'export' && requestedSession >= 1 && requestedSession <= 9) notice.textContent += ` · Chọn “Xuất Phiên ${requestedSession}” để tải báo cáo.`;
+  }
+  function act(event) {
+    const button = event.currentTarget;
+    const id = Number(button.dataset.id);
+    const action = button.dataset.action;
+    if (action === 'close') {
+      const row = button.closest('tr');
+      const count = row.children[2].querySelector('strong').textContent;
+      if (!confirm(`Chốt Phiên ${id} với ${count}? Dữ liệu gửi sau thời điểm này sẽ không làm thay đổi kết quả đã chốt.`)) return;
+      setBusy(true, `Đang chốt Phiên ${id}…`);
+      google.script.run.withSuccessHandler(load).withFailureHandler(fail).closeDashboardSession(id);
+    } else if (action === 'reopen') {
+      if (!confirm(`Mở lại Phiên ${id}? Dashboard sẽ tiếp tục nhận toàn bộ dữ liệu mới.`)) return;
+      setBusy(true, `Đang mở lại Phiên ${id}…`);
+      google.script.run.withSuccessHandler(load).withFailureHandler(fail).reopenDashboardSession(id);
+    } else {
+      setBusy(true, `Đang tạo báo cáo Phiên ${id}…`);
+      google.script.run.withSuccessHandler(openReport).withFailureHandler(fail).createSessionReport(id);
+    }
+  }
+  function openReport(result) { setBusy(false, `Đã tạo ${result.name}. Nếu tệp chưa tự tải, trình duyệt có thể đang chặn cửa sổ bật lên.`); window.open(result.downloadUrl, '_blank', 'noopener'); }
+  refreshButton.addEventListener('click', load);
+  exportAllButton.addEventListener('click', () => { if (!confirm('Tạo một tệp Excel gồm 09 sheet, mỗi sheet tương ứng một phiên?')) return; setBusy(true, 'Đang tạo báo cáo 09 phiên…'); google.script.run.withSuccessHandler(openReport).withFailureHandler(fail).createAllSessionsReport(); });
+  load();
+</script>
+</body>
+</html>

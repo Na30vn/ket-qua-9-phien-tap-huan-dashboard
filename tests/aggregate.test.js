@@ -34,15 +34,24 @@ const rowsBySheet = {
   "Phiên 9": [["Timestamp", "Score", "Họ và tên", "Đơn vị công tác", "Câu 1: A", "Câu 2: B"]]
 };
 
+const closedAt = new Date(2026, 8, 1, 23, 59, 59);
+const controlRows = Array.from({ length: 9 }, (_, index) => [`Phiên ${index + 1}`, "CLOSED", closedAt, 1]);
+
 const context = {
   console,
   CacheService: { getScriptCache: () => ({ get: () => null, put: () => {} }) },
   PropertiesService: { getScriptProperties: () => ({ getProperty: key => key === "SPREADSHEET_ID" ? "test-sheet" : null }) },
   SpreadsheetApp: {
     openById: () => ({
-      getSheetByName: name => rowsBySheet[name] ? {
-        getDataRange: () => ({ getDisplayValues: () => rowsBySheet[name].map(row => [...row]) })
-      } : null
+      getSheetByName: name => name === "_DASHBOARD_CONTROL" ? {
+        getLastRow: () => 10,
+        getRange: () => ({ getValues: () => controlRows.map(row => [...row]) })
+      } : rowsBySheet[name] ? {
+          getDataRange: () => ({
+            getDisplayValues: () => rowsBySheet[name].map(row => [...row]),
+            getValues: () => rowsBySheet[name].map(row => [...row])
+          })
+        } : null
     })
   },
   ContentService: {
@@ -56,6 +65,9 @@ vm.runInContext(`${source}\nthis.__getDashboardData = getDashboardData_;`, conte
 const data = context.__getDashboardData(true);
 
 assert.equal(data.sessions.length, 9);
+assert.equal(data.version, 5);
+assert.equal(data.sessions[0].phase, "CLOSED");
+assert.equal(data.sessions[0].currentResponses, 1);
 assert.equal(data.sessions[0].totalResponses, 1);
 assert.equal(data.sessions[0].questions.length, 6);
 assert.equal(data.sessions[0].scoreStats.averagePercent, 50 / 60 * 100);

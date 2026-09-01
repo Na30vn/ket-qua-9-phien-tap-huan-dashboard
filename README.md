@@ -5,29 +5,32 @@ Dashboard trình chiếu độc lập kết quả của từng tab `Phiên 1` đ
 ## Đặc điểm
 
 - Mỗi phiên có một màn hình tổng hợp riêng.
-- Phiên 1, 4: tỷ lệ đúng theo câu, phân bố số câu đúng và phân bố đáp án động.
+- Mỗi phiên có hai trạng thái: **Đang nhận bài** và **Đã chốt**. Khi chốt, số liệu được cố định theo thời gian gửi; bài đến muộn được đếm riêng.
+- Phiên 1, 4: lúc nhận bài hiển thị đồng thời các phương án của mọi câu nhưng không lộ đáp án; sau khi chốt có tỷ lệ đúng theo câu, phân bố số câu đúng và phân bố đáp án động.
 - Phiên 9: tỷ lệ đúng hai câu và phân bố đáp án động, không thêm biểu đồ điểm không cần thiết.
-- Phiên 2: tỷ lệ đặt đúng vị trí từng bước và Top 5 trình tự sai phổ biến.
-- Phiên 6: biểu đồ Đúng/Sai 100%, đáp án tham chiếu và phần giải thích theo câu.
-- Phiên 3, 5, 7, 8: gợi ý tham chiếu, tìm kiếm và danh sách phản hồi ẩn danh.
+- Phiên 2: lúc nhận bài hiển thị 10 trình tự đầu tiên; sau khi chốt có tỷ lệ đặt đúng vị trí từng bước và Top 5 trình tự sai phổ biến.
+- Phiên 6: lúc nhận bài hiển thị hai cột Đúng/Sai và 2–3 giải thích; sau khi chốt bổ sung đáp án, số đúng, sai, bỏ trống và tỷ lệ đúng.
+- Phiên 3, 5, 7, 8: lúc nhận bài hiển thị 10 phản hồi đầu tiên; sau khi chốt có gợi ý tham chiếu, tìm kiếm và tối đa 40 phản hồi ẩn danh.
 - Mỗi phiên chỉ dùng 2–4 KPI có ý nghĩa trực tiếp khi trình chiếu.
 - Không công khai họ tên hoặc email; đơn vị chỉ được trả về dưới dạng số lượng bài tổng hợp.
 - Tự làm mới dữ liệu sau mỗi 10 giây; API dùng bộ nhớ đệm 5 giây để cân bằng độ trễ và hạn mức Google.
 - Có chế độ toàn màn hình và bản in.
 - Hiển thị logo Kiểm toán nhà nước trên phần đầu dashboard.
-- Có nút **Xuất báo cáo Excel** để tải toàn bộ tệp kết quả gồm các tab Phiên 1–9. Google vẫn kiểm tra quyền truy cập Sheet, vì vậy chỉ tài khoản được cấp quyền mới tải được dữ liệu chi tiết.
+- Trang quản trị có nút xuất từng phiên hoặc toàn bộ 09 phiên. File Excel chỉ chứa cột đang dùng và định dạng bảng đen–trắng; chỉ tài khoản quản trị được phép tạo báo cáo.
 
 ## Kết nối dữ liệu Google Sheet
 
 1. Mở tệp Google Sheet `KET_QUA_9_PHIEN_TAP_HUAN`.
 2. Chọn **Tiện ích mở rộng → Apps Script**.
-3. Sao chép nội dung `apps-script/Code.gs` vào dự án Apps Script.
+3. Sao chép `apps-script/Code.gs`, `apps-script/Reporting.gs` và `apps-script/Admin.html` vào dự án Apps Script.
 4. Trong **Cài đặt dự án → Thuộc tính tập lệnh**, tạo thuộc tính `SPREADSHEET_ID` và nhập ID của tệp Google Sheet. ID này không được lưu trong GitHub.
 5. Chọn **Triển khai → Lần triển khai mới → Ứng dụng web**.
 6. Chọn **Thực thi với tư cách: Tôi** và chỉ đặt phạm vi truy cập phù hợp với đối tượng cần xem dashboard.
-7. Sao chép URL `/exec` và điền vào `apiUrl` trong `config.js`.
+7. Tạo một deployment công khai chỉ đọc cho dashboard và điền URL `/exec` vào `apiUrl`.
+8. Chạy `setupDashboardControl()` một lần trong trình soạn thảo để tạo bảng điều khiển và ghi email quản trị.
+9. Tạo deployment quản trị, thực thi với tư cách người truy cập và yêu cầu đăng nhập Google; điền URL này vào `adminUrl` trong `config.js`.
 
-Web App chỉ trả dữ liệu tổng hợp và câu trả lời đã ẩn email/số điện thoại; không trả họ tên hoặc email từ Sheet. Tên đơn vị chỉ xuất hiện trong bảng đếm số bài theo đơn vị, không gắn với cá nhân.
+Web App chỉ trả dữ liệu tổng hợp và câu trả lời đã ẩn email/số điện thoại; không trả họ tên hoặc email từ Sheet. Khi phiên đang mở, API cũng không trả đáp án chuẩn, điểm hay gợi ý tham chiếu. Tên đơn vị chỉ xuất hiện trong bảng đếm số bài theo đơn vị, không gắn với cá nhân.
 
 Danh mục dropdown trên 9 Form được đồng bộ bởi hàm `dongBoDropdownDonViCho9Phien()` trong `apps-script/AddParticipantFields.gs`. Danh mục nguồn gồm các đơn vị thực tế có cán bộ trong danh sách; dashboard chỉ hiển thị đơn vị có ít nhất một bài ở phiên đang xem.
 
@@ -57,7 +60,7 @@ Nhấp đúp `CHAY_DEMO_LOCAL.cmd`. Trình duyệt sẽ mở:
 http://127.0.0.1:8765/?phien=1&demo=1
 ```
 
-Tham số `demo=1` buộc dashboard dùng `data/fake.json` thay vì API thật. Dữ liệu giả có đủ cả 9 phiên, mỗi phiên mô phỏng 274 học viên thuộc 81 đơn vị thực tế và đủ số liệu để kiểm tra KPI, biểu đồ, bộ chọn câu hỏi, bảng trình tự và danh sách phản hồi. Đóng cửa sổ lệnh để dừng máy chủ local.
+Tham số `demo=1` buộc dashboard dùng `data/fake.json` thay vì API thật. Dữ liệu giả có đủ cả 9 phiên, mỗi phiên mô phỏng 274 học viên thuộc 81 đơn vị thực tế và đủ số liệu để kiểm tra KPI, biểu đồ, bộ chọn câu hỏi, bảng trình tự và danh sách phản hồi. Thêm `trangthai=live` hoặc `trangthai=closed` để xem hai màn hình vận hành. Đóng cửa sổ lệnh để dừng máy chủ local.
 
 Nếu muốn cập nhật file giả theo cấu trúc API mới nhất, lưu JSON API vào một file rồi chạy:
 

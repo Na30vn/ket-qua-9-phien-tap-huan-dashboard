@@ -193,6 +193,13 @@ function applyOrdering(session) {
       { value: "3,1,5,6,4,11,9,8,10,13,2,12,7", count: 29 },
       { value: "5,3,1,6,4,11,9,8,10,13,2,12,7", count: 24 },
       { value: "3,5,1,6,4,11,8,9,10,13,2,12,7", count: 18 }
+    ],
+    samples: [
+      "3,5,1,6,4,11,9,8,10,13,2,12,7", "3,5,1,4,6,11,9,8,10,13,2,12,7",
+      "3,1,5,6,4,11,9,8,10,13,2,12,7", "5,3,1,6,4,11,9,8,10,13,2,12,7",
+      "3,5,1,6,4,11,8,9,10,13,2,12,7", "3,5,1,6,11,4,9,8,10,13,2,12,7",
+      "3,5,1,6,4,11,9,8,10,13,2,12,7", "3,5,1,6,4,9,11,8,10,13,2,12,7",
+      "3,5,1,6,4,11,9,10,8,13,2,12,7", "3,5,1,6,4,11,9,8,10,2,13,12,7"
     ]
   };
 }
@@ -227,7 +234,7 @@ function applyTrueFalse(session) {
         { label: "Đúng", count: trueCount, isCorrect: correct === "Đúng" },
         { label: "Sai", count: falseCount, isCorrect: correct === "Sai" }
       ],
-      explanations: Array.from({ length: 8 }, (_, answerIndex) =>
+      explanations: Array.from({ length: 3 }, (_, answerIndex) =>
         `${explanations[index]} Ý kiến minh họa số ${answerIndex + 1}.`)
     };
   });
@@ -264,6 +271,7 @@ for (const session of payload.sessions) {
     session.participatingUnits = sampleUnits.length;
     session.scoreStats = { count: 0, distribution: [], mode: "Không chấm tự động" };
     session.responses = openResponses[session.id];
+    session.liveResponses = session.responses.slice(0, 10);
   }
   const unitCount = Math.min(Number(session.participatingUnits || 0), sampleUnits.length);
   const unitCounts = splitCounts(session.totalResponses, unitCount).sort((a, b) => b - a);
@@ -271,9 +279,13 @@ for (const session of payload.sessions) {
     .map((unit, index) => ({ unit, count: unitCounts[index] }))
     .filter(item => item.count > 0);
   session.participatingUnits = session.unitBreakdown.length;
+  session.phase = "CLOSED";
+  session.closedAt = "2026-08-31T09:30:00.000Z";
+  session.currentResponses = session.totalResponses;
+  session.lateResponses = 0;
 }
 
-payload.version = 4;
+payload.version = 5;
 payload.fake = true;
 payload.updatedAt = new Date().toISOString();
 fs.writeFileSync(outputPath, JSON.stringify(payload, null, 2) + "\n", "utf8");

@@ -1,22 +1,52 @@
 const CACHE_SECONDS = 5;
 const MAX_PUBLIC_TEXT_RESPONSES = 40;
+const MAX_LIVE_RESPONSES = 10;
+const MAX_EXPLANATIONS_PER_QUESTION = 3;
+const CONTROL_SHEET_NAME = '_DASHBOARD_CONTROL';
 
 const SESSION_CONFIG = [
-  { id: 1, name: 'Phiên 1', kind: 'quiz', typeLabel: 'Trắc nghiệm 6 câu', description: 'Phân cấp thu, chi và lập dự toán ngân sách cấp xã', scoreIndex: 1, questionIndexes: [4,5,6,7,8,9], pointsPerQuestion: 10, correctAnswers: [
+  { id: 1, name: 'Phiên 1', kind: 'quiz', typeLabel: 'Trắc nghiệm 6 câu', description: 'Phân cấp thu, chi và lập dự toán ngân sách cấp xã', formId: '1Y-hWQ48BD7oY5fPDXXQOBSZYq2tCoVTG3CUv2swJirk', scoreIndex: 1, questionIndexes: [4,5,6,7,8,9], pointsPerQuestion: 10, correctAnswers: [
     'Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã',
     'Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước',
     'Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)',
     'Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn',
     'Uỷ ban nhân dân cấp xã',
     'Cơ quan tài chính cấp xã'
+  ], choices: [
+    [
+      'Lệ phí do các cơ quan nhà nước thuộc cấp xã thực hiện thu',
+      'Tiền thu từ xử phạt vi phạm hành chính, xử phạt khác theo quy định của pháp luật do các cơ quan nhà nước cấp xã thực hiện',
+      'Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã',
+      'Thu từ quỹ đất công ích và thu hoa lợi công sản khác'
+    ],
+    [
+      'Tổ chức thu lệ phí phải nộp đầy đủ, kịp thời số tiền lệ phí thu được vào ngân sách nhà nước',
+      'Tổ chức thu phí, lệ phí thực hiện lập và cấp chứng từ thu phí, lệ phí cho người nộp phí, lệ phí theo quy định của Chính phủ về hóa đơn, chứng từ và thủ tục hành chính thuộc lĩnh vực Kho bạc Nhà nước',
+      'Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước',
+      'Đơn vị thực hiện kê khai, nộp phí, lệ phí theo tháng, quý, năm'
+    ],
+    [
+      'Dự toán thu phải thể hiện đầy đủ các khoản thu, sát khả năng thực tế',
+      'Dự toán ngân sách nhà nước phải tổng hợp theo từng khoản thu, chi và theo cơ cấu chi đầu tư phát triển, chi thường xuyên, dự phòng ngân sách',
+      'Dự toán chi đầu tư phát triển được lập trên cơ sở trên cơ sở kế hoạch đầu tư trung hạn nguồn ngân sách nhà nước khả năng cân đối các nguồn lực trong năm dự toán, quy định của pháp luật',
+      'Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)'
+    ],
+    [
+      'Chi phòng, chống, khắc phục hậu quả thiên tai, thảm họa, dịch bệnh, cứu đói',
+      'Chi cho nhiệm vụ quan trọng về quốc phòng, an ninh',
+      'Chi cho các nhiệm vụ cần thiết thuộc nhiệm vụ chi của ngân sách cấp xã mà chưa được dự toán',
+      'Chi hỗ trợ hoạt động thường xuyên cho các đơn vị thuộc cấp tỉnh quản lý đóng trên địa bàn'
+    ],
+    ['Uỷ ban nhân dân cấp xã', 'Hội đồng nhân dân cấp xã', 'Thường trực Hội đồng nhân dân cấp xã', 'Cơ quan tài chính cấp xã'],
+    ['Cơ quan cấp trên', 'Cơ quan tài chính cấp xã', 'Kho bạc nhà nước', 'Thanh tra tài chính']
   ] },
-  { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã theo thời gian', scoreIndex: 4, answerIndex: 3, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
+  { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã theo thời gian', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^Sắp xếp các hoạt động/i, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
   { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Thực hiện công khai ngân sách cấp xã', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^(Tình huống|Câu trả lời)/i, referenceAnswer: [
     'Thiếu công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình Hội đồng nhân dân cấp xã.',
     'Thiếu công khai thuyết minh quyết toán ngân sách cấp xã đã được Hội đồng nhân dân cấp xã phê chuẩn, gồm kết quả thu và kết quả chi ngân sách cấp xã.',
     'Tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và năm; không ghi chung là hàng quý.'
   ] },
-  { id: 4, name: 'Phiên 4', kind: 'quiz', typeLabel: 'Trắc nghiệm 9 câu', description: 'Quản lý ngân sách cấp xã', scoreIndex: 1, questionIndexes: [2,3,4,5,6,7,8,9,10], pointsPerQuestion: 10, correctAnswers: [
+  { id: 4, name: 'Phiên 4', kind: 'quiz', typeLabel: 'Trắc nghiệm 9 câu', description: 'Quản lý ngân sách cấp xã', formId: '1nRp8sFbzi-z-sJtWbfkC26h2TbBpVl6zN2d997KaRvU', scoreIndex: 1, questionIndexes: [2,3,4,5,6,7,8,9,10], pointsPerQuestion: 10, correctAnswers: [
     'B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã',
     'C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất',
     'C. Trước ngày 31 tháng 12 năm trước',
@@ -26,6 +56,16 @@ const SESSION_CONFIG = [
     'B. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản được ngân sách thành phố cấp kinh phí bổ sung có mục tiêu còn thừa, đã hết nhiệm vụ chi được chuyển nguồn, không phải nộp trả',
     'D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc',
     'B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)'
+  ], choices: [
+    ['A. Bổ sung tăng dự phòng ngân sách trong phạm vi quy định', 'B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã', 'C. Bổ sung nguồn thực hiện chính sách tiền lương', 'D. Tăng chi đầu tư một số dự án quan trọng'],
+    ['A. Ủy ban nhân dân cấp xã trình Thường trực Hội đồng nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã.', 'B. Hội đồng nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã', 'C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất', 'D. Uỷ ban nhân dân cấp xã lập phương án sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã, báo cáo Thường trực Hội đồng nhân dân cấp xã quyết định và báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất'],
+    ['A. Chậm nhất sau 10 ngày làm việc kể từ ngày Hội đồng nhân dân cấp xã quyết định dự toán ngân sách', 'B. Trước ngày 10 tháng 12 năm trước', 'C. Trước ngày 31 tháng 12 năm trước', 'D. Trước ngày 31 tháng 1 năm nay'],
+    ['A. Số liệu quyết toán ngân sách nhà nước phải chính xác, trung thực, đầy đủ', 'B. Số quyết toán thu ngân sách nhà nước là số thu đã thực nộp và số thu đã hạch toán thu ngân sách nhà nước theo quy định. Các khoản thu thuộc ngân sách các năm trước nộp ngân sách năm sau phải hạch toán vào thu ngân sách năm trước', 'C. Số liệu quyết toán ngân sách của đơn vị sử dụng ngân sách, của chủ đầu tư và của ngân sách các cấp phải được đối chiếu, xác nhận với Kho bạc Nhà nước nơi giao dịch', 'D. Những khoản chi ngân sách nhà nước không đúng với quy định của pháp luật phải được thu hồi đầy đủ, kịp thời cho ngân sách; các khoản nộp trả ngân sách cấp trên phải nộp trả kịp thời'],
+    ['A. Các khoản dự toán được Ủy ban nhân dân các cấp bổ sung sau ngày 30 tháng 9 năm thực hiện dự toán đã hết nhiệm vụ chi', 'B. Nguồn thực hiện chính sách tiền lương, phụ cấp, trợ cấp và các khoản tính theo tiền lương;', 'C. Kinh phí được giao tự chủ của các đơn vị sự nghiệp công lập và các cơ quan nhà nước', 'D. Chi mua sắm hàng hóa, dịch vụ (bao gồm thuê hàng hóa, dịch vụ), sửa chữa, cải tạo, nâng cấp, mở rộng, xây dựng mới hạng mục công trình trong các dự án đã đầu tư xây dựng, đặt hàng, giao nhiệm vụ đã đầy đủ hồ sơ, đã ký hợp đồng hoặc đã hoàn thành đấu thầu theo quy định của pháp luật về đấu thầu trước ngày 31 tháng 12 năm thực hiện dự toán'],
+    ['A. 25 tháng 01 năm sau', 'B. 29 tháng 01 năm sau', 'C. 31 tháng 01 năm sau', 'D. 31 tháng 03 năm sau'],
+    ['A. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản dự toán chi, bao gồm cả các khoản bổ sung trong năm, chưa thực hiện, chưa chi hết hoặc hết nhiệm vụ chi phải hủy dự toán, trừ các trường hợp được chuyển nguồn sang năm sau để tiếp tục thực hiện theo quy định', 'B. Hết thời gian chỉnh lý quyết toán ngân sách, các khoản được ngân sách thành phố cấp kinh phí bổ sung có mục tiêu còn thừa, đã hết nhiệm vụ chi được chuyển nguồn, không phải nộp trả', 'C. Đến cuối ngày 31 tháng 12, số dư tài khoản tiền gửi các khoản ngân sách cấp của đơn vị dự toán mở tại Kho bạc Nhà nước được tiếp tục chi trong thời gian chỉnh lý quyết toán; hết thời gian chỉnh lý quyết toán mà vẫn còn dư thì nộp trả ngân sách nhà nước, trừ trường hợp nhiệm vụ chi được chuyển nguồn sang năm sau theo quy định', 'D. Số dư trên tài khoản tiền gửi không thuộc ngân sách nhà nước cấp, được chuyển sang năm sau sử dụng theo quy định của pháp luật có liên quan'],
+    ['A. Ủy ban nhân dân cấp xã lập quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã báo cáo Thường trực Hội đồng nhân dân cùng cấp cho ý kiến trước ngày 10 tháng 3 năm sau', 'B. Hội đồng nhân dân cấp xã xem xét, phê chuẩn báo cáo quyết toán ngân sách cấp mình trước ngày 31 tháng 3 năm sau', 'C. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 05 ngày làm việc', 'D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc'],
+    ['A. Nguồn thực hiện cải cách chính sách tiền lương được sử dụng để bảo đảm điều chỉnh mức lương cơ sở hằng năm và bảo đảm các chính sách an sinh xã hội do Trung ương ban hành (đối với ngân sách địa phương)', 'B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)', 'C. Nguồn thực hiện chính sách tiền lương có thể được bổ sung từ số tăng thu so với dự toán, dự toán chi còn lại của cấp ngân sách khi kết thúc năm ngân sách', 'D. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã sau khi đã cân đối nguồn mà chưa đáp ứng đủ nhu cầu theo chế độ quy định']
   ] },
   { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt và tổng hợp quyết toán năm', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i, referenceAnswer: [
     'Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách, đơn vị lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ và khớp đúng với xác nhận của Kho bạc Nhà nước.',
@@ -50,14 +90,25 @@ const SESSION_CONFIG = [
     'Thừa bước thẩm định kế hoạch lựa chọn nhà thầu.',
     'Thay “Quyết định chỉ định thầu” bằng “Quyết định phê duyệt kết quả lựa chọn nhà thầu”.'
   ] },
-  { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý và khai thác tài sản công', scoreIndex: 1, questionIndexes: [2,3], pointsPerQuestion: 10, correctAnswers: [
+  { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý và khai thác tài sản công', formId: '1w65HrpYrgI9RX2iYEu7jz57ka0TIG-CCJzJ8rcPBZ-4', scoreIndex: 1, questionIndexes: [2,3], pointsPerQuestion: 10, correctAnswers: [
     'C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công',
     'B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê'
+  ], choices: [
+    ['A. Thực hiện thống kê, kế toán kịp thời, đầy đủ về hiện vật, giá trị theo quy định của pháp luật về thống kê, pháp luật về kế toán và pháp luật có liên quan', 'B. Cơ quan, tổ chức, đơn vị được giao quản lý, sử dụng tài sản công có trách nhiệm kiểm kê tài sản vào cuối kỳ kế toán năm và kiểm kê theo quyết định kiểm kê, đánh giá lại tài sản công của Thủ tướng Chính phủ, xác định tài sản thừa, thiếu và nguyên nhân để xử lý theo quy định của pháp luật; thực hiện báo cáo tình hình quản lý, sử dụng tài sản công', 'C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công', 'D. Đảm bảo các cơ quan, tổ chức, đơn vị của xã xây dựng và tổ chức thực hiện quy chế quản lý, sử dụng tài sản công'],
+    ['A. Đơn vị sự nghiệp công lập sử dụng tài sản công để phục vụ hoạt động phụ trợ, hỗ trợ trực tiếp cho việc thực hiện chức năng, nhiệm vụ của đơn vị có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê, liên doanh, liên kết', 'B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê', 'C. Hình thức khai thác phòng họp, phần diện tích sử dụng chung thuộc cơ sở hoạt động sự nghiệp: Bố trí cho cơ quan nhà nước, đơn vị lực lượng vũ trang nhân dân, đơn vị sự nghiệp công lập, cơ quan Đảng Cộng sản Việt Nam, Mặt trận Tổ quốc Việt Nam và tổ chức trực thuộc Mặt trận Tổ quốc Việt Nam sử dụng tạm thời trong thời gian chưa có tài sản hoặc đang trong thời gian thực hiện cải tạo, sửa chữa, nâng cấp, đầu tư xây dựng trụ sở làm việc, cơ sở hoạt động sự nghiệp', 'D. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê, báo cáo Ủy ban nhân dân phường, xã xem xét, có ý kiến về Đề án, trình Chủ tịch Ủy ban nhân dân phường, xã quyết định phê duyệt Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê của đơn vị sự nghiệp công lập thuộc phạm vi quản lý.']
   ] }
 ];
 
 function doGet(e) {
   const params = (e && e.parameter) || {};
+  if (params.admin === '1') {
+    const template = HtmlService.createTemplateFromFile('Admin');
+    template.requestedSession = Number(params.session || 1);
+    template.requestedView = String(params.view || 'control');
+    return template.evaluate()
+      .setTitle('Điều khiển Dashboard 09 phiên')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  }
   const callback = String(params.callback || '');
   const data = getDashboardData_(params.refresh === '1');
   const json = JSON.stringify(data);
@@ -70,25 +121,36 @@ function doGet(e) {
 function getDashboardData_(forceRefresh) {
   const cache = CacheService.getScriptCache();
   if (!forceRefresh) {
-    const cached = cache.get('dashboard-v4');
+    const cached = cache.get('dashboard-v5');
     if (cached) return JSON.parse(cached);
   }
   const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
   if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-  const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config));
-  const payload = { version: 4, updatedAt: new Date().toISOString(), sessions };
+  const control = getDashboardControl_(spreadsheet);
+  const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config, control[config.id]));
+  const payload = { version: 5, updatedAt: new Date().toISOString(), sessions };
   const serialized = JSON.stringify(payload);
-  if (serialized.length < 95000) cache.put('dashboard-v4', serialized, CACHE_SECONDS);
+  if (serialized.length < 95000) cache.put('dashboard-v5', serialized, CACHE_SECONDS);
   return payload;
 }
 
-function aggregateSession_(spreadsheet, config) {
+function aggregateSession_(spreadsheet, config, controlState) {
   const sheet = spreadsheet.getSheetByName(config.name);
   if (!sheet) return { ...config, totalResponses: 0, error: `Không tìm thấy tab ${config.name}` };
-  const values = sheet.getDataRange().getDisplayValues();
-  const headers = values.shift() || [];
-  const rows = values.filter(row => row.some(cell => String(cell).trim() !== ''));
+  const range = sheet.getDataRange();
+  const displayValues = range.getDisplayValues();
+  const rawValues = range.getValues();
+  const headers = displayValues.shift() || [];
+  rawValues.shift();
+  const allEntries = displayValues.map((display, index) => ({ display, raw: rawValues[index] || [] }))
+    .filter(entry => entry.display.some(cell => String(cell).trim() !== ''));
+  const phase = controlState && controlState.status === 'CLOSED' ? 'CLOSED' : 'LIVE';
+  const closedAt = phase === 'CLOSED' ? controlState.closedAt : null;
+  const entries = closedAt
+    ? allEntries.filter(entry => isAtOrBeforeCutoff_(entry.raw[0], entry.display[0], closedAt))
+    : allEntries;
+  const rows = entries.map(entry => entry.display);
   const resolvedConfig = resolveColumns_(headers, config);
   const unitBreakdown = aggregateField_(rows, headers, /^don vi(?:\s|$)/);
   const result = {
@@ -97,40 +159,55 @@ function aggregateSession_(spreadsheet, config) {
     kind: config.kind,
     typeLabel: config.typeLabel,
     description: config.description,
+    phase,
+    closedAt: closedAt ? closedAt.toISOString() : null,
+    currentResponses: allEntries.length,
+    lateResponses: Math.max(0, allEntries.length - rows.length),
     totalResponses: rows.length,
     participatingUnits: unitBreakdown.length,
     unitBreakdown,
-    scoreStats: getScoreStats_(rows, resolvedConfig)
+    scoreStats: phase === 'CLOSED'
+      ? getScoreStats_(rows, resolvedConfig)
+      : { count: 0, distribution: [], mode: 'Ẩn trong lúc nhận bài' }
   };
 
   if (config.kind === 'quiz' || config.kind === 'true_false') {
+    const configuredChoices = config.kind === 'quiz' ? (config.choices || []) : [];
     result.questions = resolvedConfig.questionIndexes.map((columnIndex, index) => {
       const answers = rows.map(row => String(row[columnIndex] || '').trim()).filter(Boolean);
       const counts = countValues_(answers);
+      const countMap = counts.reduce((map, item) => { map[normalizeAnswer_(item.value)] = item.count; return map; }, {});
+      const labels = configuredChoices[index] && configuredChoices[index].length
+        ? configuredChoices[index]
+        : counts.map(item => item.value);
+      const correctCount = answers.filter(answer => sameAnswer_(answer, resolvedConfig.correctAnswers[index])).length;
+      const unansweredCount = Math.max(0, rows.length - answers.length);
       const question = {
         title: cleanQuestionTitle_(headers[columnIndex] || `Câu ${index + 1}`),
         totalAnswers: answers.length,
-        correctAnswer: resolvedConfig.correctAnswers[index],
-        referenceNote: resolvedConfig.referenceNotes ? resolvedConfig.referenceNotes[index] : '',
-        correctCount: answers.filter(answer => sameAnswer_(answer, resolvedConfig.correctAnswers[index])).length,
-        unansweredCount: Math.max(0, rows.length - answers.length),
-        options: counts.map(item => ({
-          label: item.value,
-          count: item.count,
-          isCorrect: sameAnswer_(item.value, resolvedConfig.correctAnswers[index])
+        correctAnswer: phase === 'CLOSED' ? resolvedConfig.correctAnswers[index] : '',
+        referenceNote: phase === 'CLOSED' && resolvedConfig.referenceNotes ? resolvedConfig.referenceNotes[index] : '',
+        correctCount: phase === 'CLOSED' ? correctCount : null,
+        unansweredCount: phase === 'CLOSED' ? unansweredCount : null,
+        options: labels.map(label => ({
+          label,
+          count: countMap[normalizeAnswer_(label)] || 0,
+          isCorrect: phase === 'CLOSED' && sameAnswer_(label, resolvedConfig.correctAnswers[index])
         }))
       };
-      question.incorrectCount = Math.max(0, rows.length - question.correctCount - question.unansweredCount);
-      question.correctPercent = rows.length ? question.correctCount / rows.length * 100 : 0;
+      question.incorrectCount = phase === 'CLOSED' ? Math.max(0, rows.length - correctCount - unansweredCount) : null;
+      question.correctPercent = phase === 'CLOSED' && rows.length ? correctCount / rows.length * 100 : null;
       if (resolvedConfig.explanationIndexes) {
         question.explanations = rows
           .map(row => sanitizePublicText_(row[resolvedConfig.explanationIndexes[index]]))
           .filter(Boolean)
-          .slice(0, 12);
+          .slice(0, MAX_EXPLANATIONS_PER_QUESTION);
       }
       return question;
     });
-    result.quizSummary = buildQuizSummary_(result.questions, result.scoreStats, config.pointsPerQuestion || 1);
+    result.quizSummary = phase === 'CLOSED'
+      ? buildQuizSummary_(result.questions, result.scoreStats, config.pointsPerQuestion || 1)
+      : null;
     if (config.kind === 'true_false') {
       const possibleExplanations = rows.length * resolvedConfig.explanationIndexes.length;
       const explanationCount = resolvedConfig.explanationIndexes.reduce((sum, columnIndex) =>
@@ -145,22 +222,26 @@ function aggregateSession_(spreadsheet, config) {
   if (config.kind === 'ordering') {
     const answers = rows.map(row => normalizeSequence_(row[resolvedConfig.answerIndex])).filter(Boolean);
     const correct = normalizeSequence_(config.correctSequence);
-    result.ordering = {
-      correctSequence: config.correctSequence,
-      correctCount: answers.filter(answer => answer === correct).length,
-      correctRate: rows.length ? answers.filter(answer => answer === correct).length / rows.length * 100 : 0,
-      uniqueSequenceCount: new Set(answers).size,
-      positionAccuracy: buildPositionAccuracy_(answers, correct),
-      commonSequences: countValues_(answers).filter(item => item.value !== correct).slice(0, 5)
-    };
+    result.ordering = phase === 'CLOSED'
+      ? {
+          correctSequence: config.correctSequence,
+          correctCount: answers.filter(answer => answer === correct).length,
+          correctRate: rows.length ? answers.filter(answer => answer === correct).length / rows.length * 100 : 0,
+          uniqueSequenceCount: new Set(answers).size,
+          positionAccuracy: buildPositionAccuracy_(answers, correct),
+          commonSequences: countValues_(answers).filter(item => item.value !== correct).slice(0, 5),
+          samples: []
+        }
+      : { samples: answers.slice(0, MAX_LIVE_RESPONSES) };
   }
 
   if (config.kind === 'open') {
-    result.referenceAnswer = config.referenceAnswer || [];
-    result.responses = rows
+    const publicResponses = rows
       .map(row => sanitizePublicText_(row[resolvedConfig.answerIndex]))
-      .filter(Boolean)
-      .slice(0, MAX_PUBLIC_TEXT_RESPONSES);
+      .filter(Boolean);
+    result.referenceAnswer = phase === 'CLOSED' ? (config.referenceAnswer || []) : [];
+    result.responses = publicResponses.slice(0, phase === 'CLOSED' ? MAX_PUBLIC_TEXT_RESPONSES : MAX_LIVE_RESPONSES);
+    result.liveResponses = phase === 'LIVE' ? result.responses : [];
   }
   return result;
 }
@@ -362,4 +443,51 @@ function sanitizePublicText_(value) {
     .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[đã ẩn email]')
     .replace(/(?:\+?84|0)(?:[ .-]?\d){9,10}/g, '[đã ẩn số điện thoại]')
     .slice(0, 3000);
+}
+
+function getDashboardControl_(spreadsheet) {
+  const defaults = {};
+  SESSION_CONFIG.forEach(config => {
+    defaults[config.id] = { status: 'LIVE', closedAt: null, closedCount: null };
+  });
+  const sheet = spreadsheet.getSheetByName(CONTROL_SHEET_NAME);
+  if (!sheet || sheet.getLastRow() < 2) return defaults;
+  const values = sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues();
+  values.forEach(row => {
+    const idMatch = String(row[0] || '').match(/\d+/);
+    const id = idMatch ? Number(idMatch[0]) : 0;
+    if (!defaults[id]) return;
+    const status = String(row[1] || '').trim().toUpperCase() === 'CLOSED' ? 'CLOSED' : 'LIVE';
+    const closedAt = status === 'CLOSED' ? toDate_(row[2]) : null;
+    defaults[id] = {
+      status: closedAt ? 'CLOSED' : 'LIVE',
+      closedAt,
+      closedCount: Number(row[3]) || null
+    };
+  });
+  return defaults;
+}
+
+function isAtOrBeforeCutoff_(rawTimestamp, displayTimestamp, cutoff) {
+  const timestamp = toDate_(rawTimestamp) || parseDisplayTimestamp_(displayTimestamp);
+  if (!timestamp) return true;
+  return timestamp.getTime() <= cutoff.getTime();
+}
+
+function toDate_(value) {
+  if (!value) return null;
+  if (Object.prototype.toString.call(value) === '[object Date]' && !isNaN(value.getTime())) return value;
+  if (typeof value === 'number') {
+    const date = new Date(value);
+    return isNaN(date.getTime()) ? null : date;
+  }
+  return null;
+}
+
+function parseDisplayTimestamp_(value) {
+  const text = String(value || '').trim();
+  const match = text.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (!match) return null;
+  const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]), Number(match[4] || 0), Number(match[5] || 0), Number(match[6] || 0));
+  return isNaN(date.getTime()) ? null : date;
 }
