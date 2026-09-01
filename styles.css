@@ -39,6 +39,25 @@ button, input { font: inherit; }
     linear-gradient(118deg, #0b2948, var(--navy) 58%, #17667e);
 }
 
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.brand-logo {
+  width: 96px;
+  height: 96px;
+  flex: 0 0 96px;
+  padding: 5px;
+  border: 2px solid rgba(255,255,255,.7);
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(0,0,0,.2);
+}
+
 .eyebrow {
   margin: 0 0 9px;
   font-size: 12px;
@@ -69,6 +88,8 @@ h1 {
 
 .button { cursor: pointer; }
 .button:hover { background: rgba(255,255,255,.23); }
+.button-export { color: #10375f; border-color: #f5c85c; background: #f6c84f; text-decoration: none; }
+.button-export:hover { background: #ffd66e; }
 .button-secondary { background: transparent; }
 .status { display: inline-flex; align-items: center; gap: 8px; border-color: transparent; }
 .status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #fff; }
@@ -272,6 +293,8 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px
 }
 
 @media (max-width: 560px) {
+  .hero-brand { align-items: flex-start; gap: 13px; }
+  .brand-logo { width: 68px; height: 68px; flex-basis: 68px; }
   .metrics-4 { grid-template-columns: 1fr; }
   .section-head { flex-direction: column; }
   .position-chart .horizontal-row, .horizontal-row { grid-template-columns: 64px minmax(110px,1fr) 54px; }

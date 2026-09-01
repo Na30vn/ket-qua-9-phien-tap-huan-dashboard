@@ -8,6 +8,7 @@
   const updatedAt = document.getElementById("updated-at");
   const subtitle = document.getElementById("session-subtitle");
   const sessionTitle = document.getElementById("session-title");
+  const exportButton = document.getElementById("export-button");
   const formatNumber = new Intl.NumberFormat("vi-VN");
   const fakeMode = new URLSearchParams(location.search).get("demo") === "1";
 
@@ -17,6 +18,9 @@
   let responseSearch = "";
   let timer = null;
   let isLoading = false;
+
+  if (config.reportUrl) exportButton.href = config.reportUrl;
+  else exportButton.hidden = true;
 
   const escapeHtml = (value = "") => String(value)
     .replaceAll("&", "&amp;")
