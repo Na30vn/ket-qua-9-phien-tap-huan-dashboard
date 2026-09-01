@@ -173,7 +173,7 @@
 
   function renderLiveQuiz(session) {
     const questions = session.questions || [];
-    return `<section class="content-grid"><article class="panel full panel-primary">${panelHeading("Phân bố lựa chọn của tất cả câu hỏi", "Chưa hiển thị đáp án đúng trong lúc nhận bài")}<div class="live-question-list">${questions.length ? questions.map((question, index) => {
+    return `<section class="content-grid"><article class="panel full panel-primary">${panelHeading("Phân bố lựa chọn của tất cả câu hỏi", "Theo dõi trực tiếp")}<div class="live-question-list">${questions.length ? questions.map((question, index) => {
       const total = Math.max(1, Number(question.totalAnswers || 0));
       return `<section class="live-question-card"><div class="live-question-title"><span>Câu ${index + 1}</span><h3>${escapeHtml(question.title)}</h3></div><div class="live-option-grid">${(question.options || []).map(option => {
         const percent = Number(option.count || 0) / total * 100;
@@ -216,7 +216,7 @@
 
   function renderLiveOrdering(session) {
     const samples = session.ordering?.samples || [];
-    return `<section class="content-grid"><article class="panel full panel-primary">${panelHeading("10 bài gửi đầu tiên", "Hiển thị ẩn danh; chưa công bố trình tự đúng")}<div class="sample-stream">${samples.length ? samples.map((value, index) => `<div class="sample-card"><span>Bài ${index + 1}</span><strong>${escapeHtml(formatStepSequence(value))}</strong></div>`).join("") : renderInlineEmpty("Chưa có bài gửi.")}</div></article></section>`;
+    return `<section class="content-grid"><article class="panel full panel-primary">${panelHeading("10 bài gửi đầu tiên", "Theo dõi trực tiếp")}<div class="sample-stream">${samples.length ? samples.map((value, index) => `<div class="sample-card"><span>Bài ${index + 1}</span><strong>${escapeHtml(formatStepSequence(value))}</strong></div>`).join("") : renderInlineEmpty("Chưa có bài gửi.")}</div></article></section>`;
   }
 
   function renderOrderingDashboard(session) {
@@ -233,7 +233,7 @@
   function renderTrueFalseDashboard(session, live) {
     const questions = session.questions || [];
     const question = questions[selectedQuestion] || questions[0];
-    return `<section class="content-grid"><article class="panel full ${live ? "panel-primary" : ""}">${panelHeading("Phân bố lựa chọn Đúng / Sai", live ? "Chưa hiển thị đáp án trong lúc nhận bài" : "Mỗi hàng thể hiện kết quả của một câu")}<div class="tf-grid">${questions.map((item, index) => {
+    return `<section class="content-grid"><article class="panel full ${live ? "panel-primary" : ""}">${panelHeading("Phân bố lựa chọn Đúng / Sai", live ? "Theo dõi trực tiếp" : "Mỗi hàng thể hiện kết quả của một câu")}<div class="tf-grid">${questions.map((item, index) => {
       const trueCount = optionCount(item, "Đúng");
       const falseCount = optionCount(item, "Sai");
       const total = Math.max(1, Number(session.totalResponses || 0));
@@ -268,7 +268,7 @@
   function questionSelector(questions) {
     return `<div class="question-selector" role="group" aria-label="Chọn câu hỏi">${questions.map((_, index) => `<button type="button" class="${index === selectedQuestion ? "active" : ""}" data-question="${index}">Câu ${index + 1}</button>`).join("")}</div>`;
   }
-  function panelHeading(title, note) { return `<div class="panel-heading"><div><p class="panel-kicker">TRỰC QUAN</p><h3>${escapeHtml(title)}</h3></div><span>${escapeHtml(note)}</span></div>`; }
+  function panelHeading(title, note) { return `<div class="panel-heading"><div><p class="panel-kicker">TRỰC QUAN</p><h3>${escapeHtml(title)}</h3></div>${note ? `<span>${escapeHtml(note)}</span>` : ""}</div>`; }
   function optionCount(question, expected) { const normalized = normalizeText(expected); return Number((question.options || []).find(option => normalizeText(option.label) === normalized)?.count || 0); }
 
   function bindSessionControls() {
