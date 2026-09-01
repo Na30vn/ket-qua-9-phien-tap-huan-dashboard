@@ -112,13 +112,13 @@
       metrics = [
         metric("Tổng số bài", formatNumber.format(session.totalResponses || 0), "Phản hồi đã ghi nhận"),
         metric("Điểm trung bình", session.scoreStats?.count ? score(session.scoreStats.average) : "—", session.scoreStats?.maxScore ? `Trên thang ${session.scoreStats.maxScore}` : "Chưa có dữ liệu"),
-        metric("Tỷ lệ đúng TB", session.scoreStats?.count ? `${score(summary.averageCorrectPercent)}%` : "—", "Tính lại từ đáp án chuẩn")
+        metric("Tỷ lệ đúng trung bình", session.scoreStats?.count ? `${score(summary.averageCorrectPercent)}%` : "—", "Tính lại từ đáp án chuẩn")
       ];
       if (Number(session.id) === 9) {
         metrics.push(metric("Đúng cả 2 câu", session.totalResponses ? formatNumber.format(summary.perfectCount || 0) : "—", session.totalResponses ? `${score(summary.perfectRate || 0)}% số bài` : "Chưa có dữ liệu"));
       } else {
         const hardest = summary.hardestQuestion;
-        metrics.push(metric("Câu khó nhất", hardest ? `C${hardest.number}` : "—", hardest ? `${score(hardest.correctPercent)}% trả lời đúng` : "Chưa có dữ liệu"));
+        metrics.push(metric("Câu khó nhất", hardest ? `Câu ${hardest.number}` : "—", hardest ? `${score(hardest.correctPercent)}% trả lời đúng` : "Chưa có dữ liệu"));
       }
     } else if (session.kind === "ordering") {
       metrics = [
@@ -131,8 +131,8 @@
       const hardest = session.totalResponses ? summary.hardestQuestion : null;
       metrics = [
         metric("Tổng số bài", formatNumber.format(session.totalResponses || 0), "Phản hồi đã ghi nhận"),
-        metric("Tỷ lệ đúng TB", session.scoreStats?.count ? `${score(summary.averageCorrectPercent)}%` : "—", "Trên 7 nhận định"),
-        metric("Câu khó nhất", hardest ? `C${hardest.number}` : "—", hardest ? `${score(hardest.correctPercent)}% trả lời đúng` : "Chưa có dữ liệu"),
+        metric("Tỷ lệ đúng trung bình", session.scoreStats?.count ? `${score(summary.averageCorrectPercent)}%` : "—", "Trên 7 nhận định"),
+        metric("Câu khó nhất", hardest ? `Câu ${hardest.number}` : "—", hardest ? `${score(hardest.correctPercent)}% trả lời đúng` : "Chưa có dữ liệu"),
         metric("Có giải thích", session.totalResponses ? `${score(session.explanationStats?.rate || 0)}%` : "—", session.totalResponses ? `${formatNumber.format(session.explanationStats?.count || 0)} lượt giải thích` : "Chưa có dữ liệu")
       ];
     } else {
@@ -167,7 +167,7 @@
       <section class="content-grid unit-section">
         <article class="panel full">
           ${panelHeading("Số bài theo đơn vị", `${formatNumber.format(units.length)} đơn vị có bài trong phiên`)}
-          <div class="unit-list">
+          <div class="unit-list ${units.length <= 8 ? "unit-list-compact" : ""}">
             ${units.map(item => `
               <div class="unit-row">
                 <span class="unit-name">${escapeHtml(item.unit)}</span>
@@ -204,7 +204,7 @@
         <div class="horizontal-chart">
           ${source.length ? source.map(question => `
             <div class="horizontal-row" title="${escapeHtml(question.title)}">
-              <span class="axis-label">C${question.number}</span>
+              <span class="axis-label">Câu ${question.number}</span>
               <div class="bar-track"><div class="bar-fill ${Number(question.correctPercent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(question.correctPercent)}%"></div></div>
               <strong>${score(question.correctPercent || 0)}%</strong>
             </div>
@@ -222,13 +222,13 @@
     const columns = Array.from({ length: questionCount + 1 }, (_, index) => ({ label: index, count: map.get(index) || 0 }));
     return `
       <article class="panel">
-        ${panelHeading("Phân bố số câu trả lời đúng", `Từ 0 đến ${questionCount} câu`)}
+        ${panelHeading("Số bài theo số câu trả lời đúng", `Trục ngang: số câu đúng trên mỗi bài; 0 = không đúng câu nào`)}
         <div class="column-chart">
           ${columns.map(item => `
             <div class="column-item">
               <span class="column-value">${item.count}</span>
               <div class="column-track"><div class="column-fill" style="height:${item.count / maximum * 100}%"></div></div>
-              <span class="column-label">${item.label}</span>
+              <span class="column-label">${item.label} câu</span>
             </div>
           `).join("")}
         </div>
@@ -271,15 +271,20 @@
     return `
       <section class="content-grid">
         <article class="panel full reference-panel">
-          ${panelHeading("Trình tự tham chiếu", "13 bước theo thứ tự đúng")}
-          <div class="sequence-flow">${String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => `<span><b>${index + 1}</b>Bước ${escapeHtml(step.trim())}</span>`).join('<i aria-hidden="true">→</i>')}</div>
+          ${panelHeading("Trình tự tham chiếu", "Đọc từ trái sang phải: nhãn trên là vị trí, nhãn dưới là bước cần xếp")}
+          <div class="sequence-flow" aria-label="Trình tự đúng gồm 13 vị trí">${String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => `
+            <div class="sequence-step">
+              <span>Vị trí ${index + 1}</span>
+              <strong>Bước ${escapeHtml(step.trim())}</strong>
+            </div>
+          `).join("")}</div>
         </article>
         <article class="panel full">
           ${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}
           <div class="horizontal-chart position-chart">
             ${positions.length ? positions.map(item => `
               <div class="horizontal-row">
-                <span class="axis-label wide">Bước ${escapeHtml(item.step)} · vị trí ${item.position}</span>
+                <span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span>
                 <div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div>
                 <strong>${score(item.percent || 0)}%</strong>
               </div>
@@ -287,7 +292,7 @@
           </div>
         </article>
         <article class="panel full">
-          ${panelHeading("Top phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}
+          ${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}
           ${renderWrongSequences(ordering.commonSequences || [])}
         </article>
       </section>
@@ -299,8 +304,8 @@
     return `
       <div class="table-wrap">
         <table>
-          <thead><tr><th>STT</th><th>Chuỗi trả lời</th><th>Số người</th></tr></thead>
-          <tbody>${sequences.map((item, index) => `<tr><td>${index + 1}</td><td class="sequence-cell">${escapeHtml(String(item.value || "").replaceAll(",", " → "))}</td><td><strong>${formatNumber.format(item.count || 0)}</strong></td></tr>`).join("")}</tbody>
+          <thead><tr><th>Số thứ tự</th><th>Chuỗi trả lời</th><th>Số người</th></tr></thead>
+          <tbody>${sequences.map((item, index) => `<tr><td>${index + 1}</td><td class="sequence-cell">${escapeHtml(formatStepSequence(item.value))}</td><td><strong>${formatNumber.format(item.count || 0)}</strong></td></tr>`).join("")}</tbody>
         </table>
       </div>
     `;
@@ -321,7 +326,7 @@
               const total = Math.max(1, Number(session.totalResponses || 0));
               return `
                 <div class="stacked-row">
-                  <span class="axis-label">C${index + 1}</span>
+                  <span class="axis-label">Câu ${index + 1}</span>
                   <div class="stacked-track" title="Đúng: ${trueCount}; Sai: ${falseCount}">
                     <span class="stack-true" style="width:${trueCount / total * 100}%"></span>
                     <span class="stack-false" style="width:${falseCount / total * 100}%"></span>
@@ -402,7 +407,7 @@
   function questionSelector(questions) {
     return `
       <div class="question-selector" role="group" aria-label="Chọn câu hỏi">
-        ${questions.map((_, index) => `<button type="button" class="${index === selectedQuestion ? "active" : ""}" data-question="${index}">C${index + 1}</button>`).join("")}
+        ${questions.map((_, index) => `<button type="button" class="${index === selectedQuestion ? "active" : ""}" data-question="${index}">Câu ${index + 1}</button>`).join("")}
       </div>
     `;
   }
@@ -443,6 +448,15 @@
 
   function normalizeText(value) {
     return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("vi").trim();
+  }
+
+  function formatStepSequence(value) {
+    return String(value || "")
+      .split(",")
+      .map(step => step.trim())
+      .filter(Boolean)
+      .map(step => `Bước ${step}`)
+      .join(" → ");
   }
 
   function score(value) {
