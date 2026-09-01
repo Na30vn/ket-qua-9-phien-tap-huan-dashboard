@@ -95,6 +95,8 @@
     subtitle.textContent = session.typeLabel;
     updatedAt.textContent = payload.updatedAt ? `Cập nhật: ${new Date(payload.updatedAt).toLocaleString("vi-VN")}` : "";
     const phase = phaseOf(session);
+    dashboard.dataset.kind = session.kind || "";
+    dashboard.dataset.phase = phase;
     dashboard.innerHTML = `
       <section class="section-head">
         <div><p class="section-kicker">KẾT QUẢ PHIÊN ${session.id}</p><h2>${escapeHtml(session.description || session.name)}</h2></div>
