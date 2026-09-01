@@ -15,6 +15,9 @@
     h1 { margin: 0 0 7px; font-size: 25px; }
     p { margin: 0; color: #475569; }
     .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .filters { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; }
+    .filters label { color: #334e68; font-size: 13px; font-weight: 800; }
+    select { min-width: 230px; padding: 9px 11px; border: 1px solid #9fb4c8; border-radius: 8px; color: #173b60; background: #fff; font: inherit; font-weight: 700; }
     button, a.button { border: 1px solid #111; border-radius: 8px; background: #fff; color: #111; cursor: pointer; font: inherit; font-weight: 700; padding: 10px 14px; text-decoration: none; }
     button.primary { background: #111; color: #fff; }
     button:disabled { opacity: .45; cursor: wait; }
@@ -41,6 +44,7 @@
     <div class="actions"><button id="refresh" type="button">Cập nhật trạng thái</button><button id="export-all" class="primary" type="button">Xuất tất cả 09 phiên</button></div>
   </header>
   <div id="notice">Đang tải dữ liệu…</div>
+  <div class="filters"><label for="schedule-filter">Lọc theo lịch:</label><select id="schedule-filter"><option value="all">Tất cả buổi</option><option value="4-9-afternoon">Chiều 4/9 · Phiên 1–3</option><option value="5-9-morning">Sáng 5/9 · Phiên 4–5</option><option value="5-9-afternoon">Chiều 5/9 · Phiên 6–8</option><option value="6-9-morning">Sáng 6/9 · Phiên 9</option></select></div>
   <section class="panel"><table><thead><tr><th>Phiên</th><th>Trạng thái</th><th>Số bài</th><th>Điều khiển</th><th>Báo cáo</th></tr></thead><tbody id="sessions"></tbody></table></section>
 </main>
 <script>
@@ -50,6 +54,7 @@
   const notice = document.getElementById('notice');
   const refreshButton = document.getElementById('refresh');
   const exportAllButton = document.getElementById('export-all');
+  const scheduleFilter = document.getElementById('schedule-filter');
 
   function escapeHtml(value) { return String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char])); }
   function setBusy(isBusy, message) { document.querySelectorAll('button').forEach(button => button.disabled = isBusy); notice.textContent = message || ''; }
@@ -59,12 +64,13 @@
     google.script.run.withSuccessHandler(render).withFailureHandler(fail).getAdminDashboardData();
   }
   function render(data) {
+    window.lastAdminData = data;
     setBusy(false, `Đăng nhập: ${data.email} · Cập nhật ${new Date(data.updatedAt).toLocaleString('vi-VN')}`);
     const schedule = [
-      { date: '4/9', period: 'Chiều', label: 'Khởi động và quy trình', ids: [1, 2, 3] },
-      { date: '5/9', period: 'Sáng', label: 'Điều hành và quyết toán', ids: [4, 5] },
-      { date: '5/9', period: 'Chiều', label: 'Định mức và mua sắm', ids: [6, 7, 8] },
-      { date: '6/9', period: 'Sáng', label: 'Tài sản công', ids: [9] }
+      { key: '4-9-afternoon', date: '4/9', period: 'Chiều', label: 'Khởi động và quy trình', ids: [1, 2, 3] },
+      { key: '5-9-morning', date: '5/9', period: 'Sáng', label: 'Điều hành và quyết toán', ids: [4, 5] },
+      { key: '5-9-afternoon', date: '5/9', period: 'Chiều', label: 'Định mức và mua sắm', ids: [6, 7, 8] },
+      { key: '6-9-morning', date: '6/9', period: 'Sáng', label: 'Tài sản công', ids: [9] }
     ];
     const sessionRows = new Map(data.sessions.map(session => [Number(session.id), session]));
     const renderRow = session => {
@@ -73,7 +79,8 @@
       const late = closed && session.lateResponses ? `<div class="meta">Có ${session.lateResponses} bài gửi sau khi chốt</div>` : '';
       return `<tr id="session-${session.id}"><td><strong>Phiên ${session.id}</strong><div class="meta">${escapeHtml(session.description)}</div></td><td><span class="status">${closed ? 'Đã chốt' : 'Đang nhận bài'}</span>${closed && session.closedAt ? `<div class="meta">${new Date(session.closedAt).toLocaleString('vi-VN')}</div>` : ''}</td><td><strong>${Number(count || 0).toLocaleString('vi-VN')} bài</strong>${late}</td><td><button class="${closed ? '' : 'primary'}" data-action="${closed ? 'reopen' : 'close'}" data-id="${session.id}" type="button">${closed ? 'Mở lại' : 'Chốt phiên'}</button></td><td><button data-action="export" data-id="${session.id}" type="button">Xuất Phiên ${session.id}</button></td></tr>`;
     };
-    body.innerHTML = schedule.map(group => `<section class="schedule-group"><div class="schedule-heading"><div><span class="schedule-date">${group.date}</span><span class="schedule-period">${group.period}</span></div><strong>${group.label}</strong><span>${group.ids.length} phiên</span></div><div class="panel"><table><thead><tr><th>Phiên / Nội dung</th><th>Trạng thái</th><th>Số bài</th><th>Điều khiển</th><th>Báo cáo</th></tr></thead><tbody>${group.ids.map(id => sessionRows.get(id)).filter(Boolean).map(renderRow).join('')}</tbody></table></div></section>`).join('');
+    const selectedSchedule = scheduleFilter.value;
+    body.innerHTML = schedule.filter(group => selectedSchedule === 'all' || group.key === selectedSchedule).map(group => `<section class="schedule-group"><div class="schedule-heading"><div><span class="schedule-date">${group.date}</span><span class="schedule-period">${group.period}</span></div><strong>${group.label}</strong><span>${group.ids.length} phiên</span></div><div class="panel"><table><thead><tr><th>Phiên / Nội dung</th><th>Trạng thái</th><th>Số bài</th><th>Điều khiển</th><th>Báo cáo</th></tr></thead><tbody>${group.ids.map(id => sessionRows.get(id)).filter(Boolean).map(renderRow).join('')}</tbody></table></div></section>`).join('');
     body.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', act));
     if (requestedSession >= 1 && requestedSession <= 9) document.getElementById(`session-${requestedSession}`)?.scrollIntoView({ block: 'center' });
     if (requestedView === 'export' && requestedSession >= 1 && requestedSession <= 9) notice.textContent += ` · Chọn “Xuất Phiên ${requestedSession}” để tải báo cáo.`;
@@ -100,6 +107,7 @@
   function openReport(result) { setBusy(false, `Đã tạo ${result.name}. Nếu tệp chưa tự tải, trình duyệt có thể đang chặn cửa sổ bật lên.`); window.open(result.downloadUrl, '_blank', 'noopener'); }
   refreshButton.addEventListener('click', load);
   exportAllButton.addEventListener('click', () => { if (!confirm('Tạo một tệp Excel gồm 09 sheet, mỗi sheet tương ứng một phiên?')) return; setBusy(true, 'Đang tạo báo cáo 09 phiên…'); google.script.run.withSuccessHandler(openReport).withFailureHandler(fail).createAllSessionsReport(); });
+  scheduleFilter.addEventListener('change', () => { if (window.lastAdminData) render(window.lastAdminData); });
   load();
 </script>
 </body>

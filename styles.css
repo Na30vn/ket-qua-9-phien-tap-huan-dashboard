@@ -238,7 +238,7 @@ h1 {
 .quiz-overview-item summary::-webkit-details-marker { display: none; }
 .quiz-overview-item summary:hover { background: #f3faff; }
 .overview-number { color: #fff; padding: 6px 8px; border-radius: 7px; text-align: center; background: #2374c6; font-size: 13px; font-weight: 900; }
-.overview-title { overflow: hidden; color: #173654; font-size: 15px; font-weight: 800; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.overview-title { min-width: 0; color: #173654; font-size: 15px; font-weight: 800; line-height: 1.45; overflow-wrap: anywhere; }
 .overview-total { color: #174a7b; text-align: right; font-size: 14px; font-weight: 900; }
 .overview-strip { display: flex; height: 18px; overflow: hidden; border-radius: 999px; background: #e7eef5; }
 .overview-segment { display: block; min-width: 0; height: 100%; }
@@ -249,7 +249,7 @@ h1 {
 .overview-empty { flex: 1; }
 .overview-chevron { color: #2374c6; font-size: 20px; font-weight: 900; text-align: center; }
 .overview-detail { display: grid; gap: 8px; padding: 0 24px 18px 38px; border-top: 1px solid #e0e9f1; background: #f8fbfe; }
-.overview-option { display: grid; grid-template-columns: 11px minmax(0,1fr) 155px; grid-template-rows: auto 6px; align-items: center; gap: 7px 10px; padding: 11px 14px; border-radius: 9px; color: #263f59; font-size: 15px; font-weight: 650; line-height: 1.45; }
+.overview-option { display: grid; grid-template-columns: 11px minmax(0,1fr) 155px; grid-template-rows: auto 6px; align-items: center; gap: 7px 10px; padding: 11px 14px; border-radius: 9px; color: #263f59; font-size: 15px; font-weight: 550; line-height: 1.45; }
 .overview-option.option-0 { background: #eef6ff; }
 .overview-option.option-1 { background: #edfafa; }
 .overview-option.option-2 { background: #f3f1ff; }
