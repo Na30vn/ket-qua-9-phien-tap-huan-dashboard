@@ -64,14 +64,16 @@
     status.textContent = text;
   }
 
-  async function loadData() {
+  async function loadData(forceRefresh = false) {
     if (isLoading) return;
     isLoading = true;
     if (!payload) setStatus("loading", "Đang tải dữ liệu…");
     try {
       const dataUrl = fakeMode ? (config.fakeDataUrl || "data/fake.json") : config.apiUrl;
       if (!dataUrl) throw new Error("DATA_URL_EMPTY");
-      const response = await fetch(`${dataUrl}${dataUrl.includes("?") ? "&" : "?"}_=${Date.now()}`, { cache: "no-store" });
+      const separator = dataUrl.includes("?") ? "&" : "?";
+      const force = !fakeMode && forceRefresh === true ? "&refresh=1" : "";
+      const response = await fetch(`${dataUrl}${separator}_=${Date.now()}${force}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       payload = await response.json();
       setStatus(fakeMode ? "demo" : "live", fakeMode ? "Dữ liệu giả lập" : "Dữ liệu trực tiếp");
@@ -353,9 +355,11 @@
   function renderEmpty(text = "Chưa có bài làm. Dashboard sẽ tự cập nhật khi có dữ liệu.") { return `<div class="empty">${escapeHtml(text)}</div>`; }
   function renderInlineEmpty(text = "Chưa có dữ liệu.") { return `<div class="inline-empty">${escapeHtml(text)}</div>`; }
 
-  document.getElementById("refresh-button").addEventListener("click", loadData);
+  document.getElementById("refresh-button").addEventListener("click", () => loadData(true));
   document.getElementById("fullscreen-button").addEventListener("click", () => { if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); });
   loadData();
-  if (Number(config.refreshSeconds) > 0) timer = setInterval(loadData, Number(config.refreshSeconds) * 1000);
+  if (Number(config.refreshSeconds) > 0) timer = setInterval(() => loadData(true), Number(config.refreshSeconds) * 1000);
+  window.addEventListener("focus", () => loadData(true));
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) loadData(true); });
   window.addEventListener("beforeunload", () => clearInterval(timer));
 })();

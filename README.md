@@ -188,3 +188,4 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 README này là tài liệu chính của hệ thống. Mỗi thay đổi ảnh hưởng đến dữ liệu, giao diện, Form, API, báo cáo hoặc cách vận hành phải cập nhật đồng thời vào phần tương ứng và thêm một dòng trong **Nhật ký cập nhật**.
 
 - **02/09/2026:** Tăng độ nổi bật của hàng đáp án đúng trên Phiên 6 và bỏ nhãn chữ “ĐÁP ÁN ĐÚNG” lặp lại bên trong hàng lựa chọn.
+- **02/09/2026:** Đồng bộ trạng thái chốt/mở lại trong lần cập nhật 10 giây và ngay khi người dùng quay lại tab dashboard. Không cần tải lại trang; trạng thái thu gọn/mở rộng vẫn được giữ nguyên.
