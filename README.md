@@ -61,9 +61,9 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 ## Cách hiển thị theo từng dạng bài
 
 - **Phiên 1, 4 và 9:** lúc nhận bài hiển thị phân bố A/B/C/D theo từng câu; khi mở rộng, câu hỏi và phương án được hiển thị đầy đủ. Sau khi chốt có số đúng, tỷ lệ đúng và phân bố kết quả cần thiết.
-- **Phiên 2:** lúc nhận bài hiển thị các trình tự đầu tiên; sau khi chốt có tỷ lệ đặt đúng theo từng vị trí và các trình tự sai phổ biến.
+- **Phiên 2:** hiển thị đầy đủ đề bài và 13 hoạt động gốc; 10 bài gửi đầu tiên được tách thành các ô **Vị trí / Bước** rõ ràng. Sau khi chốt có trình tự tham chiếu, tỷ lệ đặt đúng theo từng vị trí và các trình tự sai phổ biến.
 - **Phiên 6:** lúc nhận bài hiển thị lựa chọn Đúng/Sai và một số giải thích; sau khi chốt bổ sung đáp án, số đúng, sai, bỏ trống và tỷ lệ đúng.
-- **Phiên 3, 5, 7 và 8:** lúc nhận bài hiển thị tối đa 10 phản hồi; sau khi chốt có gợi ý tham chiếu, tìm kiếm và tối đa 40 phản hồi đã ẩn thông tin cá nhân.
+- **Phiên 3, 5, 7 và 8:** đề bài, dữ kiện và câu hỏi được hiển thị đầy đủ ở cả hai trạng thái. Lúc nhận bài hiển thị tối đa 10 phản hồi bằng thẻ nội dung mở, chữ lớn; sau khi chốt có gợi ý tham chiếu, tìm kiếm và tối đa 40 phản hồi đã ẩn thông tin cá nhân.
 - Bảng số bài theo đơn vị chỉ hiển thị những đơn vị có ít nhất một người tham gia phiên đang xem.
 
 ## Quyền riêng tư và cấu hình Google Form
@@ -106,6 +106,7 @@ Báo cáo dùng bảng đen–trắng, giữ các cột đang sử dụng và lo
 | `apps-script/Reporting.gs` | Chốt/mở phiên và xuất báo cáo Excel |
 | `apps-script/Admin.html` | Giao diện điều khiển phiên |
 | `apps-script/AddParticipantFields.gs` | Đồng bộ trường người tham gia và dropdown đơn vị cho 09 Form |
+| `scripts/sync-prompts.js` | Đồng bộ đề bài từ cấu hình Apps Script sang dữ liệu demo và dữ liệu giả |
 | `data/demo.json` | Dữ liệu rỗng dự phòng khi chưa cấu hình API |
 | `data/fake.json` | Dữ liệu giả để kiểm tra giao diện local |
 | `RUNBOOK_TRIEN_KHAI.md` | Hướng dẫn vận hành trong ngày triển khai |
@@ -122,6 +123,10 @@ Khi thay đổi tên một phiên, phải đồng bộ tối thiểu các vị t
 6. Đẩy nhánh `main` lên GitHub để GitHub Pages cập nhật giao diện và tài liệu.
 
 Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc thứ tự cột trong lúc đang thu bài. Nếu thay đổi cấu trúc Form, phải kiểm tra lại header Sheet, cấu hình chỉ số câu hỏi và kết quả API trước khi triển khai.
+
+## Nhật ký cập nhật
+
+- **02/09/2026:** bổ sung đề bài đầy đủ cho Phiên 2, 3, 5, 7 và 8; thiết kế lại trình tự 10 bài đầu thành các ô vị trí/bước; chuyển phản hồi tự luận sang thẻ nội dung mở, chữ lớn để trình chiếu rõ hơn.
 
 ## Kết nối Google Sheet và Apps Script
 

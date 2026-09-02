@@ -38,6 +38,10 @@ const ordering = data.sessions.find(session => session.id === 2).ordering;
 assert.equal(ordering.positionAccuracy.length, 13);
 assert.ok(ordering.commonSequences.length <= 5);
 assert.equal(ordering.samples.length, 10);
+assert.equal(data.sessions.find(session => session.id === 2).prompt.items.length, 13);
+for (const id of [2, 3, 5, 7, 8]) {
+  assert.ok(data.sessions.find(session => session.id === id).prompt, `Phiên ${id} phải có đề bài`);
+}
 
 const serialized = JSON.stringify(data);
 assert.equal(/"email"\s*:|"phone"\s*:|"fullName"\s*:/.test(serialized), false);

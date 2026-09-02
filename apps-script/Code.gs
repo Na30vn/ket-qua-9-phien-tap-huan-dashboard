@@ -16,6 +16,80 @@ const SESSION_FORM_IDS = {
   9: '1w65HrpYrgI9RX2iYEu7jz57ka0TIG-CCJzJ8rcPBZ-4'
 };
 
+const SESSION_PROMPTS = {
+  2: {
+    label: 'ĐỀ BÀI SẮP XẾP',
+    title: 'Sắp xếp các hoạt động theo quy trình quản lý ngân sách cấp xã, theo thời gian:',
+    items: [
+      'Cơ quan tài chính cấp xã tổng hợp, cân đối, lập dự toán ngân sách cấp xã, phương án phân bổ dự toán ngân sách cấp xã, báo cáo Ủy ban nhân dân cấp xã.',
+      'Cơ quan tài chính cấp xã tổng hợp quyết toán năm của các đơn vị dự toán cấp I thuộc ngân sách cấp mình, trình Ủy ban nhân dân cấp xã.',
+      'Cơ quan thu lập dự toán các khoản thu ngân sách.',
+      'Sau khi có ý kiến của Thường trực Hội đồng nhân dân cấp xã, Ủy ban nhân dân cấp xã gửi dự toán thu ngân sách nhà nước trên địa bàn, dự toán thu, chi ngân sách cấp xã đến Ủy ban nhân dân cấp tỉnh và Sở Tài chính.',
+      'Các đơn vị sử dụng ngân sách, đơn vị dự toán lập dự toán thu, chi của đơn vị.',
+      'Ủy ban nhân dân cấp xã trình Thường trực Hội đồng nhân dân cấp xã xem xét cho ý kiến trước khi báo cáo Sở Tài chính.',
+      'Hội đồng nhân dân cấp xã xem xét, phê chuẩn báo cáo quyết toán ngân sách cấp mình trước ngày 31 tháng 3 năm sau, gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 05 ngày làm việc kể từ ngày báo cáo quyết toán được phê chuẩn.',
+      'Các đơn vị sử dụng ngân sách lập hồ sơ đề nghị chi gửi Kho bạc Nhà nước để thanh toán hoặc tạm ứng theo quy định.',
+      'Chậm nhất sau 05 ngày làm việc kể từ ngày Hội đồng nhân dân cấp xã quyết định dự toán ngân sách, Ủy ban nhân dân cấp xã giao dự toán thu, chi ngân sách cho từng cơ quan, đơn vị trực thuộc, đồng thời báo cáo Sở Tài chính về dự toán ngân sách đã được Hội đồng nhân dân cấp xã quyết định và Ủy ban nhân dân cấp xã giao.',
+      'Điều chỉnh dự toán ngân sách cấp xã hằng năm (nếu có).',
+      'Chậm nhất sau 10 ngày kể từ ngày Hội đồng nhân dân cấp tỉnh quyết định dự toán và phân bổ ngân sách, căn cứ quyết định giao dự toán ngân sách của Ủy ban nhân dân cấp tỉnh, Hội đồng nhân dân cấp xã quyết định dự toán thu ngân sách nhà nước trên địa bàn, thu, chi ngân sách cấp xã và phân bổ dự toán ngân sách cấp xã.',
+      'Ủy ban nhân dân cấp xã lập quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã báo cáo Thường trực Hội đồng nhân dân cùng cấp cho ý kiến trước ngày 10 tháng 3 năm sau và tiếp thu, hoàn chỉnh để trình Hội đồng nhân dân cùng cấp xem xét, phê chuẩn, đồng thời gửi Sở Tài chính.',
+      'Các đơn vị được giao dự toán ngân sách khoá sổ, lập quyết toán thu, chi ngân sách nhà nước của đơn vị mình gửi cơ quan tài chính cấp xã để kiểm tra tính đầy đủ, khớp đúng giữa các số liệu quyết toán với xác nhận của KBNN.'
+    ],
+    instruction: 'Nhập các số thứ tự cách nhau bằng dấu phẩy và không cần dấu cách (ví dụ: 1,2,3,4,...).'
+  },
+  3: {
+    label: 'TÌNH HUỐNG',
+    title: 'Xã A thực hiện công khai ngân sách hằng năm trên Cổng thông tin điện tử của xã, gồm các nội dung sau:',
+    items: [
+      'Công khai dự toán ngân sách cấp xã được Hội đồng nhân dân cấp xã quyết định, cụ thể: Công khai số liệu dự toán ngân sách cấp xã và kế hoạch hoạt động tài chính khác ở cấp xã, gồm các chỉ tiêu: dự toán cân đối ngân sách cấp xã; dự toán thu ngân sách nhà nước trên địa bàn, thu ngân sách xã được hưởng theo phân cấp; số bổ sung cân đối, số bổ sung có mục tiêu từ ngân sách cấp tỉnh cho ngân sách cấp xã; dự toán chi ngân sách cấp xã theo lĩnh vực và chi tiết cho từng cơ quan, đơn vị.',
+      'Công khai tình hình thực hiện dự toán ngân sách cấp xã (hàng quý), gồm các chỉ tiêu: đánh giá cân đối ngân sách cấp xã; đánh giá thực hiện thu ngân sách cấp xã theo lĩnh vực; đánh giá thực hiện chi ngân sách cấp xã theo lĩnh vực.',
+      'Công khai số liệu quyết toán ngân sách cấp xã được Hội đồng nhân dân cấp xã phê chuẩn, thông qua, gồm các chỉ tiêu: quyết toán cân đối ngân sách cấp xã; quyết toán thu ngân sách nhà nước trên địa bàn, thu ngân sách cấp xã được hưởng theo phân cấp; số bổ sung cân đối từ ngân sách cấp tỉnh cho ngân sách cấp xã; quyết toán chi ngân sách cấp xã theo lĩnh vực và chi tiết cơ quan, đơn vị và chi tiết kết quả các hoạt động tài chính khác của cấp xã.'
+    ],
+    question: 'Nội dung công khai của xã A đã đảm bảo theo quy định hiện hành chưa? Cần bổ sung gì?'
+  },
+  5: {
+    label: 'TÌNH HUỐNG 2',
+    title: 'Theo khoản 1 Điều 3 Thông tư số 59/2026/TT-BTC ngày 29/05/2026 về xét duyệt và tổng hợp quyết toán năm:',
+    paragraphs: ['“Điều 3. Quy trình xét duyệt và tổng hợp quyết toán năm: 1. Đơn vị dự toán cấp trên trực tiếp, đơn vị giao dự toán, đơn vị dự toán cấp I (trường hợp là đơn vị dự toán cấp trên trực tiếp của đơn vị sử dụng ngân sách) thực hiện xét duyệt, thông báo xét duyệt quyết toán đối với đơn vị sử dụng ngân sách thuộc phạm vi quản lý, đơn vị được giao dự toán theo quy định tại Điều 4 Thông tư này.”'],
+    question: 'Theo quy định nêu trên thì Ủy ban nhân dân xã, phường có phải thực hiện xét duyệt, thông báo xét duyệt quyết toán đối với đơn vị sử dụng ngân sách thuộc phạm vi quản lý (các Phòng chuyên môn, đơn vị sự nghiệp trực thuộc) hay không?'
+  },
+  7: {
+    label: 'TÌNH HUỐNG 4',
+    title: 'Hồ sơ mua máy phát điện trị giá 20 triệu đồng tại Văn phòng HĐND-UBND xã, từ nguồn ngân sách cấp xã, gồm:',
+    items: [
+      'Đề nghị mua máy phát điện của chuyên viên A trình Trưởng phòng Kinh tế duyệt (đồng ý và giao cho chuyên viên A triển khai nội dung này).',
+      'Chuyên viên A lập dự toán mua máy phát điện (chủng loại, số lượng, giá dự toán, nguồn kinh phí) trình Trưởng phòng Kinh tế duyệt.',
+      'Tờ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; UBND xã ra Quyết định phê duyệt chủ trương và dự kiến kinh phí mua sắm tài sản, trang thiết bị.',
+      'Hóa đơn tài chính.',
+      'Giấy đề nghị thanh toán được Trưởng phòng Kinh tế duyệt chi.',
+      'Giấy rút dự toán.'
+    ],
+    question: 'Hồ sơ mua sắm này thừa, thiếu gì?'
+  },
+  8: {
+    label: 'TÌNH HUỐNG 5',
+    title: 'Hồ sơ mua màn hình LED tại Hội trường trị giá 70 triệu đồng tại Văn phòng HĐND-UBND xã, từ nguồn ngân sách cấp xã, gồm:',
+    items: [
+      'Đề nghị mua màn hình LED của chuyên viên A trình Chánh Văn phòng HĐND-UBND xã duyệt (đồng ý và giao cho chuyên viên A triển khai nội dung này).',
+      'Thư mời gửi nhà thầu; báo giá của nhà thầu.',
+      'Chuyên viên A lập dự toán mua màn hình LED (chủng loại, số lượng, giá dự toán, nguồn kinh phí) trình Chánh Văn phòng HĐND-UBND xã duyệt.',
+      'Tờ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí và quyết định tiêu chuẩn định mức máy móc thiết bị.',
+      'Tờ trình kế hoạch lựa chọn nhà thầu.',
+      'Thẩm định kế hoạch lựa chọn nhà thầu.',
+      'Trình UBND ra Quyết định phê duyệt kế hoạch lựa chọn nhà thầu.',
+      'Thư mời gửi nhà thầu đính kèm Dự thảo Hợp đồng mua sắm.',
+      'Biên bản thương thảo hoàn thiện hợp đồng.',
+      'Tờ trình đề nghị phê duyệt kết quả lựa chọn nhà thầu.',
+      'Quyết định chỉ định thầu.',
+      'Hợp đồng, Biên bản nghiệm thu, Thanh lý hợp đồng.',
+      'Hóa đơn tài chính.',
+      'Giấy đề nghị thanh toán trình Chánh Văn phòng HĐND-UBND xã duyệt chi.',
+      'Giấy rút dự toán.'
+    ],
+    question: 'Hồ sơ mua sắm này thừa, thiếu gì?'
+  }
+};
+
 const SESSION_CONFIG = [
   { id: 1, name: 'Phiên 1', kind: 'quiz', typeLabel: 'Trắc nghiệm 6 câu', description: 'Phân cấp nguồn thu, nhiệm vụ chi ngân sách xã', formId: '1Y-hWQ48BD7oY5fPDXXQOBSZYq2tCoVTG3CUv2swJirk', scoreIndex: 1, questionIndexes: [4,5,6,7,8,9], pointsPerQuestion: 10, correctAnswers: [
     'Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã',
@@ -52,8 +126,8 @@ const SESSION_CONFIG = [
     ['Uỷ ban nhân dân cấp xã', 'Hội đồng nhân dân cấp xã', 'Thường trực Hội đồng nhân dân cấp xã', 'Cơ quan tài chính cấp xã'],
     ['Cơ quan cấp trên', 'Cơ quan tài chính cấp xã', 'Kho bạc nhà nước', 'Thanh tra tài chính']
   ] },
-  { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^Sắp xếp các hoạt động/i, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
-  { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Công khai ngân sách cấp xã', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^(Tình huống|Câu trả lời)/i, referenceAnswer: [
+  { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã', prompt: SESSION_PROMPTS[2], scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^Sắp xếp các hoạt động/i, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
+  { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Công khai ngân sách cấp xã', prompt: SESSION_PROMPTS[3], scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^(Tình huống|Câu trả lời)/i, referenceAnswer: [
     'Thiếu công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình Hội đồng nhân dân cấp xã.',
     'Thiếu công khai thuyết minh quyết toán ngân sách cấp xã đã được Hội đồng nhân dân cấp xã phê chuẩn, gồm kết quả thu và kết quả chi ngân sách cấp xã.',
     'Tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và năm; không ghi chung là hàng quý.'
@@ -79,7 +153,7 @@ const SESSION_CONFIG = [
     ['A. Ủy ban nhân dân cấp xã lập quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã báo cáo Thường trực Hội đồng nhân dân cùng cấp cho ý kiến trước ngày 10 tháng 3 năm sau', 'B. Hội đồng nhân dân cấp xã xem xét, phê chuẩn báo cáo quyết toán ngân sách cấp mình trước ngày 31 tháng 3 năm sau', 'C. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 05 ngày làm việc', 'D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc'],
     ['A. Nguồn thực hiện cải cách chính sách tiền lương được sử dụng để bảo đảm điều chỉnh mức lương cơ sở hằng năm và bảo đảm các chính sách an sinh xã hội do Trung ương ban hành (đối với ngân sách địa phương)', 'B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)', 'C. Nguồn thực hiện chính sách tiền lương có thể được bổ sung từ số tăng thu so với dự toán, dự toán chi còn lại của cấp ngân sách khi kết thúc năm ngân sách', 'D. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã sau khi đã cân đối nguồn mà chưa đáp ứng đủ nhu cầu theo chế độ quy định']
   ] },
-  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt quyết toán ngân sách cấp xã', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i, referenceAnswer: [
+  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt quyết toán ngân sách cấp xã', prompt: SESSION_PROMPTS[5], scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i, referenceAnswer: [
     'Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách, đơn vị lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ và khớp đúng với xác nhận của Kho bạc Nhà nước.',
     'Thủ trưởng đơn vị chịu trách nhiệm về quyết toán ngân sách của đơn vị mình.'
   ] },
@@ -92,11 +166,11 @@ const SESSION_CONFIG = [
     'Sai: Máy chiếu tại lớp học là thiết bị chuyên dùng; theo phân cấp phải trình Sở Giáo dục và Đào tạo quyết định.',
     'Đúng: Bàn ghế lớp học là thiết bị chuyên dùng; nếu không đủ điều kiện là tài sản cố định thì thủ trưởng đơn vị quyết định.'
   ] },
-  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Hồ sơ mua sắm không quá 50 triệu đồng', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
+  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Hồ sơ mua sắm không quá 50 triệu đồng', prompt: SESSION_PROMPTS[7], scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
     'Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan, đơn vị.',
     'Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; theo Quyết định số 80/2026/QĐ-UBND, người đứng đầu đơn vị dự toán cấp I thuộc UBND cấp xã quyết định nội dung này.'
   ] },
-  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Hồ sơ mua sắm chỉ định thầu rút gọn', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
+  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Hồ sơ mua sắm chỉ định thầu rút gọn', prompt: SESSION_PROMPTS[8], scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
     'Trình Chủ tịch UBND xã, không phải UBND xã, quyết định tiêu chuẩn và định mức màn hình LED vì đây là thiết bị phục vụ hoạt động chung.',
     'Không phải trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; thẩm quyền thuộc người đứng đầu đơn vị dự toán cấp I theo Quyết định số 80/2026/QĐ-UBND.',
     'Thừa bước thẩm định kế hoạch lựa chọn nhà thầu.',
@@ -179,6 +253,7 @@ function aggregateSession_(spreadsheet, config, controlState) {
     kind: config.kind,
     typeLabel: config.typeLabel,
     description: config.description,
+    prompt: config.prompt || null,
     phase,
     closedAt: closedAt ? closedAt.toISOString() : null,
     currentResponses: allEntries.length,

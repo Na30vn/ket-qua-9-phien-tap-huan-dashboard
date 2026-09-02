@@ -305,10 +305,35 @@ h1 {
 .live-option-result strong { font-size: 24px; }
 .live-option-result span { font-size: 14px; font-weight: 850; }
 
-.sample-stream { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 11px; }
-.sample-card { display: grid; grid-template-columns: 68px 1fr; align-items: start; gap: 12px; padding: 15px; border: 1px solid #c7d6e4; border-radius: 11px; background: #f8fbfd; }
-.sample-card span { color: #086681; font-size: 13px; font-weight: 900; }
-.sample-card strong { color: #153654; font-size: 14px; line-height: 1.65; }
+.prompt-card { overflow: hidden; border-top: 4px solid #2878c8; background: linear-gradient(145deg,#fff 0%,#f3f8ff 100%); }
+.prompt-card summary { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 20px 24px; cursor: pointer; list-style: none; }
+.prompt-card summary::-webkit-details-marker { display: none; }
+.prompt-card summary > span, .prompt-heading > span { padding: 7px 10px; border-radius: 8px; color: #fff; background: #1768ad; font-size: 12px; font-weight: 900; letter-spacing: .08em; white-space: nowrap; }
+.prompt-card summary > strong { color: #0b345d; font-size: 20px; line-height: 1.45; }
+.prompt-card summary > small { color: #49637d; font-size: 12px; font-weight: 750; }
+.prompt-heading { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 14px; padding: 20px 24px 5px; }
+.prompt-heading h3 { margin: 1px 0 0; color: #0b345d; font-size: 21px; line-height: 1.5; }
+.prompt-body { padding: 5px 24px 22px; color: #233b55; font-size: 15px; font-weight: 590; line-height: 1.65; }
+.prompt-card summary + .prompt-body { padding-top: 0; border-top: 1px solid #d7e4f0; }
+.prompt-body > p { margin: 14px 0 0; }
+.prompt-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px 24px; margin: 15px 0 0; padding: 0; list-style: none; counter-reset: prompt-item; }
+.prompt-list li { position: relative; min-height: 48px; padding: 12px 14px 12px 50px; border: 1px solid #d6e3ef; border-radius: 10px; background: rgba(255,255,255,.9); counter-increment: prompt-item; }
+.prompt-list li::before { content: counter(prompt-item); position: absolute; top: 11px; left: 12px; display: grid; place-items: center; width: 27px; height: 27px; border-radius: 7px; color: #fff; background: #2374c6; font-size: 13px; font-weight: 900; }
+.prompt-question { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 12px; margin-top: 16px; padding: 15px 17px; border-left: 5px solid #e39b22; border-radius: 10px; color: #3b2b08; background: #fff5dd; }
+.prompt-question span { color: #9a5f00; font-size: 12px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+.prompt-question strong { font-size: 17px; line-height: 1.55; }
+.prompt-instruction { padding: 11px 14px; border-radius: 9px; color: #304961; background: #e8f1f8; }
+
+.sample-stream { display: grid; grid-template-columns: 1fr; gap: 13px; }
+.sample-card { padding: 15px 17px 17px; border: 1px solid #c7d6e4; border-left: 5px solid #7666c5; border-radius: 12px; background: #f8f7ff; }
+.sample-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.sample-card-heading span { color: #5643a5; font-size: 15px; font-weight: 900; }
+.sample-card-heading small { color: #66758a; font-size: 12px; font-weight: 750; }
+.sample-sequence { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.sample-step { position: relative; min-width: 92px; padding: 9px 11px; border: 1px solid #ccc6ee; border-radius: 9px; text-align: center; background: #fff; }
+.sample-step:not(:last-child)::after { content: "→"; position: absolute; top: 50%; right: -11px; color: #7666c5; font-weight: 900; transform: translate(50%,-50%); }
+.sample-step span { display: block; color: #6e7890; font-size: 10px; font-weight: 850; text-transform: uppercase; letter-spacing: .04em; }
+.sample-step strong { display: block; margin-top: 2px; color: #2f246a; font-size: 14px; font-weight: 900; }
 
 .tf-grid { display: grid; grid-template-columns: repeat(7,minmax(130px,1fr)); gap: 10px; overflow-x: auto; padding-bottom: 4px; }
 .tf-card { min-width: 130px; overflow: hidden; padding: 0; border: 2px solid #c8d6e4; border-radius: 12px; color: #123c69; text-align: left; background: #fff; cursor: pointer; }
@@ -380,6 +405,10 @@ th { color: #0a3c6b; background: #eaf2f8; font-size: 12px; text-transform: upper
 .response-card { padding: 0; box-shadow: none; overflow: hidden; }
 .response-card summary { padding: 14px 16px; color: #0a3c6b; background: #edf4f8; font-size: 14px; font-weight: 850; cursor: pointer; }
 .response-card p { margin: 0; padding: 15px 16px; color: #26384f; font-size: 15px; font-weight: 500; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.open-response-list { grid-template-columns: repeat(auto-fit,minmax(min(430px,100%),1fr)); gap: 15px; }
+.open-response-card { overflow: hidden; border: 1px solid #bcdadb; border-left: 5px solid #159a9c; border-radius: 12px; background: #fff; box-shadow: 0 6px 16px rgba(15,62,83,.06); }
+.open-response-card header { padding: 10px 15px; border-bottom: 1px solid #cfe7e7; color: #075f63; background: #e8f8f7; font-size: 13px; font-weight: 900; letter-spacing: .025em; }
+.open-response-card p { margin: 0; padding: 17px 18px 19px; color: #15334f; font-size: 17px; font-weight: 650; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 .empty { padding: 42px 22px; border: 1px dashed #b9c7d6; border-radius: 14px; color: var(--muted); text-align: center; background: rgba(255,255,255,.62); }
 .inline-empty { grid-column: 1 / -1; padding: 22px 16px; border-radius: 10px; color: var(--muted); text-align: center; background: #f5f7fa; }
@@ -405,6 +434,9 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px
   .panel-heading, .panel-heading-actions { flex-direction: column; }
   .panel-heading > span { max-width: none; text-align: left; }
   .search-box { width: 100%; }
+  .prompt-list { grid-template-columns: 1fr; }
+  .prompt-card summary { grid-template-columns: auto 1fr; }
+  .prompt-card summary > small { grid-column: 2; }
 }
 
 @media (max-width: 560px) {
