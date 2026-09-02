@@ -28,6 +28,8 @@ assert.match(styles, /\.qr-dialog::backdrop/);
 assert.match(admin, /requestedView === 'compact'/);
 assert.match(admin, /dashboard-session-updated/);
 assert.doesNotMatch(admin, /Đăng nhập: \$\{data\.email\}/);
+assert.match(admin, /Đang load dữ liệu…/);
+assert.match(admin, /notice\.classList\.add\('is-hidden'\)/);
 
 const embeddedScript = admin.match(/<script>([\s\S]*?)<\/script>/)[1]
   .replace(/<\?!= JSON\.stringify\(requestedSession\) \?>/g, "1")

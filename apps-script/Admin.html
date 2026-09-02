@@ -38,7 +38,8 @@
     body.compact { background: #f3f6f9; }
     body.compact main { width: 100%; margin: 0; padding: 12px; }
     body.compact > main > header, body.compact .filters { display: none; }
-    body.compact #notice { display: none; }
+    body.compact #notice { margin: 38px 0 0; color: #35536f; font-size: 14px; text-align: center; }
+    body.compact #notice.is-hidden { display: none; }
     .compact-card { padding: 15px; border: 1px solid #c7d5e2; border-radius: 13px; background: #fff; }
     .compact-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .compact-card h2 { margin: 0; font-size: 20px; }
@@ -78,7 +79,8 @@
   }
   function load() {
     clearTimeout(loadTimeout);
-    setBusy(true, 'Đang tải dữ liệu…');
+    if (requestedView === 'compact') notice.classList.remove('is-hidden');
+    setBusy(true, 'Đang load dữ liệu…');
     loadTimeout = setTimeout(() => fail(new Error('Không nhận được dữ liệu từ Apps Script. Hãy tải lại trang hoặc kiểm tra quyền truy cập Sheet.')), 20000);
     google.script.run.withSuccessHandler(render).withFailureHandler(fail).getAdminDashboardData();
   }
@@ -86,6 +88,7 @@
     clearTimeout(loadTimeout);
     window.lastAdminData = data;
     setBusy(false, `Cập nhật ${new Date(data.updatedAt).toLocaleString('vi-VN')}`);
+    if (requestedView === 'compact') notice.classList.add('is-hidden');
     const schedule = [
       { key: '4-9-afternoon', date: '4/9', period: 'Chiều', label: 'Khởi động và quy trình', ids: [1, 2, 3] },
       { key: '5-9-morning', date: '5/9', period: 'Sáng', label: 'Điều hành và quyết toán', ids: [4, 5] },

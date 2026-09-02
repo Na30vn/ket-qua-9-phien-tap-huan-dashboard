@@ -128,6 +128,7 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 
 ## Nhật ký cập nhật
 
+- **03/09/2026:** hiển thị rõ “Đang load dữ liệu…” trong điều khiển nhanh cho đến khi phiên tải xong; bổ sung hướng dẫn thêm tài khoản được chốt phiên bằng tay.
 - **03/09/2026:** thêm QR riêng cho Phiên 1–9, hỗ trợ phóng lớn giữa màn hình; chuyển điều khiển phiên sang nút `+` kín đáo và bổ sung giao diện quản trị gọn cho đúng phiên đang xem.
 - **03/09/2026:** ẩn email đăng nhập và bỏ liên kết sang trang quản trị đầy đủ khỏi điều khiển nhanh; trang quản trị riêng vẫn giữ nguyên để cán bộ kỹ thuật hỗ trợ.
 - **02/09/2026:** bổ sung đề bài đầy đủ cho Phiên 2, 3, 5, 7 và 8; thiết kế lại trình tự 10 bài đầu thành các ô vị trí/bước; chuyển phản hồi tự luận sang thẻ nội dung mở, chữ lớn để trình chiếu rõ hơn.
@@ -143,6 +144,15 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 3. Đồng bộ `apps-script/Code.gs`, `apps-script/Reporting.gs` và `apps-script/Admin.html` vào dự án.
 4. Trong **Cài đặt dự án → Thuộc tính tập lệnh**, đặt `SPREADSHEET_ID` bằng ID của Sheet. Không lưu ID riêng tư này trên GitHub.
 5. Chạy `setupDashboardControl()` một lần để tạo bảng điều khiển và ghi tài khoản quản trị. Khi có nhiều quản trị viên, giữ nguyên các tài khoản hiện có trong `ADMIN_EMAILS` và nối thêm tài khoản mới bằng dấu phẩy.
+
+### Thêm tài khoản được chốt phiên bằng tay
+
+1. Mở dự án Apps Script, chọn **Cài đặt dự án**.
+2. Trong **Thuộc tính tập lệnh**, tìm thuộc tính `ADMIN_EMAILS` và chọn chỉnh sửa.
+3. Giữ nguyên các email hiện có, nối email mới bằng dấu phẩy, ví dụ: `email1@gmail.com,email2@gmail.com` (không chèn dấu cách là dễ kiểm tra nhất).
+4. Lưu thuộc tính.
+5. Chia sẻ tệp Google Sheet kết quả cho email mới với quyền **Người chỉnh sửa**. Không cần chia sẻ dự án Apps Script nếu người đó chỉ thao tác chốt/mở phiên trên web.
+6. Người mới mở trang quản trị hoặc nút điều khiển nhanh, đăng nhập Google và cấp quyền trong lần đầu sử dụng.
 6. Tạo deployment công khai chỉ đọc cho dashboard và điền URL `/exec` vào `apiUrl` trong `config.js`.
 7. Tạo deployment quản trị, yêu cầu đăng nhập và điền URL `/exec` vào `adminUrl`.
 
