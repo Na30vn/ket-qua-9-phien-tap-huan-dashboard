@@ -14,6 +14,7 @@ for (const fileName of ["demo.json", "fake.json"]) {
   for (const session of data.sessions || []) {
     session.prompt = context.__sessionPrompts[session.id] || null;
   }
+  data.updatedAt = new Date().toISOString();
   fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 
