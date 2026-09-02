@@ -186,3 +186,5 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 - Hoàn thiện màu sắc, độ tương phản và cách nhấn mạnh số lượt, tỷ lệ trên dashboard.
 
 README này là tài liệu chính của hệ thống. Mỗi thay đổi ảnh hưởng đến dữ liệu, giao diện, Form, API, báo cáo hoặc cách vận hành phải cập nhật đồng thời vào phần tương ứng và thêm một dòng trong **Nhật ký cập nhật**.
+
+- **02/09/2026:** Tăng độ nổi bật của hàng đáp án đúng trên Phiên 6 và bỏ nhãn chữ “ĐÁP ÁN ĐÚNG” lặp lại bên trong hàng lựa chọn.
