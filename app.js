@@ -24,6 +24,8 @@
   let closedLivePreview = false;
   let timer = null;
   let isLoading = false;
+  const detailStates = new Map();
+  const scrollStates = new Map();
 
   configureAdminLinks();
 
@@ -84,6 +86,7 @@
   }
 
   function render() {
+    captureUiState();
     const sessions = payload?.sessions || [];
     renderNav(sessions);
     const session = sessions.find(item => Number(item.id) === activeSession) || sessions[0];
@@ -111,7 +114,30 @@
       ${renderMetrics(session, contentPhase, showingClosedLivePreview)}
       ${renderSessionContent(session, contentPhase)}
     `;
+    restoreUiState();
     bindSessionControls(session);
+  }
+
+  function captureUiState() {
+    dashboard.querySelectorAll("details[data-ui-state]").forEach(element => {
+      detailStates.set(element.dataset.uiState, element.open);
+    });
+    dashboard.querySelectorAll("[data-ui-scroll]").forEach(element => {
+      scrollStates.set(element.dataset.uiScroll, { left: element.scrollLeft, top: element.scrollTop });
+    });
+  }
+
+  function restoreUiState() {
+    dashboard.querySelectorAll("details[data-ui-state]").forEach(element => {
+      if (detailStates.has(element.dataset.uiState)) element.open = detailStates.get(element.dataset.uiState);
+    });
+    dashboard.querySelectorAll("[data-ui-scroll]").forEach(element => {
+      const saved = scrollStates.get(element.dataset.uiScroll);
+      if (saved) {
+        element.scrollLeft = saved.left;
+        element.scrollTop = saved.top;
+      }
+    });
   }
 
   function renderClosedViewSwitch(phase, showingLivePreview) {
@@ -193,7 +219,7 @@
       const total = Number(question.totalAnswers || 0);
       const options = question.options || [];
       const summary = options.map((option, optionIndex) => `<span class="overview-segment segment-${optionIndex}" style="width:${total ? clampPercent(Number(option.count || 0) / total * 100) : 0}%" title="${escapeHtml(option.label)}: ${formatNumber.format(option.count || 0)} lượt"></span>`).join("");
-      return `<details class="quiz-overview-item"><summary><span class="overview-number">Câu ${index + 1}</span><span class="overview-title">${escapeHtml(question.title)}</span><span class="overview-total">${formatNumber.format(total)} lượt</span><span class="overview-strip">${summary || '<span class="overview-empty"></span>'}</span><span class="overview-chevron">⌄</span></summary><div class="overview-detail"><div class="expanded-question"><span>CÂU ${index + 1}</span><strong>${escapeHtml(question.title)}</strong></div>${options.length ? options.map((option, optionIndex) => { const percent = total ? Number(option.count || 0) / total * 100 : 0; return `<div class="overview-option option-${optionIndex}"><span class="option-dot segment-${optionIndex}"></span><span class="overview-option-label"><b class="option-letter">${String.fromCharCode(65 + optionIndex)}</b><span>${escapeHtml(option.label)}</span></span><strong>${formatNumber.format(option.count || 0)} <em>lượt</em><br><span>${score(percent)}%</span></strong><div class="overview-option-bar"><i class="segment-${optionIndex}" style="width:${clampPercent(percent)}%"></i></div></div>`; }).join("") : renderInlineEmpty("Chưa có dữ liệu lựa chọn.")}</div></details>`;
+      return `<details class="quiz-overview-item" data-ui-state="session-${session.id}-quiz-${index}"><summary><span class="overview-number">Câu ${index + 1}</span><span class="overview-title">${escapeHtml(question.title)}</span><span class="overview-total">${formatNumber.format(total)} lượt</span><span class="overview-strip">${summary || '<span class="overview-empty"></span>'}</span><span class="overview-chevron">⌄</span></summary><div class="overview-detail"><div class="expanded-question"><span>CÂU ${index + 1}</span><strong>${escapeHtml(question.title)}</strong></div>${options.length ? options.map((option, optionIndex) => { const percent = total ? Number(option.count || 0) / total * 100 : 0; return `<div class="overview-option option-${optionIndex}"><span class="option-dot segment-${optionIndex}"></span><span class="overview-option-label"><b class="option-letter">${String.fromCharCode(65 + optionIndex)}</b><span>${escapeHtml(option.label)}</span></span><strong>${formatNumber.format(option.count || 0)} <em>lượt</em><br><span>${score(percent)}%</span></strong><div class="overview-option-bar"><i class="segment-${optionIndex}" style="width:${clampPercent(percent)}%"></i></div></div>`; }).join("") : renderInlineEmpty("Chưa có dữ liệu lựa chọn.")}</div></details>`;
     }).join("") : renderInlineEmpty("Chưa có dữ liệu câu hỏi.")}</div></article></section>`;
   }
 
@@ -237,12 +263,12 @@
   function renderOrderingDashboard(session) {
     const ordering = session.ordering || {};
     const positions = ordering.positionAccuracy || [];
-    return `<section class="content-grid">${renderPromptCard(session)}<article class="panel full reference-panel">${panelHeading("Trình tự tham chiếu", "13 vị trí trên một hàng; đọc từ trái sang phải")}<div class="sequence-flow">${String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => `<div class="sequence-step"><span>Vị trí ${index + 1}</span><strong>Bước ${escapeHtml(step.trim())}</strong></div>`).join("")}</div></article><article class="panel full">${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}<div class="horizontal-chart position-chart">${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}</div></article><article class="panel full">${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}${renderWrongSequences(ordering.commonSequences || [])}</article></section>`;
+    return `<section class="content-grid">${renderPromptCard(session)}<article class="panel full reference-panel">${panelHeading("Trình tự tham chiếu", "13 vị trí trên một hàng; đọc từ trái sang phải")}<div class="sequence-flow" data-ui-scroll="session-${session.id}-reference-sequence">${String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => `<div class="sequence-step"><span>Vị trí ${index + 1}</span><strong>Bước ${escapeHtml(step.trim())}</strong></div>`).join("")}</div></article><article class="panel full">${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}<div class="horizontal-chart position-chart">${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}</div></article><article class="panel full">${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}${renderWrongSequences(ordering.commonSequences || [])}</article></section>`;
   }
 
   function renderOrderingSample(value, index) {
     const steps = String(value || "").split(/[,;\-–—]+/).map(step => step.trim()).filter(Boolean);
-    return `<article class="sample-card"><div class="sample-card-heading"><span>Bài ${index + 1}</span><small>${steps.length} bước</small></div><div class="sample-number-flow" aria-label="Trình tự bài ${index + 1}">${steps.map((step, position) => `<span class="sample-number"><b>${escapeHtml(step)}</b>${position < steps.length - 1 ? '<i>—</i>' : ""}</span>`).join("")}</div></article>`;
+    return `<article class="sample-card"><div class="sample-card-heading"><span>Bài ${index + 1}</span><small>${steps.length} bước</small></div><div class="sample-number-flow" data-ui-scroll="session-${activeSession}-ordering-sample-${index}" aria-label="Trình tự bài ${index + 1}">${steps.map((step, position) => `<span class="sample-number"><b>${escapeHtml(step)}</b>${position < steps.length - 1 ? '<i>—</i>' : ""}</span>`).join("")}</div></article>`;
   }
 
   function renderWrongSequences(sequences) {
@@ -253,21 +279,21 @@
   function renderTrueFalseDashboard(session, live) {
     const questions = session.questions || [];
     const question = questions[selectedQuestion] || questions[0];
-    return `<section class="content-grid"><article class="panel full ${live ? "panel-primary" : ""}">${panelHeading("Phân bố lựa chọn Đúng / Sai", live ? "Theo dõi trực tiếp" : "Mỗi hàng thể hiện kết quả của một câu")}<div class="tf-grid">${questions.map((item, index) => {
+    return `<section class="content-grid"><article class="panel full ${live ? "panel-primary" : ""}">${panelHeading("Phân bố lựa chọn Đúng / Sai", live ? "Theo dõi trực tiếp" : "Mỗi hàng thể hiện kết quả của một câu")}<div class="tf-grid" data-ui-scroll="session-${session.id}-true-false-questions">${questions.map((item, index) => {
       const trueCount = optionCount(item, "Đúng");
       const falseCount = optionCount(item, "Sai");
       const total = Math.max(1, Number(session.totalResponses || 0));
       return `<button type="button" class="tf-card ${index === selectedQuestion ? "active" : ""}" data-question="${index}"><span>Câu ${index + 1}</span><div><strong>${formatNumber.format(trueCount)}</strong><small>Đúng · ${score(trueCount / total * 100)}%</small></div><div><strong>${formatNumber.format(falseCount)}</strong><small>Sai · ${score(falseCount / total * 100)}%</small></div></button>`;
-    }).join("")}</div></article>${live ? "" : renderTrueFalseTable(session)}${question ? `<article class="panel full answer-explorer">${panelHeading("Chi tiết câu hỏi và phần giải thích", "Chọn câu để trao đổi tại lớp")}${questionSelector(questions)}<div class="question-focus"><span class="question-number">CÂU ${selectedQuestion + 1}</span><h3>${escapeHtml(question.title)}</h3></div>${live ? "" : `<div class="reference-inline"><strong>Đáp án và căn cứ tham chiếu:</strong> ${escapeHtml(question.referenceNote || question.correctAnswer || "Chưa có")}</div>`}<div class="choice-summary"><span><b>${formatNumber.format(optionCount(question, "Đúng"))}</b> chọn Đúng</span><span><b>${formatNumber.format(optionCount(question, "Sai"))}</b> chọn Sai</span></div>${renderExplanationList(question.explanations || [])}</article>` : ""}</section>`;
+    }).join("")}</div></article>${live ? "" : renderTrueFalseTable(session)}${question ? `<article class="panel full answer-explorer">${panelHeading("Chi tiết câu hỏi và phần giải thích", "Chọn câu để trao đổi tại lớp")}${questionSelector(questions)}<div class="question-focus"><span class="question-number">CÂU ${selectedQuestion + 1}</span><h3>${escapeHtml(question.title)}</h3></div>${live ? "" : `<div class="reference-inline"><strong>Đáp án và căn cứ tham chiếu:</strong> ${escapeHtml(question.referenceNote || question.correctAnswer || "Chưa có")}</div>`}<div class="choice-summary"><span><b>${formatNumber.format(optionCount(question, "Đúng"))}</b> chọn Đúng</span><span><b>${formatNumber.format(optionCount(question, "Sai"))}</b> chọn Sai</span></div>${renderExplanationList(session.id, selectedQuestion, question.explanations || [])}</article>` : ""}</section>`;
   }
 
   function renderTrueFalseTable(session) {
     return `<article class="panel full">${panelHeading("Tổng hợp kết quả đúng, sai theo câu", "Số liệu chính thức sau khi chốt")}<div class="table-wrap"><table><thead><tr><th>Câu</th><th>Đáp án</th><th>Trả lời đúng</th><th>Trả lời sai</th><th>Không trả lời</th><th>Tỷ lệ đúng</th></tr></thead><tbody>${(session.questions || []).map((question, index) => `<tr><td><strong>Câu ${index + 1}</strong></td><td>${escapeHtml(question.correctAnswer || "—")}</td><td>${formatNumber.format(question.correctCount || 0)}</td><td>${formatNumber.format(question.incorrectCount || 0)}</td><td>${formatNumber.format(question.unansweredCount || 0)}</td><td><strong>${score(question.correctPercent || 0)}%</strong></td></tr>`).join("")}</tbody></table></div></article>`;
   }
 
-  function renderExplanationList(explanations) {
+  function renderExplanationList(sessionId, questionIndex, explanations) {
     if (!explanations.length) return renderInlineEmpty("Chưa có phần giải thích cho câu này.");
-    return `<div class="response-list">${explanations.slice(0, 3).map((text, index) => `<details class="response-card" open><summary>Giải thích ${index + 1}</summary><p>${escapeHtml(text)}</p></details>`).join("")}</div>`;
+    return `<div class="response-list">${explanations.slice(0, 3).map((text, index) => `<details class="response-card" data-ui-state="session-${sessionId}-explanation-${questionIndex}-${index}" open><summary>Giải thích ${index + 1}</summary><p>${escapeHtml(text)}</p></details>`).join("")}</div>`;
   }
 
   function renderOpenDashboard(session, live) {
@@ -282,14 +308,14 @@
     const prompt = session.prompt;
     if (!prompt) return "";
     const body = `${(prompt.paragraphs || []).map(text => `<p>${escapeHtml(text)}</p>`).join("")}${(prompt.items || []).length ? `<ol class="prompt-list">${prompt.items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : ""}${prompt.question ? `<div class="prompt-question"><span>Câu hỏi</span><strong>${escapeHtml(prompt.question)}</strong></div>` : ""}${prompt.instruction ? `<p class="prompt-instruction"><strong>Cách nhập:</strong> ${escapeHtml(prompt.instruction)}</p>` : ""}`;
-    return `<details class="panel full prompt-card" open><summary><span class="prompt-label">${escapeHtml(prompt.label || "ĐỀ BÀI")}</span><strong>${escapeHtml(prompt.title || "")}</strong><span class="prompt-toggle"><span class="toggle-open">Thu gọn đề bài</span><span class="toggle-closed">Xem đầy đủ đề bài</span><i aria-hidden="true"></i></span></summary><div class="prompt-body">${body}</div></details>`;
+    return `<details class="panel full prompt-card" data-ui-state="session-${session.id}-prompt" open><summary><span class="prompt-label">${escapeHtml(prompt.label || "ĐỀ BÀI")}</span><strong>${escapeHtml(prompt.title || "")}</strong><span class="prompt-toggle"><span class="toggle-open">Thu gọn đề bài</span><span class="toggle-closed">Xem đầy đủ đề bài</span><i aria-hidden="true"></i></span></summary><div class="prompt-body">${body}</div></details>`;
   }
 
   function renderUnitBreakdown(session) {
     const units = session.unitBreakdown || [];
     if (!units.length) return "";
     const maximum = Math.max(1, ...units.map(item => Number(item.count || 0)));
-    return `<section class="content-grid unit-section"><article class="panel full">${panelHeading("Số bài theo đơn vị", `${formatNumber.format(units.length)} đơn vị có bài trong phiên`)}<div class="unit-list ${units.length <= 8 ? "unit-list-compact" : ""}">${units.map(item => `<div class="unit-row"><span class="unit-name">${escapeHtml(item.unit)}</span><div class="bar-track"><div class="bar-fill unit-fill" style="width:${Number(item.count || 0) / maximum * 100}%"></div></div><strong>${formatNumber.format(item.count || 0)}</strong></div>`).join("")}</div></article></section>`;
+    return `<section class="content-grid unit-section"><article class="panel full">${panelHeading("Số bài theo đơn vị", `${formatNumber.format(units.length)} đơn vị có bài trong phiên`)}<div class="unit-list ${units.length <= 8 ? "unit-list-compact" : ""}" data-ui-scroll="session-${session.id}-units">${units.map(item => `<div class="unit-row"><span class="unit-name">${escapeHtml(item.unit)}</span><div class="bar-track"><div class="bar-fill unit-fill" style="width:${Number(item.count || 0) / maximum * 100}%"></div></div><strong>${formatNumber.format(item.count || 0)}</strong></div>`).join("")}</div></article></section>`;
   }
 
   function questionSelector(questions) {
