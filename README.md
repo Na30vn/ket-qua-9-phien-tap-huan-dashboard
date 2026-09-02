@@ -79,7 +79,7 @@ Google Forms có thể vẫn hiện nút **Xem câu trả lời chính xác** sa
 
 ## Trang quản trị và báo cáo
 
-Trang quản trị yêu cầu tài khoản Google đã được chia sẻ quyền chỉnh sửa dự án Apps Script và có tên trong thuộc tính `ADMIN_EMAILS`. Thuộc tính này hỗ trợ nhiều tài khoản, phân tách bằng dấu phẩy. Các phiên được lọc theo lịch giảng dạy:
+Trang quản trị yêu cầu đăng nhập Google. Tài khoản quản trị phải được chia sẻ quyền chỉnh sửa dự án Apps Script và có tên trong thuộc tính `ADMIN_EMAILS`; các tài khoản Google khác có thể mở đường dẫn nhưng không thể đọc dữ liệu quản trị, chốt phiên hoặc xuất báo cáo. Thuộc tính `ADMIN_EMAILS` hỗ trợ nhiều tài khoản, phân tách bằng dấu phẩy. Các phiên được lọc theo lịch giảng dạy:
 
 - Chiều 4/9: Phiên 1–3.
 - Sáng 5/9: Phiên 4–5.
