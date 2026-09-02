@@ -189,3 +189,4 @@ README này là tài liệu chính của hệ thống. Mỗi thay đổi ảnh h
 
 - **02/09/2026:** Tăng độ nổi bật của hàng đáp án đúng trên Phiên 6 và bỏ nhãn chữ “ĐÁP ÁN ĐÚNG” lặp lại bên trong hàng lựa chọn.
 - **02/09/2026:** Đồng bộ trạng thái chốt/mở lại trong lần cập nhật 10 giây và ngay khi người dùng quay lại tab dashboard. Không cần tải lại trang; trạng thái thu gọn/mở rộng vẫn được giữ nguyên.
+- **02/09/2026:** Bổ sung **Xã Trà Đốc** và **Xã Thăng Điền** vào danh mục dropdown **Đơn vị công tác** dùng chung cho 09 Form.
