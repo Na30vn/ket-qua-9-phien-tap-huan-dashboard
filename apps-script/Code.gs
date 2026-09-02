@@ -1,7 +1,7 @@
 const CACHE_SECONDS = 5;
 const MAX_PUBLIC_TEXT_RESPONSES = 40;
 const MAX_LIVE_RESPONSES = 10;
-const MAX_EXPLANATIONS_PER_QUESTION = 3;
+const MAX_EXPLANATIONS_PER_CHOICE = 5;
 const CONTROL_SHEET_NAME = '_DASHBOARD_CONTROL';
 
 const SESSION_FORM_IDS = {
@@ -293,10 +293,22 @@ function aggregateSession_(spreadsheet, config, controlState) {
       question.incorrectCount = phase === 'CLOSED' ? Math.max(0, rows.length - correctCount - unansweredCount) : null;
       question.correctPercent = phase === 'CLOSED' && rows.length ? correctCount / rows.length * 100 : null;
       if (resolvedConfig.explanationIndexes) {
-        question.explanations = rows
-          .map(row => sanitizePublicText_(row[resolvedConfig.explanationIndexes[index]]))
-          .filter(Boolean)
-          .slice(0, MAX_EXPLANATIONS_PER_QUESTION);
+        const explanationGroups = { trueChoice: [], falseChoice: [], otherChoice: [] };
+        rows.forEach(row => {
+          const text = sanitizePublicText_(row[resolvedConfig.explanationIndexes[index]]);
+          if (!text) return;
+          const selectedAnswer = String(row[columnIndex] || '').trim();
+          const item = { selectedAnswer: selectedAnswer || 'Chưa chọn', text };
+          const normalizedChoice = normalizeAnswer_(selectedAnswer);
+          if (normalizedChoice === normalizeAnswer_('Đúng')) explanationGroups.trueChoice.push(item);
+          else if (normalizedChoice === normalizeAnswer_('Sai')) explanationGroups.falseChoice.push(item);
+          else explanationGroups.otherChoice.push(item);
+        });
+        const balanced = explanationGroups.trueChoice.slice(0, MAX_EXPLANATIONS_PER_CHOICE)
+          .concat(explanationGroups.falseChoice.slice(0, MAX_EXPLANATIONS_PER_CHOICE));
+        question.explanations = balanced.concat(
+          explanationGroups.otherChoice.slice(0, Math.max(0, MAX_EXPLANATIONS_PER_CHOICE * 2 - balanced.length))
+        );
       }
       return question;
     });

@@ -1,6 +1,6 @@
 {
   "version": 5,
-  "updatedAt": "2026-09-02T05:41:12.739Z",
+  "updatedAt": "2026-09-02T06:16:32.760Z",
   "sessions": [
     {
       "id": 1,
@@ -2661,9 +2661,46 @@
           "incorrectCount": 104,
           "correctPercent": 62.04379562043796,
           "explanations": [
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 1.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 2.",
-            "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Ý kiến minh họa số 3."
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 1 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 2 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 3 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 4 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 5 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 1 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 2 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 3 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 4 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Căn cứ về đối tượng, số lượng và mức giá tối đa cần được áp dụng đồng thời. Đây là giải thích minh họa số 5 của nhóm chọn Sai."
+            }
           ]
         },
         {
@@ -2688,9 +2725,46 @@
           "incorrectCount": 122,
           "correctPercent": 55.47445255474452,
           "explanations": [
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 1.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 2.",
-            "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Ý kiến minh họa số 3."
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 1 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 2 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 3 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 4 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 5 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 1 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 2 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 3 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 4 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Nhận định chưa đúng vì thẩm quyền và loại tài sản trong tình huống chưa được xác định chính xác. Đây là giải thích minh họa số 5 của nhóm chọn Sai."
+            }
           ]
         },
         {
@@ -2715,9 +2789,46 @@
           "incorrectCount": 61,
           "correctPercent": 77.73722627737226,
           "explanations": [
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 1.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 2.",
-            "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Ý kiến minh họa số 3."
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 1 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 2 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 3 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 4 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 5 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 1 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 2 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 3 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 4 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Tôi chọn theo mức giá tối đa và phạm vi chi phí được nêu trong quy định. Đây là giải thích minh họa số 5 của nhóm chọn Sai."
+            }
           ]
         },
         {
@@ -2742,9 +2853,46 @@
           "incorrectCount": 146,
           "correctPercent": 46.715328467153284,
           "explanations": [
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 1.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 2.",
-            "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Ý kiến minh họa số 3."
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 1 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 2 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 3 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 4 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 5 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 1 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 2 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 3 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 4 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định. Đây là giải thích minh họa số 5 của nhóm chọn Sai."
+            }
           ]
         },
         {
@@ -2769,9 +2917,46 @@
           "incorrectCount": 164,
           "correctPercent": 40.14598540145985,
           "explanations": [
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 1.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 2.",
-            "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Ý kiến minh họa số 3."
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 1 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 2 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 3 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 4 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 5 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 1 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 2 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 3 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 4 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục. Đây là giải thích minh họa số 5 của nhóm chọn Sai."
+            }
           ]
         },
         {
@@ -2796,9 +2981,46 @@
           "incorrectCount": 116,
           "correctPercent": 57.66423357664233,
           "explanations": [
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 1.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 2.",
-            "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Ý kiến minh họa số 3."
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 1 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 2 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 3 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 4 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 5 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 1 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 2 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 3 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 4 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành. Đây là giải thích minh họa số 5 của nhóm chọn Sai."
+            }
           ]
         },
         {
@@ -2823,9 +3045,46 @@
           "incorrectCount": 79,
           "correctPercent": 71.16788321167883,
           "explanations": [
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 1.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 2.",
-            "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Ý kiến minh họa số 3."
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 1 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 2 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 3 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 4 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Đúng",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 5 của nhóm chọn Đúng."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 1 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 2 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 3 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 4 của nhóm chọn Sai."
+            },
+            {
+              "selectedAnswer": "Sai",
+              "text": "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định. Đây là giải thích minh họa số 5 của nhóm chọn Sai."
+            }
           ]
         }
       ],

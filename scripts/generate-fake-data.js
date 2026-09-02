@@ -234,8 +234,16 @@ function applyTrueFalse(session) {
         { label: "Đúng", count: trueCount, isCorrect: correct === "Đúng" },
         { label: "Sai", count: falseCount, isCorrect: correct === "Sai" }
       ],
-      explanations: Array.from({ length: 3 }, (_, answerIndex) =>
-        `${explanations[index]} Ý kiến minh họa số ${answerIndex + 1}.`)
+      explanations: [
+        ...Array.from({ length: 5 }, (_, answerIndex) => ({
+          selectedAnswer: "Đúng",
+          text: `${explanations[index]} Đây là giải thích minh họa số ${answerIndex + 1} của nhóm chọn Đúng.`
+        })),
+        ...Array.from({ length: 5 }, (_, answerIndex) => ({
+          selectedAnswer: "Sai",
+          text: `${explanations[index]} Đây là giải thích minh họa số ${answerIndex + 1} của nhóm chọn Sai.`
+        }))
+      ]
     };
   });
   const correctTotal = correctCounts.reduce((sum, count) => sum + count, 0);

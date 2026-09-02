@@ -293,7 +293,18 @@
 
   function renderExplanationList(sessionId, questionIndex, explanations) {
     if (!explanations.length) return renderInlineEmpty("Chưa có phần giải thích cho câu này.");
-    return `<div class="response-list">${explanations.slice(0, 3).map((text, index) => `<details class="response-card" data-ui-state="session-${sessionId}-explanation-${questionIndex}-${index}" open><summary>Giải thích ${index + 1}</summary><p>${escapeHtml(text)}</p></details>`).join("")}</div>`;
+    const normalized = explanations.map(item => typeof item === "string"
+      ? { selectedAnswer: "Chưa xác định", text: item }
+      : { selectedAnswer: item.selectedAnswer || "Chưa xác định", text: item.text || "" }
+    ).filter(item => item.text);
+    const groups = [
+      { key: "true", label: "Học viên chọn Đúng", tone: "true", items: normalized.filter(item => normalizeText(item.selectedAnswer) === normalizeText("Đúng")).slice(0, 5) },
+      { key: "false", label: "Học viên chọn Sai", tone: "false", items: normalized.filter(item => normalizeText(item.selectedAnswer) === normalizeText("Sai")).slice(0, 5) }
+    ];
+    const knownCount = groups.reduce((sum, group) => sum + group.items.length, 0);
+    const otherItems = normalized.filter(item => ![normalizeText("Đúng"), normalizeText("Sai")].includes(normalizeText(item.selectedAnswer))).slice(0, Math.max(0, 10 - knownCount));
+    if (otherItems.length) groups.push({ key: "other", label: "Chưa xác định lựa chọn", tone: "other", items: otherItems });
+    return `<div class="explanation-groups">${groups.map(group => `<section class="explanation-group explanation-${group.tone}"><header><span>${escapeHtml(group.label)}</span><strong>${group.items.length} giải thích</strong></header>${group.items.length ? `<div class="explanation-list">${group.items.map((item, index) => `<details class="response-card" data-ui-state="session-${sessionId}-explanation-${questionIndex}-${group.key}-${index}" open><summary><span>Giải thích ${index + 1}</span><b>Đã chọn: ${escapeHtml(item.selectedAnswer)}</b></summary><p>${escapeHtml(item.text)}</p></details>`).join("")}</div>` : renderInlineEmpty(`Chưa có giải thích của nhóm chọn ${group.tone === "true" ? "Đúng" : "Sai"}.`)}</section>`).join("")}</div>`;
   }
 
   function renderOpenDashboard(session, live) {

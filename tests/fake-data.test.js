@@ -26,6 +26,14 @@ for (const session of data.sessions) {
     }
   }
 
+  if (session.kind === "true_false") {
+    for (const question of session.questions) {
+      assert.equal(question.explanations.length, 10);
+      assert.equal(question.explanations.filter(item => item.selectedAnswer === "Đúng").length, 5);
+      assert.equal(question.explanations.filter(item => item.selectedAnswer === "Sai").length, 5);
+    }
+  }
+
   if (session.kind === "open") {
     assert.ok(session.referenceAnswer.length > 0);
     assert.ok(session.responses.length >= 10);
