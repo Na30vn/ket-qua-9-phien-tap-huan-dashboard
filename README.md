@@ -79,7 +79,7 @@ Google Forms có thể vẫn hiện nút **Xem câu trả lời chính xác** sa
 
 ## Trang quản trị và báo cáo
 
-Trang quản trị yêu cầu tài khoản Google đã được cấp quyền. Các phiên được lọc theo lịch giảng dạy:
+Trang quản trị yêu cầu tài khoản Google đã được chia sẻ quyền chỉnh sửa dự án Apps Script và có tên trong thuộc tính `ADMIN_EMAILS`. Thuộc tính này hỗ trợ nhiều tài khoản, phân tách bằng dấu phẩy. Các phiên được lọc theo lịch giảng dạy:
 
 - Chiều 4/9: Phiên 1–3.
 - Sáng 5/9: Phiên 4–5.
@@ -128,7 +128,7 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 2. Chọn **Tiện ích mở rộng → Apps Script**.
 3. Đồng bộ `apps-script/Code.gs`, `apps-script/Reporting.gs` và `apps-script/Admin.html` vào dự án.
 4. Trong **Cài đặt dự án → Thuộc tính tập lệnh**, đặt `SPREADSHEET_ID` bằng ID của Sheet. Không lưu ID riêng tư này trên GitHub.
-5. Chạy `setupDashboardControl()` một lần để tạo bảng điều khiển và ghi tài khoản quản trị.
+5. Chạy `setupDashboardControl()` một lần để tạo bảng điều khiển và ghi tài khoản quản trị. Khi có nhiều quản trị viên, giữ nguyên các tài khoản hiện có trong `ADMIN_EMAILS` và nối thêm tài khoản mới bằng dấu phẩy.
 6. Tạo deployment công khai chỉ đọc cho dashboard và điền URL `/exec` vào `apiUrl` trong `config.js`.
 7. Tạo deployment quản trị, yêu cầu đăng nhập và điền URL `/exec` vào `adminUrl`.
 
@@ -164,6 +164,7 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 ### 02/09/2026
 
 - Chuẩn hóa tên chính thức của cả 09 phiên theo yêu cầu giảng viên.
+- Đồng bộ tên mới lên đủ 09 Google Form, API công khai và trang quản trị; bổ sung tài khoản quản trị thứ hai mà không mở rộng quyền truy cập chung của dự án.
 - Bổ sung tài liệu tổng thể về kiến trúc, luồng xử lý, trạng thái phiên, quyền riêng tư, báo cáo và quy trình đồng bộ thay đổi.
 
 ### 01/09/2026
