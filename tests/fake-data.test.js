@@ -50,6 +50,9 @@ assert.equal(data.sessions.find(session => session.id === 2).prompt.items.length
 for (const id of [2, 3, 5, 7, 8]) {
   assert.ok(data.sessions.find(session => session.id === id).prompt, `Phiên ${id} phải có đề bài`);
 }
+for (const id of [3, 5, 7, 8]) {
+  assert.equal(data.sessions.find(session => session.id === id).prompt.label, "TÌNH HUỐNG");
+}
 
 const serialized = JSON.stringify(data);
 assert.equal(/"email"\s*:|"phone"\s*:|"fullName"\s*:/.test(serialized), false);

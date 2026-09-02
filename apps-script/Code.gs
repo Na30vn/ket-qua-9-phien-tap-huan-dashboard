@@ -48,13 +48,13 @@ const SESSION_PROMPTS = {
     question: 'Nội dung công khai của xã A đã đảm bảo theo quy định hiện hành chưa? Cần bổ sung gì?'
   },
   5: {
-    label: 'TÌNH HUỐNG 2',
+    label: 'TÌNH HUỐNG',
     title: 'Theo khoản 1 Điều 3 Thông tư số 59/2026/TT-BTC ngày 29/05/2026 về xét duyệt và tổng hợp quyết toán năm:',
     paragraphs: ['“Điều 3. Quy trình xét duyệt và tổng hợp quyết toán năm: 1. Đơn vị dự toán cấp trên trực tiếp, đơn vị giao dự toán, đơn vị dự toán cấp I (trường hợp là đơn vị dự toán cấp trên trực tiếp của đơn vị sử dụng ngân sách) thực hiện xét duyệt, thông báo xét duyệt quyết toán đối với đơn vị sử dụng ngân sách thuộc phạm vi quản lý, đơn vị được giao dự toán theo quy định tại Điều 4 Thông tư này.”'],
     question: 'Theo quy định nêu trên thì Ủy ban nhân dân xã, phường có phải thực hiện xét duyệt, thông báo xét duyệt quyết toán đối với đơn vị sử dụng ngân sách thuộc phạm vi quản lý (các Phòng chuyên môn, đơn vị sự nghiệp trực thuộc) hay không?'
   },
   7: {
-    label: 'TÌNH HUỐNG 4',
+    label: 'TÌNH HUỐNG',
     title: 'Hồ sơ mua máy phát điện trị giá 20 triệu đồng tại Văn phòng HĐND-UBND xã, từ nguồn ngân sách cấp xã, gồm:',
     items: [
       'Đề nghị mua máy phát điện của chuyên viên A trình Trưởng phòng Kinh tế duyệt (đồng ý và giao cho chuyên viên A triển khai nội dung này).',
@@ -67,7 +67,7 @@ const SESSION_PROMPTS = {
     question: 'Hồ sơ mua sắm này thừa, thiếu gì?'
   },
   8: {
-    label: 'TÌNH HUỐNG 5',
+    label: 'TÌNH HUỐNG',
     title: 'Hồ sơ mua màn hình LED tại Hội trường trị giá 70 triệu đồng tại Văn phòng HĐND-UBND xã, từ nguồn ngân sách cấp xã, gồm:',
     items: [
       'Đề nghị mua màn hình LED của chuyên viên A trình Chánh Văn phòng HĐND-UBND xã duyệt (đồng ý và giao cho chuyên viên A triển khai nội dung này).',

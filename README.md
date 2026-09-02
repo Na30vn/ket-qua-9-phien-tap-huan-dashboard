@@ -62,7 +62,7 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 
 - **Phiên 1, 4 và 9:** lúc nhận bài hiển thị phân bố A/B/C/D theo từng câu; khi mở rộng, câu hỏi và phương án được hiển thị đầy đủ. Sau khi chốt có số đúng, tỷ lệ đúng và phân bố kết quả cần thiết.
 - **Phiên 2:** hiển thị đầy đủ đề bài và 13 hoạt động gốc; 10 bài gửi đầu tiên được tách thành các ô **Vị trí / Bước** rõ ràng. Sau khi chốt có trình tự tham chiếu, tỷ lệ đặt đúng theo từng vị trí và các trình tự sai phổ biến.
-- **Phiên 6:** lúc nhận bài hiển thị lựa chọn Đúng/Sai và tối đa 10 giải thích cho mỗi câu, cân bằng tối đa 5 giải thích của nhóm chọn Đúng và 5 của nhóm chọn Sai; từng giải thích ghi rõ lựa chọn đi kèm. Sau khi chốt bổ sung đáp án, số đúng, sai, bỏ trống và tỷ lệ đúng.
+- **Phiên 6:** lúc nhận bài hiển thị lựa chọn Đúng/Sai và tối đa 10 giải thích cho mỗi câu, cân bằng tối đa 5 giải thích của nhóm chọn Đúng và 5 của nhóm chọn Sai; từng giải thích ghi rõ lựa chọn đi kèm. Sau khi chốt, lựa chọn đúng được đánh dấu xanh ngay trên 7 thẻ tổng hợp; bảng kết quả lặp lại đã được bỏ.
 - **Phiên 3, 5, 7 và 8:** đề bài, dữ kiện và câu hỏi được hiển thị đầy đủ ở cả hai trạng thái. Lúc nhận bài hiển thị tối đa 10 phản hồi bằng thẻ nội dung mở, chữ lớn; sau khi chốt có gợi ý tham chiếu, tìm kiếm và tối đa 40 phản hồi đã ẩn thông tin cá nhân.
 - Bảng số bài theo đơn vị chỉ hiển thị những đơn vị có ít nhất một người tham gia phiên đang xem.
 
@@ -130,6 +130,7 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 - **02/09/2026:** làm rõ nút xem/thu gọn đề bài cho toàn bộ phiên tình huống; đổi 10 bài đầu của Phiên 2 sang dãy số ngang nổi bật; thêm phiên bản tài nguyên để tránh trình duyệt dùng lại CSS cũ.
 - **02/09/2026:** giữ nguyên trạng thái mở/thu gọn câu hỏi, phần giải thích và vị trí cuộn khi dữ liệu tự cập nhật sau mỗi 10 giây.
 - **02/09/2026:** Phiên 6 hiển thị tối đa 5 giải thích của nhóm chọn Đúng và 5 của nhóm chọn Sai cho mỗi câu, kèm nhãn lựa chọn của từng phản hồi ở cả hai trạng thái.
+- **02/09/2026:** bỏ bảng tổng hợp lặp lại của Phiên 6 sau chốt, đánh dấu xanh đáp án đúng trên từng thẻ; chuẩn hóa nhãn Phiên 3, 5, 7 và 8 thành “TÌNH HUỐNG”.
 
 ## Kết nối Google Sheet và Apps Script
 

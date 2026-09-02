@@ -105,6 +105,9 @@ assert.equal(data.sessions[5].explanationStats.rate, 100);
 assert.match(data.sessions[4].prompt.question, /Ủy ban nhân dân xã/);
 assert.match(data.sessions[6].prompt.question, /thừa, thiếu gì/);
 assert.match(data.sessions[7].prompt.question, /thừa, thiếu gì/);
+for (const id of [3, 5, 7, 8]) {
+  assert.equal(data.sessions[id - 1].prompt.label, "TÌNH HUỐNG");
+}
 
 const serialized = JSON.stringify(data);
 assert.equal(serialized.includes("Nguyễn Văn A"), false);
