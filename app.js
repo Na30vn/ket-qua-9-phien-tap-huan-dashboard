@@ -18,7 +18,6 @@
   const controlPanel = document.getElementById("control-panel");
   const controlFrame = document.getElementById("control-frame");
   const controlSessionLabel = document.getElementById("control-session-label");
-  const fullAdminLink = document.getElementById("full-admin-link");
   const formatNumber = new Intl.NumberFormat("vi-VN");
   const urlParams = new URLSearchParams(location.search);
   const fakeMode = urlParams.get("demo") === "1";
@@ -140,7 +139,6 @@
     controlSessionLabel.textContent = `Phiên ${session.id}`;
     const separator = config.adminUrl.includes("?") ? "&" : "?";
     const compactUrl = `${config.adminUrl}${separator}admin=1&view=compact&session=${session.id}`;
-    fullAdminLink.href = `${config.adminUrl}${separator}admin=1&view=control&session=${session.id}`;
     if (!controlPanel.hidden && controlFrame.dataset.session !== String(session.id)) {
       controlFrame.dataset.session = String(session.id);
       controlFrame.src = compactUrl;

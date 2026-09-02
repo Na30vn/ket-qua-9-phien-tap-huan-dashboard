@@ -129,6 +129,7 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 ## Nhật ký cập nhật
 
 - **03/09/2026:** thêm QR riêng cho Phiên 1–9, hỗ trợ phóng lớn giữa màn hình; chuyển điều khiển phiên sang nút `+` kín đáo và bổ sung giao diện quản trị gọn cho đúng phiên đang xem.
+- **03/09/2026:** ẩn email đăng nhập và bỏ liên kết sang trang quản trị đầy đủ khỏi điều khiển nhanh; trang quản trị riêng vẫn giữ nguyên để cán bộ kỹ thuật hỗ trợ.
 - **02/09/2026:** bổ sung đề bài đầy đủ cho Phiên 2, 3, 5, 7 và 8; thiết kế lại trình tự 10 bài đầu thành các ô vị trí/bước; chuyển phản hồi tự luận sang thẻ nội dung mở, chữ lớn để trình chiếu rõ hơn.
 - **02/09/2026:** làm rõ nút xem/thu gọn đề bài cho toàn bộ phiên tình huống; đổi 10 bài đầu của Phiên 2 sang dãy số ngang nổi bật; thêm phiên bản tài nguyên để tránh trình duyệt dùng lại CSS cũ.
 - **02/09/2026:** giữ nguyên trạng thái mở/thu gọn câu hỏi, phần giải thích và vị trí cuộn khi dữ liệu tự cập nhật sau mỗi 10 giây.

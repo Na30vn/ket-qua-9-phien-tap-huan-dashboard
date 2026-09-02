@@ -468,9 +468,7 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px
 .control-panel-head span { font-size: 9px; font-weight: 900; letter-spacing: .12em; opacity: .78; }
 .control-panel-head strong { font-size: 18px; }
 .control-panel-head button { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; color: #fff; background: rgba(255,255,255,.12); font-size: 22px; cursor: pointer; }
-.control-panel iframe { display: block; width: 100%; height: 235px; border: 0; background: #f3f6f9; }
-.control-panel > a { display: block; padding: 11px 15px 13px; color: #285c88; background: #f7fafc; font-size: 12px; font-weight: 800; text-align: center; text-decoration: none; }
-.control-panel > a:hover { text-decoration: underline; }
+.control-panel iframe { display: block; width: 100%; height: 215px; border: 0; background: #f3f6f9; }
 [hidden] { display: none !important; }
 
 @media (max-width: 980px) {

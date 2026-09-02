@@ -20,12 +20,14 @@ const admin = read(path.join("apps-script", "Admin.html"));
 assert.match(index, /id="qr-dialog"/);
 assert.match(index, /id="control-fab"/);
 assert.match(index, /id="control-frame"/);
+assert.doesNotMatch(index, /Mở trang quản trị đầy đủ/);
 assert.match(app, /assets\/qr\/session-\$\{session\.id\}\.png/);
 assert.match(app, /event\.source !== controlFrame\.contentWindow/);
 assert.match(styles, /\.control-fab/);
 assert.match(styles, /\.qr-dialog::backdrop/);
 assert.match(admin, /requestedView === 'compact'/);
 assert.match(admin, /dashboard-session-updated/);
+assert.doesNotMatch(admin, /Đăng nhập: \$\{data\.email\}/);
 
 const embeddedScript = admin.match(/<script>([\s\S]*?)<\/script>/)[1]
   .replace(/<\?!= JSON\.stringify\(requestedSession\) \?>/g, "1")
