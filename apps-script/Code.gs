@@ -250,7 +250,7 @@ function aggregateSession_(spreadsheet, config, controlState) {
           uniqueSequenceCount: new Set(answers).size,
           positionAccuracy: buildPositionAccuracy_(answers, correct),
           commonSequences: countValues_(answers).filter(item => item.value !== correct).slice(0, 5),
-          samples: []
+          samples: answers.slice(0, MAX_LIVE_RESPONSES)
         }
       : { samples: answers.slice(0, MAX_LIVE_RESPONSES) };
   }
@@ -261,7 +261,7 @@ function aggregateSession_(spreadsheet, config, controlState) {
       .filter(Boolean);
     result.referenceAnswer = phase === 'CLOSED' ? (config.referenceAnswer || []) : [];
     result.responses = publicResponses.slice(0, phase === 'CLOSED' ? MAX_PUBLIC_TEXT_RESPONSES : MAX_LIVE_RESPONSES);
-    result.liveResponses = phase === 'LIVE' ? result.responses : [];
+    result.liveResponses = result.responses.slice(0, MAX_LIVE_RESPONSES);
   }
   return result;
 }

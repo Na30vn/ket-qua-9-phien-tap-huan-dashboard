@@ -55,6 +55,7 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 - Hệ thống lưu thời điểm chốt và số bài chính thức trong tab ẩn `_DASHBOARD_CONTROL`.
 - Dashboard hiển thị phân tích đúng/sai, đáp án hoặc gợi ý tham chiếu phù hợp với từng dạng bài.
 - Bài gửi sau thời điểm chốt được đếm riêng và không làm thay đổi kết quả đã chốt.
+- Người trình chiếu có thể chuyển giữa **Kết quả tổng hợp** và **Màn hình lúc nhận bài**. Chế độ xem lại sử dụng đúng dữ liệu tại thời điểm chốt, không công bố đáp án và không mở lại phiên.
 - Có thể mở lại phiên nếu giảng viên cần tiếp tục nhận bài.
 
 ## Cách hiển thị theo từng dạng bài
@@ -166,6 +167,7 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 - Chuẩn hóa tên chính thức của cả 09 phiên theo yêu cầu giảng viên.
 - Đồng bộ tên mới lên đủ 09 Google Form, API công khai và trang quản trị; bổ sung tài khoản quản trị thứ hai mà không mở rộng quyền truy cập chung của dự án.
 - Khôi phục tệp hàm quản trị `Reporting.gs`, triển khai lại trang quản lý phiên và thêm thông báo rõ ràng nếu Apps Script không phản hồi trong 20 giây.
+- Bổ sung chế độ xem lại giao diện lúc nhận bài sau khi chốt cho cả bốn dạng: trắc nghiệm, sắp xếp trình tự, Đúng/Sai và bài tập tình huống.
 - Bổ sung tài liệu tổng thể về kiến trúc, luồng xử lý, trạng thái phiên, quyền riêng tư, báo cáo và quy trình đồng bộ thay đổi.
 
 ### 01/09/2026

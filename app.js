@@ -21,6 +21,7 @@
   let activeSession = getSessionFromUrl();
   let selectedQuestion = 0;
   let responseSearch = "";
+  let closedLivePreview = false;
   let timer = null;
   let isLoading = false;
 
@@ -95,24 +96,34 @@
     subtitle.textContent = session.typeLabel;
     updatedAt.textContent = payload.updatedAt ? `Cập nhật: ${new Date(payload.updatedAt).toLocaleString("vi-VN")}` : "";
     const phase = phaseOf(session);
+    const showingClosedLivePreview = phase === "CLOSED" && closedLivePreview;
+    const contentPhase = showingClosedLivePreview ? "LIVE" : phase;
     dashboard.dataset.kind = session.kind || "";
     dashboard.dataset.phase = phase;
+    dashboard.dataset.view = showingClosedLivePreview ? "live-preview" : phase.toLowerCase();
     dashboard.innerHTML = `
       <section class="section-head">
         <div><p class="section-kicker">KẾT QUẢ PHIÊN ${session.id}</p><h2>${escapeHtml(session.description || session.name)}</h2></div>
         <div class="section-badges"><span class="phase-pill phase-${phase.toLowerCase()}">${phase === "LIVE" ? "Đang nhận bài" : "Đã chốt"}</span><span class="type-pill">${escapeHtml(session.typeLabel)}</span></div>
       </section>
-      ${renderPhaseNotice(session, phase)}
-      ${renderMetrics(session, phase)}
-      ${renderSessionContent(session, phase)}
+      ${renderClosedViewSwitch(phase, showingClosedLivePreview)}
+      ${renderPhaseNotice(session, phase, showingClosedLivePreview)}
+      ${renderMetrics(session, contentPhase, showingClosedLivePreview)}
+      ${renderSessionContent(session, contentPhase)}
     `;
     bindSessionControls(session);
   }
 
-  function renderPhaseNotice(session, phase) {
+  function renderClosedViewSwitch(phase, showingLivePreview) {
+    if (phase !== "CLOSED") return "";
+    return `<section class="closed-view-switch"><div class="view-switch-copy"><span>CHẾ ĐỘ HIỂN THỊ</span><strong>${showingLivePreview ? "Màn hình lúc nhận bài" : "Kết quả tổng hợp sau khi chốt"}</strong></div><div class="view-switch-buttons" role="group" aria-label="Chọn chế độ hiển thị"><button type="button" class="${showingLivePreview ? "" : "active"}" data-closed-view="summary">Kết quả tổng hợp</button><button type="button" class="${showingLivePreview ? "active preview" : ""}" data-closed-view="live">Màn hình lúc nhận bài</button></div></section>`;
+  }
+
+  function renderPhaseNotice(session, phase, showingLivePreview) {
     if (phase === "LIVE") return "";
     const closedAt = session.closedAt ? new Date(session.closedAt).toLocaleString("vi-VN") : "theo dữ liệu mô phỏng";
     const late = Number(session.lateResponses || 0);
+    if (showingLivePreview) return `<div class="phase-notice preview-notice"><strong>Đang xem lại giao diện lúc nhận bài</strong><span>Sử dụng ${formatNumber.format(session.totalResponses || 0)} bài tại thời điểm chốt ${escapeHtml(closedAt)}. Phiên vẫn đã chốt và không nhận thêm dữ liệu vào kết quả này.</span></div>`;
     return `<div class="phase-notice closed-notice"><strong>Số liệu đã chốt: ${formatNumber.format(session.totalResponses || 0)} bài</strong><span>Thời điểm chốt: ${escapeHtml(closedAt)}.${late ? ` Có ${formatNumber.format(late)} bài gửi sau thời điểm chốt và không được cộng vào kết quả.` : ""}</span></div>`;
   }
 
@@ -125,6 +136,7 @@
       activeSession = Number(button.dataset.session);
       selectedQuestion = 0;
       responseSearch = "";
+      closedLivePreview = false;
       const params = new URLSearchParams(location.search);
       params.set("phien", activeSession);
       history.replaceState({}, "", `${location.pathname}?${params.toString()}`);
@@ -133,9 +145,11 @@
     }));
   }
 
-  function renderMetrics(session, phase) {
+  function renderMetrics(session, phase, showingClosedLivePreview = false) {
     if (phase === "LIVE") {
-      return `<section class="metrics metrics-2">${metric("Số bài đã nhận", formatNumber.format(session.currentResponses ?? session.totalResponses ?? 0), "Cập nhật theo phản hồi mới")}${metric("Số đơn vị tham gia", formatNumber.format(session.participatingUnits || 0), "Chỉ tính đơn vị đã có bài")}</section>`;
+      const responseCount = showingClosedLivePreview ? session.totalResponses : (session.currentResponses ?? session.totalResponses ?? 0);
+      const responseNote = showingClosedLivePreview ? "Số bài tại thời điểm chốt" : "Cập nhật theo phản hồi mới";
+      return `<section class="metrics metrics-2">${metric("Số bài đã nhận", formatNumber.format(responseCount || 0), responseNote)}${metric("Số đơn vị tham gia", formatNumber.format(session.participatingUnits || 0), "Chỉ tính đơn vị đã có bài")}</section>`;
     }
     const summary = session.quizSummary || {};
     let metrics;
@@ -273,6 +287,12 @@
   function optionCount(question, expected) { const normalized = normalizeText(expected); return Number((question.options || []).find(option => normalizeText(option.label) === normalized)?.count || 0); }
 
   function bindSessionControls() {
+    dashboard.querySelectorAll("[data-closed-view]").forEach(button => button.addEventListener("click", () => {
+      closedLivePreview = button.dataset.closedView === "live";
+      selectedQuestion = 0;
+      responseSearch = "";
+      render();
+    }));
     dashboard.querySelectorAll("[data-question]").forEach(button => button.addEventListener("click", () => { selectedQuestion = Number(button.dataset.question); render(); }));
     const search = document.getElementById("response-search");
     if (search) search.addEventListener("input", event => { responseSearch = event.target.value; renderOpenResponseList(); });

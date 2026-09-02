@@ -144,10 +144,21 @@ h1 {
 .phase-live { color: #07543d; background: #d8f4e7; border: 1px solid #8ed2b5; }
 .phase-closed { color: #fff; background: var(--navy); border: 1px solid var(--navy); }
 
+.closed-view-switch { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: -2px 0 15px; padding: 14px 16px; border: 1px solid #bfd0e0; border-radius: 13px; background: #fff; box-shadow: 0 5px 16px rgba(18,60,105,.07); }
+.view-switch-copy { display: grid; gap: 3px; color: var(--navy); }
+.view-switch-copy span { color: #56708b; font-size: 11px; font-weight: 900; letter-spacing: .1em; }
+.view-switch-copy strong { font-size: 16px; line-height: 1.35; }
+.view-switch-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.view-switch-buttons button { padding: 10px 14px; border: 1px solid #9fb5c9; border-radius: 9px; color: #173b60; background: #f6f9fc; font-weight: 850; cursor: pointer; }
+.view-switch-buttons button:hover { border-color: #2374c6; background: #edf5fc; }
+.view-switch-buttons button.active { color: #fff; border-color: var(--navy); background: var(--navy); box-shadow: 0 4px 12px rgba(18,60,105,.2); }
+.view-switch-buttons button.active.preview { border-color: #b87112; background: #c97b14; }
+
 .phase-notice { display: flex; align-items: center; gap: 12px; margin: -3px 0 18px; padding: 13px 16px; border-radius: 12px; font-size: 14px; line-height: 1.45; }
 .phase-notice strong { flex: 0 0 auto; }
 .live-notice { color: #084f3b; border: 1px solid #9bd8bf; background: #e7f8f0; }
 .closed-notice { color: #173452; border: 1px solid #b7cade; background: #edf4fa; }
+.preview-notice { color: #563909; border: 1px solid #e5be73; background: #fff6df; }
 
 .metrics { display: grid; gap: 14px; margin-bottom: 22px; }
 .metrics-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
@@ -389,6 +400,8 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px
 @media (max-width: 760px) {
   .content-grid, .response-list, .unit-list, .sample-stream { grid-template-columns: 1fr; }
   .metrics-3, .metrics-2 { grid-template-columns: 1fr; }
+  .closed-view-switch { align-items: flex-start; flex-direction: column; }
+  .view-switch-buttons { width: 100%; justify-content: flex-start; }
   .panel-heading, .panel-heading-actions { flex-direction: column; }
   .panel-heading > span { max-width: none; text-align: left; }
   .search-box { width: 100%; }
