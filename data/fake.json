@@ -7,7 +7,7 @@
       "name": "Phiên 1",
       "kind": "quiz",
       "typeLabel": "Trắc nghiệm 6 câu",
-      "description": "Phân cấp thu, chi và lập dự toán ngân sách cấp xã",
+      "description": "Phân cấp nguồn thu, nhiệm vụ chi ngân sách xã",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -623,7 +623,7 @@
       "name": "Phiên 2",
       "kind": "ordering",
       "typeLabel": "Sắp xếp thứ tự",
-      "description": "Quy trình quản lý ngân sách cấp xã theo thời gian",
+      "description": "Quy trình quản lý ngân sách cấp xã",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -1099,7 +1099,7 @@
       "name": "Phiên 3",
       "kind": "open",
       "typeLabel": "Tình huống tự luận",
-      "description": "Thực hiện công khai ngân sách cấp xã",
+      "description": "Công khai ngân sách cấp xã",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -1474,7 +1474,7 @@
       "name": "Phiên 4",
       "kind": "quiz",
       "typeLabel": "Trắc nghiệm 9 câu",
-      "description": "Quản lý ngân sách cấp xã",
+      "description": "Điều hành ngân sách xã và quyết toán ngân sách xã",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -2213,7 +2213,7 @@
       "name": "Phiên 5",
       "kind": "open",
       "typeLabel": "Tình huống tự luận",
-      "description": "Xét duyệt và tổng hợp quyết toán năm",
+      "description": "Xét duyệt quyết toán ngân sách cấp xã",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -2587,7 +2587,7 @@
       "name": "Phiên 6",
       "kind": "true_false",
       "typeLabel": "Đúng/Sai và giải thích",
-      "description": "Định mức trang thiết bị, tài sản",
+      "description": "Tiêu chuẩn định mức máy móc thiết bị",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -3140,7 +3140,7 @@
       "name": "Phiên 7",
       "kind": "open",
       "typeLabel": "Phân tích hồ sơ",
-      "description": "Tình huống mua sắm máy phát điện",
+      "description": "Hồ sơ mua sắm không quá 50 triệu đồng",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -3514,7 +3514,7 @@
       "name": "Phiên 8",
       "kind": "open",
       "typeLabel": "Phân tích hồ sơ",
-      "description": "Tình huống mua sắm màn hình LED",
+      "description": "Hồ sơ mua sắm chỉ định thầu rút gọn",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {
@@ -3890,7 +3890,7 @@
       "name": "Phiên 9",
       "kind": "quiz",
       "typeLabel": "Trắc nghiệm 2 câu",
-      "description": "Quản lý và khai thác tài sản công",
+      "description": "Quản lý, sử dụng tài sản công",
       "totalResponses": 274,
       "participatingUnits": 81,
       "scoreStats": {

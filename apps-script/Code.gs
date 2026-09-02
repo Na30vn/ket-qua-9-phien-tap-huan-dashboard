@@ -4,8 +4,20 @@ const MAX_LIVE_RESPONSES = 10;
 const MAX_EXPLANATIONS_PER_QUESTION = 3;
 const CONTROL_SHEET_NAME = '_DASHBOARD_CONTROL';
 
+const SESSION_FORM_IDS = {
+  1: '1Y-hWQ48BD7oY5fPDXXQOBSZYq2tCoVTG3CUv2swJirk',
+  2: '1FUPYBBfxv_4hHHC8RuyatvgmJXhM6bcZz98wElmn6Q4',
+  3: '107cKSnhSdvMStJPiqi5lTW9jg1Va5LkfgtgUfzMIe1I',
+  4: '1nRp8sFbzi-z-sJtWbfkC26h2TbBpVl6zN2d997KaRvU',
+  5: '1RQ5AjKgzUPkGXDay8N9rmLmyz7ObbFp0rNMqFVwnhE4',
+  6: '1NAGUw2Eebr2DkoobCXHn-e0bNJmzIfjQoWLr4VjdllU',
+  7: '1iGTpKxlI_ksXtUoKv0Ir3toXRUs0O9_sRVXSfspG5zw',
+  8: '1q2-8J9OxKcAHIBz6CWpQGTVyXxEuaqMzELhoWf7-LWk',
+  9: '1w65HrpYrgI9RX2iYEu7jz57ka0TIG-CCJzJ8rcPBZ-4'
+};
+
 const SESSION_CONFIG = [
-  { id: 1, name: 'Phiên 1', kind: 'quiz', typeLabel: 'Trắc nghiệm 6 câu', description: 'Phân cấp thu, chi và lập dự toán ngân sách cấp xã', formId: '1Y-hWQ48BD7oY5fPDXXQOBSZYq2tCoVTG3CUv2swJirk', scoreIndex: 1, questionIndexes: [4,5,6,7,8,9], pointsPerQuestion: 10, correctAnswers: [
+  { id: 1, name: 'Phiên 1', kind: 'quiz', typeLabel: 'Trắc nghiệm 6 câu', description: 'Phân cấp nguồn thu, nhiệm vụ chi ngân sách xã', formId: '1Y-hWQ48BD7oY5fPDXXQOBSZYq2tCoVTG3CUv2swJirk', scoreIndex: 1, questionIndexes: [4,5,6,7,8,9], pointsPerQuestion: 10, correctAnswers: [
     'Thu từ quỹ phòng, chống thiên tai được phân bổ cho Uỷ ban nhân dân cấp xã',
     'Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước',
     'Xây dựng dự toán ngân sách cấp xã đảm bảo dự phòng ngân sách đạt 2% tổng chi ngân sách cấp xã (bao gồm chi bổ sung có mục tiêu từ ngân sách cấp trên)',
@@ -40,13 +52,13 @@ const SESSION_CONFIG = [
     ['Uỷ ban nhân dân cấp xã', 'Hội đồng nhân dân cấp xã', 'Thường trực Hội đồng nhân dân cấp xã', 'Cơ quan tài chính cấp xã'],
     ['Cơ quan cấp trên', 'Cơ quan tài chính cấp xã', 'Kho bạc nhà nước', 'Thanh tra tài chính']
   ] },
-  { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã theo thời gian', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^Sắp xếp các hoạt động/i, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
-  { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Thực hiện công khai ngân sách cấp xã', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^(Tình huống|Câu trả lời)/i, referenceAnswer: [
+  { id: 2, name: 'Phiên 2', kind: 'ordering', typeLabel: 'Sắp xếp thứ tự', description: 'Quy trình quản lý ngân sách cấp xã', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^Sắp xếp các hoạt động/i, correctSequence: '3, 5, 1, 6, 4, 11, 9, 8, 10, 13, 2, 12, 7' },
+  { id: 3, name: 'Phiên 3', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Công khai ngân sách cấp xã', scoreIndex: 4, answerIndex: 3, answerHeaderPattern: /^(Tình huống|Câu trả lời)/i, referenceAnswer: [
     'Thiếu công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình Hội đồng nhân dân cấp xã.',
     'Thiếu công khai thuyết minh quyết toán ngân sách cấp xã đã được Hội đồng nhân dân cấp xã phê chuẩn, gồm kết quả thu và kết quả chi ngân sách cấp xã.',
     'Tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và năm; không ghi chung là hàng quý.'
   ] },
-  { id: 4, name: 'Phiên 4', kind: 'quiz', typeLabel: 'Trắc nghiệm 9 câu', description: 'Quản lý ngân sách cấp xã', formId: '1nRp8sFbzi-z-sJtWbfkC26h2TbBpVl6zN2d997KaRvU', scoreIndex: 1, questionIndexes: [2,3,4,5,6,7,8,9,10], pointsPerQuestion: 10, correctAnswers: [
+  { id: 4, name: 'Phiên 4', kind: 'quiz', typeLabel: 'Trắc nghiệm 9 câu', description: 'Điều hành ngân sách xã và quyết toán ngân sách xã', formId: '1nRp8sFbzi-z-sJtWbfkC26h2TbBpVl6zN2d997KaRvU', scoreIndex: 1, questionIndexes: [2,3,4,5,6,7,8,9,10], pointsPerQuestion: 10, correctAnswers: [
     'B. Bổ sung kinh phí hoạt động thường xuyên cho các cơ quan, tổ chức, đơn vị dự toán ngân sách cấp xã',
     'C. Ủy ban nhân dân cấp xã quyết định sử dụng số tăng thu so với dự toán, dự toán chi còn lại của ngân sách cấp xã và báo cáo Thường trực Hội đồng nhân dân cấp xã kết quả thực hiện, báo cáo Hội đồng nhân dân cấp xã tại kỳ họp gần nhất',
     'C. Trước ngày 31 tháng 12 năm trước',
@@ -67,11 +79,11 @@ const SESSION_CONFIG = [
     ['A. Ủy ban nhân dân cấp xã lập quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã báo cáo Thường trực Hội đồng nhân dân cùng cấp cho ý kiến trước ngày 10 tháng 3 năm sau', 'B. Hội đồng nhân dân cấp xã xem xét, phê chuẩn báo cáo quyết toán ngân sách cấp mình trước ngày 31 tháng 3 năm sau', 'C. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 05 ngày làm việc', 'D. Kể từ ngày báo cáo quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã được phê chuẩn gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 10 ngày làm việc'],
     ['A. Nguồn thực hiện cải cách chính sách tiền lương được sử dụng để bảo đảm điều chỉnh mức lương cơ sở hằng năm và bảo đảm các chính sách an sinh xã hội do Trung ương ban hành (đối với ngân sách địa phương)', 'B. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã theo nhu cầu (không phải báo cáo nguồn thực hiện cải cách chính sách tiền lương còn dư tại các xã, phường và đơn vị dự toán)', 'C. Nguồn thực hiện chính sách tiền lương có thể được bổ sung từ số tăng thu so với dự toán, dự toán chi còn lại của cấp ngân sách khi kết thúc năm ngân sách', 'D. Ngân sách thành phố hỗ trợ nhu cầu thực hiện cải cách tiền lương (bao gồm cả quỹ tiền thưởng) cho các xã sau khi đã cân đối nguồn mà chưa đáp ứng đủ nhu cầu theo chế độ quy định']
   ] },
-  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt và tổng hợp quyết toán năm', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i, referenceAnswer: [
+  { id: 5, name: 'Phiên 5', kind: 'open', typeLabel: 'Tình huống tự luận', description: 'Xét duyệt quyết toán ngân sách cấp xã', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Câu trả lời của bạn/i, referenceAnswer: [
     'Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách, đơn vị lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ và khớp đúng với xác nhận của Kho bạc Nhà nước.',
     'Thủ trưởng đơn vị chịu trách nhiệm về quyết toán ngân sách của đơn vị mình.'
   ] },
-  { id: 6, name: 'Phiên 6', kind: 'true_false', typeLabel: 'Đúng/Sai và giải thích', description: 'Định mức trang thiết bị, tài sản', scoreIndex: 1, questionIndexes: [2,4,6,8,10,12,14], explanationIndexes: [3,5,7,9,11,13,15], pointsPerQuestion: 10, correctAnswers: ['Sai','Sai','Đúng','Sai','Sai','Sai','Đúng'], referenceNotes: [
+  { id: 6, name: 'Phiên 6', kind: 'true_false', typeLabel: 'Đúng/Sai và giải thích', description: 'Tiêu chuẩn định mức máy móc thiết bị', scoreIndex: 1, questionIndexes: [2,4,6,8,10,12,14], explanationIndexes: [3,5,7,9,11,13,15], pointsPerQuestion: 10, correctAnswers: ['Sai','Sai','Đúng','Sai','Sai','Sai','Đúng'], referenceNotes: [
     'Sai: Bí thư đảng ủy xã chỉ được trang bị 1 máy tính xách tay tối đa 25 triệu đồng và 1 máy tính để bàn tối đa 20 triệu đồng.',
     'Sai: Mỗi phòng làm việc không quá 3 người chỉ được trang bị 1 máy in tối đa 13 triệu đồng.',
     'Đúng: Mức giá tối đa của máy tính xách tay là 20 triệu đồng, chưa bao gồm bản quyền phần mềm.',
@@ -80,17 +92,17 @@ const SESSION_CONFIG = [
     'Sai: Máy chiếu tại lớp học là thiết bị chuyên dùng; theo phân cấp phải trình Sở Giáo dục và Đào tạo quyết định.',
     'Đúng: Bàn ghế lớp học là thiết bị chuyên dùng; nếu không đủ điều kiện là tài sản cố định thì thủ trưởng đơn vị quyết định.'
   ] },
-  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm máy phát điện', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
+  { id: 7, name: 'Phiên 7', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Hồ sơ mua sắm không quá 50 triệu đồng', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
     'Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan, đơn vị.',
     'Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; theo Quyết định số 80/2026/QĐ-UBND, người đứng đầu đơn vị dự toán cấp I thuộc UBND cấp xã quyết định nội dung này.'
   ] },
-  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Tình huống mua sắm màn hình LED', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
+  { id: 8, name: 'Phiên 8', kind: 'open', typeLabel: 'Phân tích hồ sơ', description: 'Hồ sơ mua sắm chỉ định thầu rút gọn', scoreIndex: 2, answerIndex: 1, answerHeaderPattern: /^Phân tích hồ sơ/i, referenceAnswer: [
     'Trình Chủ tịch UBND xã, không phải UBND xã, quyết định tiêu chuẩn và định mức màn hình LED vì đây là thiết bị phục vụ hoạt động chung.',
     'Không phải trình UBND xã phê duyệt chủ trương và dự kiến kinh phí; thẩm quyền thuộc người đứng đầu đơn vị dự toán cấp I theo Quyết định số 80/2026/QĐ-UBND.',
     'Thừa bước thẩm định kế hoạch lựa chọn nhà thầu.',
     'Thay “Quyết định chỉ định thầu” bằng “Quyết định phê duyệt kết quả lựa chọn nhà thầu”.'
   ] },
-  { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý và khai thác tài sản công', formId: '1w65HrpYrgI9RX2iYEu7jz57ka0TIG-CCJzJ8rcPBZ-4', scoreIndex: 1, questionIndexes: [2,3], pointsPerQuestion: 10, correctAnswers: [
+  { id: 9, name: 'Phiên 9', kind: 'quiz', typeLabel: 'Trắc nghiệm 2 câu', description: 'Quản lý, sử dụng tài sản công', formId: '1w65HrpYrgI9RX2iYEu7jz57ka0TIG-CCJzJ8rcPBZ-4', scoreIndex: 1, questionIndexes: [2,3], pointsPerQuestion: 10, correctAnswers: [
     'C. Xây dựng và ban hành quy định về phân cấp thẩm quyền quyết định quản lý, sử dụng, khai thác và xử lý tài sản công',
     'B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê'
   ], choices: [
@@ -98,6 +110,14 @@ const SESSION_CONFIG = [
     ['A. Đơn vị sự nghiệp công lập sử dụng tài sản công để phục vụ hoạt động phụ trợ, hỗ trợ trực tiếp cho việc thực hiện chức năng, nhiệm vụ của đơn vị có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê, liên doanh, liên kết', 'B. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập hồ sơ đề nghị, báo cáo Chủ tịch Ủy ban nhân dân phường, xã quyết định khai thác tài sản; không phải lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê', 'C. Hình thức khai thác phòng họp, phần diện tích sử dụng chung thuộc cơ sở hoạt động sự nghiệp: Bố trí cho cơ quan nhà nước, đơn vị lực lượng vũ trang nhân dân, đơn vị sự nghiệp công lập, cơ quan Đảng Cộng sản Việt Nam, Mặt trận Tổ quốc Việt Nam và tổ chức trực thuộc Mặt trận Tổ quốc Việt Nam sử dụng tạm thời trong thời gian chưa có tài sản hoặc đang trong thời gian thực hiện cải tạo, sửa chữa, nâng cấp, đầu tư xây dựng trụ sở làm việc, cơ sở hoạt động sự nghiệp', 'D. Đơn vị sự nghiệp công lập sử dụng hội trường của đơn vị để kinh doanh, cho thuê có trách nhiệm lập Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê, báo cáo Ủy ban nhân dân phường, xã xem xét, có ý kiến về Đề án, trình Chủ tịch Ủy ban nhân dân phường, xã quyết định phê duyệt Đề án sử dụng tài sản công vào mục đích kinh doanh, cho thuê của đơn vị sự nghiệp công lập thuộc phạm vi quản lý.']
   ] }
 ];
+
+function syncSessionFormTitles() {
+  return SESSION_CONFIG.map(config => {
+    const title = `${config.name}: ${config.description}`;
+    FormApp.openById(SESSION_FORM_IDS[config.id]).setTitle(title);
+    return { id: config.id, title };
+  });
+}
 
 function doGet(e) {
   const params = (e && e.parameter) || {};
