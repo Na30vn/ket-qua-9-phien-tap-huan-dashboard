@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#123c69">
   <title>Dashboard kết quả 09 phiên tập huấn</title>
-  <link rel="stylesheet" href="styles.css?v=20260902-6">
+  <link rel="stylesheet" href="styles.css?v=20260903-1">
 </head>
 <body>
   <header class="hero">
@@ -21,7 +21,7 @@
       <span id="data-status" class="status status-loading">Đang tải dữ liệu…</span>
       <button id="refresh-button" class="button" type="button">Cập nhật</button>
       <button id="export-button" class="button button-export" type="button">Xuất báo cáo</button>
-      <a id="admin-button" class="button button-admin" target="_blank" rel="noopener">Quản trị phiên</a>
+      <a id="admin-button" class="button button-admin" target="_blank" rel="noopener" hidden>Quản trị phiên</a>
       <button id="fullscreen-button" class="button button-secondary" type="button">Toàn màn hình</button>
     </div>
   </header>
@@ -35,12 +35,32 @@
     </section>
   </main>
 
+  <dialog id="qr-dialog" class="qr-dialog" aria-labelledby="qr-dialog-title">
+    <button id="qr-dialog-close" class="dialog-close" type="button" aria-label="Đóng mã QR">×</button>
+    <p id="qr-dialog-kicker">MÃ QR LÀM BÀI</p>
+    <h2 id="qr-dialog-title">Phiên 1</h2>
+    <img id="qr-dialog-image" alt="Mã QR làm bài">
+    <p class="qr-dialog-note">Quét mã để mở biểu mẫu của phiên này</p>
+  </dialog>
+
+  <aside id="session-control" class="session-control" hidden>
+    <button id="control-fab" class="control-fab" type="button" aria-expanded="false" aria-controls="control-panel" aria-label="Mở điều khiển phiên">+</button>
+    <section id="control-panel" class="control-panel" hidden>
+      <div class="control-panel-head">
+        <div><span>ĐIỀU KHIỂN NHANH</span><strong id="control-session-label">Phiên 1</strong></div>
+        <button id="control-panel-close" type="button" aria-label="Đóng điều khiển">×</button>
+      </div>
+      <iframe id="control-frame" title="Chốt hoặc mở lại phiên" loading="lazy"></iframe>
+      <a id="full-admin-link" target="_blank" rel="noopener">Mở trang quản trị đầy đủ</a>
+    </section>
+  </aside>
+
   <footer>
     <span>Dữ liệu tổng hợp ẩn danh từ các tab Phiên 1–9</span>
     <span id="updated-at"></span>
   </footer>
 
   <script src="config.js"></script>
-  <script src="app.js?v=20260902-7"></script>
+  <script src="app.js?v=20260903-1"></script>
 </body>
 </html>

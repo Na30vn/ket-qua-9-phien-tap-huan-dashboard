@@ -57,6 +57,8 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 - Bài gửi sau thời điểm chốt được đếm riêng và không làm thay đổi kết quả đã chốt.
 - Người trình chiếu có thể chuyển giữa **Kết quả tổng hợp** và **Màn hình lúc nhận bài**. Chế độ xem lại sử dụng đúng dữ liệu tại thời điểm chốt, không công bố đáp án và không mở lại phiên.
 - Có thể mở lại phiên nếu giảng viên cần tiếp tục nhận bài.
+- Mỗi dashboard có mã QR riêng của phiên; bấm vào mã nhỏ để phóng lớn ở giữa màn hình phục vụ trình chiếu.
+- Nút `+` cố định ở góc dưới bên phải mở bảng điều khiển nhanh. Việc chốt/mở lại vẫn chạy trong trang Apps Script có xác thực quản trị và luôn yêu cầu xác nhận, không đưa quyền quản trị vào mã nguồn giao diện công khai.
 
 ## Cách hiển thị theo từng dạng bài
 
@@ -126,6 +128,7 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 
 ## Nhật ký cập nhật
 
+- **03/09/2026:** thêm QR riêng cho Phiên 1–9, hỗ trợ phóng lớn giữa màn hình; chuyển điều khiển phiên sang nút `+` kín đáo và bổ sung giao diện quản trị gọn cho đúng phiên đang xem.
 - **02/09/2026:** bổ sung đề bài đầy đủ cho Phiên 2, 3, 5, 7 và 8; thiết kế lại trình tự 10 bài đầu thành các ô vị trí/bước; chuyển phản hồi tự luận sang thẻ nội dung mở, chữ lớn để trình chiếu rõ hơn.
 - **02/09/2026:** làm rõ nút xem/thu gọn đề bài cho toàn bộ phiên tình huống; đổi 10 bài đầu của Phiên 2 sang dãy số ngang nổi bật; thêm phiên bản tài nguyên để tránh trình duyệt dùng lại CSS cũ.
 - **02/09/2026:** giữ nguyên trạng thái mở/thu gọn câu hỏi, phần giải thích và vị trí cuộn khi dữ liệu tự cập nhật sau mỗi 10 giây.

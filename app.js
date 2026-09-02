@@ -10,6 +10,15 @@
   const sessionTitle = document.getElementById("session-title");
   const exportButton = document.getElementById("export-button");
   const adminButton = document.getElementById("admin-button");
+  const qrDialog = document.getElementById("qr-dialog");
+  const qrDialogImage = document.getElementById("qr-dialog-image");
+  const qrDialogTitle = document.getElementById("qr-dialog-title");
+  const sessionControl = document.getElementById("session-control");
+  const controlFab = document.getElementById("control-fab");
+  const controlPanel = document.getElementById("control-panel");
+  const controlFrame = document.getElementById("control-frame");
+  const controlSessionLabel = document.getElementById("control-session-label");
+  const fullAdminLink = document.getElementById("full-admin-link");
   const formatNumber = new Intl.NumberFormat("vi-VN");
   const urlParams = new URLSearchParams(location.search);
   const fakeMode = urlParams.get("demo") === "1";
@@ -40,8 +49,10 @@
     if (!config.adminUrl) {
       exportButton.hidden = true;
       adminButton.hidden = true;
+      sessionControl.hidden = true;
       return;
     }
+    sessionControl.hidden = false;
     const separator = config.adminUrl.includes("?") ? "&" : "?";
     adminButton.href = `${config.adminUrl}${separator}admin=1&view=control`;
     exportButton.addEventListener("click", event => {
@@ -109,7 +120,10 @@
     dashboard.innerHTML = `
       <section class="section-head">
         <div><p class="section-kicker">KẾT QUẢ PHIÊN ${session.id}</p><h2>${escapeHtml(session.description || session.name)}</h2></div>
-        <div class="section-badges"><span class="phase-pill phase-${phase.toLowerCase()}">${phase === "LIVE" ? "Đang nhận bài" : "Đã chốt"}</span><span class="type-pill">${escapeHtml(session.typeLabel)}</span></div>
+        <div class="section-tools">
+          <button class="session-qr" type="button" data-open-qr="${session.id}" aria-label="Phóng to mã QR Phiên ${session.id}"><img src="assets/qr/session-${session.id}.png" alt=""><span><small>MÃ QR LÀM BÀI</small><strong>Phiên ${session.id}</strong><em>Nhấn để phóng to</em></span></button>
+          <div class="section-badges"><span class="phase-pill phase-${phase.toLowerCase()}">${phase === "LIVE" ? "Đang nhận bài" : "Đã chốt"}</span><span class="type-pill">${escapeHtml(session.typeLabel)}</span></div>
+        </div>
       </section>
       ${renderClosedViewSwitch(phase, showingClosedLivePreview)}
       ${renderPhaseNotice(session, phase, showingClosedLivePreview)}
@@ -117,7 +131,20 @@
       ${renderSessionContent(session, contentPhase)}
     `;
     restoreUiState();
+    updateQuickControl(session);
     bindSessionControls(session);
+  }
+
+  function updateQuickControl(session) {
+    if (!config.adminUrl) return;
+    controlSessionLabel.textContent = `Phiên ${session.id}`;
+    const separator = config.adminUrl.includes("?") ? "&" : "?";
+    const compactUrl = `${config.adminUrl}${separator}admin=1&view=compact&session=${session.id}`;
+    fullAdminLink.href = `${config.adminUrl}${separator}admin=1&view=control&session=${session.id}`;
+    if (!controlPanel.hidden && controlFrame.dataset.session !== String(session.id)) {
+      controlFrame.dataset.session = String(session.id);
+      controlFrame.src = compactUrl;
+    }
   }
 
   function captureUiState() {
@@ -336,7 +363,14 @@
   function panelHeading(title, note) { return `<div class="panel-heading"><div><p class="panel-kicker">TRỰC QUAN</p><h3>${escapeHtml(title)}</h3></div>${note ? `<span>${escapeHtml(note)}</span>` : ""}</div>`; }
   function optionCount(question, expected) { const normalized = normalizeText(expected); return Number((question.options || []).find(option => normalizeText(option.label) === normalized)?.count || 0); }
 
-  function bindSessionControls() {
+  function bindSessionControls(session) {
+    dashboard.querySelectorAll("[data-open-qr]").forEach(button => button.addEventListener("click", () => {
+      qrDialogTitle.textContent = `Phiên ${session.id} – ${session.description || session.name}`;
+      qrDialogImage.src = `assets/qr/session-${session.id}.png`;
+      qrDialogImage.alt = `Mã QR làm bài Phiên ${session.id}`;
+      if (typeof qrDialog.showModal === "function") qrDialog.showModal();
+      else qrDialog.setAttribute("open", "");
+    }));
     dashboard.querySelectorAll("[data-closed-view]").forEach(button => button.addEventListener("click", () => {
       closedLivePreview = button.dataset.closedView === "live";
       selectedQuestion = 0;
@@ -357,6 +391,35 @@
 
   document.getElementById("refresh-button").addEventListener("click", () => loadData(true));
   document.getElementById("fullscreen-button").addEventListener("click", () => { if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); });
+  document.getElementById("qr-dialog-close").addEventListener("click", () => qrDialog.close());
+  qrDialog.addEventListener("click", event => {
+    const bounds = qrDialog.getBoundingClientRect();
+    const outside = event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom;
+    if (outside) qrDialog.close();
+  });
+  controlFab.addEventListener("click", () => {
+    const opening = controlPanel.hidden;
+    controlPanel.hidden = !opening;
+    controlFab.setAttribute("aria-expanded", String(opening));
+    controlFab.textContent = opening ? "×" : "+";
+    if (opening) {
+      const separator = config.adminUrl.includes("?") ? "&" : "?";
+      controlFrame.dataset.session = String(activeSession);
+      controlFrame.src = `${config.adminUrl}${separator}admin=1&view=compact&session=${activeSession}`;
+    }
+  });
+  document.getElementById("control-panel-close").addEventListener("click", () => {
+    controlPanel.hidden = true;
+    controlFab.setAttribute("aria-expanded", "false");
+    controlFab.textContent = "+";
+  });
+  window.addEventListener("message", event => {
+    if (event.source !== controlFrame.contentWindow || event.data?.type !== "dashboard-session-updated") return;
+    controlPanel.hidden = true;
+    controlFab.setAttribute("aria-expanded", "false");
+    controlFab.textContent = "+";
+    loadData(true);
+  });
   loadData();
   if (Number(config.refreshSeconds) > 0) timer = setInterval(() => loadData(true), Number(config.refreshSeconds) * 1000);
   window.addEventListener("focus", () => loadData(true));
