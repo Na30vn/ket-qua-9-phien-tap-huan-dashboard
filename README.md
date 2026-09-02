@@ -165,6 +165,7 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 
 - Chuẩn hóa tên chính thức của cả 09 phiên theo yêu cầu giảng viên.
 - Đồng bộ tên mới lên đủ 09 Google Form, API công khai và trang quản trị; bổ sung tài khoản quản trị thứ hai mà không mở rộng quyền truy cập chung của dự án.
+- Khôi phục tệp hàm quản trị `Reporting.gs`, triển khai lại trang quản lý phiên và thêm thông báo rõ ràng nếu Apps Script không phản hồi trong 20 giây.
 - Bổ sung tài liệu tổng thể về kiến trúc, luồng xử lý, trạng thái phiên, quyền riêng tư, báo cáo và quy trình đồng bộ thay đổi.
 
 ### 01/09/2026

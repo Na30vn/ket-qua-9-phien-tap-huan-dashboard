@@ -56,15 +56,22 @@
   const refreshButton = document.getElementById('refresh');
   const exportAllButton = document.getElementById('export-all');
   const scheduleFilter = document.getElementById('schedule-filter');
+  let loadTimeout;
 
   function escapeHtml(value) { return String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char])); }
   function setBusy(isBusy, message) { document.querySelectorAll('button').forEach(button => button.disabled = isBusy); notice.textContent = message || ''; }
-  function fail(error) { setBusy(false, error && error.message ? error.message : String(error)); }
+  function fail(error) {
+    clearTimeout(loadTimeout);
+    setBusy(false, error && error.message ? error.message : String(error));
+  }
   function load() {
+    clearTimeout(loadTimeout);
     setBusy(true, 'Đang tải dữ liệu…');
+    loadTimeout = setTimeout(() => fail(new Error('Không nhận được dữ liệu từ Apps Script. Hãy tải lại trang hoặc kiểm tra quyền truy cập Sheet.')), 20000);
     google.script.run.withSuccessHandler(render).withFailureHandler(fail).getAdminDashboardData();
   }
   function render(data) {
+    clearTimeout(loadTimeout);
     window.lastAdminData = data;
     setBusy(false, `Đăng nhập: ${data.email} · Cập nhật ${new Date(data.updatedAt).toLocaleString('vi-VN')}`);
     const schedule = [
