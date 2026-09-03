@@ -1,6 +1,6 @@
 {
   "version": 7,
-  "updatedAt": "2026-09-03T09:02:08.786Z",
+  "updatedAt": "2026-09-03T11:25:39.878Z",
   "sessions": [
     {
       "id": 1,
@@ -1714,7 +1714,259 @@
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
       "timerEndsAt": null,
-      "leaderboard": []
+      "leaderboard": [],
+      "topParticipants": [
+        {
+          "rank": 1,
+          "name": "Trần Thị Minh Trang",
+          "unit": "Sở Tài chính",
+          "submittedAt": "2026-08-31T08:14:10.000Z",
+          "scoreText": "3/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Trần Thị Minh Trang)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Bài làm lập luận xuất sắc, chỉ ra đầy đủ 3 ý chuẩn theo quy định hiện hành.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 2,
+          "name": "Nguyễn Hoàng Nam",
+          "unit": "Phường Hải Châu",
+          "submittedAt": "2026-08-31T08:14:22.000Z",
+          "scoreText": "3/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Nguyễn Hoàng Nam)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Bài làm lập luận xuất sắc, chỉ ra đầy đủ 3 ý chuẩn theo quy định hiện hành.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 3,
+          "name": "Lê Phương Anh",
+          "unit": "Phường Hòa Cường",
+          "submittedAt": "2026-08-31T08:14:34.000Z",
+          "scoreText": "3/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Lê Phương Anh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Bài làm lập luận xuất sắc, chỉ ra đầy đủ 3 ý chuẩn theo quy định hiện hành.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 4,
+          "name": "Phạm Văn Đức",
+          "unit": "Phường Thanh Khê",
+          "submittedAt": "2026-08-31T08:14:46.000Z",
+          "scoreText": "3/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Phạm Văn Đức)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 5,
+          "name": "Đỗ Hoài Thu",
+          "unit": "Phường An Khê",
+          "submittedAt": "2026-08-31T08:14:58.000Z",
+          "scoreText": "3/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Đỗ Hoài Thu)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 6,
+          "name": "Vũ Nhật Minh",
+          "unit": "Phường An Hải",
+          "submittedAt": "2026-08-31T08:15:10.000Z",
+          "scoreText": "2/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Vũ Nhật Minh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 7,
+          "name": "Bùi Thanh Hằng",
+          "unit": "Phường Sơn Trà",
+          "submittedAt": "2026-08-31T08:15:22.000Z",
+          "scoreText": "2/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Bùi Thanh Hằng)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 8,
+          "name": "Đặng Quang Vinh",
+          "unit": "Phường Ngũ Hành Sơn",
+          "submittedAt": "2026-08-31T08:15:34.000Z",
+          "scoreText": "2/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Đặng Quang Vinh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 9,
+          "name": "Trương Mỹ Duyên",
+          "unit": "Phường Hòa Khánh",
+          "submittedAt": "2026-08-31T08:15:46.000Z",
+          "scoreText": "2/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Trương Mỹ Duyên)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": false
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 10,
+          "name": "Phan Tuấn Kiệt",
+          "unit": "Phường Liên Chiểu",
+          "submittedAt": "2026-08-31T08:15:58.000Z",
+          "scoreText": "2/3 ý chuẩn",
+          "essay": "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên Phan Tuấn Kiệt)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn",
+              "matched": false
+            },
+            {
+              "label": "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+          "aiFeedback": "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+          "criticalErrors": 0
+        }
+      ]
     },
     {
       "id": 4,
@@ -2915,7 +3167,219 @@
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
       "timerEndsAt": null,
-      "leaderboard": []
+      "leaderboard": [],
+      "topParticipants": [
+        {
+          "rank": 1,
+          "name": "Trần Thị Minh Trang",
+          "unit": "Sở Tài chính",
+          "submittedAt": "2026-08-31T08:16:05.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Trần Thị Minh Trang)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Trả lời chính xác căn cứ Điều 69 Luật NSNN 2025 và trách nhiệm của thủ trưởng đơn vị.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 2,
+          "name": "Nguyễn Hoàng Nam",
+          "unit": "Phường Hải Châu",
+          "submittedAt": "2026-08-31T08:16:20.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Nguyễn Hoàng Nam)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Trả lời chính xác căn cứ Điều 69 Luật NSNN 2025 và trách nhiệm của thủ trưởng đơn vị.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 3,
+          "name": "Lê Phương Anh",
+          "unit": "Phường Hòa Cường",
+          "submittedAt": "2026-08-31T08:16:35.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Lê Phương Anh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Trả lời chính xác căn cứ Điều 69 Luật NSNN 2025 và trách nhiệm của thủ trưởng đơn vị.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 4,
+          "name": "Phạm Văn Đức",
+          "unit": "Phường Thanh Khê",
+          "submittedAt": "2026-08-31T08:16:50.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Phạm Văn Đức)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Trả lời chính xác căn cứ Điều 69 Luật NSNN 2025 và trách nhiệm của thủ trưởng đơn vị.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 5,
+          "name": "Đỗ Hoài Thu",
+          "unit": "Phường An Khê",
+          "submittedAt": "2026-08-31T08:17:05.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Đỗ Hoài Thu)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Nắm đúng quy định về gửi cơ quan tài chính kiểm tra.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 6,
+          "name": "Vũ Nhật Minh",
+          "unit": "Phường An Hải",
+          "submittedAt": "2026-08-31T08:17:20.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Vũ Nhật Minh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Nắm đúng quy định về gửi cơ quan tài chính kiểm tra.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 7,
+          "name": "Bùi Thanh Hằng",
+          "unit": "Phường Sơn Trà",
+          "submittedAt": "2026-08-31T08:17:35.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Bùi Thanh Hằng)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Nắm đúng quy định về gửi cơ quan tài chính kiểm tra.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 8,
+          "name": "Đặng Quang Vinh",
+          "unit": "Phường Ngũ Hành Sơn",
+          "submittedAt": "2026-08-31T08:17:50.000Z",
+          "scoreText": "1/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Đặng Quang Vinh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Nắm đúng quy định về gửi cơ quan tài chính kiểm tra.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 9,
+          "name": "Trương Mỹ Duyên",
+          "unit": "Phường Hòa Khánh",
+          "submittedAt": "2026-08-31T08:18:05.000Z",
+          "scoreText": "1/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Trương Mỹ Duyên)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Nắm đúng quy định về gửi cơ quan tài chính kiểm tra.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 10,
+          "name": "Phan Tuấn Kiệt",
+          "unit": "Phường Liên Chiểu",
+          "submittedAt": "2026-08-31T08:18:20.000Z",
+          "scoreText": "1/2 ý chuẩn",
+          "essay": "Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên Phan Tuấn Kiệt)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+          "aiFeedback": "Nắm đúng quy định về gửi cơ quan tài chính kiểm tra.",
+          "criticalErrors": 0
+        }
+      ]
     },
     {
       "id": 6,
@@ -3798,6 +4262,818 @@
           "result": "7/7 câu đúng",
           "completedAt": "2026-08-31T08:16:13.000Z"
         }
+      ],
+      "topParticipants": [
+        {
+          "rank": 1,
+          "name": "Trần Thị Minh Trang",
+          "unit": "Sở Tài chính",
+          "submittedAt": "2026-08-31T08:22:10.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "7/7 giải thích đạt",
+          "aiFeedback": "Xuất sắc! Đúng 7/7 câu và cả 7 lời giải thích đều viện dẫn đúng căn cứ tiêu chuẩn định mức.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": true
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "name": "Nguyễn Hoàng Nam",
+          "unit": "Phường Hải Châu",
+          "submittedAt": "2026-08-31T08:22:18.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "7/7 giải thích đạt",
+          "aiFeedback": "Xuất sắc! Đúng 7/7 câu và cả 7 lời giải thích đều viện dẫn đúng căn cứ tiêu chuẩn định mức.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": true
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "name": "Lê Phương Anh",
+          "unit": "Phường Hòa Cường",
+          "submittedAt": "2026-08-31T08:22:26.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "7/7 giải thích đạt",
+          "aiFeedback": "Xuất sắc! Đúng 7/7 câu và cả 7 lời giải thích đều viện dẫn đúng căn cứ tiêu chuẩn định mức.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": true
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "name": "Phạm Văn Đức",
+          "unit": "Phường Thanh Khê",
+          "submittedAt": "2026-08-31T08:22:34.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "6/7 giải thích đạt",
+          "aiFeedback": "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": true
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "name": "Đỗ Hoài Thu",
+          "unit": "Phường An Khê",
+          "submittedAt": "2026-08-31T08:22:42.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "6/7 giải thích đạt",
+          "aiFeedback": "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": false
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 6,
+          "name": "Vũ Nhật Minh",
+          "unit": "Phường An Hải",
+          "submittedAt": "2026-08-31T08:22:50.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "6/7 giải thích đạt",
+          "aiFeedback": "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": false
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "name": "Bùi Thanh Hằng",
+          "unit": "Phường Sơn Trà",
+          "submittedAt": "2026-08-31T08:22:58.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "5/7 giải thích đạt",
+          "aiFeedback": "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": false
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": false
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "name": "Đặng Quang Vinh",
+          "unit": "Phường Ngũ Hành Sơn",
+          "submittedAt": "2026-08-31T08:23:06.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "5/7 giải thích đạt",
+          "aiFeedback": "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": true
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": false
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": false
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "name": "Trương Mỹ Duyên",
+          "unit": "Phường Hòa Khánh",
+          "submittedAt": "2026-08-31T08:23:14.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "5/7 giải thích đạt",
+          "aiFeedback": "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": false
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": false
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": false
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "name": "Phan Tuấn Kiệt",
+          "unit": "Phường Liên Chiểu",
+          "submittedAt": "2026-08-31T08:23:22.000Z",
+          "scoreChoice": "70/70",
+          "scoreExplanation": "4/7 giải thích đạt",
+          "aiFeedback": "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+          "questionDetails": [
+            {
+              "number": 1,
+              "title": "Bí thư Đảng ủy xã...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.",
+              "referenceNote": "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).",
+              "explanationMatched": true
+            },
+            {
+              "number": 2,
+              "title": "Phòng làm việc...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.",
+              "referenceNote": "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.",
+              "explanationMatched": true
+            },
+            {
+              "number": 3,
+              "title": "Mức giá máy tính...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.",
+              "referenceNote": "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.",
+              "explanationMatched": true
+            },
+            {
+              "number": 4,
+              "title": "Điều hòa nhiệt độ...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": false
+            },
+            {
+              "number": 5,
+              "title": "Màn hình LED...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.",
+              "referenceNote": "Sai: Thiết bị chung, trình Chủ tịch UBND xã.",
+              "explanationMatched": false
+            },
+            {
+              "number": 6,
+              "title": "Máy chiếu lớp học...",
+              "userChoice": "Sai",
+              "correctChoice": "Sai",
+              "isChoiceCorrect": true,
+              "userExplanation": "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "referenceNote": "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.",
+              "explanationMatched": false
+            },
+            {
+              "number": 7,
+              "title": "Bàn ghế lớp học...",
+              "userChoice": "Đúng",
+              "correctChoice": "Đúng",
+              "isChoiceCorrect": true,
+              "userExplanation": "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.",
+              "referenceNote": "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.",
+              "explanationMatched": true
+            }
+          ]
+        }
       ]
     },
     {
@@ -4194,7 +5470,219 @@
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
       "timerEndsAt": null,
-      "leaderboard": []
+      "leaderboard": [],
+      "topParticipants": [
+        {
+          "rank": 1,
+          "name": "Trần Thị Minh Trang",
+          "unit": "Sở Tài chính",
+          "submittedAt": "2026-08-31T08:18:20.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Trần Thị Minh Trang)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Phân tích hồ sơ rất sắc bén, chỉ ra chính xác cả điểm thừa và điểm thiếu về thẩm quyền.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 2,
+          "name": "Nguyễn Hoàng Nam",
+          "unit": "Phường Hải Châu",
+          "submittedAt": "2026-08-31T08:18:30.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Nguyễn Hoàng Nam)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Phân tích hồ sơ rất sắc bén, chỉ ra chính xác cả điểm thừa và điểm thiếu về thẩm quyền.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 3,
+          "name": "Lê Phương Anh",
+          "unit": "Phường Hòa Cường",
+          "submittedAt": "2026-08-31T08:18:40.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Lê Phương Anh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Phân tích hồ sơ rất sắc bén, chỉ ra chính xác cả điểm thừa và điểm thiếu về thẩm quyền.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 4,
+          "name": "Phạm Văn Đức",
+          "unit": "Phường Thanh Khê",
+          "submittedAt": "2026-08-31T08:18:50.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Phạm Văn Đức)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 5,
+          "name": "Đỗ Hoài Thu",
+          "unit": "Phường An Khê",
+          "submittedAt": "2026-08-31T08:19:00.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Đỗ Hoài Thu)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 6,
+          "name": "Vũ Nhật Minh",
+          "unit": "Phường An Hải",
+          "submittedAt": "2026-08-31T08:19:10.000Z",
+          "scoreText": "2/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Vũ Nhật Minh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 7,
+          "name": "Bùi Thanh Hằng",
+          "unit": "Phường Sơn Trà",
+          "submittedAt": "2026-08-31T08:19:20.000Z",
+          "scoreText": "1/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Bùi Thanh Hằng)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 8,
+          "name": "Đặng Quang Vinh",
+          "unit": "Phường Ngũ Hành Sơn",
+          "submittedAt": "2026-08-31T08:19:30.000Z",
+          "scoreText": "1/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Đặng Quang Vinh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 9,
+          "name": "Trương Mỹ Duyên",
+          "unit": "Phường Hòa Khánh",
+          "submittedAt": "2026-08-31T08:19:40.000Z",
+          "scoreText": "1/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Trương Mỹ Duyên)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 10,
+          "name": "Phan Tuấn Kiệt",
+          "unit": "Phường Liên Chiểu",
+          "submittedAt": "2026-08-31T08:19:50.000Z",
+          "scoreText": "1/2 ý chuẩn",
+          "essay": "Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên Phan Tuấn Kiệt)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+          "aiFeedback": "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+          "criticalErrors": 0
+        }
+      ]
     },
     {
       "id": 8,
@@ -4601,7 +6089,299 @@
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
       "timerEndsAt": null,
-      "leaderboard": []
+      "leaderboard": [],
+      "topParticipants": [
+        {
+          "rank": 1,
+          "name": "Trần Thị Minh Trang",
+          "unit": "Sở Tài chính",
+          "submittedAt": "2026-08-31T08:20:15.000Z",
+          "scoreText": "4/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Trần Thị Minh Trang)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": true
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Xuất sắc! Phát hiện đầy đủ 4 lỗi sai và điểm thừa thiếu trong hồ sơ mua sắm màn hình LED.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 2,
+          "name": "Nguyễn Hoàng Nam",
+          "unit": "Phường Hải Châu",
+          "submittedAt": "2026-08-31T08:20:29.000Z",
+          "scoreText": "4/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Nguyễn Hoàng Nam)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": true
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Xuất sắc! Phát hiện đầy đủ 4 lỗi sai và điểm thừa thiếu trong hồ sơ mua sắm màn hình LED.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 3,
+          "name": "Lê Phương Anh",
+          "unit": "Phường Hòa Cường",
+          "submittedAt": "2026-08-31T08:20:43.000Z",
+          "scoreText": "4/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Lê Phương Anh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": true
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 4,
+          "name": "Phạm Văn Đức",
+          "unit": "Phường Thanh Khê",
+          "submittedAt": "2026-08-31T08:20:57.000Z",
+          "scoreText": "4/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Phạm Văn Đức)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": true
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": true
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 5,
+          "name": "Đỗ Hoài Thu",
+          "unit": "Phường An Khê",
+          "submittedAt": "2026-08-31T08:21:11.000Z",
+          "scoreText": "3/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Đỗ Hoài Thu)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": true
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 6,
+          "name": "Vũ Nhật Minh",
+          "unit": "Phường An Hải",
+          "submittedAt": "2026-08-31T08:21:25.000Z",
+          "scoreText": "3/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Vũ Nhật Minh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": true
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 7,
+          "name": "Bùi Thanh Hằng",
+          "unit": "Phường Sơn Trà",
+          "submittedAt": "2026-08-31T08:21:39.000Z",
+          "scoreText": "3/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Bùi Thanh Hằng)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": false
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 8,
+          "name": "Đặng Quang Vinh",
+          "unit": "Phường Ngũ Hành Sơn",
+          "submittedAt": "2026-08-31T08:21:53.000Z",
+          "scoreText": "3/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Đặng Quang Vinh)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": true
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": false
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 9,
+          "name": "Trương Mỹ Duyên",
+          "unit": "Phường Hòa Khánh",
+          "submittedAt": "2026-08-31T08:22:07.000Z",
+          "scoreText": "2/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Trương Mỹ Duyên)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": false
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": false
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        },
+        {
+          "rank": 10,
+          "name": "Phan Tuấn Kiệt",
+          "unit": "Phường Liên Chiểu",
+          "submittedAt": "2026-08-31T08:22:21.000Z",
+          "scoreText": "2/4 ý chuẩn",
+          "essay": "Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên Phan Tuấn Kiệt)",
+          "matchedItems": [
+            {
+              "label": "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức",
+              "matched": true
+            },
+            {
+              "label": "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí",
+              "matched": false
+            },
+            {
+              "label": "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu",
+              "matched": false
+            },
+            {
+              "label": "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'",
+              "matched": false
+            }
+          ],
+          "referenceAnswer": "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+          "aiFeedback": "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+          "criticalErrors": 0
+        }
+      ]
     },
     {
       "id": 9,

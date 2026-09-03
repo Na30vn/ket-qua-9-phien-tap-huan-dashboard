@@ -90,16 +90,25 @@
   }
 
   function phaseOf(session) {
+    if (!session) return "NOT_STARTED";
+    const id = Number(session.id);
+    const ctrlState = controlSessionStates.get(id);
+    if (ctrlState && ctrlState.phase) {
+      if (ctrlState.phase === "TIMED" && ctrlState.timerEndsAt && Date.now() >= new Date(ctrlState.timerEndsAt).getTime()) {
+        ctrlState.phase = "CLOSED";
+        ctrlState.closedAt = ctrlState.timerEndsAt;
+      }
+      return ctrlState.phase;
+    }
     const demoState = fakeMode ? getDemoSessionState(session) : null;
     if (demoState) {
-      if (demoState.timerEndsAt && Date.now() >= demoState.timerEndsAt) {
+      if (demoState.phase === "TIMED" && demoState.timerEndsAt && Date.now() >= demoState.timerEndsAt) {
         demoState.phase = "CLOSED";
         demoState.closedAt = demoState.timerEndsAt;
         demoState.timerEndsAt = 0;
       }
       return demoState.phase;
     }
-    if (fakePhase) return fakePhase;
     if (session.phase === "CLOSED") return "CLOSED";
     if (session.phase === "TIMED" || session.timerEndsAt) return "TIMED";
     return "NOT_STARTED";
@@ -256,6 +265,7 @@
   function mutateDemoSession(session, action) {
     const state = getDemoSessionState(session);
     let timerMinutes = 0;
+    const id = Number(session.id);
     if (action === "timer") {
       const minutes = Number(demoControl.querySelector("[data-demo-duration]")?.value);
       if (!(minutes > 0)) return;
@@ -269,15 +279,31 @@
       state.closedAt = Date.now();
       state.timerStartedAt = 0;
       state.timerEndsAt = 0;
+      pendingSessionActions.set(id, "close");
     } else if (action === "reopen") {
       state.phase = "NOT_STARTED";
       state.closedAt = 0;
       state.timerStartedAt = 0;
       state.timerEndsAt = 0;
+      pendingSessionActions.delete(id);
+      closedLivePreview = false;
     }
+    controlSessionStates.set(id, {
+      phase: state.phase,
+      timerStartedAt: state.timerStartedAt ? new Date(state.timerStartedAt).toISOString() : null,
+      timerEndsAt: state.timerEndsAt ? new Date(state.timerEndsAt).toISOString() : null,
+      closedAt: state.closedAt ? new Date(state.closedAt).toISOString() : null
+    });
     persistDemoUrlState(state, timerMinutes);
     applyDemoSessionState(session);
+    closeControlPanel();
     render();
+    if (action === "close") {
+      setTimeout(() => {
+        pendingSessionActions.delete(id);
+        render();
+      }, 600);
+    }
   }
 
   function persistDemoUrlState(state, timerMinutes) {
@@ -424,10 +450,46 @@
   }
 
   function renderLeaderboard(session) {
+    const topParticipants = session.topParticipants || [];
+    if (topParticipants.length > 0) {
+      return renderTopParticipantsLeaderboard(session, topParticipants);
+    }
     const leaders = session.leaderboard || [];
     if (!leaders.length) return "";
     const label = leaders.length === 1 ? "Top 1" : `Top ${leaders.length}`;
     return `<section class="leaderboard panel"><div class="leaderboard-heading"><div><p class="panel-kicker">VINH DANH</p><h3>${label} điểm cao nhất</h3></div><span>Tối đa 10 người · xếp theo điểm, ưu tiên nộp sớm</span></div><ol class="leaderboard-list">${leaders.map((leader, index) => `<li class="leaderboard-item rank-${index + 1}"><span class="leaderboard-rank">${index + 1}</span><div><strong>${escapeHtml(leader.name)}</strong><small>${escapeHtml(leader.unit || "Chưa xác định đơn vị")}</small></div><b>${escapeHtml(leader.result || "Chưa có kết quả")}</b><time>${leader.completedAt ? `Hoàn thành lúc ${new Date(leader.completedAt).toLocaleTimeString("vi-VN")}` : "Không có giờ nộp"}</time></li>`).join("")}</ol></section>`;
+  }
+
+  function renderTopParticipantsLeaderboard(session, participants) {
+    const label = participants.length === 1 ? "Top 1" : `Top ${participants.length}`;
+    const subtext = session.id === 6 ? "Đánh giá bởi Gemini & Rule-based · Click từng dòng để xem chi tiết 7 câu" : "Chấm tự động bởi Gemini · Click từng dòng để xem bài làm và nhận xét chi tiết";
+    return `
+      <section class="leaderboard panel top-participants-panel">
+        <div class="leaderboard-heading">
+          <div>
+            <p class="panel-kicker">VINH DANH TOP N NỘI DUNG TỐT NHẤT</p>
+            <h3>${label} bài làm xuất sắc nhất (Gemini AI)</h3>
+          </div>
+          <span>${escapeHtml(subtext)}</span>
+        </div>
+        <div class="top-participants-grid">
+          ${participants.map((person, index) => `
+            <button type="button" class="top-participant-card rank-${person.rank || index + 1}" data-open-participant="${index}">
+              <span class="rank-badge">#${person.rank || index + 1}</span>
+              <div class="participant-info">
+                <strong>${escapeHtml(person.name)}</strong>
+                <small>${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
+              </div>
+              <div class="participant-score">
+                <span class="score-pill">${escapeHtml(person.scoreText || person.scoreChoice || "Đạt")}</span>
+                ${person.scoreExplanation ? `<small class="sub-score">${escapeHtml(person.scoreExplanation)}</small>` : ""}
+              </div>
+              <span class="view-detail-hint">Xem chi tiết ➔</span>
+            </button>
+          `).join("")}
+        </div>
+      </section>
+    `;
   }
 
   function renderLiveQuiz(session) {
@@ -561,7 +623,121 @@
   function panelHeading(title, note) { return `<div class="panel-heading"><div><p class="panel-kicker">TRỰC QUAN</p><h3>${escapeHtml(title)}</h3></div>${note ? `<span>${escapeHtml(note)}</span>` : ""}</div>`; }
   function optionCount(question, expected) { const normalized = normalizeText(expected); return Number((question.options || []).find(option => normalizeText(option.label) === normalized)?.count || 0); }
 
+  const participantDialog = document.getElementById("top-participant-dialog");
+  const participantDialogContent = document.getElementById("participant-dialog-content");
+  const participantDialogClose = document.getElementById("participant-dialog-close");
+
+  if (participantDialogClose && participantDialog) {
+    participantDialogClose.addEventListener("click", () => participantDialog.close());
+    participantDialog.addEventListener("click", event => {
+      const bounds = participantDialog.getBoundingClientRect();
+      const outside = event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom;
+      if (outside) participantDialog.close();
+    });
+  }
+
+  function openParticipantModal(person, session) {
+    if (!participantDialog || !participantDialogContent) return;
+    const isSession6 = Number(session.id) === 6;
+    const rankLabel = `#${person.rank || 1}`;
+    
+    let detailsHtml = "";
+    if (isSession6) {
+      const questions = person.questionDetails || [];
+      detailsHtml = `
+        <div class="participant-modal-head">
+          <span class="modal-rank-badge rank-${person.rank || 1}">${rankLabel}</span>
+          <div>
+            <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
+            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
+          </div>
+          <div class="modal-scores">
+            <span class="modal-score-pill">${escapeHtml(person.scoreChoice || "70/70")}</span>
+            <span class="modal-sub-score">${escapeHtml(person.scoreExplanation || "")}</span>
+          </div>
+        </div>
+        ${person.aiFeedback ? `<div class="modal-feedback-box"><strong>Nhận xét từ Gemini AI:</strong> <p>${escapeHtml(person.aiFeedback)}</p></div>` : ""}
+        <div class="modal-table-wrap">
+          <table class="modal-tf-table">
+            <thead>
+              <tr>
+                <th>Câu</th>
+                <th>Lựa chọn & Đáp án</th>
+                <th>Lời giải thích của học viên</th>
+                <th>Căn cứ giáo viên</th>
+                <th>Đánh giá</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${questions.map(q => `
+                <tr>
+                  <td><strong>Câu ${q.number}</strong></td>
+                  <td>
+                    <span>Học viên: <b>${escapeHtml(q.userChoice)}</b></span><br>
+                    <small>Đáp án: <b class="correct-text">${escapeHtml(q.correctChoice)}</b></small>
+                  </td>
+                  <td><p class="essay-snippet">${escapeHtml(q.userExplanation || "Không có")}</p></td>
+                  <td><small>${escapeHtml(q.referenceNote || "")}</small></td>
+                  <td>
+                    ${q.explanationMatched ? '<span class="status-badge status-matched">✓ Đạt</span>' : '<span class="status-badge status-unmatched">✗ Chưa đạt</span>'}
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    } else {
+      const items = person.matchedItems || [];
+      detailsHtml = `
+        <div class="participant-modal-head">
+          <span class="modal-rank-badge rank-${person.rank || 1}">${rankLabel}</span>
+          <div>
+            <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
+            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
+          </div>
+          <div class="modal-scores">
+            <span class="modal-score-pill">${escapeHtml(person.scoreText || "Đạt")}</span>
+          </div>
+        </div>
+        ${person.aiFeedback ? `<div class="modal-feedback-box"><strong>Nhận xét từ Gemini AI:</strong> <p>${escapeHtml(person.aiFeedback)}</p></div>` : ""}
+        <div class="modal-section">
+          <h3>Bài làm nguyên văn của học viên:</h3>
+          <blockquote class="modal-essay-box">${escapeHtml(person.essay || "Chưa có bài làm")}</blockquote>
+        </div>
+        ${items.length ? `
+          <div class="modal-section">
+            <h3>Đánh giá các ý chuẩn:</h3>
+            <ul class="modal-matched-list">
+              ${items.map(item => `
+                <li class="${item.matched ? "matched" : "unmatched"}">
+                  <span class="icon">${item.matched ? "✓" : "✗"}</span>
+                  <span>${escapeHtml(item.label)}</span>
+                </li>
+              `).join("")}
+            </ul>
+          </div>
+        ` : ""}
+        ${person.referenceAnswer ? `
+          <div class="modal-section">
+            <h3>Đáp án tham chiếu của giáo viên:</h3>
+            <div class="modal-reference-box">${escapeHtml(person.referenceAnswer).replaceAll("\n", "<br>")}</div>
+          </div>
+        ` : ""}
+      `;
+    }
+
+    participantDialogContent.innerHTML = detailsHtml;
+    if (typeof participantDialog.showModal === "function") participantDialog.showModal();
+    else participantDialog.setAttribute("open", "");
+  }
+
   function bindSessionControls(session) {
+    dashboard.querySelectorAll("[data-open-participant]").forEach(button => button.addEventListener("click", () => {
+      const index = Number(button.dataset.openParticipant);
+      const person = session.topParticipants?.[index];
+      if (person) openParticipantModal(person, session);
+    }));
     dashboard.querySelectorAll("[data-open-qr]").forEach(button => button.addEventListener("click", () => {
       qrDialogTitle.textContent = `Phiên ${session.id} – ${session.description || session.name}`;
       qrDialogImage.src = `assets/qr/session-${session.id}.png`;
@@ -627,6 +803,12 @@
       closeControlPanel();
       if (event.data.action === "close") {
         pendingSessionActions.set(Number(event.data.sessionId), "close");
+        globalTimerBanner.hidden = true;
+        render();
+      } else if (event.data.action === "timer") {
+        controlSessionStates.set(Number(event.data.sessionId), { phase: "TIMED" });
+        const session = payload?.sessions?.find(item => Number(item.id) === Number(event.data.sessionId));
+        if (session) session.phase = "TIMED";
         render();
       }
       return;
@@ -638,6 +820,7 @@
     }
     if (event.data?.type !== "dashboard-session-updated") return;
     pendingSessionActions.delete(Number(event.data.sessionId));
+    closeControlPanel();
     controlSessionStates.set(Number(event.data.sessionId), {
       phase: event.data.phase,
       timerStartedAt: event.data.timerStartedAt || null,
@@ -648,8 +831,8 @@
     if (session) {
       Object.assign(session, controlSessionStates.get(Number(event.data.sessionId)));
       render();
+      updateCountdowns();
     }
-    closeControlPanel();
     loadData(true);
   });
   loadData();

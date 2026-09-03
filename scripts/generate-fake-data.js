@@ -291,6 +291,103 @@ function applyTrueFalse(session) {
   session.explanationStats = { count: 1619, rate: 1619 / (total * 7) * 100 };
 }
 
+function applyTopParticipants(session) {
+  if (![3, 5, 6, 7, 8].includes(session.id)) return;
+  const names = [
+    "Trần Thị Minh Trang", "Nguyễn Hoàng Nam", "Lê Phương Anh", "Phạm Văn Đức",
+    "Đỗ Hoài Thu", "Vũ Nhật Minh", "Bùi Thanh Hằng", "Đặng Quang Vinh",
+    "Trương Mỹ Duyên", "Phan Tuấn Kiệt"
+  ];
+  
+  if (session.id === 3) {
+    session.topParticipants = names.map((name, index) => ({
+      rank: index + 1,
+      name,
+      unit: sampleUnits[index],
+      submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 14, 10 + index * 12)).toISOString(),
+      scoreText: index < 5 ? "3/3 ý chuẩn" : "2/3 ý chuẩn",
+      essay: `Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên ${name})`,
+      matchedItems: [
+        { label: "Ý 1: Công khai số liệu & thuyết minh dự toán trình HĐND xã", matched: true },
+        { label: "Ý 2: Công khai thuyết minh quyết toán HĐND đã phê chuẩn", matched: index < 8 },
+        { label: "Ý 3: Mốc công khai 03, 06, 09 tháng và năm (không ghi chung hàng quý)", matched: index < 5 }
+      ],
+      referenceAnswer: "1. Thiếu công khai số liệu và thuyết minh dự toán trình HĐND xã.\n2. Thiếu công khai thuyết minh quyết toán HĐND phê chuẩn.\n3. Tình hình thực hiện phải công khai mốc 3, 6, 9 tháng và năm.",
+      aiFeedback: index < 3 ? "Bài làm lập luận xuất sắc, chỉ ra đầy đủ 3 ý chuẩn theo quy định hiện hành." : "Nêu đúng 2/3 ý cốt lõi, diễn đạt rõ ràng.",
+      criticalErrors: 0
+    }));
+  } else if (session.id === 5) {
+    session.topParticipants = names.map((name, index) => ({
+      rank: index + 1,
+      name,
+      unit: sampleUnits[index],
+      submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 16, 5 + index * 15)).toISOString(),
+      scoreText: index < 7 ? "2/2 ý chuẩn" : "1/2 ý chuẩn",
+      essay: `Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên ${name})`,
+      matchedItems: [
+        { label: "Ý 1: Căn cứ khoản 5 Điều 69 Luật NSNN 2025 (đơn vị cấp I đồng thời là đơn vị sử dụng NS gửi cơ quan tài chính kiểm tra)", matched: true },
+        { label: "Ý 2: Thủ trưởng đơn vị chịu trách nhiệm về báo cáo quyết toán của đơn vị mình", matched: index < 7 }
+      ],
+      referenceAnswer: "1. Theo khoản 5 Điều 69 Luật NSNN 2025, đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách lập báo cáo quyết toán gửi cơ quan tài chính kiểm tra.\n2. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán.",
+      aiFeedback: index < 4 ? "Trả lời chính xác căn cứ Điều 69 Luật NSNN 2025 và trách nhiệm của thủ trưởng đơn vị." : "Nắm đúng quy định về gửi cơ quan tài chính kiểm tra.",
+      criticalErrors: 0
+    }));
+  } else if (session.id === 7) {
+    session.topParticipants = names.map((name, index) => ({
+      rank: index + 1,
+      name,
+      unit: sampleUnits[index],
+      submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 18, 20 + index * 10)).toISOString(),
+      scoreText: index < 6 ? "2/2 ý chuẩn" : "1/2 ý chuẩn",
+      essay: `Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên ${name})`,
+      matchedItems: [
+        { label: "Ý 1: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức (thiết bị hoạt động chung)", matched: true },
+        { label: "Ý 2: Thừa trình UBND xã phê duyệt chủ trương & dự kiến kinh phí (thẩm quyền người đứng đầu cấp I)", matched: index < 6 }
+      ],
+      referenceAnswer: "1. Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức.\n2. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí.",
+      aiFeedback: index < 3 ? "Phân tích hồ sơ rất sắc bén, chỉ ra chính xác cả điểm thừa và điểm thiếu về thẩm quyền." : "Chỉ ra đúng thẩm quyền của Chủ tịch UBND xã.",
+      criticalErrors: 0
+    }));
+  } else if (session.id === 8) {
+    session.topParticipants = names.map((name, index) => ({
+      rank: index + 1,
+      name,
+      unit: sampleUnits[index],
+      submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 20, 15 + index * 14)).toISOString(),
+      scoreText: index < 4 ? "4/4 ý chuẩn" : index < 8 ? "3/4 ý chuẩn" : "2/4 ý chuẩn",
+      essay: `Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên ${name})`,
+      matchedItems: [
+        { label: "Ý 1: Trình Chủ tịch UBND xã (không phải UBND xã) quyết định tiêu chuẩn định mức", matched: true },
+        { label: "Ý 2: Thừa bước trình UBND xã phê duyệt chủ trương và dự kiến kinh phí", matched: index < 8 },
+        { label: "Ý 3: Thừa bước thẩm định kế hoạch lựa chọn nhà thầu", matched: index < 6 },
+        { label: "Ý 4: Thay 'QĐ chỉ định thầu' bằng 'QĐ phê duyệt KQLCNT'", matched: index < 4 }
+      ],
+      referenceAnswer: "1. Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức.\n2. Không trình UBND xã phê duyệt chủ trương.\n3. Thừa thẩm định KHLCNT.\n4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT.",
+      aiFeedback: index < 2 ? "Xuất sắc! Phát hiện đầy đủ 4 lỗi sai và điểm thừa thiếu trong hồ sơ mua sắm màn hình LED." : "Phát hiện đúng các lỗi trọng yếu về thủ tục đấu thầu.",
+      criticalErrors: 0
+    }));
+  } else if (session.id === 6) {
+    session.topParticipants = names.map((name, index) => ({
+      rank: index + 1,
+      name,
+      unit: sampleUnits[index],
+      submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 22, 10 + index * 8)).toISOString(),
+      scoreChoice: "70/70",
+      scoreExplanation: `${7 - Math.floor(index / 3)}/7 giải thích đạt`,
+      aiFeedback: index < 3 ? "Xuất sắc! Đúng 7/7 câu và cả 7 lời giải thích đều viện dẫn đúng căn cứ tiêu chuẩn định mức." : "Lựa chọn Đúng/Sai đạt điểm tuyệt đối 70/70.",
+      questionDetails: [
+        { number: 1, title: "Bí thư Đảng ủy xã...", userChoice: "Sai", correctChoice: "Sai", isChoiceCorrect: true, userExplanation: "Bí thư xã chỉ được 1 máy xách tay max 25 triệu và 1 máy để bàn max 20 triệu.", referenceNote: "Sai: Bí thư chỉ được 1 máy xách tay (max 25tr) và 1 máy để bàn (max 20tr).", explanationMatched: true },
+        { number: 2, title: "Phòng làm việc...", userChoice: "Sai", correctChoice: "Sai", isChoiceCorrect: true, userExplanation: "Phòng không quá 3 người chỉ được 1 máy in tối đa 13 triệu.", referenceNote: "Sai: Mỗi phòng <= 3 người chỉ được 1 máy in max 13tr.", explanationMatched: true },
+        { number: 3, title: "Mức giá máy tính...", userChoice: "Đúng", correctChoice: "Đúng", isChoiceCorrect: true, userExplanation: "Mức giá max 20 triệu chưa bao gồm bản quyền phần mềm.", referenceNote: "Đúng: Giá max 20 triệu chưa bao gồm bản quyền.", explanationMatched: true },
+        { number: 4, title: "Điều hòa nhiệt độ...", userChoice: "Sai", correctChoice: "Sai", isChoiceCorrect: true, userExplanation: "Điều hòa là thiết bị chung, phải trình Chủ tịch UBND xã quyết định.", referenceNote: "Sai: Thiết bị chung, trình Chủ tịch UBND xã.", explanationMatched: index < 8 },
+        { number: 5, title: "Màn hình LED...", userChoice: "Sai", correctChoice: "Sai", isChoiceCorrect: true, userExplanation: "Màn hình LED hội trường là thiết bị chung, trình Chủ tịch UBND xã.", referenceNote: "Sai: Thiết bị chung, trình Chủ tịch UBND xã.", explanationMatched: index < 6 },
+        { number: 6, title: "Máy chiếu lớp học...", userChoice: "Sai", correctChoice: "Sai", isChoiceCorrect: true, userExplanation: "Máy chiếu lớp học là thiết bị chuyên dùng, trình Sở GD&ĐT.", referenceNote: "Sai: Thiết bị chuyên dùng, trình Sở GD&ĐT.", explanationMatched: index < 4 },
+        { number: 7, title: "Bàn ghế lớp học...", userChoice: "Đúng", correctChoice: "Đúng", isChoiceCorrect: true, userExplanation: "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định.", referenceNote: "Đúng: Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định.", explanationMatched: true }
+      ]
+    }));
+  }
+}
+
 for (const session of payload.sessions) {
   if (quizProfiles[session.id]) applyQuiz(session, quizProfiles[session.id]);
   else if (session.id === 2) applyOrdering(session);
@@ -318,6 +415,7 @@ for (const session of payload.sessions) {
   session.currentResponses = session.totalResponses;
   session.lateResponses = 0;
   applyLeaderboard(session);
+  applyTopParticipants(session);
 }
 
 payload.version = 7;

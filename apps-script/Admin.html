@@ -185,6 +185,7 @@
       google.script.run.withSuccessHandler(result => mutationDone(result)).withFailureHandler(fail).closeDashboardSession(id);
     } else if (action === 'reopen') {
       if (!confirm(`Mở lại Phiên ${id}? Dashboard sẽ tiếp tục nhận toàn bộ dữ liệu mới.`)) return;
+      beginCompactAction(id, 'reopen');
       setBusy(true, `Đang mở lại Phiên ${id}…`);
       google.script.run.withSuccessHandler(result => mutationDone(result)).withFailureHandler(fail).reopenDashboardSession(id);
     } else {

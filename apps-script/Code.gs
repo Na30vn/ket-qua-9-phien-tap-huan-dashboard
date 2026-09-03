@@ -212,15 +212,36 @@ function doGet(e) {
   return ContentService.createTextOutput(json).setMimeType(ContentService.MimeType.JSON);
 }
 
+function openDashboardSpreadsheet_() {
+  try {
+    const active = SpreadsheetApp.getActiveSpreadsheet();
+    if (active) return active;
+  } catch (e) {}
+  const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (spreadsheetId) return SpreadsheetApp.openById(spreadsheetId);
+  throw new Error('Không thể kết nối đến Google Sheet.');
+}
+
 function getDashboardData_(forceRefresh) {
   const cache = CacheService.getScriptCache();
   if (!forceRefresh) {
     const cached = cache.get('dashboard-v7');
     if (cached) return JSON.parse(cached);
   }
-  const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
-  if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
-  const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  const spreadsheet = openDashboardSpreadsheet_();
+
+  // Khi Dashboard reload, tự động đồng bộ kết quả Gemini AI sang _PUBLIC_TOP
+  // (an toàn vì lúc này Gemini đã fill xong cột I trong _GEMINI_REVIEW)
+  try {
+    if (typeof capNhatTabPublicTop_ === 'function') {
+      const reviewSheet = spreadsheet.getSheetByName('_GEMINI_REVIEW');
+      if (reviewSheet && reviewSheet.getLastRow() >= 2) {
+        [3, 5, 6, 7, 8].forEach(id => capNhatTabPublicTop_(spreadsheet, id));
+      }
+    }
+  } catch (e) {
+    Logger.log('Auto-sync Top N: ' + e);
+  }
   const control = getDashboardControl_(spreadsheet);
   const unitCatalog = getStandardUnitCatalog_(spreadsheet);
   const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config, control[config.id], unitCatalog));
@@ -277,6 +298,9 @@ function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
   result.leaderboard = phase === 'CLOSED'
     ? buildPerfectLeaderboard_(entries, headers, resolvedConfig)
     : [];
+  if (phase === 'CLOSED' && [3, 5, 6, 7, 8].indexOf(config.id) >= 0) {
+    result.topParticipants = getTopParticipantsFromSheet_(spreadsheet, config.id);
+  }
 
   if (config.kind === 'quiz' || config.kind === 'true_false') {
     const configuredChoices = config.kind === 'quiz' ? (config.choices || []) : [];
@@ -746,4 +770,302 @@ function parseDisplayTimestamp_(value) {
   if (!match) return null;
   const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]), Number(match[4] || 0), Number(match[5] || 0), Number(match[6] || 0));
   return isNaN(date.getTime()) ? null : date;
+}
+
+function getTopParticipantsFromSheet_(spreadsheet, sessionId) {
+  const sheet = spreadsheet.getSheetByName('_PUBLIC_TOP');
+  if (!sheet || sheet.getLastRow() < 2) return [];
+  const values = sheet.getDataRange().getValues();
+  values.shift(); // Remove header
+  const filtered = values.filter(row => Number(row[0]) === Number(sessionId));
+  if (!filtered.length) return [];
+  
+  return filtered.map(row => {
+    try {
+      if (Number(sessionId) === 6) {
+        let questionDetails = [];
+        try { questionDetails = row[7] && typeof row[7] === 'string' ? JSON.parse(row[7]) : []; } catch(e) {}
+        return {
+          rank: Number(row[1]) || 1,
+          name: String(row[2] || ''),
+          unit: String(row[3] || ''),
+          submittedAt: String(row[4] || ''),
+          scoreChoice: String(row[5] || '70/70'),
+          scoreExplanation: String(row[6] || ''),
+          aiFeedback: String(row[7] || ''),
+          questionDetails
+        };
+      }
+      let matchedItems = [];
+      try { matchedItems = row[7] && typeof row[7] === 'string' ? JSON.parse(row[7]) : []; } catch(e) {}
+      return {
+        rank: Number(row[1]) || 1,
+        name: String(row[2] || ''),
+        unit: String(row[3] || ''),
+        submittedAt: String(row[4] || ''),
+        scoreText: String(row[5] || ''),
+        essay: String(row[6] || ''),
+        matchedItems,
+        referenceAnswer: String(row[8] || ''),
+        aiFeedback: String(row[9] || ''),
+        criticalErrors: Number(row[10]) || 0
+      };
+    } catch (err) {
+      return null;
+    }
+  }).filter(Boolean);
+}
+
+function taoDuLieuMauChoPhien_(spreadsheet, sessionId) {
+  const config = SESSION_CONFIG.find(item => item.id === Number(sessionId));
+  if (!config) return { success: false, message: 'Không tìm thấy cấu hình phiên' };
+  let sheet = spreadsheet.getSheetByName(config.name);
+  if (!sheet) return { success: false, message: `Không tìm thấy tab ${config.name}` };
+  
+  const sampleNames = [
+    "Trần Thị Minh Trang", "Nguyễn Hoàng Nam", "Lê Phương Anh", "Phạm Văn Đức", "Đỗ Hoài Thu",
+    "Vũ Nhật Minh", "Bùi Thanh Hằng", "Đặng Quang Vinh", "Trương Mỹ Duyên", "Phan Tuấn Kiệt",
+    "Hà Thị Mai", "Ngô Quốc Bảo"
+  ];
+  const sampleUnits = [
+    "Phường Hải Châu", "Phường Hòa Cường", "Phường Thanh Khê", "Phường An Khê", "Phường An Hải",
+    "Phường Sơn Trà", "Phường Ngũ Hành Sơn", "Phường Hòa Khánh", "Phường Liên Chiểu", "Phường Hải Vân",
+    "Xã Hòa Vang", "Xã Hòa Tiến"
+  ];
+  
+  const now = new Date();
+  const rowsToAdd = [];
+  
+  if (config.id === 3) {
+    const essays = [
+      "Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung số liệu và thuyết minh dự toán trình HĐND xã; thuyết minh quyết toán đã được phê chuẩn; các mốc công khai 03, 06, 09 tháng và cả năm. (BÀI MẪU TEST)",
+      "Nội dung công khai còn thiếu phần giải trình quyết toán và biểu mẫu tình hình thực hiện ngân sách mốc 3, 6, 9 tháng. (BÀI MẪU TEST)",
+      "Cần bổ sung thuyết minh dự toán trình HĐND xã và công khai quyết toán được phê chuẩn theo quy định hiện hành. (BÀI MẪU TEST)",
+      "Thiếu thuyết minh quyết toán và thiếu mốc thời gian công khai chi tiết theo quy định. (BÀI MẪU TEST)",
+      "Xã cần công khai đầy đủ dự toán trình, dự toán giao, tình hình thực hiện 3-6-9-12 tháng và quyết toán. (BÀI MẪU TEST)",
+      "Công khai dự toán trình HĐND xã cần có thuyết minh kèm theo số liệu chi tiết các khoản thu chi. (BÀI MẪU TEST)",
+      "Thiếu thuyết minh báo cáo quyết toán ngân sách xã đã được HĐND phê chuẩn. (BÀI MẪU TEST)",
+      "Quy định yêu cầu công khai thực hiện dự toán các mốc 3, 6, 9 tháng và năm, không ghi chung chung. (BÀI MẪU TEST)",
+      "Chưa đạt vì thiếu thuyết minh dự toán và quyết toán được duyệt theo quy định. (BÀI MẪU TEST)",
+      "Cần bổ sung thuyết minh số liệu dự toán thu chi ngân sách cấp xã. (BÀI MẪU TEST)",
+      "Xã A ghi hàng quý là chưa chuẩn mốc 3-6-9 tháng theo quy định. (BÀI MẪU TEST)",
+      "Cần bổ sung thuyết minh quyết toán và mốc công khai 9 tháng. (BÀI MẪU TEST)"
+    ];
+    sampleNames.forEach((name, i) => {
+      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+    });
+  } else if (config.id === 5) {
+    const essays = [
+      "Theo khoản 5 Điều 69 Luật NSNN 2025, khi đơn vị cấp I đồng thời là đơn vị sử dụng NS thì lập báo cáo gửi cơ quan tài chính kiểm tra. Thủ trưởng chịu trách nhiệm. (BÀI MẪU TEST)",
+      "Đơn vị cấp I không tự xét duyệt cho chính mình mà gửi cơ quan tài chính kiểm tra tính đầy đủ và khớp đúng KBNN. (BÀI MẪU TEST)",
+      "Theo quy định Điều 69 Luật Ngân sách nhà nước, thủ trưởng đơn vị ký báo cáo quyết toán và gửi cơ quan tài chính. (BÀI MẪU TEST)",
+      "Báo cáo quyết toán lập gửi cơ quan tài chính để kiểm tra, không cần tổ chức xét duyệt nội bộ. (BÀI MẪU TEST)",
+      "Quy trình áp dụng theo khoản 5 Điều 69, gửi cơ quan tài chính đối chiếu số liệu Kho bạc. (BÀI MẪU TEST)",
+      "Ủy ban nhân dân cấp xã lập báo cáo gửi cơ quan tài chính kiểm tra theo quy định. (BÀI MẪU TEST)",
+      "Thủ trưởng đơn vị chịu trách nhiệm về số liệu quyết toán của đơn vị mình. (BÀI MẪU TEST)",
+      "Cơ quan tài chính đối chiếu số liệu với Kho bạc nhà nước thay vì xét duyệt. (BÀI MẪU TEST)",
+      "Đơn vị sử dụng ngân sách đồng thời là cấp I lập báo cáo gửi tài chính. (BÀI MẪU TEST)",
+      "Căn cứ Khoản 5 Điều 69 Luật NSNN 2025 về xét duyệt quyết toán. (BÀI MẪU TEST)",
+      "Báo cáo quyết toán phải khớp đúng với xác nhận Kho bạc. (BÀI MẪU TEST)",
+      "Thủ trưởng đơn vị chịu trách nhiệm tính chính xác của quyết toán. (BÀI MẪU TEST)"
+    ];
+    sampleNames.forEach((name, i) => {
+      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+    });
+  } else if (config.id === 7) {
+    const essays = [
+      "Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức máy phát điện. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí. (BÀI MẪU TEST)",
+      "Hồ sơ thừa bước xin chủ trương của UBND xã vì thẩm quyền thuộc người đứng đầu cấp I theo QĐ 80/2026. (BÀI MẪU TEST)",
+      "Cần bổ sung quyết định tiêu chuẩn định mức của Chủ tịch UBND xã trước khi mua sắm. (BÀI MẪU TEST)",
+      "Thiếu quyết định định mức máy phát điện của Chủ tịch UBND xã. (BÀI MẪU TEST)",
+      "Thừa tờ trình UBND xã phê duyệt chủ trương mua sắm thiết bị. (BÀI MẪU TEST)",
+      "Máy phát điện là thiết bị chung, cần quyết định tiêu chuẩn định mức của Chủ tịch UBND xã. (BÀI MẪU TEST)",
+      "Thừa bước trình tập thể UBND xã phê duyệt chủ trương kinh phí. (BÀI MẪU TEST)",
+      "Người đứng đầu đơn vị dự toán cấp I tự quyết định theo phân cấp. (BÀI MẪU TEST)",
+      "Thiếu quyết định tiêu chuẩn định mức thiết bị dùng chung. (BÀI MẪU TEST)",
+      "Hồ sơ thừa tờ trình xin phê duyệt chủ trương không cần thiết. (BÀI MẪU TEST)",
+      "Trình Chủ tịch UBND xã quyết định định mức máy phát điện. (BÀI MẪU TEST)",
+      "Bỏ bước trình UBND xã phê duyệt chủ trương theo QĐ 80/2026. (BÀI MẪU TEST)"
+    ];
+    sampleNames.forEach((name, i) => {
+      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+    });
+  } else if (config.id === 8) {
+    const essays = [
+      "Hồ sơ thừa thiếu 4 điểm: 1. Trình Chủ tịch UBND xã quyết định định mức. 2. Không trình UBND xã phê duyệt chủ trương. 3. Thừa thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt KQLCNT. (BÀI MẪU TEST)",
+      "Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức màn hình LED; Thừa bước thẩm định KHLCNT. (BÀI MẪU TEST)",
+      "Không trình UBND xã phê duyệt chủ trương; Đổi tên QĐ chỉ định thầu thành QĐ phê duyệt KQLCNT. (BÀI MẪU TEST)",
+      "Thừa bước thẩm định kế hoạch lựa chọn nhà thầu và thừa bước xin phê duyệt chủ trương. (BÀI MẪU TEST)",
+      "Thẩm quyền định mức thuộc Chủ tịch UBND xã; thẩm quyền mua sắm thuộc đơn vị dự toán cấp I. (BÀI MẪU TEST)",
+      "Trình Chủ tịch UBND xã quyết định tiêu chuẩn định mức màn hình LED hội trường. (BÀI MẪU TEST)",
+      "Thừa bước thẩm định KHLCNT trong hồ sơ mua sắm này. (BÀI MẪU TEST)",
+      "Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả lựa chọn nhà thầu. (BÀI MẪU TEST)",
+      "Không phải trình UBND xã phê duyệt chủ trương và dự kiến kinh phí. (BÀI MẪU TEST)",
+      "Thẩm quyền định mức màn hình LED thuộc Chủ tịch UBND xã. (BÀI MẪU TEST)",
+      "Thừa bước xin phê duyệt chủ trương mua sắm. (BÀI MẪU TEST)",
+      "Bổ sung quyết định phê duyệt kết quả lựa chọn nhà thầu. (BÀI MẪU TEST)"
+    ];
+    sampleNames.forEach((name, i) => {
+      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+    });
+  } else if (config.id === 6) {
+    sampleNames.forEach((name, i) => {
+      rowsToAdd.push([
+        new Date(now.getTime() - i * 60000), name, sampleUnits[i],
+        "Sai", "Bí thư chỉ được 1 xách tay max 25tr và 1 để bàn max 20tr (BÀI MẪU TEST)",
+        "Sai", "Phòng <=3 người chỉ 1 máy in max 13tr (BÀI MẪU TEST)",
+        "Đúng", "Mức giá max 20tr chưa gồm bản quyền (BÀI MẪU TEST)",
+        "Sai", "Điều hòa là thiết bị chung, trình Chủ tịch UBND xã (BÀI MẪU TEST)",
+        "Sai", "Màn hình LED hội trường trình Chủ tịch UBND xã (BÀI MẪU TEST)",
+        "Sai", "Máy chiếu lớp học trình Sở GD&ĐT (BÀI MẪU TEST)",
+        "Đúng", "Nếu không đủ TSCĐ thì thủ trưởng đơn vị quyết định (BÀI MẪU TEST)"
+      ]);
+    });
+  }
+  
+  if (rowsToAdd.length) {
+    const lastRow = sheet.getLastRow();
+    sheet.getRange(lastRow + 1, 1, rowsToAdd.length, rowsToAdd[0].length).setValues(rowsToAdd);
+  }
+  
+  // Tự động khởi tạo tab _GEMINI_REVIEW ngay khi tạo dữ liệu mẫu
+  try {
+    taoTabGeminiReview_(spreadsheet, config.id);
+  } catch (e) {
+    Logger.log('Tự động tạo tab _GEMINI_REVIEW trong taoDuLieuMau: ' + e);
+  }
+  
+  return { success: true, count: rowsToAdd.length };
+}
+
+function xoaDuLieuMauChoPhien_(spreadsheet, sessionId) {
+  const config = SESSION_CONFIG.find(item => item.id === Number(sessionId));
+  if (!config) return { success: false, message: 'Không tìm thấy cấu hình phiên' };
+  let sheet = spreadsheet.getSheetByName(config.name);
+  if (!sheet || sheet.getLastRow() < 2) return { success: true, count: 0 };
+  
+  const values = sheet.getDataRange().getValues();
+  let deletedCount = 0;
+  for (let i = values.length - 1; i >= 1; i--) {
+    const rowStr = values[i].join(' ');
+    if (rowStr.indexOf('(BÀI MẪU TEST)') >= 0) {
+      sheet.deleteRow(i + 1);
+      deletedCount++;
+    }
+  }
+  return { success: true, count: deletedCount };
+}
+
+/**
+ * MENU TỰ ĐỘNG XUẤT HIỆN TRÊN GOOGLE SHEETS
+ */
+function onOpen() {
+  try {
+    const ui = SpreadsheetApp.getUi();
+    ui.createMenu('🤖 Gemini Review')
+      .addSubMenu(ui.createMenu('BƯỚC 1 — Tạo sheet chấm bài')
+        .addItem('Phiên 3 (Tình huống mở)', 'taoTabGeminiReviewPhien3')
+        .addItem('Phiên 5 (Tình huống mở)', 'taoTabGeminiReviewPhien5')
+        .addItem('Phiên 6 (Đúng/Sai 7 câu)', 'taoTabGeminiReviewPhien6')
+        .addItem('Phiên 7 (Tình huống mở)', 'taoTabGeminiReviewPhien7')
+        .addItem('Phiên 8 (Tình huống mở)', 'taoTabGeminiReviewPhien8'))
+      .addSeparator()
+      .addSubMenu(ui.createMenu('BƯỚC 2 — Cập nhật Vinh danh lên Dashboard')
+        .addItem('Phiên 3 → Đẩy Top N lên Dashboard', 'capNhatPublicTopPhien3')
+        .addItem('Phiên 5 → Đẩy Top N lên Dashboard', 'capNhatPublicTopPhien5')
+        .addItem('Phiên 6 → Đẩy Top N lên Dashboard', 'capNhatPublicTopPhien6')
+        .addItem('Phiên 7 → Đẩy Top N lên Dashboard', 'capNhatPublicTopPhien7')
+        .addItem('Phiên 8 → Đẩy Top N lên Dashboard', 'capNhatPublicTopPhien8')
+        .addItem('Tất cả phiên → Đẩy Top N', 'capNhatPublicTopTatCaPhien'))
+      .addSeparator()
+      .addItem('📝 Tạo 12 bài làm mẫu (Phiên 3)', 'taoDuLieuMauPhien3')
+      .addItem('📝 Tạo bài mẫu (Tất cả các phiên)', 'taoDuLieuMauTatCaPhien')
+      .addItem('🧹 Xóa sạch bài làm mẫu', 'xoaDuLieuMauTatCaPhien')
+      .addToUi();
+  } catch (e) {
+    Logger.log('Không thể tạo menu onOpen: ' + e);
+  }
+}
+
+function capNhatPublicTopPhien3() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  capNhatTabPublicTop_(spreadsheet, 3);
+  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 3 lên Dashboard!\nHãy mở Dashboard và bấm F5.'); } catch(e) { Logger.log('✅ Đã cập nhật Top N Phiên 3 xong!'); }
+}
+
+function capNhatPublicTopPhien5() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  capNhatTabPublicTop_(spreadsheet, 5);
+  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 5!'); } catch(e) { Logger.log('✅ Phiên 5 xong!'); }
+}
+
+function capNhatPublicTopPhien6() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  capNhatTabPublicTop_(spreadsheet, 6);
+  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 6!'); } catch(e) { Logger.log('✅ Phiên 6 xong!'); }
+}
+
+function capNhatPublicTopPhien7() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  capNhatTabPublicTop_(spreadsheet, 7);
+  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 7!'); } catch(e) { Logger.log('✅ Phiên 7 xong!'); }
+}
+
+function capNhatPublicTopPhien8() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  capNhatTabPublicTop_(spreadsheet, 8);
+  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 8!'); } catch(e) { Logger.log('✅ Phiên 8 xong!'); }
+}
+
+/**
+ * CÁC HÀM TIỆN ÍCH CHẠY TRỰC TIẾP TRÊN APPS SCRIPT EDITOR ĐỂ FAKE BÀI LÀM TEST:
+ */
+function taoDuLieuMauPhien3() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  const res = taoDuLieuMauChoPhien_(spreadsheet, 3);
+  taoTabGeminiReview_(spreadsheet, 3);
+  return res;
+}
+
+function taoDuLieuMauPhien5() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  const res = taoDuLieuMauChoPhien_(spreadsheet, 5);
+  taoTabGeminiReview_(spreadsheet, 5);
+  return res;
+}
+
+function taoDuLieuMauPhien6() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  const res = taoDuLieuMauChoPhien_(spreadsheet, 6);
+  taoTabGeminiReview_(spreadsheet, 6);
+  return res;
+}
+
+function taoDuLieuMauPhien7() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  const res = taoDuLieuMauChoPhien_(spreadsheet, 7);
+  taoTabGeminiReview_(spreadsheet, 7);
+  return res;
+}
+
+function taoDuLieuMauPhien8() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  const res = taoDuLieuMauChoPhien_(spreadsheet, 8);
+  taoTabGeminiReview_(spreadsheet, 8);
+  return res;
+}
+
+function taoDuLieuMauTatCaPhien() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  [3, 5, 6, 7, 8].forEach(id => {
+    taoDuLieuMauChoPhien_(spreadsheet, id);
+    taoTabGeminiReview_(spreadsheet, id);
+  });
+  Logger.log('Đã tạo dữ liệu mẫu và tab _GEMINI_REVIEW cho tất cả các phiên 3, 5, 6, 7, 8');
+}
+
+function xoaDuLieuMauTatCaPhien() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  [3, 5, 6, 7, 8].forEach(id => xoaDuLieuMauChoPhien_(spreadsheet, id));
+  Logger.log('Đã xóa dữ liệu mẫu khỏi tất cả các phiên');
 }

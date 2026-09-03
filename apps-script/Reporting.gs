@@ -114,26 +114,321 @@ function closeDashboardSessionAt_(id, closeAt) {
     const spreadsheet = openDashboardSpreadsheet_();
     const controlSheet = ensureDashboardControlSheet_(spreadsheet);
     const existing = controlSheet.getRange(id + 1, 2, 1, 4).getValues()[0];
-    if (String(existing[0] || '').toUpperCase() === 'CLOSED') {
-      const savedAt = toDate_(existing[1]);
-      return {
-        ok: true,
-        alreadyClosed: true,
-        sessionId: id,
-        phase: 'CLOSED',
-        closedAt: savedAt ? savedAt.toISOString() : null,
-        totalResponses: Number(existing[2]) || 0
-      };
-    }
+    const isClosed = String(existing[0] || '').toUpperCase() === 'CLOSED';
+    
     const responseSheet = spreadsheet.getSheetByName(`Phiên ${id}`);
-    if (!responseSheet) throw new Error(`Không tìm thấy tab Phiên ${id}.`);
-    const count = countResponseRowsAtOrBefore_(responseSheet, closeAt);
-    controlSheet.getRange(id + 1, 2, 1, 4).setValues([['CLOSED', closeAt, count, existing[3] || '']]);
+    const count = responseSheet ? countResponseRowsAtOrBefore_(responseSheet, closeAt) : (Number(existing[2]) || 0);
+    
+    if (!isClosed) {
+      controlSheet.getRange(id + 1, 2, 1, 4).setValues([['CLOSED', closeAt, count, existing[3] || '']]);
+    }
+    
+    // Tự động khởi tạo tab _GEMINI_REVIEW cho các phiên tự luận / tình huống
+    try {
+      taoTabGeminiReview_(spreadsheet, id);
+    } catch (e) {
+      Logger.log('Không thể tạo tab _GEMINI_REVIEW: ' + e);
+    }
+
     clearDashboardCache_();
-    return { ok: true, sessionId: id, phase: 'CLOSED', closedAt: closeAt.toISOString(), totalResponses: count };
+    return { ok: true, alreadyClosed: isClosed, sessionId: id, phase: 'CLOSED', closedAt: closeAt.toISOString(), totalResponses: count };
   } finally {
     lock.releaseLock();
   }
+}
+
+function taoTabGeminiReview_(spreadsheet, id) {
+  if ([3, 5, 6, 7, 8].indexOf(Number(id)) < 0) return;
+  const config = SESSION_CONFIG.find(item => item.id === Number(id));
+  if (!config) return;
+  const sourceSheet = spreadsheet.getSheetByName(config.name);
+
+  let reviewSheet = spreadsheet.getSheetByName('_GEMINI_REVIEW');
+  if (!reviewSheet) {
+    reviewSheet = spreadsheet.insertSheet('_GEMINI_REVIEW');
+  } else {
+    reviewSheet.clear();
+  }
+
+  const values = (sourceSheet && sourceSheet.getLastRow() >= 2) ? sourceSheet.getDataRange().getDisplayValues() : [];
+  const headers = values.shift() || [];
+  const rows = values.filter(row => row.some(cell => String(cell).trim() !== ''));
+
+  if (Number(id) === 6) {
+    const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bảy lựa chọn', 'Bảy giải thích', 'Căn cứ giáo viên', 'Điểm Đúng/Sai', 'Kết quả AI', 'Số giải thích đạt', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
+    const referenceNotes = config.referenceNotes || [];
+    const correctAnswers = config.correctAnswers || [];
+    const questionIndexes = config.questionIndexes || [];
+    const explanationIndexes = config.explanationIndexes || [];
+
+    const outputRows = [reviewHeaders];
+    rows.forEach((row, index) => {
+      const timestamp = row[0] || '';
+      const name = row[1] || `Học viên ${index + 1}`;
+      const unit = row[2] || '';
+      const choices = questionIndexes.map(col => String(row[col] || '').trim()).join('; ');
+      const explanations = explanationIndexes.map((col, qIdx) => `Câu ${qIdx + 1}: ${String(row[col] || '').trim()}`).join('\n');
+      const references = referenceNotes.map((note, qIdx) => `Câu ${qIdx + 1}: ${note}`).join('\n');
+
+      const prompt = `Compare student explanations (Column G) with teacher reference criteria (Column H). Output in Vietnamese format: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=short feedback under 45 words.`;
+      const rowIdx = index + 2;
+      const formulaAI = `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`;
+      const formulaScore = `=IFERROR(VALUE(REGEXEXTRACT(J${rowIdx}, "E1=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E2=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E3=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E4=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E5=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E6=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E7=(\\d)")), "") & "/7"`;
+      const formulaFeedback = `=IFERROR(REGEXEXTRACT(J${rowIdx}, "NHAN_XET=(.+)"), J${rowIdx})`;
+
+      outputRows.push([
+        id, index + 1, name, unit, timestamp,
+        choices, explanations, references + '\n---\nPrompt:\n' + prompt,
+        '', formulaAI, formulaScore, formulaFeedback, 'Chờ AI'
+      ]);
+    });
+    reviewSheet.getRange(1, 1, outputRows.length, reviewHeaders.length).setValues(outputRows);
+    formatGeminiReviewSheet_(reviewSheet, outputRows.length, 6);
+  } else {
+    const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Số lỗi nghiêm trọng', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
+    const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer.join('\n') : String(config.referenceAnswer || '');
+    const promptMap = {
+      3: 'Compare student answer (Column F) with 3 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.',
+      5: 'Compare student answer (Column F) with 2 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.',
+      7: 'Compare student answer (Column F) with 2 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.',
+      8: 'Compare student answer (Column F) with 4 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.'
+    };
+    const promptText = promptMap[id] || 'Compare student answer (Column F) with teacher criteria (Column G).';
+    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
+
+    const resolvedConfig = resolveColumns_(headers, config);
+    const outputRows = [reviewHeaders];
+    rows.forEach((row, index) => {
+      const timestamp = row[0] || '';
+      const name = row[1] || `Học viên ${index + 1}`;
+      const unit = row[2] || '';
+      const essay = String(row[resolvedConfig.answerIndex] || '').trim();
+      const rowIdx = index + 2;
+      const formulaAI = `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`;
+      
+      let sumParts = [];
+      for (let c = 1; c <= totalCriteria; c++) {
+        sumParts.push(`IFERROR(VALUE(REGEXEXTRACT(I${rowIdx}, "Y${c}=(\\d)")), 0)`);
+      }
+      const formulaScore = `=IFERROR(${sumParts.join(" + ")}, "") & "/${totalCriteria}"`;
+      const formulaError = `=IFERROR(VALUE(REGEXEXTRACT(I${rowIdx}, "LOI_NGHIEM_TRONG=(\\d)")), 0)`;
+      const formulaFeedback = `=IFERROR(REGEXEXTRACT(I${rowIdx}, "NHAN_XET=(.+)"), I${rowIdx})`;
+
+      outputRows.push([
+        id, index + 1, name, unit, timestamp,
+        essay, referenceAnswers, promptText,
+        formulaAI, formulaScore, formulaError, formulaFeedback, 'Chờ AI'
+      ]);
+    });
+    reviewSheet.getRange(1, 1, outputRows.length, reviewHeaders.length).setValues(outputRows);
+    formatGeminiReviewSheet_(reviewSheet, outputRows.length, id);
+  }
+}
+
+function formatGeminiReviewSheet_(reviewSheet, numRows, sessionId) {
+  if (!reviewSheet || numRows < 1) return;
+  const totalCols = 13;
+  
+  // 1. Unhide all columns first then hide Column H (Prompt Gemini)
+  reviewSheet.showColumns(1, totalCols);
+  reviewSheet.hideColumns(8); // Ẩn cột Prompt Gemini để bảng đỡ rối
+  
+  // 2. Format Header Row
+  const headerRange = reviewSheet.getRange(1, 1, 1, totalCols);
+  headerRange.setFontWeight('bold')
+    .setBackground('#1b365d')
+    .setFontColor('#ffffff')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle');
+  reviewSheet.setRowHeight(1, 38);
+  reviewSheet.setFrozenRows(1);
+  
+  // 3. Set Column Widths
+  const widths = [60, 60, 160, 160, 140, 320, 280, 200, 220, 80, 110, 350, 90];
+  widths.forEach((w, colIdx) => reviewSheet.setColumnWidth(colIdx + 1, w));
+  
+  // 4. Set Text Wrapping, Formatting & Colors for Data Rows
+  if (numRows > 1) {
+    const dataRange = reviewSheet.getRange(2, 1, numRows - 1, totalCols);
+    dataRange.setVerticalAlignment('top').setFontSize(10);
+    
+    // Columns F, G, H, I, L wrap text
+    [6, 7, 8, 9, 12].forEach(colIdx => {
+      reviewSheet.getRange(2, colIdx, numRows - 1, 1).setWrap(true);
+    });
+    
+    // Highlight Column I (Kết quả AI Gốc) with soft gray background
+    reviewSheet.getRange(2, 9, numRows - 1, 1).setBackground('#f1f3f4').setFontSize(9).setFontColor('#5f6368');
+    
+    // HIGHLIGHT COL L (NHẬN XÉT AI RÕ NÉT FOR GIẢNG VIÊN) WITH BOLD GREEN/TEAL FONT & SOFT MINT BACKGROUND
+    const feedbackRange = reviewSheet.getRange(2, 12, numRows - 1, 1);
+    feedbackRange.setBackground('#e6f4ea')
+      .setFontWeight('bold')
+      .setFontSize(11)
+      .setFontColor('#137333');
+      
+    // Highlight Column J (Số ý đạt) with soft blue
+    reviewSheet.getRange(2, 10, numRows - 1, 1).setFontWeight('bold').setFontSize(11).setBackground('#e8f0fe');
+    
+    // Alignments
+    [1, 2, 5, 10, 11, 13].forEach(colIdx => {
+      reviewSheet.getRange(2, colIdx, numRows - 1, 1).setHorizontalAlignment('center');
+    });
+  }
+  
+  // Tự động tính toán & cập nhật bảng Vinh danh _PUBLIC_TOP lên Dashboard
+  try {
+    capNhatTabPublicTop_(reviewSheet.getParent(), Number(sessionId));
+  } catch (e) {
+    Logger.log('Không thể tự động cập nhật _PUBLIC_TOP: ' + e);
+  }
+}
+
+function capNhatTabPublicTop_(spreadsheet, sessionId) {
+  const id = Number(sessionId);
+  if ([3, 5, 6, 7, 8].indexOf(id) < 0) return;
+  const config = SESSION_CONFIG.find(item => item.id === id);
+  if (!config) return;
+
+  const reviewSheet = spreadsheet.getSheetByName('_GEMINI_REVIEW');
+  if (!reviewSheet || reviewSheet.getLastRow() < 2) return;
+
+  const values = reviewSheet.getDataRange().getDisplayValues();
+  values.shift(); // Remove header row
+
+  const sessionRows = values.filter(row => Number(row[0]) === id);
+  if (!sessionRows.length) return;
+
+  const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer : [String(config.referenceAnswer || '')];
+
+  const parsedItems = sessionRows.map(row => {
+    const name = String(row[2] || '').trim();
+    const unit = String(row[3] || '').trim();
+    const submittedAt = String(row[4] || '').trim();
+    const essay = String(row[5] || '').trim();
+    const rawResultAI = String(row[8] || '').trim();
+    const displayFeedback = String(row[11] || '').trim();
+
+    if (id === 6) {
+      let eMatched = [];
+      for (let k = 1; k <= 7; k++) {
+        const m = rawResultAI.match(new RegExp('E' + k + '=(\\d)'));
+        eMatched.push(m ? Number(m[1]) === 1 : false);
+      }
+      const numMatched = eMatched.filter(Boolean).length;
+      const score = numMatched * 10;
+      return { name, unit, submittedAt, score, scoreChoice: '70/70', scoreExplanation: `${numMatched * 10}/70`, feedback: displayFeedback || rawResultAI, raw: row };
+    }
+
+    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
+    let yMatched = [];
+    for (let k = 1; k <= totalCriteria; k++) {
+      const m = rawResultAI.match(new RegExp('Y' + k + '=(\\d)'));
+      yMatched.push(m ? Number(m[1]) === 1 : false);
+    }
+    const errMatch = rawResultAI.match(/LOI_NGHIEM_TRONG=(\d)/);
+    const criticalError = errMatch ? Number(errMatch[1]) : 0;
+    const numMatched = yMatched.filter(Boolean).length;
+
+    const score = numMatched * 10 - criticalError * 5;
+
+    const matchedItems = referenceAnswers.map((criteriaText, idx) => ({
+      label: criteriaText,
+      matched: Boolean(yMatched[idx])
+    }));
+
+    return {
+      name,
+      unit,
+      submittedAt,
+      score,
+      scoreText: `Đạt ${numMatched}/${totalCriteria} ý chuẩn`,
+      essay,
+      matchedItemsJson: JSON.stringify(matchedItems),
+      referenceAnswer: referenceAnswers.join('\n'),
+      aiFeedback: displayFeedback || rawResultAI,
+      criticalErrors: criticalError
+    };
+  });
+
+  parsedItems.sort((a, b) => b.score - a.score || String(a.submittedAt).localeCompare(String(b.submittedAt), 'vi'));
+
+  const top10 = parsedItems.slice(0, 10);
+
+  let publicTopSheet = spreadsheet.getSheetByName('_PUBLIC_TOP');
+  if (!publicTopSheet) {
+    publicTopSheet = spreadsheet.insertSheet('_PUBLIC_TOP');
+  }
+
+  // QUAN TRỌNG: Luôn dùng header chuẩn 11 cột để tránh lỗi dimension mismatch với setValues
+  const FIXED_HEADER = ['ID Phiên', 'Rank', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Điểm/Số ý', 'Bài làm', 'Các ý chuẩn (JSON)', 'Đáp án tham chiếu', 'Nhận xét AI', 'Lỗi nghiêm trọng'];
+  const NUM_COLS = FIXED_HEADER.length; // = 11
+  
+  const existingValues = publicTopSheet.getLastRow() >= 2 ? publicTopSheet.getDataRange().getValues() : [];
+  
+  // Lấy các dòng của phiên khác, padding thành 11 cột nếu thiếu
+  const otherSessionsRows = existingValues.slice(1)
+    .filter(r => Number(r[0]) !== id)
+    .map(r => { while (r.length < NUM_COLS) r.push(''); return r.slice(0, NUM_COLS); });
+
+  const newTopRows = top10.map((item, idx) => [
+    id,
+    idx + 1,
+    item.name,
+    item.unit,
+    item.submittedAt,
+    item.scoreText || item.scoreChoice || '',
+    item.essay || '',
+    item.matchedItemsJson || JSON.stringify(item.questionDetails || []),
+    item.referenceAnswer || '',
+    item.aiFeedback || '',
+    item.criticalErrors || 0
+  ]);
+
+  publicTopSheet.clear();
+  const finalRows = [FIXED_HEADER, ...otherSessionsRows, ...newTopRows];
+  publicTopSheet.getRange(1, 1, finalRows.length, NUM_COLS).setValues(finalRows);
+  try { publicTopSheet.hideSheet(); } catch (e) {}
+}
+
+/**
+ * CÁC HÀM TIỆN ÍCH CHẠY TRỰC TIẾP TRÊN APPS SCRIPT EDITOR ĐỂ TẠO TAB _GEMINI_REVIEW & CẬP NHẬT TOP N:
+ */
+function taoTabGeminiReviewPhien3() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  taoTabGeminiReview_(spreadsheet, 3);
+  capNhatTabPublicTop_(spreadsheet, 3);
+  Logger.log('Đã tạo tab _GEMINI_REVIEW và cập nhật Vinh danh Top N Phiên 3 thành công!');
+}
+
+function taoTabGeminiReviewPhien5() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  taoTabGeminiReview_(spreadsheet, 5);
+  capNhatTabPublicTop_(spreadsheet, 5);
+}
+
+function taoTabGeminiReviewPhien6() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  taoTabGeminiReview_(spreadsheet, 6);
+  capNhatTabPublicTop_(spreadsheet, 6);
+}
+
+function taoTabGeminiReviewPhien7() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  taoTabGeminiReview_(spreadsheet, 7);
+  capNhatTabPublicTop_(spreadsheet, 7);
+}
+
+function taoTabGeminiReviewPhien8() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  taoTabGeminiReview_(spreadsheet, 8);
+  capNhatTabPublicTop_(spreadsheet, 8);
+}
+
+function capNhatPublicTopTatCaPhien() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  [3, 5, 6, 7, 8].forEach(id => capNhatTabPublicTop_(spreadsheet, id));
+  Logger.log('Đã cập nhật bảng Vinh danh _PUBLIC_TOP cho tất cả các phiên!');
 }
 
 function ensureDashboardTimerTrigger_() {
@@ -257,9 +552,13 @@ function ensureDashboardControlSheet_(spreadsheet) {
 }
 
 function openDashboardSpreadsheet_() {
+  try {
+    const active = SpreadsheetApp.getActiveSpreadsheet();
+    if (active) return active;
+  } catch (e) {}
   const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
-  if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID.');
-  return SpreadsheetApp.openById(spreadsheetId);
+  if (spreadsheetId) return SpreadsheetApp.openById(spreadsheetId);
+  throw new Error('Không thể kết nối đến Google Sheet.');
 }
 
 function countResponseRows_(sheet) {
