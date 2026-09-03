@@ -471,20 +471,20 @@
     const featured = participants.slice(0, 3);
     const remaining = participants.slice(3);
 
-    const personCard = (person, index, featuredCard = false) => {
-      const rank = person.rank || index + 1;
+    const personCard = (person, actualIndex, featuredCard = false) => {
+      const rank = person.rank || actualIndex + 1;
       const rankClass = rank === 1 ? "rank-1" : rank === 2 ? "rank-2" : rank === 3 ? "rank-3" : `rank-${rank}`;
       const scoreBadge = person.scoreText || person.scoreChoice || person.result || "Đạt";
       const positionText = person.position ? escapeHtml(person.position) : "";
       
       return `
-        <button type="button" class="top-participant-card ${featuredCard ? "podium-card" : "ranking-card"} ${rankClass}" data-open-participant="${index}">
+        <button type="button" class="top-participant-card ${featuredCard ? "podium-card" : "ranking-card"} ${rankClass}" data-open-participant="${actualIndex}">
           <span class="rank-badge">#${rank}</span>
           <span class="participant-info">
             <strong class="participant-name">${escapeHtml(person.name || "Chưa có họ tên")}</strong>
             <small class="participant-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
             ${positionText ? `<small class="participant-position">${positionText}</small>` : ""}
-            <small class="participant-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</small>
+            <small class="participant-submitted"><b>${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</b></small>
           </span>
           <span class="participant-score">
             <span class="score-pill">${escapeHtml(scoreBadge)}</span>
@@ -504,14 +504,16 @@
           <span class="leaderboard-ai-note">${isQuiz ? "Tự động chấm theo đáp án chuẩn · Click từng học viên để xem chi tiết đáp án" : "Kết quả có sự hỗ trợ của AI · Click từng học viên để xem chi tiết đáp án"}</span>
         </div>
         <div class="top-podium" aria-label="Ba học viên đứng đầu">${featured.map((person, index) => personCard(person, index, true)).join("")}</div>
-        ${remaining.length ? `<ol class="top-participants-list" start="4">${remaining.map((person, index) => `<li>${personCard(person, index + 3)}</li>`).join("")}</ol>` : ""}
+        ${remaining.length ? `<ol class="top-participants-list" start="4">${remaining.map((person, index) => `<li>${personCard(person, index + 3, false)}</li>`).join("")}</ol>` : ""}
       </section>
     `;
   }
 
   function formatSubmittedTime(value) {
-    const time = String(value || "").match(/\b\d{1,2}:\d{2}(?::\d{2})?\b/);
-    return time ? `Nộp lúc ${time[0]}` : "Chưa có giờ nộp";
+    if (!value) return "Chưa có giờ nộp";
+    const text = String(value);
+    const match = text.match(/(?:[01]?\d|2[0-3]):[0-5]\d(?::[0-5]\d)?/);
+    return match ? `Nộp lúc ${match[0]}` : "Chưa có giờ nộp";
   }
 
   function renderLiveQuiz(session) {
@@ -614,7 +616,7 @@
     const normalizedSearch = normalizeText(responseSearch);
     const filtered = live ? responses : responses.filter(text => normalizeText(text).includes(normalizedSearch));
     const responseBlock = filtered.length ? `<details class="responses-disclosure" data-ui-state="session-${session.id}-responses" ${responseSearch ? "open" : ""}><summary><span>${live ? "Xem phản hồi đang nhận" : `Xem ${filtered.length} câu trả lời`}</span><small>${live ? "Tối đa 10 phản hồi đầu tiên" : "Bấm để mở hoặc thu gọn danh sách"}</small></summary><div class="response-list open-response-list">${filtered.map((text, index) => `<article class="open-response-card"><header><span>Phản hồi ${index + 1}</span></header><p>${escapeHtml(text)}</p></article>`).join("")}</div></details>` : renderInlineEmpty(responses.length ? "Không tìm thấy phản hồi phù hợp." : "Chưa có phản hồi. Dashboard sẽ tự cập nhật khi có dữ liệu.");
-    return `<section class="content-grid open-dashboard">${renderPromptCard(session)}${live ? "" : `<article class="panel full reference-panel">${panelHeading("Gợi ý / đáp án tham chiếu", "Dùng để đối chiếu và trao đổi tại lớp")}${reference.length ? `<ol class="reference-list">${reference.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : renderInlineEmpty("Chưa có nội dung tham chiếu.")}</article>`}<article class="panel full ${live ? "panel-primary" : ""}"><div class="panel-heading panel-heading-actions"><div><p class="panel-kicker">PHẢN HỒI HỌC VIÊN</p><h3>${live ? "Phản hồi đang nhận" : `Danh sách câu trả lời (${filtered.length}/${responses.length})`}</h3></div>${live ? '<span>Nội dung phản hồi được hiển thị ẩn danh</span>' : `<label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>`}</div><p class="privacy-note">Danh sách được thu gọn mặc định để dễ theo dõi. Nội dung phản hồi hiển thị ẩn danh.</p>${responseBlock}</article>${renderMissingUnitsPanel(session)}</section>`;
+    return `<section class="content-grid open-dashboard">${renderPromptCard(session)}${live ? "" : `<article class="panel full reference-panel">${panelHeading("Gợi ý / đáp án tham chiếu", "Dùng để đối chiếu và trao đổi tại lớp")}${reference.length ? `<ol class="reference-list">${reference.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : renderInlineEmpty("Chưa có nội dung tham chiếu.")}</article>`}<article class="panel full ${live ? "panel-primary" : ""}"><div class="panel-heading panel-heading-actions"><div><p class="panel-kicker">PHẢN HỒI HỌC VIÊN</p><h3>${live ? "Phản hồi đang nhận" : `Danh sách câu trả lời (${filtered.length}/${responses.length})`}</h3></div>${live ? '<span>Nội dung phản hồi được hiển thị ẩn danh</span>' : `<label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>`}</div><p class="privacy-note">Danh sách được thu gọn mặc định để dễ theo dõi. Nội dung phản hồi hiển thị ẩn danh.</p>${responseBlock}</article></section>`;
   }
 
   function renderPromptCard(session) {
@@ -637,15 +639,11 @@
     if (!total) return "";
     const participating = Number(session.participatingUnits || 0);
     const unmapped = Number(session.unmappedUnitResponses || 0);
-    return `<section class="content-grid unit-participation-section"><article class="panel full unit-participation-card"><div class="unit-participation-copy"><p class="panel-kicker">THỐNG KÊ ĐƠN VỊ</p><h3>Đơn vị tham gia: ${formatNumber.format(participating)}/${formatNumber.format(total)}</h3><span>${missing.length ? `Chưa tham gia: ${formatNumber.format(missing.length)} đơn vị` : "Tất cả đơn vị đã tham gia"}</span>${unmapped ? `<small>Có ${formatNumber.format(unmapped)} phản hồi mang tên đơn vị chưa khớp danh mục chuẩn.</small>` : ""}</div>${missing.length ? `<details class="missing-units" data-ui-state="session-${session.id}-missing-units"><summary>Xem danh sách chưa tham gia</summary><ol>${missing.map(unit => `<li>${escapeHtml(unit)}</li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ</span>'}</article></section>`;
+    return `<section class="content-grid unit-participation-section"><article class="panel full missing-units-panel"><div class="panel-heading"><div><p class="panel-kicker">THỐNG KÊ ĐƠN VỊ CHƯA THAM GIA</p><h3>${missing.length ? `${formatNumber.format(missing.length)} đơn vị chưa có bài` : "Tất cả đơn vị đã tham gia"}</h3></div><span class="type-pill">${formatNumber.format(participating)}/${formatNumber.format(total)} đơn vị đã tham gia</span></div>${unmapped ? `<p class="privacy-note" style="margin-top:0;">Có ${formatNumber.format(unmapped)} phản hồi mang tên đơn vị chưa khớp danh mục chuẩn.</p>` : ""}${missing.length ? `<details class="missing-units missing-units-expanded" data-ui-state="session-${session.id}-missing-units" open><summary><span class="missing-open">Thu gọn danh sách</span><span class="missing-closed">Xem danh sách chưa tham gia</span></summary><ol>${missing.map(unit => `<li>${escapeHtml(unit)}</li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ đơn vị trong danh mục</span>'}</article></section>`;
   }
 
   function renderMissingUnitsPanel(session) {
-    const missing = Array.isArray(session.missingUnits) ? session.missingUnits : [];
-    const total = Number(session.totalUnits || 0);
-    if (!total) return "";
-    const participating = Number(session.participatingUnits || 0);
-    return `<article class="panel full missing-units-panel"><div class="panel-heading"><div><p class="panel-kicker">ĐƠN VỊ CHƯA THAM GIA</p><h3>${missing.length ? `${formatNumber.format(missing.length)} đơn vị chưa có bài` : "Tất cả đơn vị đã tham gia"}</h3></div><span>${formatNumber.format(participating)}/${formatNumber.format(total)} đơn vị đã tham gia</span></div>${missing.length ? `<details class="missing-units missing-units-expanded" data-ui-state="session-${session.id}-missing-units" open><summary><span class="missing-open">Thu gọn danh sách</span><span class="missing-closed">Xem danh sách đơn vị chưa tham gia</span></summary><ol>${missing.map(unit => `<li>${escapeHtml(unit)}</li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ</span>'}</article>`;
+    return renderUnitParticipation(session);
   }
 
   function questionSelector(questions) {
@@ -792,12 +790,6 @@
             </ul>
           </div>
         ` : ""}
-        ${person.referenceAnswer ? `
-          <div class="modal-section">
-            <h3>Đáp án tham chiếu của giáo viên:</h3>
-            <div class="modal-reference-box">${escapeHtml(person.referenceAnswer).replaceAll("\n", "<br>")}</div>
-          </div>
-        ` : ""}
       `;
     }
 
@@ -809,7 +801,10 @@
   function bindSessionControls(session) {
     dashboard.querySelectorAll("[data-open-participant]").forEach(button => button.addEventListener("click", () => {
       const index = Number(button.dataset.openParticipant);
-      const person = session.topParticipants?.[index];
+      const items = (session.topParticipants && session.topParticipants.length > 0)
+        ? session.topParticipants
+        : (session.leaderboard || []);
+      const person = items[index];
       if (person) openParticipantModal(person, session);
     }));
     dashboard.querySelectorAll("[data-open-qr]").forEach(button => button.addEventListener("click", () => {
