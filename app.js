@@ -19,6 +19,7 @@
   const controlFrame = document.getElementById("control-frame");
   const demoControl = document.getElementById("demo-control");
   const controlSessionLabel = document.getElementById("control-session-label");
+  const globalTimerBanner = document.getElementById("global-timer-banner");
   const formatNumber = new Intl.NumberFormat("vi-VN");
   const urlParams = new URLSearchParams(location.search);
   const fakeMode = urlParams.get("demo") === "1";
@@ -43,9 +44,11 @@
   let timer = null;
   let countdownExpired = false;
   let isLoading = false;
+  let usingFallbackData = false;
   const detailStates = new Map();
   const scrollStates = new Map();
   const demoSessionStates = new Map();
+  const controlSessionStates = new Map();
 
   configureAdminLinks();
 
@@ -149,15 +152,26 @@
       const response = await fetch(`${dataUrl}${separator}_=${Date.now()}${force}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       payload = await response.json();
+      usingFallbackData = false;
       setStatus(fakeMode ? "demo" : "live", fakeMode ? "Dữ liệu giả lập" : "Dữ liệu trực tiếp");
     } catch (error) {
       const response = await fetch(`${config.demoDataUrl || "data/demo.json"}?_=${Date.now()}`, { cache: "no-store" });
       payload = await response.json();
+      usingFallbackData = !fakeMode;
       setStatus(config.apiUrl ? "error" : "demo", config.apiUrl ? "Không kết nối được dữ liệu" : "Chế độ xem trước");
     } finally {
       isLoading = false;
     }
+    applyPendingControlStates();
     render();
+  }
+
+  function applyPendingControlStates() {
+    if (!usingFallbackData || !payload?.sessions) return;
+    controlSessionStates.forEach((state, id) => {
+      const session = payload.sessions.find(item => Number(item.id) === Number(id));
+      if (session) Object.assign(session, state);
+    });
   }
 
   function render() {
@@ -175,6 +189,7 @@
     subtitle.textContent = session.typeLabel;
     updatedAt.textContent = payload.updatedAt ? `Cập nhật: ${new Date(payload.updatedAt).toLocaleString("vi-VN")}` : "";
     const phase = phaseOf(session);
+    renderGlobalTimer(session, phase);
     const showingClosedLivePreview = phase === "CLOSED" && closedLivePreview;
     const contentPhase = showingClosedLivePreview ? "LIVE" : phase;
     dashboard.dataset.kind = session.kind || "";
@@ -223,6 +238,16 @@
     demoControl.innerHTML = `<section class="demo-control-card"><div class="demo-control-status"><span>CHẾ ĐỘ DEMO · KHÔNG ẢNH HƯỞNG DỮ LIỆU THẬT</span><b>${closed ? "Đã chốt giả lập" : timed ? "Đang đếm ngược giả lập" : "Chưa bắt đầu giả lập"}</b></div>${timed ? `<strong class="demo-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</strong>` : ""}<div class="demo-control-count"><strong>${formatNumber.format(count)}</strong><span>bài giả lập</span></div>${closed ? `<button type="button" data-demo-action="reopen">Mở lại phiên demo</button>` : `<label>Thời gian làm bài <span>(phút)</span><input type="number" min="0.1" max="10080" step="0.1" value="15" data-demo-duration aria-label="Thời gian làm bài tính bằng phút"></label><button type="button" data-demo-action="timer">${timed ? "Đặt lại giờ demo" : "Bắt đầu đếm ngược"}</button><button class="demo-close-now" type="button" data-demo-action="close">Kết thúc ngay bản demo</button>`}</section>`;
     demoControl.querySelectorAll("[data-demo-action]").forEach(button => button.addEventListener("click", () => mutateDemoSession(session, button.dataset.demoAction)));
     updateCountdowns();
+  }
+
+  function renderGlobalTimer(session, phase) {
+    if (phase !== "TIMED" || !session.timerEndsAt) {
+      globalTimerBanner.hidden = true;
+      globalTimerBanner.innerHTML = "";
+      return;
+    }
+    globalTimerBanner.hidden = false;
+    globalTimerBanner.innerHTML = `<strong>Phiên ${session.id} đang làm bài</strong><span data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span>`;
   }
 
   function mutateDemoSession(session, action) {
@@ -585,6 +610,17 @@
   });
   window.addEventListener("message", event => {
     if (event.source !== controlFrame.contentWindow || event.data?.type !== "dashboard-session-updated") return;
+    controlSessionStates.set(Number(event.data.sessionId), {
+      phase: event.data.phase,
+      timerStartedAt: event.data.timerStartedAt || null,
+      timerEndsAt: event.data.timerEndsAt || null,
+      closedAt: event.data.closedAt || null
+    });
+    const session = payload?.sessions?.find(item => Number(item.id) === Number(event.data.sessionId));
+    if (session) {
+      Object.assign(session, controlSessionStates.get(Number(event.data.sessionId)));
+      render();
+    }
     if (event.data.phase !== "TIMED") {
       controlPanel.hidden = true;
       controlFab.setAttribute("aria-expanded", "false");

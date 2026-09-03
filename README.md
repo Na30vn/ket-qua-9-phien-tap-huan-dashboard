@@ -54,6 +54,7 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 - Trắc nghiệm hiển thị số lượt và tỷ lệ chọn từng phương án.
 - Bài sắp xếp và tự luận chỉ hiển thị tối đa 10 phản hồi đầu tiên theo thiết kế trình chiếu.
 - Quản trị viên có thể nhập số phút tùy ý và bắt đầu đếm ngược. Mốc kết thúc tuyệt đối được lưu trong `_DASHBOARD_CONTROL`, nên tải lại hoặc đóng trình duyệt không làm reset timer.
+- Đồng hồ còn lại hiển thị thành thanh cố định ngay trên dashboard trong suốt thời gian làm bài; không cần mở bảng điều khiển nhanh để theo dõi.
 - Trigger nền kiểm tra mỗi phút; dù trigger chạy trễ vài giây, snapshot luôn cắt đúng theo timestamp tại mốc đã đặt.
 
 ### Đã chốt

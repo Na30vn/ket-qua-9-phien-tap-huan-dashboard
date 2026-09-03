@@ -200,7 +200,14 @@
     const endText = result.timerEndsAt ? ` · kết thúc lúc ${new Date(result.timerEndsAt).toLocaleTimeString('vi-VN')}` : '';
     actionFeedback = { kind: 'success', sessionId: result.sessionId, message: result.phase === 'TIMED' ? `Đã bắt đầu ${result.durationMinutes} phút${endText}` : 'Đã cập nhật trạng thái phiên.' };
     if (window.lastAdminData) render(window.lastAdminData); else load();
-    if (requestedView === 'compact') parent.postMessage({ type: 'dashboard-session-updated', sessionId: result.sessionId, phase: result.phase }, '*');
+    if (requestedView === 'compact') parent.postMessage({
+      type: 'dashboard-session-updated',
+      sessionId: result.sessionId,
+      phase: result.phase,
+      timerStartedAt: result.timerStartedAt || null,
+      timerEndsAt: result.timerEndsAt || null,
+      closedAt: result.closedAt || null
+    }, '*');
   }
   function openReport(result) { setBusy(false, `Đã tạo ${result.name}. Nếu tệp chưa tự tải, trình duyệt có thể đang chặn cửa sổ bật lên.`); window.open(result.downloadUrl, '_blank', 'noopener'); }
   refreshButton.addEventListener('click', load);
