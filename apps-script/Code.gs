@@ -109,7 +109,7 @@ const SESSION_CONFIG = [
       'Tổ chức thu lệ phí phải nộp đầy đủ, kịp thời số tiền lệ phí thu được vào ngân sách nhà nước',
       'Tổ chức thu phí, lệ phí thực hiện lập và cấp chứng từ thu phí, lệ phí cho người nộp phí, lệ phí theo quy định của Chính phủ về hóa đơn, chứng từ và thủ tục hành chính thuộc lĩnh vực Kho bạc Nhà nước',
       'Phí thu từ các hoạt động dịch vụ do cơ quan nhà nước cấp xã thực hiện phải nộp vào ngân sách nhà nước, trường hợp được khoán chi phí hoạt động từ nguồn thu phí thì được khấu trừ theo tỷ lệ xác định quy định; phần còn lại (nếu có) nộp ngân sách nhà nước',
-      'Đơn vị thực hiện kê khai, nộp phí, lệ phí theo tháng, quý, năm'
+      'Người nộp phí, lệ phí thực hiện khai (nếu có), nộp phí, lệ phí theo tháng, quý, năm hoặc theo từng lần phát sinh'
     ],
     [
       'Dự toán thu phải thể hiện đầy đủ các khoản thu, sát khả năng thực tế',

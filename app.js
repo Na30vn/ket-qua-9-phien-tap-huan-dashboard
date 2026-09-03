@@ -462,32 +462,33 @@
 
   function renderTopParticipantsLeaderboard(session, participants) {
     const label = participants.length === 1 ? "Top 1" : `Top ${participants.length}`;
-    const subtext = session.id === 6 ? "Đánh giá bởi Gemini & Rule-based · Click từng dòng để xem chi tiết 7 câu" : "Chấm tự động bởi Gemini · Click từng dòng để xem bài làm và nhận xét chi tiết";
+    const featured = participants.slice(0, 3);
+    const remaining = participants.slice(3);
+    const personCard = (person, index, featuredCard = false) => `
+      <button type="button" class="top-participant-card ${featuredCard ? "podium-card" : "ranking-card"} rank-${person.rank || index + 1}" data-open-participant="${index}">
+        <span class="rank-badge">#${person.rank || index + 1}</span>
+        <span class="participant-info">
+          <strong>${escapeHtml(person.name || "Chưa có họ tên")}</strong>
+          <small class="participant-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
+          <small class="participant-submitted">Nộp: ${escapeHtml(person.submittedAt || "Chưa có thời điểm")}</small>
+        </span>
+        <span class="participant-score">
+          <span class="score-pill">${escapeHtml(person.scoreText || person.scoreChoice || "Đạt")}</span>
+          ${person.scoreExplanation ? `<small class="sub-score">${escapeHtml(person.scoreExplanation)}</small>` : ""}
+        </span>
+        <span class="view-detail-hint">Xem đáp án <b>→</b></span>
+      </button>`;
     return `
       <section class="leaderboard panel top-participants-panel">
         <div class="leaderboard-heading">
           <div>
-            <p class="panel-kicker">VINH DANH TOP N NỘI DUNG TỐT NHẤT</p>
-            <h3>${label} bài làm xuất sắc nhất (Gemini AI)</h3>
+            <p class="panel-kicker">VINH DANH TOP NỘI DUNG TỐT NHẤT</p>
+            <h3>${label} bài làm xuất sắc nhất</h3>
           </div>
-          <span>${escapeHtml(subtext)}</span>
+          <span class="leaderboard-ai-note">Kết quả có sự hỗ trợ của AI · Click từng học viên để xem chi tiết đáp án</span>
         </div>
-        <div class="top-participants-grid">
-          ${participants.map((person, index) => `
-            <button type="button" class="top-participant-card rank-${person.rank || index + 1}" data-open-participant="${index}">
-              <span class="rank-badge">#${person.rank || index + 1}</span>
-              <div class="participant-info">
-                <strong>${escapeHtml(person.name)}</strong>
-                <small>${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
-              </div>
-              <div class="participant-score">
-                <span class="score-pill">${escapeHtml(person.scoreText || person.scoreChoice || "Đạt")}</span>
-                ${person.scoreExplanation ? `<small class="sub-score">${escapeHtml(person.scoreExplanation)}</small>` : ""}
-              </div>
-              <span class="view-detail-hint">Xem chi tiết ➔</span>
-            </button>
-          `).join("")}
-        </div>
+        <div class="top-podium" aria-label="Ba học viên đứng đầu">${featured.map((person, index) => personCard(person, index, true)).join("")}</div>
+        ${remaining.length ? `<ol class="top-participants-list" start="4">${remaining.map((person, index) => `<li>${personCard(person, index + 3)}</li>`).join("")}</ol>` : ""}
       </section>
     `;
   }
@@ -650,6 +651,7 @@
           <div>
             <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
             <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
+            <p class="modal-submitted">Thời điểm nộp: ${escapeHtml(person.submittedAt || "Chưa có")}</p>
           </div>
           <div class="modal-scores">
             <span class="modal-score-pill">${escapeHtml(person.scoreChoice || "70/70")}</span>
@@ -695,6 +697,7 @@
           <div>
             <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
             <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
+            <p class="modal-submitted">Thời điểm nộp: ${escapeHtml(person.submittedAt || "Chưa có")}</p>
           </div>
           <div class="modal-scores">
             <span class="modal-score-pill">${escapeHtml(person.scoreText || "Đạt")}</span>
