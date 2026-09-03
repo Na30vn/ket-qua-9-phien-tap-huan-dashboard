@@ -159,6 +159,7 @@ h1 {
 .phase-timed { color: #6d3c00; background: #fff4d8; border: 1px solid #e7b65b; }
 .phase-not_started { color: #43566b; background: #edf2f7; border: 1px solid #b8c5d2; }
 .phase-closed { color: #fff; background: var(--navy); border: 1px solid var(--navy); }
+.phase-processing { color: #6d3c00; background: #fff0c2; border: 1px solid #d99a22; }
 
 .closed-view-switch { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: -2px 0 15px; padding: 14px 16px; border: 1px solid #bfd0e0; border-radius: 13px; background: #fff; box-shadow: 0 5px 16px rgba(18,60,105,.07); }
 .view-switch-copy { display: grid; gap: 3px; color: var(--navy); }
@@ -176,6 +177,7 @@ h1 {
 .closed-notice { color: #173452; border: 1px solid #b7cade; background: #edf4fa; }
 .preview-notice { color: #563909; border: 1px solid #e5be73; background: #fff6df; }
 .timer-notice { justify-content: space-between; color: #6d3c00; border: 1px solid #e7b65b; background: #fff4d8; }
+.processing-notice { color: #654000; border: 1px solid #e1ad45; background: #fff4d8; }
 .public-countdown { color: #8d3d00; font-size: 22px; font-weight: 950; font-variant-numeric: tabular-nums; }
 
 .metrics { display: grid; gap: 14px; margin-bottom: 22px; }

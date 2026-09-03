@@ -49,6 +49,7 @@
   const scrollStates = new Map();
   const demoSessionStates = new Map();
   const controlSessionStates = new Map();
+  const pendingSessionActions = new Map();
 
   configureAdminLinks();
 
@@ -189,22 +190,24 @@
     subtitle.textContent = session.typeLabel;
     updatedAt.textContent = payload.updatedAt ? `Cập nhật: ${new Date(payload.updatedAt).toLocaleString("vi-VN")}` : "";
     const phase = phaseOf(session);
-    renderGlobalTimer(session, phase);
+    const pendingAction = pendingSessionActions.get(Number(session.id));
+    const closing = pendingAction === "close";
+    renderGlobalTimer(session, closing ? "PROCESSING" : phase);
     const showingClosedLivePreview = phase === "CLOSED" && closedLivePreview;
     const contentPhase = showingClosedLivePreview ? "LIVE" : phase;
     dashboard.dataset.kind = session.kind || "";
-    dashboard.dataset.phase = phase;
-    dashboard.dataset.view = showingClosedLivePreview ? "live-preview" : phase.toLowerCase();
+    dashboard.dataset.phase = closing ? "PROCESSING" : phase;
+    dashboard.dataset.view = closing ? "processing" : showingClosedLivePreview ? "live-preview" : phase.toLowerCase();
     dashboard.innerHTML = `
       <section class="section-head">
         <div><p class="section-kicker">KẾT QUẢ PHIÊN ${session.id}</p><h2>${escapeHtml(session.description || session.name)}</h2></div>
         <div class="section-tools">
           <button class="session-qr" type="button" data-open-qr="${session.id}" aria-label="Phóng to mã QR Phiên ${session.id}"><img src="assets/qr/session-${session.id}.png" alt=""><span><small>MÃ QR LÀM BÀI</small><strong>Phiên ${session.id}</strong><em>Nhấn để phóng to</em></span></button>
-          <div class="section-badges"><span class="phase-pill phase-${phase.toLowerCase()}">${phaseLabel(phase)}</span><span class="type-pill">${escapeHtml(session.typeLabel)}</span></div>
+          <div class="section-badges"><span class="phase-pill phase-${closing ? "processing" : phase.toLowerCase()}">${closing ? "Đang xử lý" : phaseLabel(phase)}</span><span class="type-pill">${escapeHtml(session.typeLabel)}</span></div>
         </div>
       </section>
-      ${renderClosedViewSwitch(phase, showingClosedLivePreview)}
-      ${renderPhaseNotice(session, phase, showingClosedLivePreview)}
+      ${closing ? "" : renderClosedViewSwitch(phase, showingClosedLivePreview)}
+      ${closing ? renderProcessingNotice() : renderPhaseNotice(session, phase, showingClosedLivePreview)}
       ${renderMetrics(session, contentPhase, showingClosedLivePreview)}
       ${renderSessionContent(session, contentPhase)}
     `;
@@ -326,6 +329,10 @@
     const late = Number(session.lateResponses || 0);
     if (showingLivePreview) return `<div class="phase-notice preview-notice"><strong>Đang xem lại giao diện lúc nhận bài</strong><span>Sử dụng ${formatNumber.format(session.totalResponses || 0)} bài tại thời điểm chốt ${escapeHtml(closedAt)}. Phiên vẫn đã chốt và không nhận thêm dữ liệu vào kết quả này.</span></div>`;
     return `<div class="phase-notice closed-notice"><strong>Số liệu đã chốt: ${formatNumber.format(session.totalResponses || 0)} bài</strong><span>Thời điểm chốt: ${escapeHtml(closedAt)}.${late ? ` Có ${formatNumber.format(late)} bài gửi sau thời điểm chốt và không được cộng vào kết quả.` : ""}</span></div>`;
+  }
+
+  function renderProcessingNotice() {
+    return `<div class="phase-notice processing-notice"><strong>Đang kết thúc phiên</strong><span>Hệ thống đang chốt số liệu và tạo màn hình tổng hợp…</span></div>`;
   }
 
   function updateCountdowns() {
@@ -608,8 +615,28 @@
     controlFab.setAttribute("aria-expanded", "false");
     controlFab.textContent = "+";
   });
+  function closeControlPanel() {
+    controlPanel.hidden = true;
+    controlFab.setAttribute("aria-expanded", "false");
+    controlFab.textContent = "+";
+  }
   window.addEventListener("message", event => {
-    if (event.source !== controlFrame.contentWindow || event.data?.type !== "dashboard-session-updated") return;
+    if (event.source !== controlFrame.contentWindow) return;
+    if (event.data?.type === "dashboard-session-pending") {
+      closeControlPanel();
+      if (event.data.action === "close") {
+        pendingSessionActions.set(Number(event.data.sessionId), "close");
+        render();
+      }
+      return;
+    }
+    if (event.data?.type === "dashboard-session-failed") {
+      pendingSessionActions.delete(Number(event.data.sessionId));
+      loadData(true);
+      return;
+    }
+    if (event.data?.type !== "dashboard-session-updated") return;
+    pendingSessionActions.delete(Number(event.data.sessionId));
     controlSessionStates.set(Number(event.data.sessionId), {
       phase: event.data.phase,
       timerStartedAt: event.data.timerStartedAt || null,
@@ -621,11 +648,7 @@
       Object.assign(session, controlSessionStates.get(Number(event.data.sessionId)));
       render();
     }
-    if (event.data.phase !== "TIMED") {
-      controlPanel.hidden = true;
-      controlFab.setAttribute("aria-expanded", "false");
-      controlFab.textContent = "+";
-    }
+    closeControlPanel();
     loadData(true);
   });
   loadData();
