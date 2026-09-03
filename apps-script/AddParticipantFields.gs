@@ -137,7 +137,6 @@ function hoanThienThongTinNguoiThamGia9Form() {
       setFormItemRequired_(nameItem, true);
       setFormItemRequired_(unitItem, true);
       setFormItemRequired_(positionItem, true);
-      setZeroQuizPoints_(form, [nameItem, unitItem, positionItem]);
 
       moveFormItemTo_(form, nameItem, 0);
       moveFormItemTo_(form, unitItem, 1);
@@ -383,14 +382,6 @@ function describeFormItem_(item) {
 
 function moveFormItemTo_(form, item, targetIndex) {
   if (item.getIndex() !== targetIndex) form.moveItem(item.getIndex(), targetIndex);
-}
-
-function setZeroQuizPoints_(form, items) {
-  if (!form.isQuiz()) return;
-  items.forEach(item => {
-    const typed = asAnswerableFormItem_(item);
-    if (typed && typeof typed.setPoints === 'function') typed.setPoints(0);
-  });
 }
 
 function setFormItemRequired_(item, required) {
