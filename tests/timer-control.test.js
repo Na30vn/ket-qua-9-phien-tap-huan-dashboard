@@ -95,7 +95,7 @@ assert.equal(started.phase, "TIMED");
 assert.equal(started.durationMinutes, 1);
 assert.deepEqual(JSON.parse(JSON.stringify(validationValues)), ["NOT_STARTED", "TIMED", "CLOSED"]);
 assert.ok(new Date(started.timerEndsAt).getTime() > Date.now());
-assert.equal(triggerCreated, 1);
+assert.equal(triggerCreated, 2);
 
 table[1][2] = new Date("2026-09-03T02:00:00.000Z");
 const processed = context.__process();

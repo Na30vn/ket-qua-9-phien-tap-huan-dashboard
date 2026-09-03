@@ -115,7 +115,9 @@
     if (requestedView === 'compact') notice.classList.remove('is-hidden');
     setBusy(true, 'Đang load dữ liệu…');
     loadTimeout = setTimeout(() => fail(new Error('Không nhận được dữ liệu từ Apps Script. Hãy tải lại trang hoặc kiểm tra quyền truy cập Sheet.')), 20000);
-    google.script.run.withSuccessHandler(render).withFailureHandler(fail).getAdminDashboardData();
+    const runner = google.script.run.withSuccessHandler(render).withFailureHandler(fail);
+    if (requestedView === 'compact') runner.getCompactSessionControl(requestedSession);
+    else runner.getAdminDashboardData();
   }
   function render(data) {
     clearTimeout(loadTimeout);

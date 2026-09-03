@@ -42,6 +42,34 @@ function getAdminDashboardData() {
   };
 }
 
+// Bảng điều khiển nổi chỉ cần dữ liệu của một phiên. Không gọi
+// getDashboardData_ (vốn tổng hợp cả 9 sheet) để thao tác mở/chốt phản hồi nhanh.
+function getCompactSessionControl(sessionId) {
+  assertAdmin_();
+  const id = validateSessionId_(sessionId);
+  const spreadsheet = openDashboardSpreadsheet_();
+  const config = SESSION_CONFIG.find(item => item.id === id);
+  const state = getDashboardControl_(spreadsheet)[id];
+  const responseSheet = spreadsheet.getSheetByName(`Phiên ${id}`);
+  const currentResponses = responseSheet ? countResponseRows_(responseSheet) : 0;
+  const closed = state.status === 'CLOSED';
+  return {
+    updatedAt: new Date().toISOString(),
+    sessions: [{
+      id,
+      name: config ? config.name : `Phiên ${id}`,
+      description: config ? config.description : '',
+      phase: state.status,
+      closedAt: state.closedAt ? state.closedAt.toISOString() : null,
+      totalResponses: closed ? (state.closedCount || currentResponses) : currentResponses,
+      currentResponses,
+      lateResponses: closed ? Math.max(0, currentResponses - (state.closedCount || 0)) : 0,
+      timerEndsAt: state.timerEndsAt ? state.timerEndsAt.toISOString() : null,
+      timerStartedAt: state.timerStartedAt ? state.timerStartedAt.toISOString() : null
+    }]
+  };
+}
+
 function closeDashboardSession(sessionId) {
   assertAdmin_();
   const id = validateSessionId_(sessionId);
@@ -314,8 +342,13 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
   // Công thức =AI có thể đang xử lý. Nếu còn bất kỳ bài nào chưa nhận chuỗi
   // kết quả hợp lệ, không được công bố Top N tạm với điểm 0/3.
   const resultColumn = id === 6 ? 9 : 8;
-  const expectedMarker = id === 6 ? /^E1=[01](?:;|\s|$)/i : /^Y1=[01](?:;|\s|$)/i;
-  const pendingCount = sessionRows.filter(row => !expectedMarker.test(String(row[resultColumn] || '').trim())).length;
+  const requiredMarkers = id === 6
+    ? ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7']
+    : Array.from({ length: id === 8 ? 4 : id === 3 ? 3 : 2 }, (_, index) => `Y${index + 1}`);
+  const hasAllAiScores = value => requiredMarkers.every(marker =>
+    new RegExp(`${marker}\\s*=\\s*[01]`, 'i').test(String(value || ''))
+  );
+  const pendingCount = sessionRows.filter(row => !hasAllAiScores(row[resultColumn])).length;
   if (pendingCount) {
     clearPublicTopForSession_(spreadsheet, id);
     clearDashboardCache_();
@@ -461,10 +494,25 @@ function capNhatPublicTopTatCaPhien() {
   Logger.log('Đã cập nhật bảng Vinh danh _PUBLIC_TOP cho tất cả các phiên!');
 }
 
+// Trigger mỗi phút: khi công thức Gemini đã trả đủ điểm, tự công bố Top.
+// Không ghi bất kỳ Top tạm nào trong thời gian AI còn đang xử lý.
+function processPendingGeminiReviews() {
+  const spreadsheet = openDashboardSpreadsheet_();
+  const control = getDashboardControl_(spreadsheet);
+  [3, 5, 6, 7, 8].forEach(id => {
+    if (control[id] && control[id].status === 'CLOSED') {
+      try { capNhatTabPublicTop_(spreadsheet, id); } catch (e) { Logger.log(`Chờ Gemini Phiên ${id}: ${e}`); }
+    }
+  });
+}
+
 function ensureDashboardTimerTrigger_() {
   const handler = 'processExpiredDashboardTimers';
   const exists = ScriptApp.getProjectTriggers().some(trigger => trigger.getHandlerFunction() === handler);
   if (!exists) ScriptApp.newTrigger(handler).timeBased().everyMinutes(1).create();
+  const reviewHandler = 'processPendingGeminiReviews';
+  const reviewExists = ScriptApp.getProjectTriggers().some(trigger => trigger.getHandlerFunction() === reviewHandler);
+  if (!reviewExists) ScriptApp.newTrigger(reviewHandler).timeBased().everyMinutes(1).create();
 }
 
 function createSessionReport(sessionId) {
