@@ -40,7 +40,7 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 - Nút **Cập nhật** buộc dashboard lấy lại dữ liệu ngay khi cần đối soát.
 - Mọi phép tính điểm và tỷ lệ đúng được thực hiện trong Apps Script theo cấu hình đáp án, không phụ thuộc việc Google Form có hiển thị kết quả cho học viên hay không.
 
-## Hai trạng thái của mỗi phiên
+## Trạng thái và đếm ngược của mỗi phiên
 
 ### Đang nhận bài
 
@@ -48,6 +48,8 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 - Không trả đáp án chuẩn, điểm, tỷ lệ đúng hoặc gợi ý tham chiếu ra giao diện công khai.
 - Trắc nghiệm hiển thị số lượt và tỷ lệ chọn từng phương án.
 - Bài sắp xếp và tự luận chỉ hiển thị tối đa 10 phản hồi đầu tiên theo thiết kế trình chiếu.
+- Quản trị viên có thể nhập số phút tùy ý và bắt đầu đếm ngược. Mốc kết thúc tuyệt đối được lưu trong `_DASHBOARD_CONTROL`, nên tải lại hoặc đóng trình duyệt không làm reset timer.
+- Trigger nền kiểm tra mỗi phút; dù trigger chạy trễ vài giây, snapshot luôn cắt đúng theo timestamp tại mốc đã đặt.
 
 ### Đã chốt
 
@@ -57,6 +59,7 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 - Bài gửi sau thời điểm chốt được đếm riêng và không làm thay đổi kết quả đã chốt.
 - Người trình chiếu có thể chuyển giữa **Kết quả tổng hợp** và **Màn hình lúc nhận bài**. Chế độ xem lại sử dụng đúng dữ liệu tại thời điểm chốt, không công bố đáp án và không mở lại phiên.
 - Có thể mở lại phiên nếu giảng viên cần tiếp tục nhận bài.
+- Nút **Kết thúc ngay** vẫn chốt thủ công; mở lại phiên sẽ xóa timer cũ và cần đặt timer mới nếu muốn tiếp tục đếm ngược.
 - Mỗi dashboard có mã QR riêng của phiên; bấm vào mã nhỏ để phóng lớn ở giữa màn hình phục vụ trình chiếu.
 - Nút `+` cố định ở góc dưới bên phải mở bảng điều khiển nhanh. Việc chốt/mở lại vẫn chạy trong trang Apps Script có xác thực quản trị và luôn yêu cầu xác nhận, không đưa quyền quản trị vào mã nguồn giao diện công khai.
 
@@ -66,6 +69,7 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 - **Phiên 2:** hiển thị đầy đủ đề bài và 13 hoạt động gốc; 10 bài gửi đầu tiên được tách thành các ô **Vị trí / Bước** rõ ràng. Sau khi chốt có trình tự tham chiếu, tỷ lệ đặt đúng theo từng vị trí và các trình tự sai phổ biến.
 - **Phiên 6:** lúc nhận bài hiển thị lựa chọn Đúng/Sai và tối đa 10 giải thích cho mỗi câu, cân bằng tối đa 5 giải thích của nhóm chọn Đúng và 5 của nhóm chọn Sai; từng giải thích ghi rõ lựa chọn đi kèm. Sau khi chốt, lựa chọn đúng được đánh dấu xanh ngay trên 7 thẻ tổng hợp; bảng kết quả lặp lại đã được bỏ.
 - **Phiên 3, 5, 7 và 8:** đề bài, dữ kiện và câu hỏi được hiển thị đầy đủ ở cả hai trạng thái. Lúc nhận bài hiển thị tối đa 10 phản hồi bằng thẻ nội dung mở, chữ lớn; sau khi chốt có gợi ý tham chiếu, tìm kiếm và tối đa 40 phản hồi đã ẩn thông tin cá nhân.
+- Thống kê đơn vị dùng tab `DM_DON_VI` làm danh mục chuẩn, hiển thị số đơn vị tham gia trên tổng số và danh sách đơn vị chưa tham gia; tên được chuẩn hóa theo chữ hoa/thường, dấu và dạng viết tắt trước khi đối sánh.
 - Bảng số bài theo đơn vị chỉ hiển thị những đơn vị có ít nhất một người tham gia phiên đang xem.
 
 ## Quyền riêng tư và cấu hình Google Form
@@ -76,7 +80,8 @@ Cả 09 Form được cấu hình:
 - Không giới hạn một lần trả lời, do đó không yêu cầu đăng nhập Google.
 - Cho phép bất kỳ ai có đường liên kết truy cập.
 - Không cho người học xem câu trả lời sai, đáp án đúng hoặc giá trị điểm.
-- Trường **Họ và tên** và **Đơn vị công tác** được dùng để quản lý danh sách tại Sheet và báo cáo; API công khai không trả họ tên hoặc email.
+- Các trường **Họ và tên**, **Đơn vị công tác** và **Chức vụ/Vị trí công tác** là bắt buộc; mọi câu hỏi nghiệp vụ có thể trả lời cũng được đặt bắt buộc. Tiêu đề, mô tả và section không bị áp dụng Required.
+- Ba trường thông tin được dùng để quản lý tại Sheet và báo cáo; API công khai không trả họ tên, chức vụ hoặc email.
 
 Google Forms có thể vẫn hiện nút **Xem câu trả lời chính xác** sau khi nộp. Với ba quyền xem kết quả đều tắt, nút này chỉ cho người học xem lại lựa chọn của mình, không cho biết đúng/sai, đáp án chuẩn hoặc điểm số.
 
@@ -92,7 +97,7 @@ Trang quản trị yêu cầu đăng nhập Google. Tài khoản được chốt
 Chức năng quản trị gồm:
 
 - Cập nhật số bài hiện tại.
-- Chốt hoặc mở lại từng phiên.
+- Đặt thời gian làm bài, theo dõi đếm ngược, kết thúc ngay hoặc mở lại từng phiên.
 - Xuất báo cáo Excel cho từng phiên.
 - Xuất một file Excel gồm đủ 09 phiên.
 
@@ -105,9 +110,9 @@ Báo cáo dùng bảng đen–trắng, giữ các cột đang sử dụng và lo
 | `index.html`, `styles.css`, `app.js` | Giao diện dashboard công khai |
 | `config.js` | URL API, URL quản trị và chu kỳ tự cập nhật |
 | `apps-script/Code.gs` | Danh mục phiên, đọc Sheet, chuẩn hóa, tính toán, ẩn danh và API |
-| `apps-script/Reporting.gs` | Chốt/mở phiên và xuất báo cáo Excel |
+| `apps-script/Reporting.gs` | Đếm ngược, tự chốt/chốt thủ công, mở phiên và xuất báo cáo Excel |
 | `apps-script/Admin.html` | Giao diện điều khiển phiên |
-| `apps-script/AddParticipantFields.gs` | Đồng bộ trường người tham gia và dropdown đơn vị cho 09 Form |
+| `apps-script/AddParticipantFields.gs` | Đồng bộ 3 trường người tham gia, Required và dropdown đơn vị cho 09 Form |
 | `scripts/sync-prompts.js` | Đồng bộ đề bài từ cấu hình Apps Script sang dữ liệu demo và dữ liệu giả |
 | `data/demo.json` | Dữ liệu rỗng dự phòng khi chưa cấu hình API |
 | `data/fake.json` | Dữ liệu giả để kiểm tra giao diện local |
@@ -141,9 +146,10 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 
 1. Mở Google Sheet `KET_QUA_9_PHIEN_TAP_HUAN`.
 2. Chọn **Tiện ích mở rộng → Apps Script**.
-3. Đồng bộ `apps-script/Code.gs`, `apps-script/Reporting.gs` và `apps-script/Admin.html` vào dự án.
+3. Đồng bộ `apps-script/Code.gs`, `apps-script/Reporting.gs`, `apps-script/Admin.html` và `apps-script/AddParticipantFields.gs` vào dự án.
 4. Trong **Cài đặt dự án → Thuộc tính tập lệnh**, đặt `SPREADSHEET_ID` bằng ID của Sheet. Không lưu ID riêng tư này trên GitHub.
-5. Chạy `setupDashboardControl()` một lần để tạo bảng điều khiển và ghi tài khoản quản trị. Khi có nhiều quản trị viên, giữ nguyên các tài khoản hiện có trong `ADMIN_EMAILS` và nối thêm tài khoản mới bằng dấu phẩy.
+5. Chạy `setupDashboardControl()` một lần để tạo/nâng cấp bảng điều khiển, cài trigger tự chốt mỗi phút và ghi tài khoản quản trị. Khi có nhiều quản trị viên, giữ nguyên các tài khoản hiện có trong `ADMIN_EMAILS` và nối thêm tài khoản mới bằng dấu phẩy.
+6. Chạy `kiemTraThongTinVaCauBatBuoc9Form()` để lưu báo cáo hiện trạng, sau đó chạy `hoanThienThongTinNguoiThamGia9Form()` và kiểm tra lại. Chạy `dongBoDropdownDonViCho9Phien()` nếu tab `DM_DON_VI` chưa có đủ danh mục chuẩn.
 
 ### Thêm tài khoản được chốt phiên bằng tay
 
@@ -153,8 +159,8 @@ Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc 
 4. Lưu thuộc tính.
 5. Chia sẻ tệp Google Sheet kết quả cho email mới với quyền **Người chỉnh sửa**. Không cần chia sẻ dự án Apps Script nếu người đó chỉ thao tác chốt/mở phiên trên web.
 6. Người mới mở trang quản trị hoặc nút điều khiển nhanh, đăng nhập Google và cấp quyền trong lần đầu sử dụng.
-6. Tạo deployment công khai chỉ đọc cho dashboard và điền URL `/exec` vào `apiUrl` trong `config.js`.
-7. Tạo deployment quản trị, yêu cầu đăng nhập và điền URL `/exec` vào `adminUrl`.
+7. Tạo deployment công khai chỉ đọc cho dashboard và điền URL `/exec` vào `apiUrl` trong `config.js`.
+8. Tạo deployment quản trị, yêu cầu đăng nhập và điền URL `/exec` vào `adminUrl`.
 
 Web App công khai chỉ trả dữ liệu tổng hợp và nội dung đã được lọc thông tin cá nhân. Tên đơn vị chỉ xuất hiện trong thống kê số bài theo đơn vị, không gắn với cá nhân.
 
@@ -169,6 +175,8 @@ http://127.0.0.1:8765/?phien=1&demo=1
 - `demo=1`: dùng `data/fake.json` thay cho API thật.
 - `trangthai=live`: xem giao diện đang nhận bài.
 - `trangthai=closed`: xem giao diện sau khi chốt.
+- `trangthai=live&demotimer=2`: mô phỏng phiên đang đếm ngược 2 phút; reload giữ nguyên mốc kết thúc của lần demo.
+- Trong `demo=1`, điều khiển nhanh là bộ điều khiển giả lập độc lập; không tải trang quản trị, không chốt/mở phiên thật và không mở báo cáo production.
 
 Dữ liệu giả mô phỏng 274 học viên và đủ 09 loại phiên để kiểm tra KPI, biểu đồ, câu hỏi, trình tự và phản hồi.
 
@@ -177,6 +185,9 @@ Chạy kiểm tra logic:
 ```text
 node tests/aggregate.test.js
 node tests/fake-data.test.js
+node tests/dashboard-controls.test.js
+node tests/unit-options.test.js
+node tests/timer-control.test.js
 ```
 
 ## Triển khai GitHub Pages
@@ -184,6 +195,9 @@ node tests/fake-data.test.js
 Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi được đẩy lên nhánh `main`. Nếu repository chưa bật Pages, chọn **Settings → Pages → Source: GitHub Actions**.
 
 ## Nhật ký cập nhật
+
+- **03/09/2026:** hoàn thiện script 09 Form với trường Chức vụ/Vị trí công tác và Required; bổ sung countdown/tự chốt bền vững; thêm thống kê đơn vị tham gia/chưa tham gia từ danh mục chuẩn và dữ liệu demo tương ứng.
+- **03/09/2026:** tách hoàn toàn điều khiển nhanh của bản demo khỏi Apps Script production; chốt, mở lại và đặt timer trong demo chỉ tác động dữ liệu giả lập.
 
 ### 02/09/2026
 

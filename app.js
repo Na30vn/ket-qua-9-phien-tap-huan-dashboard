@@ -17,6 +17,7 @@
   const controlFab = document.getElementById("control-fab");
   const controlPanel = document.getElementById("control-panel");
   const controlFrame = document.getElementById("control-frame");
+  const demoControl = document.getElementById("demo-control");
   const controlSessionLabel = document.getElementById("control-session-label");
   const formatNumber = new Intl.NumberFormat("vi-VN");
   const urlParams = new URLSearchParams(location.search);
@@ -24,6 +25,15 @@
   const fakePhase = fakeMode && ["live", "closed"].includes(urlParams.get("trangthai"))
     ? urlParams.get("trangthai").toUpperCase()
     : "";
+  const fakeTimerMinutes = fakeMode ? Math.max(0, Number(urlParams.get("demotimer") || 0)) : 0;
+  const requestedFakeTimerEnd = fakeMode ? Number(urlParams.get("democloseat") || 0) : 0;
+  const fakeTimerEndsAt = requestedFakeTimerEnd || (fakeTimerMinutes ? Date.now() + fakeTimerMinutes * 60000 : 0);
+  const fakeTimerStartedAt = fakeTimerEndsAt ? fakeTimerEndsAt - fakeTimerMinutes * 60000 : 0;
+  const fakeTimerSessionId = Number(urlParams.get("phien")) || 1;
+  if (fakeTimerEndsAt && !requestedFakeTimerEnd) {
+    urlParams.set("democloseat", String(fakeTimerEndsAt));
+    history.replaceState({}, "", `${location.pathname}?${urlParams.toString()}`);
+  }
 
   let payload = null;
   let activeSession = getSessionFromUrl();
@@ -31,9 +41,11 @@
   let responseSearch = "";
   let closedLivePreview = false;
   let timer = null;
+  let countdownExpired = false;
   let isLoading = false;
   const detailStates = new Map();
   const scrollStates = new Map();
+  const demoSessionStates = new Map();
 
   configureAdminLinks();
 
@@ -45,6 +57,14 @@
     .replaceAll("'", "&#039;");
 
   function configureAdminLinks() {
+    if (fakeMode) {
+      exportButton.hidden = true;
+      adminButton.hidden = true;
+      sessionControl.hidden = false;
+      controlFrame.hidden = true;
+      demoControl.hidden = false;
+      return;
+    }
     if (!config.adminUrl) {
       exportButton.hidden = true;
       adminButton.hidden = true;
@@ -66,7 +86,41 @@
   }
 
   function phaseOf(session) {
+    const demoState = fakeMode ? getDemoSessionState(session) : null;
+    if (demoState) {
+      if (demoState.timerEndsAt && Date.now() >= demoState.timerEndsAt) {
+        demoState.phase = "CLOSED";
+        demoState.closedAt = demoState.timerEndsAt;
+        demoState.timerEndsAt = 0;
+      }
+      return demoState.phase;
+    }
     return fakePhase || (session.phase === "LIVE" ? "LIVE" : "CLOSED");
+  }
+
+  function getDemoSessionState(session) {
+    if (!fakeMode) return null;
+    const id = Number(session.id);
+    if (!demoSessionStates.has(id)) {
+      const hasInitialTimer = id === fakeTimerSessionId && Boolean(fakeTimerEndsAt);
+      demoSessionStates.set(id, {
+        phase: hasInitialTimer ? (Date.now() < fakeTimerEndsAt ? "LIVE" : "CLOSED") : (fakePhase || session.phase || "CLOSED"),
+        closedAt: hasInitialTimer && Date.now() >= fakeTimerEndsAt ? fakeTimerEndsAt : (session.closedAt ? new Date(session.closedAt).getTime() : 0),
+        timerStartedAt: hasInitialTimer ? fakeTimerStartedAt : 0,
+        timerEndsAt: hasInitialTimer && Date.now() < fakeTimerEndsAt ? fakeTimerEndsAt : 0
+      });
+    }
+    return demoSessionStates.get(id);
+  }
+
+  function applyDemoSessionState(session) {
+    const state = getDemoSessionState(session);
+    if (!state) return;
+    phaseOf(session);
+    session.phase = state.phase;
+    session.closedAt = state.phase === "CLOSED" && state.closedAt ? new Date(state.closedAt).toISOString() : null;
+    session.timerStartedAt = state.timerStartedAt ? new Date(state.timerStartedAt).toISOString() : null;
+    session.timerEndsAt = state.timerEndsAt ? new Date(state.timerEndsAt).toISOString() : null;
   }
 
   function setStatus(mode, text) {
@@ -106,6 +160,7 @@
       dashboard.innerHTML = '<div class="empty">Chưa có cấu hình dữ liệu phiên.</div>';
       return;
     }
+    applyDemoSessionState(session);
     selectedQuestion = Math.min(selectedQuestion, Math.max(0, (session.questions?.length || 1) - 1));
     sessionTitle.textContent = `Phiên ${session.id} – ${session.description || session.typeLabel}`;
     subtitle.textContent = session.typeLabel;
@@ -130,11 +185,16 @@
       ${renderSessionContent(session, contentPhase)}
     `;
     restoreUiState();
+    updateCountdowns();
     updateQuickControl(session);
     bindSessionControls(session);
   }
 
   function updateQuickControl(session) {
+    if (fakeMode) {
+      if (!controlPanel.hidden) renderDemoQuickControl(session);
+      return;
+    }
     if (!config.adminUrl) return;
     controlSessionLabel.textContent = `Phiên ${session.id}`;
     const separator = config.adminUrl.includes("?") ? "&" : "?";
@@ -143,6 +203,57 @@
       controlFrame.dataset.session = String(session.id);
       controlFrame.src = compactUrl;
     }
+  }
+
+  function renderDemoQuickControl(session) {
+    applyDemoSessionState(session);
+    const phase = phaseOf(session);
+    const closed = phase === "CLOSED";
+    const timed = !closed && Boolean(session.timerEndsAt);
+    const count = closed ? session.totalResponses : (session.currentResponses ?? session.totalResponses ?? 0);
+    demoControl.innerHTML = `<section class="demo-control-card"><div class="demo-control-status"><span>CHẾ ĐỘ DEMO · KHÔNG ẢNH HƯỞNG DỮ LIỆU THẬT</span><b>${closed ? "Đã chốt giả lập" : timed ? "Đang đếm ngược giả lập" : "Đang nhận bài giả lập"}</b></div>${timed ? `<strong class="demo-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</strong>` : ""}<div class="demo-control-count"><strong>${formatNumber.format(count)}</strong><span>bài giả lập</span></div>${closed ? `<button type="button" data-demo-action="reopen">Mở lại phiên demo</button>` : `<label>Thời gian làm bài (phút)<input type="number" min="0.1" max="10080" step="0.1" value="15" data-demo-duration></label><button type="button" data-demo-action="timer">${timed ? "Đặt lại giờ demo" : "Bắt đầu đếm ngược"}</button><button class="demo-close-now" type="button" data-demo-action="close">Kết thúc ngay bản demo</button>`}</section>`;
+    demoControl.querySelectorAll("[data-demo-action]").forEach(button => button.addEventListener("click", () => mutateDemoSession(session, button.dataset.demoAction)));
+    updateCountdowns();
+  }
+
+  function mutateDemoSession(session, action) {
+    const state = getDemoSessionState(session);
+    let timerMinutes = 0;
+    if (action === "timer") {
+      const minutes = Number(demoControl.querySelector("[data-demo-duration]")?.value);
+      if (!(minutes > 0)) return;
+      timerMinutes = minutes;
+      state.phase = "LIVE";
+      state.closedAt = 0;
+      state.timerStartedAt = Date.now();
+      state.timerEndsAt = state.timerStartedAt + minutes * 60000;
+    } else if (action === "close") {
+      state.phase = "CLOSED";
+      state.closedAt = Date.now();
+      state.timerStartedAt = 0;
+      state.timerEndsAt = 0;
+    } else if (action === "reopen") {
+      state.phase = "LIVE";
+      state.closedAt = 0;
+      state.timerStartedAt = 0;
+      state.timerEndsAt = 0;
+    }
+    persistDemoUrlState(state, timerMinutes);
+    applyDemoSessionState(session);
+    render();
+  }
+
+  function persistDemoUrlState(state, timerMinutes) {
+    const params = new URLSearchParams(location.search);
+    params.set("trangthai", state.phase.toLowerCase());
+    if (state.timerEndsAt) {
+      params.set("demotimer", String(timerMinutes || Math.max(0.1, (state.timerEndsAt - state.timerStartedAt) / 60000)));
+      params.set("democloseat", String(state.timerEndsAt));
+    } else {
+      params.delete("demotimer");
+      params.delete("democloseat");
+    }
+    history.replaceState({}, "", `${location.pathname}?${params.toString()}`);
   }
 
   function captureUiState() {
@@ -173,11 +284,31 @@
   }
 
   function renderPhaseNotice(session, phase, showingLivePreview) {
-    if (phase === "LIVE") return "";
+    if (phase === "LIVE") {
+      if (!session.timerEndsAt) return "";
+      return `<div class="phase-notice timer-notice"><strong>Phiên đang đếm ngược</strong><span class="public-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span></div>`;
+    }
     const closedAt = session.closedAt ? new Date(session.closedAt).toLocaleString("vi-VN") : "theo dữ liệu mô phỏng";
     const late = Number(session.lateResponses || 0);
     if (showingLivePreview) return `<div class="phase-notice preview-notice"><strong>Đang xem lại giao diện lúc nhận bài</strong><span>Sử dụng ${formatNumber.format(session.totalResponses || 0)} bài tại thời điểm chốt ${escapeHtml(closedAt)}. Phiên vẫn đã chốt và không nhận thêm dữ liệu vào kết quả này.</span></div>`;
     return `<div class="phase-notice closed-notice"><strong>Số liệu đã chốt: ${formatNumber.format(session.totalResponses || 0)} bài</strong><span>Thời điểm chốt: ${escapeHtml(closedAt)}.${late ? ` Có ${formatNumber.format(late)} bài gửi sau thời điểm chốt và không được cộng vào kết quả.` : ""}</span></div>`;
+  }
+
+  function updateCountdowns() {
+    let hasExpired = false;
+    document.querySelectorAll("[data-countdown]").forEach(element => {
+      const remaining = Math.max(0, new Date(element.dataset.countdown).getTime() - Date.now());
+      const totalSeconds = Math.ceil(remaining / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      element.textContent = `Còn lại: ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+      if (remaining <= 0) hasExpired = true;
+    });
+    if (hasExpired && !countdownExpired) {
+      countdownExpired = true;
+      loadData(true);
+    }
+    if (!hasExpired) countdownExpired = false;
   }
 
   function renderNav(sessions) {
@@ -202,7 +333,7 @@
     if (phase === "LIVE") {
       const responseCount = showingClosedLivePreview ? session.totalResponses : (session.currentResponses ?? session.totalResponses ?? 0);
       const responseNote = showingClosedLivePreview ? "Số bài tại thời điểm chốt" : "Cập nhật theo phản hồi mới";
-      return `<section class="metrics metrics-2">${metric("Số bài đã nhận", formatNumber.format(responseCount || 0), responseNote)}${metric("Số đơn vị tham gia", formatNumber.format(session.participatingUnits || 0), "Chỉ tính đơn vị đã có bài")}</section>`;
+      return `<section class="metrics metrics-2">${metric("Số bài đã nhận", formatNumber.format(responseCount || 0), responseNote)}${metric("Đơn vị tham gia", formatUnitParticipation(session), unitParticipationNote(session))}</section>`;
     }
     const summary = session.quizSummary || {};
     let metrics;
@@ -213,20 +344,31 @@
         metric("Tỷ lệ đúng trung bình", session.scoreStats?.count ? `${score(summary.averageCorrectPercent)}%` : "—", "Tính lại từ đáp án chuẩn"),
         Number(session.id) === 9
           ? metric("Đúng cả 2 câu", session.totalResponses ? formatNumber.format(summary.perfectCount || 0) : "—", session.totalResponses ? `${score(summary.perfectRate || 0)}% số bài` : "Chưa có dữ liệu")
-          : metric("Số đơn vị tham gia", formatNumber.format(session.participatingUnits || 0), "Đơn vị đã có bài")
+          : metric("Đơn vị tham gia", formatUnitParticipation(session), unitParticipationNote(session))
       ];
     } else if (session.kind === "ordering") {
       metrics = [metric("Tổng số bài", formatNumber.format(session.totalResponses || 0), "Số bài tại thời điểm chốt"), metric("Đúng hoàn toàn", formatNumber.format(session.ordering?.correctCount || 0), "Đúng toàn bộ 13 bước"), metric("Tỷ lệ đúng", `${score(session.ordering?.correctRate || 0)}%`, "Đúng hoàn toàn"), metric("Phương án khác nhau", formatNumber.format(session.ordering?.uniqueSequenceCount || 0), "Các chuỗi đã được gửi")];
     } else if (session.kind === "true_false") {
-      metrics = [metric("Tổng số bài", formatNumber.format(session.totalResponses || 0), "Số bài tại thời điểm chốt"), metric("Tỷ lệ đúng trung bình", session.scoreStats?.count ? `${score(summary.averageCorrectPercent)}%` : "—", "Trên 7 nhận định"), metric("Có giải thích", session.totalResponses ? `${score(session.explanationStats?.rate || 0)}%` : "—", session.totalResponses ? `${formatNumber.format(session.explanationStats?.count || 0)} lượt giải thích` : "Chưa có dữ liệu"), metric("Số đơn vị tham gia", formatNumber.format(session.participatingUnits || 0), "Đơn vị đã có bài")];
+      metrics = [metric("Tổng số bài", formatNumber.format(session.totalResponses || 0), "Số bài tại thời điểm chốt"), metric("Tỷ lệ đúng trung bình", session.scoreStats?.count ? `${score(summary.averageCorrectPercent)}%` : "—", "Trên 7 nhận định"), metric("Có giải thích", session.totalResponses ? `${score(session.explanationStats?.rate || 0)}%` : "—", session.totalResponses ? `${formatNumber.format(session.explanationStats?.count || 0)} lượt giải thích` : "Chưa có dữ liệu"), metric("Đơn vị tham gia", formatUnitParticipation(session), unitParticipationNote(session))];
     } else {
-      metrics = [metric("Tổng phản hồi", formatNumber.format(session.totalResponses || 0), "Bài đã gửi trước khi chốt"), metric("Số đơn vị tham gia", formatNumber.format(session.participatingUnits || 0), "Chỉ tính đơn vị đã có bài")];
+      metrics = [metric("Tổng phản hồi", formatNumber.format(session.totalResponses || 0), "Bài đã gửi trước khi chốt"), metric("Đơn vị tham gia", formatUnitParticipation(session), unitParticipationNote(session))];
     }
     return `<section class="metrics metrics-${metrics.length}">${metrics.join("")}</section>`;
   }
 
   function metric(label, value, note) {
     return `<article class="metric"><span class="metric-label">${escapeHtml(label)}</span><strong class="metric-value">${escapeHtml(value)}</strong><span class="metric-note">${escapeHtml(note)}</span></article>`;
+  }
+
+  function formatUnitParticipation(session) {
+    const participating = Number(session.participatingUnits || 0);
+    const total = Number(session.totalUnits || 0);
+    return total ? `${formatNumber.format(participating)}/${formatNumber.format(total)}` : formatNumber.format(participating);
+  }
+
+  function unitParticipationNote(session) {
+    const missing = Array.isArray(session.missingUnits) ? session.missingUnits.length : 0;
+    return missing ? `Còn ${formatNumber.format(missing)} đơn vị chưa có bài` : "Đủ đơn vị trong danh mục";
   }
 
   function renderSessionContent(session, phase) {
@@ -237,7 +379,7 @@
     else if (session.kind === "ordering") content = live ? renderLiveOrdering(session) : renderOrderingDashboard(session);
     else if (session.kind === "true_false") content = renderTrueFalseDashboard(session, live);
     else content = renderOpenDashboard(session, live);
-    return content + (live ? "" : renderUnitBreakdown(session));
+    return content + renderUnitParticipation(session) + (live ? "" : renderUnitBreakdown(session));
   }
 
   function renderLiveQuiz(session) {
@@ -355,6 +497,15 @@
     return `<section class="content-grid unit-section"><article class="panel full">${panelHeading("Số bài theo đơn vị", `${formatNumber.format(units.length)} đơn vị có bài trong phiên`)}<div class="unit-list ${units.length <= 8 ? "unit-list-compact" : ""}" data-ui-scroll="session-${session.id}-units">${units.map(item => `<div class="unit-row"><span class="unit-name">${escapeHtml(item.unit)}</span><div class="bar-track"><div class="bar-fill unit-fill" style="width:${Number(item.count || 0) / maximum * 100}%"></div></div><strong>${formatNumber.format(item.count || 0)}</strong></div>`).join("")}</div></article></section>`;
   }
 
+  function renderUnitParticipation(session) {
+    const missing = Array.isArray(session.missingUnits) ? session.missingUnits : [];
+    const total = Number(session.totalUnits || 0);
+    if (!total) return "";
+    const participating = Number(session.participatingUnits || 0);
+    const unmapped = Number(session.unmappedUnitResponses || 0);
+    return `<section class="content-grid unit-participation-section"><article class="panel full unit-participation-card"><div class="unit-participation-copy"><p class="panel-kicker">THỐNG KÊ ĐƠN VỊ</p><h3>Đơn vị tham gia: ${formatNumber.format(participating)}/${formatNumber.format(total)}</h3><span>${missing.length ? `Chưa tham gia: ${formatNumber.format(missing.length)} đơn vị` : "Tất cả đơn vị đã tham gia"}</span>${unmapped ? `<small>Có ${formatNumber.format(unmapped)} phản hồi mang tên đơn vị chưa khớp danh mục chuẩn.</small>` : ""}</div>${missing.length ? `<details class="missing-units" data-ui-state="session-${session.id}-missing-units"><summary>Xem danh sách chưa tham gia</summary><ol>${missing.map(unit => `<li>${escapeHtml(unit)}</li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ</span>'}</article></section>`;
+  }
+
   function questionSelector(questions) {
     return `<div class="question-selector" role="group" aria-label="Chọn câu hỏi">${questions.map((_, index) => `<button type="button" class="${index === selectedQuestion ? "active" : ""}" data-question="${index}">Câu ${index + 1}</button>`).join("")}</div>`;
   }
@@ -401,9 +552,14 @@
     controlFab.setAttribute("aria-expanded", String(opening));
     controlFab.textContent = opening ? "×" : "+";
     if (opening) {
-      const separator = config.adminUrl.includes("?") ? "&" : "?";
-      controlFrame.dataset.session = String(activeSession);
-      controlFrame.src = `${config.adminUrl}${separator}admin=1&view=compact&session=${activeSession}`;
+      if (fakeMode) {
+        const session = payload?.sessions?.find(item => Number(item.id) === activeSession);
+        if (session) renderDemoQuickControl(session);
+      } else {
+        const separator = config.adminUrl.includes("?") ? "&" : "?";
+        controlFrame.dataset.session = String(activeSession);
+        controlFrame.src = `${config.adminUrl}${separator}admin=1&view=compact&session=${activeSession}`;
+      }
     }
   });
   document.getElementById("control-panel-close").addEventListener("click", () => {
@@ -420,7 +576,8 @@
   });
   loadData();
   if (Number(config.refreshSeconds) > 0) timer = setInterval(() => loadData(true), Number(config.refreshSeconds) * 1000);
+  const countdownTicker = setInterval(updateCountdowns, 500);
   window.addEventListener("focus", () => loadData(true));
   document.addEventListener("visibilitychange", () => { if (!document.hidden) loadData(true); });
-  window.addEventListener("beforeunload", () => clearInterval(timer));
+  window.addEventListener("beforeunload", () => { clearInterval(timer); clearInterval(countdownTicker); });
 })();

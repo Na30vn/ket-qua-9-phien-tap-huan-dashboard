@@ -94,6 +94,7 @@ const sampleUnits = [
   "Xã Phước Trà", "Xã Khâm Đức", "Xã Phước Năng", "Xã Phước Chánh", "Xã Phước Thành",
   "Xã Phước Hiệp", "Xã Lãnh Ngọc"
 ];
+const missingSampleUnits = ["Xã Trà Đốc", "Xã Thăng Điền"];
 
 function scoreStatsFromDistribution(counts, pointsPerQuestion) {
   const total = counts.reduce((sum, count) => sum + count, 0);
@@ -287,13 +288,18 @@ for (const session of payload.sessions) {
     .map((unit, index) => ({ unit, count: unitCounts[index] }))
     .filter(item => item.count > 0);
   session.participatingUnits = session.unitBreakdown.length;
+  session.totalUnits = sampleUnits.length + missingSampleUnits.length;
+  session.missingUnits = missingSampleUnits.slice();
+  session.unmappedUnitResponses = 0;
   session.phase = "CLOSED";
   session.closedAt = "2026-08-31T09:30:00.000Z";
+  session.timerStartedAt = null;
+  session.timerEndsAt = null;
   session.currentResponses = session.totalResponses;
   session.lateResponses = 0;
 }
 
-payload.version = 5;
+payload.version = 6;
 payload.fake = true;
 payload.updatedAt = new Date().toISOString();
 fs.writeFileSync(outputPath, JSON.stringify(payload, null, 2) + "\n", "utf8");

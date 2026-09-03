@@ -9,6 +9,7 @@
 - Kết quả thường xuất hiện sau khoảng 5–15 giây, không cần chạy script hoặc tải lại trang thủ công.
 - Nút **Cập nhật** dùng để lấy lại dữ liệu ngay khi người trình chiếu cần kiểm tra.
 - Trạng thái chốt được lưu trong tab ẩn `_DASHBOARD_CONTROL`, không phụ thuộc trình duyệt đang mở.
+- Timer lưu mốc kết thúc tuyệt đối trong tab điều khiển và được trigger nền xử lý mỗi phút; bài sau mốc không vào snapshot dù trigger chạy trễ.
 
 ## Trước buổi học
 
@@ -18,15 +19,16 @@
 4. Mở sẵn dashboard trên máy trình chiếu, bật toàn màn hình và tắt chế độ ngủ của máy.
 5. Chỉ dùng một màn hình dashboard trình chiếu; học viên chỉ mở Google Form.
 6. Đăng nhập trang **Điều khiển phiên** bằng tài khoản quản trị và mở sẵn ở một tab riêng.
+7. Kiểm tra trigger `processExpiredDashboardTimers` đã được tạo sau khi chạy `setupDashboardControl()`.
 
 ## Trong buổi học
 
 1. Chọn đúng phiên đang học trên thanh Phiên 1–9.
 2. Sau khi học viên gửi bài, chờ tối đa khoảng 15 giây.
 3. Nếu số liệu chưa đổi, bấm **Cập nhật** một lần.
-4. Khi giảng viên xác nhận kết thúc, vào **Điều khiển phiên**, bấm **Chốt phiên** và xác nhận đúng số bài đang hiển thị.
+4. Nhập số phút và bấm **Bắt đầu** nếu dùng đếm ngược. Có thể bấm **Kết thúc ngay** để chốt trước hạn.
 5. Sau khi chốt, dashboard giữ nguyên số liệu chính thức; bài gửi muộn chỉ hiện ở dòng cảnh báo và không được cộng vào kết quả.
-6. Nếu chốt nhầm, bấm **Mở lại**, kiểm tra số bài rồi chốt lại.
+6. Nếu chốt nhầm, bấm **Mở lại**, kiểm tra số bài rồi chốt lại hoặc đặt một timer mới. Timer cũ không tự chạy lại.
 7. Không sửa tên tab `Phiên 1` đến `Phiên 9` hoặc thứ tự cột trong lúc đang thu bài.
 
 ## Xuất báo cáo

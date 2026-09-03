@@ -5,7 +5,7 @@ const path = require("node:path");
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "fake.json"), "utf8"));
 
 assert.equal(data.fake, true);
-assert.equal(data.version, 5);
+assert.equal(data.version, 6);
 assert.equal(data.sessions.length, 9);
 assert.deepEqual(data.sessions.map(session => session.id), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -14,6 +14,9 @@ for (const session of data.sessions) {
   assert.equal(session.currentResponses, 274);
   assert.equal(session.phase, "CLOSED");
   assert.equal(session.participatingUnits, 81, `Phiên ${session.id} phải có đủ 81 đơn vị thực tế`);
+  assert.equal(session.totalUnits, 83);
+  assert.deepEqual(session.missingUnits, ["Xã Trà Đốc", "Xã Thăng Điền"]);
+  assert.equal(session.unmappedUnitResponses, 0);
   assert.equal(session.unitBreakdown.length, session.participatingUnits);
   assert.equal(session.unitBreakdown.reduce((sum, item) => sum + item.count, 0), session.totalResponses);
 

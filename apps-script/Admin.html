@@ -17,7 +17,8 @@
     .actions { display: flex; flex-wrap: wrap; gap: 10px; }
     .filters { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; }
     .filters label { color: #334e68; font-size: 13px; font-weight: 800; }
-    select { min-width: 230px; padding: 9px 11px; border: 1px solid #9fb4c8; border-radius: 8px; color: #173b60; background: #fff; font: inherit; font-weight: 700; }
+    select, input { min-width: 0; padding: 9px 11px; border: 1px solid #9fb4c8; border-radius: 8px; color: #173b60; background: #fff; font: inherit; font-weight: 700; }
+    select { min-width: 230px; }
     button, a.button { border: 1px solid #111; border-radius: 8px; background: #fff; color: #111; cursor: pointer; font: inherit; font-weight: 700; padding: 10px 14px; text-decoration: none; }
     button.primary { background: #111; color: #fff; }
     button:disabled { opacity: .45; cursor: wait; }
@@ -34,6 +35,9 @@
     td { border-top: 1px solid #d1d5db; padding: 12px; vertical-align: middle; }
     .status { display: inline-block; border: 1px solid #111; border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 800; }
     .meta { font-size: 13px; margin-top: 5px; }
+    .timer-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+    .timer-controls input { width: 88px; }
+    .timer-countdown { display: block; margin-top: 6px; color: #a14f00; font-size: 16px; font-weight: 900; }
     #notice { min-height: 24px; margin: 12px 2px; font-weight: 700; }
     body.compact { background: #f3f6f9; }
     body.compact main { width: 100%; margin: 0; padding: 12px; }
@@ -47,6 +51,8 @@
     .compact-count { display: flex; align-items: baseline; gap: 7px; margin: 5px 0 14px; color: #123c69; }
     .compact-count strong { font-size: 34px; line-height: 1; }
     .compact-card .primary-action { width: 100%; padding: 12px 14px; }
+    .compact-timer { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 9px; }
+    .compact-timer input { width: 100%; }
     @media (max-width: 760px) { header { align-items: flex-start; flex-direction: column; } .schedule-heading { grid-template-columns: 1fr auto; } .schedule-heading strong { grid-column: 1 / -1; grid-row: 2; } table, tbody, tr, td { display: block; } thead { display: none; } tr { padding: 12px; border-top: 1px solid #ddd; } td { border: 0; padding: 5px 0; } }
   </style>
 </head>
@@ -69,6 +75,7 @@
   const exportAllButton = document.getElementById('export-all');
   const scheduleFilter = document.getElementById('schedule-filter');
   let loadTimeout;
+  let countdownExpired = false;
   if (requestedView === 'compact') document.body.classList.add('compact');
 
   function escapeHtml(value) { return String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char])); }
@@ -99,21 +106,29 @@
     const renderRow = session => {
       const closed = session.phase === 'CLOSED';
       const count = closed ? session.totalResponses : session.currentResponses;
+      const timed = !closed && Boolean(session.timerEndsAt);
       const late = closed && session.lateResponses ? `<div class="meta">Có ${session.lateResponses} bài gửi sau khi chốt</div>` : '';
-      return `<tr id="session-${session.id}"><td><strong>Phiên ${session.id}</strong><div class="meta">${escapeHtml(session.description)}</div></td><td><span class="status">${closed ? 'Đã chốt' : 'Đang nhận bài'}</span>${closed && session.closedAt ? `<div class="meta">${new Date(session.closedAt).toLocaleString('vi-VN')}</div>` : ''}</td><td><strong>${Number(count || 0).toLocaleString('vi-VN')} bài</strong>${late}</td><td><button class="${closed ? '' : 'primary'}" data-action="${closed ? 'reopen' : 'close'}" data-id="${session.id}" type="button">${closed ? 'Mở lại' : 'Chốt phiên'}</button></td><td><button data-action="export" data-id="${session.id}" type="button">Xuất Phiên ${session.id}</button></td></tr>`;
+      const timerStatus = timed ? `<span class="timer-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span>` : '';
+      const controls = closed
+        ? `<button data-action="reopen" data-id="${session.id}" type="button">Mở lại</button>`
+        : `<div class="timer-controls"><input data-duration type="number" min="0.1" max="10080" step="0.1" value="15" aria-label="Số phút Phiên ${session.id}"><button data-action="timer" data-id="${session.id}" type="button">${timed ? 'Đặt lại giờ' : 'Bắt đầu'}</button><button class="primary" data-action="close" data-id="${session.id}" type="button">Kết thúc ngay</button></div>`;
+      return `<tr id="session-${session.id}"><td><strong>Phiên ${session.id}</strong><div class="meta">${escapeHtml(session.description)}</div></td><td><span class="status">${closed ? 'Đã chốt' : timed ? 'Đang đếm ngược' : 'Đang nhận bài'}</span>${timerStatus}${closed && session.closedAt ? `<div class="meta">${new Date(session.closedAt).toLocaleString('vi-VN')}</div>` : ''}</td><td><strong>${Number(count || 0).toLocaleString('vi-VN')} bài</strong>${late}</td><td>${controls}</td><td><button data-action="export" data-id="${session.id}" type="button">Xuất Phiên ${session.id}</button></td></tr>`;
     };
     if (requestedView === 'compact') {
       const session = sessionRows.get(Number(requestedSession));
       if (!session) { body.innerHTML = '<section class="compact-card">Không tìm thấy phiên.</section>'; return; }
       const closed = session.phase === 'CLOSED';
       const count = closed ? session.totalResponses : session.currentResponses;
-      body.innerHTML = `<section class="compact-card"><div class="compact-card-top"><h2>Phiên ${session.id}</h2><span class="status">${closed ? 'Đã chốt' : 'Đang nhận bài'}</span></div><p>${escapeHtml(session.description)}</p><div class="compact-count"><strong>${Number(count || 0).toLocaleString('vi-VN')}</strong><span>bài hiện tại</span></div><button class="primary-action ${closed ? '' : 'primary'}" data-action="${closed ? 'reopen' : 'close'}" data-id="${session.id}" type="button">${closed ? 'Mở lại phiên' : 'Chốt phiên'}</button></section>`;
-      body.querySelector('[data-action]').addEventListener('click', act);
+      const timed = !closed && Boolean(session.timerEndsAt);
+      body.innerHTML = `<section class="compact-card"><div class="compact-card-top"><h2>Phiên ${session.id}</h2><span class="status">${closed ? 'Đã chốt' : timed ? 'Đang đếm ngược' : 'Đang nhận bài'}</span></div><p>${escapeHtml(session.description)}</p>${timed ? `<span class="timer-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span>` : ''}<div class="compact-count"><strong>${Number(count || 0).toLocaleString('vi-VN')}</strong><span>bài hiện tại</span></div>${closed ? `<button class="primary-action" data-action="reopen" data-id="${session.id}" type="button">Mở lại phiên</button>` : `<div class="compact-timer"><input data-duration type="number" min="0.1" max="10080" step="0.1" value="15" aria-label="Số phút"><button data-action="timer" data-id="${session.id}" type="button">${timed ? 'Đặt lại' : 'Bắt đầu'}</button></div><button class="primary-action primary" data-action="close" data-id="${session.id}" type="button">Kết thúc ngay</button>`}</section>`;
+      body.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', act));
+      updateCountdowns();
       return;
     }
     const selectedSchedule = scheduleFilter.value;
     body.innerHTML = schedule.filter(group => selectedSchedule === 'all' || group.key === selectedSchedule).map(group => `<section class="schedule-group"><div class="schedule-heading"><div><span class="schedule-date">${group.date}</span><span class="schedule-period">${group.period}</span></div><strong>${group.label}</strong><span>${group.ids.length} phiên</span></div><div class="panel"><table><thead><tr><th>Phiên / Nội dung</th><th>Trạng thái</th><th>Số bài</th><th>Điều khiển</th><th>Báo cáo</th></tr></thead><tbody>${group.ids.map(id => sessionRows.get(id)).filter(Boolean).map(renderRow).join('')}</tbody></table></div></section>`).join('');
     body.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', act));
+    updateCountdowns();
     if (requestedSession >= 1 && requestedSession <= 9) document.getElementById(`session-${requestedSession}`)?.scrollIntoView({ block: 'center' });
     if (requestedView === 'export' && requestedSession >= 1 && requestedSession <= 9) notice.textContent += ` · Chọn “Xuất Phiên ${requestedSession}” để tải báo cáo.`;
   }
@@ -121,7 +136,13 @@
     const button = event.currentTarget;
     const id = Number(button.dataset.id);
     const action = button.dataset.action;
-    if (action === 'close') {
+    if (action === 'timer') {
+      const input = button.parentElement.querySelector('[data-duration]');
+      const minutes = Number(input && input.value);
+      if (!(minutes > 0)) { fail(new Error('Hãy nhập số phút lớn hơn 0.')); return; }
+      setBusy(true, `Đang bắt đầu đếm ngược Phiên ${id}…`);
+      google.script.run.withSuccessHandler(result => mutationDone(result)).withFailureHandler(fail).startDashboardSessionTimer(id, minutes);
+    } else if (action === 'close') {
       const row = button.closest('tr');
       const compactSession = window.lastAdminData && window.lastAdminData.sessions.find(session => Number(session.id) === id);
       const compactCount = compactSession ? Number(compactSession.currentResponses || 0).toLocaleString('vi-VN') + ' bài' : 'số bài hiện tại';
@@ -138,6 +159,22 @@
       google.script.run.withSuccessHandler(openReport).withFailureHandler(fail).createSessionReport(id);
     }
   }
+  function updateCountdowns() {
+    let hasExpired = false;
+    document.querySelectorAll('[data-countdown]').forEach(element => {
+      const remaining = Math.max(0, new Date(element.dataset.countdown).getTime() - Date.now());
+      const totalSeconds = Math.ceil(remaining / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      element.textContent = `Còn lại: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      if (remaining <= 0) hasExpired = true;
+    });
+    if (hasExpired && !countdownExpired) {
+      countdownExpired = true;
+      setTimeout(load, 1200);
+    }
+    if (!hasExpired) countdownExpired = false;
+  }
   function mutationDone(result) {
     if (requestedView === 'compact') parent.postMessage({ type: 'dashboard-session-updated', sessionId: result.sessionId, phase: result.phase }, '*');
     load();
@@ -146,6 +183,7 @@
   refreshButton.addEventListener('click', load);
   exportAllButton.addEventListener('click', () => { if (!confirm('Tạo một tệp Excel gồm 09 sheet, mỗi sheet tương ứng một phiên?')) return; setBusy(true, 'Đang tạo báo cáo 09 phiên…'); google.script.run.withSuccessHandler(openReport).withFailureHandler(fail).createAllSessionsReport(); });
   scheduleFilter.addEventListener('change', () => { if (window.lastAdminData) render(window.lastAdminData); });
+  setInterval(updateCountdowns, 500);
   load();
 </script>
 </body>

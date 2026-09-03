@@ -13,5 +13,8 @@ assert.equal(units.length, 83);
 assert.equal(new Set(units).size, units.length);
 assert.ok(units.includes("Xã Trà Đốc"));
 assert.ok(units.includes("Xã Thăng Điền"));
+assert.match(source, /function hoanThienThongTinNguoiThamGia9Form\(/);
+assert.match(source, /PARTICIPANT_POSITION_TITLE = 'Chức vụ\/Vị trí công tác'/);
+assert.match(source, /function kiemTraThongTinVaCauBatBuoc9Form\(/);
 
 console.log("unit-options.test.js: OK");

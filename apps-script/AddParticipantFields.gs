@@ -1,9 +1,10 @@
 /**
- * Chạy một lần hàm themThongTinNguoiLamChoPhien4Den9().
+ * Chạy một lần hàm hoanThienThongTinNguoiThamGia9Form().
  *
  * Script sẽ:
- * - thêm "Họ và tên" và "Đơn vị công tác" vào đầu Form 4–9;
- * - đặt hai trường là bắt buộc và 0 điểm;
+ * - bảo đảm đủ "Họ và tên", "Đơn vị công tác" và
+ *   "Chức vụ/Vị trí công tác" trên cả 09 Form;
+ * - đặt mọi câu hỏi có thể trả lời là bắt buộc và các trường thông tin là 0 điểm;
  * - không tạo trùng nếu chạy lại;
  * - không xoá hoặc sửa các câu hỏi hiện có.
  */
@@ -113,6 +114,84 @@ const ACTIVE_UNIT_OPTIONS = [
   'Xã Phước Hiệp',
   'Xã Lãnh Ngọc'
 ];
+
+const PARTICIPANT_POSITION_TITLE = 'Chức vụ/Vị trí công tác';
+
+/**
+ * Hoàn thiện thông tin người tham gia và Required cho cả 09 Form.
+ * Hàm có thể chạy lại an toàn: nhận diện trường theo tiêu đề đã chuẩn hóa,
+ * không tạo trùng và không thay đổi nội dung câu hỏi nghiệp vụ.
+ */
+function hoanThienThongTinNguoiThamGia9Form() {
+  const report = [];
+  Object.keys(PARTICIPANT_FORM_TARGETS).forEach(sessionNumber => {
+    try {
+      const form = openParticipantForm_(PARTICIPANT_FORM_TARGETS[sessionNumber]);
+      let nameItem = form.getItems().find(item => isNameTitle_(item.getTitle())) || null;
+      if (!nameItem) nameItem = form.addTextItem().setTitle('Họ và tên');
+      let unitItem = form.getItems().find(item => isUnitTitle_(item.getTitle())) || null;
+      if (!unitItem) unitItem = form.addListItem().setTitle('Đơn vị công tác');
+      let positionItem = form.getItems().find(item => isPositionTitle_(item.getTitle())) || null;
+      if (!positionItem) positionItem = form.addTextItem().setTitle(PARTICIPANT_POSITION_TITLE);
+
+      setFormItemRequired_(nameItem, true);
+      setFormItemRequired_(unitItem, true);
+      setFormItemRequired_(positionItem, true);
+      setZeroQuizPoints_(form, [nameItem, unitItem, positionItem]);
+
+      moveFormItemTo_(form, nameItem, 0);
+      moveFormItemTo_(form, unitItem, 1);
+      moveFormItemTo_(form, positionItem, 2);
+
+      let requiredQuestions = 0;
+      form.getItems().forEach(item => {
+        if (setFormItemRequired_(item, true)) requiredQuestions += 1;
+      });
+
+      report.push({
+        phien: Number(sessionNumber),
+        ok: true,
+        form: form.getTitle(),
+        tongMuc: form.getItems().length,
+        soCauBatBuoc: requiredQuestions,
+        thongTinNguoiThamGia: ['Họ và tên', 'Đơn vị công tác', PARTICIPANT_POSITION_TITLE]
+      });
+    } catch (error) {
+      report.push({ phien: Number(sessionNumber), ok: false, loi: String(error.message || error) });
+    }
+  });
+  console.log(JSON.stringify(report, null, 2));
+  return report;
+}
+
+/** Chỉ đọc hiện trạng, dùng để đối chiếu trước/sau khi chạy hàm hoàn thiện. */
+function kiemTraThongTinVaCauBatBuoc9Form() {
+  const report = Object.keys(PARTICIPANT_FORM_TARGETS).map(sessionNumber => {
+    try {
+      const form = openParticipantForm_(PARTICIPANT_FORM_TARGETS[sessionNumber]);
+      const items = form.getItems();
+      const answerable = items.filter(item => isAnswerableFormItem_(item));
+      return {
+        phien: Number(sessionNumber),
+        ok: true,
+        form: form.getTitle(),
+        hoTen: items.filter(item => isNameTitle_(item.getTitle())).map(describeFormItem_),
+        donVi: items.filter(item => isUnitTitle_(item.getTitle())).map(describeFormItem_),
+        chucVu: items.filter(item => isPositionTitle_(item.getTitle())).map(describeFormItem_),
+        cauCoTheTraLoi: answerable.length,
+        cauChuaBatBuoc: answerable.filter(item => !isFormItemRequired_(item)).map(item => ({
+          viTri: item.getIndex() + 1,
+          tieuDe: item.getTitle(),
+          loai: item.getType().toString()
+        }))
+      };
+    } catch (error) {
+      return { phien: Number(sessionNumber), ok: false, loi: String(error.message || error) };
+    }
+  });
+  console.log(JSON.stringify(report, null, 2));
+  return report;
+}
 
 function themThongTinNguoiLamChoPhien4Den9() {
   const report = [];
@@ -297,12 +376,57 @@ function describeFormItem_(item) {
     tieuDe: item.getTitle(),
     loai: item.getType().toString()
   };
-  if (item.getType() === FormApp.ItemType.LIST) {
-    const listItem = item.asListItem();
-    result.soLuaChon = listItem.getChoices().length;
-    result.batBuoc = listItem.isRequired();
-  }
+  if (item.getType() === FormApp.ItemType.LIST) result.soLuaChon = item.asListItem().getChoices().length;
+  if (isAnswerableFormItem_(item)) result.batBuoc = isFormItemRequired_(item);
   return result;
+}
+
+function moveFormItemTo_(form, item, targetIndex) {
+  if (item.getIndex() !== targetIndex) form.moveItem(item.getIndex(), targetIndex);
+}
+
+function setZeroQuizPoints_(form, items) {
+  if (!form.isQuiz()) return;
+  items.forEach(item => {
+    const typed = asAnswerableFormItem_(item);
+    if (typed && typeof typed.setPoints === 'function') typed.setPoints(0);
+  });
+}
+
+function setFormItemRequired_(item, required) {
+  const typed = asAnswerableFormItem_(item);
+  if (!typed || typeof typed.setRequired !== 'function') return false;
+  typed.setRequired(required);
+  return true;
+}
+
+function isFormItemRequired_(item) {
+  const typed = asAnswerableFormItem_(item);
+  return Boolean(typed && typeof typed.isRequired === 'function' && typed.isRequired());
+}
+
+function isAnswerableFormItem_(item) {
+  return Boolean(asAnswerableFormItem_(item));
+}
+
+function asAnswerableFormItem_(item) {
+  const type = item.getType();
+  const converters = {};
+  converters[FormApp.ItemType.TEXT] = 'asTextItem';
+  converters[FormApp.ItemType.PARAGRAPH_TEXT] = 'asParagraphTextItem';
+  converters[FormApp.ItemType.MULTIPLE_CHOICE] = 'asMultipleChoiceItem';
+  converters[FormApp.ItemType.CHECKBOX] = 'asCheckboxItem';
+  converters[FormApp.ItemType.LIST] = 'asListItem';
+  converters[FormApp.ItemType.SCALE] = 'asScaleItem';
+  converters[FormApp.ItemType.GRID] = 'asGridItem';
+  converters[FormApp.ItemType.CHECKBOX_GRID] = 'asCheckboxGridItem';
+  converters[FormApp.ItemType.DATE] = 'asDateItem';
+  converters[FormApp.ItemType.DATETIME] = 'asDateTimeItem';
+  converters[FormApp.ItemType.TIME] = 'asTimeItem';
+  converters[FormApp.ItemType.DURATION] = 'asDurationItem';
+  if (FormApp.ItemType.FILE_UPLOAD) converters[FormApp.ItemType.FILE_UPLOAD] = 'asFileUploadItem';
+  const converter = converters[type];
+  return converter && typeof item[converter] === 'function' ? item[converter]() : null;
 }
 
 function findOrCreateTextItem_(form, title, matcher) {
@@ -321,6 +445,13 @@ function isUnitTitle_(title) {
   const value = normalizeParticipantTitle_(title);
   return value === 'don vi' || value === 'don vi cong tac' ||
     (value.indexOf('don vi ') === 0 && value.indexOf('cong tac') !== -1);
+}
+
+function isPositionTitle_(title) {
+  const value = normalizeParticipantTitle_(title);
+  return value === 'chuc vu' || value === 'vi tri cong tac' ||
+    value === 'chuc vu vi tri cong tac' ||
+    (value.indexOf('chuc vu') !== -1 && value.indexOf('vi tri') !== -1);
 }
 
 function normalizeParticipantTitle_(value) {

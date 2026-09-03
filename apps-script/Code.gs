@@ -215,21 +215,22 @@ function doGet(e) {
 function getDashboardData_(forceRefresh) {
   const cache = CacheService.getScriptCache();
   if (!forceRefresh) {
-    const cached = cache.get('dashboard-v5');
+    const cached = cache.get('dashboard-v6');
     if (cached) return JSON.parse(cached);
   }
   const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
   if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
   const control = getDashboardControl_(spreadsheet);
-  const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config, control[config.id]));
-  const payload = { version: 5, updatedAt: new Date().toISOString(), sessions };
+  const unitCatalog = getStandardUnitCatalog_(spreadsheet);
+  const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config, control[config.id], unitCatalog));
+  const payload = { version: 6, updatedAt: new Date().toISOString(), sessions };
   const serialized = JSON.stringify(payload);
-  if (serialized.length < 95000) cache.put('dashboard-v5', serialized, CACHE_SECONDS);
+  if (serialized.length < 95000) cache.put('dashboard-v6', serialized, CACHE_SECONDS);
   return payload;
 }
 
-function aggregateSession_(spreadsheet, config, controlState) {
+function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
   const sheet = spreadsheet.getSheetByName(config.name);
   if (!sheet) return { ...config, totalResponses: 0, error: `Không tìm thấy tab ${config.name}` };
   const range = sheet.getDataRange();
@@ -246,7 +247,8 @@ function aggregateSession_(spreadsheet, config, controlState) {
     : allEntries;
   const rows = entries.map(entry => entry.display);
   const resolvedConfig = resolveColumns_(headers, config);
-  const unitBreakdown = aggregateField_(rows, headers, /^don vi(?:\s|$)/);
+  const unitStats = aggregateUnitParticipation_(rows, headers, unitCatalog || []);
+  const unitBreakdown = unitStats.unitBreakdown;
   const result = {
     id: config.id,
     name: config.name,
@@ -256,10 +258,15 @@ function aggregateSession_(spreadsheet, config, controlState) {
     prompt: config.prompt || null,
     phase,
     closedAt: closedAt ? closedAt.toISOString() : null,
+    timerStartedAt: phase === 'LIVE' && controlState && controlState.timerStartedAt ? controlState.timerStartedAt.toISOString() : null,
+    timerEndsAt: phase === 'LIVE' && controlState && controlState.timerEndsAt ? controlState.timerEndsAt.toISOString() : null,
     currentResponses: allEntries.length,
     lateResponses: Math.max(0, allEntries.length - rows.length),
     totalResponses: rows.length,
-    participatingUnits: unitBreakdown.length,
+    participatingUnits: unitStats.participatingUnits,
+    totalUnits: unitStats.totalUnits,
+    missingUnits: unitStats.missingUnits,
+    unmappedUnitResponses: unitStats.unmappedResponses,
     unitBreakdown,
     scoreStats: phase === 'CLOSED'
       ? getScoreStats_(rows, resolvedConfig)
@@ -393,6 +400,62 @@ function buildPositionAccuracy_(answers, correctSequence) {
 
 function countDistinctField_(rows, headers, normalizedPattern) {
   return aggregateField_(rows, headers, normalizedPattern).length;
+}
+
+function getStandardUnitCatalog_(spreadsheet) {
+  const sheet = spreadsheet.getSheetByName('DM_DON_VI');
+  if (!sheet || sheet.getLastRow() < 2) return [];
+  return sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getDisplayValues()
+    .map(row => String(row[0] || '').replace(/\s+/g, ' ').trim())
+    .filter(Boolean)
+    .filter((unit, index, units) => units.findIndex(candidate => normalizeLookup_(candidate) === normalizeLookup_(unit)) === index);
+}
+
+function aggregateUnitParticipation_(rows, headers, catalog) {
+  const rawBreakdown = aggregateField_(rows, headers, /^don vi(?:\s|$)/);
+  if (!catalog.length) {
+    return {
+      unitBreakdown: rawBreakdown,
+      participatingUnits: rawBreakdown.length,
+      totalUnits: rawBreakdown.length,
+      missingUnits: [],
+      unmappedResponses: 0
+    };
+  }
+
+  const aliases = {};
+  catalog.forEach(unit => buildUnitAliasKeys_(unit).forEach(key => { if (!aliases[key]) aliases[key] = unit; }));
+  const grouped = {};
+  let unmappedResponses = 0;
+  rawBreakdown.forEach(item => {
+    const canonical = aliases[normalizeLookup_(item.unit)] || null;
+    if (!canonical) {
+      unmappedResponses += Number(item.count || 0);
+      return;
+    }
+    const key = normalizeLookup_(canonical);
+    if (!grouped[key]) grouped[key] = { unit: canonical, count: 0 };
+    grouped[key].count += Number(item.count || 0);
+  });
+  const unitBreakdown = Object.keys(grouped).map(key => grouped[key])
+    .sort((a, b) => b.count - a.count || a.unit.localeCompare(b.unit, 'vi'));
+  const participated = new Set(unitBreakdown.map(item => normalizeLookup_(item.unit)));
+  const missingUnits = catalog.filter(unit => !participated.has(normalizeLookup_(unit)));
+  return {
+    unitBreakdown,
+    participatingUnits: unitBreakdown.length,
+    totalUnits: catalog.length,
+    missingUnits,
+    unmappedResponses
+  };
+}
+
+function buildUnitAliasKeys_(unit) {
+  const normalized = normalizeLookup_(unit);
+  const words = normalized.split(' ').filter(Boolean);
+  const aliases = [normalized];
+  if (words.length > 2) aliases.push(words[0] + ' ' + words.slice(1).map(word => word[0]).join(''));
+  return Array.from(new Set(aliases));
 }
 
 function aggregateField_(rows, headers, normalizedPattern) {
@@ -555,21 +618,27 @@ function sanitizePublicText_(value) {
 function getDashboardControl_(spreadsheet) {
   const defaults = {};
   SESSION_CONFIG.forEach(config => {
-    defaults[config.id] = { status: 'LIVE', closedAt: null, closedCount: null };
+    defaults[config.id] = { status: 'LIVE', closedAt: null, closedCount: null, timerStartedAt: null, timerEndsAt: null };
   });
   const sheet = spreadsheet.getSheetByName(CONTROL_SHEET_NAME);
   if (!sheet || sheet.getLastRow() < 2) return defaults;
-  const values = sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues();
+  const values = sheet.getRange(2, 1, sheet.getLastRow() - 1, 5).getValues();
   values.forEach(row => {
     const idMatch = String(row[0] || '').match(/\d+/);
     const id = idMatch ? Number(idMatch[0]) : 0;
     if (!defaults[id]) return;
-    const status = String(row[1] || '').trim().toUpperCase() === 'CLOSED' ? 'CLOSED' : 'LIVE';
-    const closedAt = status === 'CLOSED' ? toDate_(row[2]) : null;
+    const rawStatus = String(row[1] || '').trim().toUpperCase();
+    const storedEndAt = toDate_(row[2]);
+    const timerStartedAt = toDate_(row[4]);
+    const timerExpired = rawStatus === 'TIMED' && storedEndAt && storedEndAt.getTime() <= Date.now();
+    const status = rawStatus === 'CLOSED' || timerExpired ? 'CLOSED' : 'LIVE';
+    const closedAt = status === 'CLOSED' ? storedEndAt : null;
     defaults[id] = {
       status: closedAt ? 'CLOSED' : 'LIVE',
       closedAt,
-      closedCount: Number(row[3]) || null
+      closedCount: Number(row[3]) || null,
+      timerStartedAt: rawStatus === 'TIMED' && !timerExpired ? timerStartedAt : null,
+      timerEndsAt: rawStatus === 'TIMED' && !timerExpired ? storedEndAt : null
     };
   });
   return defaults;

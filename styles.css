@@ -167,6 +167,8 @@ h1 {
 .live-notice { color: #084f3b; border: 1px solid #9bd8bf; background: #e7f8f0; }
 .closed-notice { color: #173452; border: 1px solid #b7cade; background: #edf4fa; }
 .preview-notice { color: #563909; border: 1px solid #e5be73; background: #fff6df; }
+.timer-notice { justify-content: space-between; color: #6d3c00; border: 1px solid #e7b65b; background: #fff4d8; }
+.public-countdown { color: #8d3d00; font-size: 22px; font-weight: 950; font-variant-numeric: tabular-nums; }
 
 .metrics { display: grid; gap: 14px; margin-bottom: 22px; }
 .metrics-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
@@ -398,6 +400,16 @@ th { color: #0a3c6b; background: #eaf2f8; font-size: 12px; text-transform: upper
 .choice-summary span { padding: 10px 13px; border: 1px solid #d0dfeb; border-radius: 9px; color: #0a3c6b; background: #edf4fa; font-size: 14px; font-weight: 650; }
 
 .unit-section { margin-top: 18px; }
+.unit-participation-section { margin-top: 18px; }
+.unit-participation-card { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 22px; }
+.unit-participation-copy h3 { margin: 4px 0; color: var(--navy); font-size: 24px; }
+.unit-participation-copy > span { display: block; color: #435a72; font-weight: 750; }
+.unit-participation-copy > small { display: block; margin-top: 8px; color: #9a4c0b; font-weight: 750; }
+.missing-units { width: min(430px, 100%); border: 1px solid #c5d5e3; border-radius: 11px; background: #f7fafc; }
+.missing-units summary { padding: 12px 14px; color: #0a4b82; font-weight: 850; cursor: pointer; }
+.missing-units ol { max-height: 250px; margin: 0; padding: 4px 18px 14px 42px; overflow-y: auto; color: #263d55; columns: 2; column-gap: 28px; }
+.missing-units li { margin: 7px 0; break-inside: avoid; }
+.all-units-badge { flex: 0 0 auto; padding: 9px 13px; border-radius: 999px; color: #07543d; background: #d8f4e7; font-weight: 900; }
 .unit-list {
   display: grid;
   grid-template-columns: repeat(2,minmax(0,1fr));
@@ -469,6 +481,18 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px
 .control-panel-head strong { font-size: 18px; }
 .control-panel-head button { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; color: #fff; background: rgba(255,255,255,.12); font-size: 22px; cursor: pointer; }
 .control-panel iframe { display: block; width: 100%; height: 215px; border: 0; background: #f3f6f9; }
+.demo-control { padding: 13px; background: #f3f6f9; }
+.demo-control-card { display: grid; gap: 10px; padding: 14px; border: 1px solid #c7d5e2; border-radius: 13px; background: #fff; }
+.demo-control-status { display: grid; gap: 5px; }
+.demo-control-status span { color: #8a5200; font-size: 10px; font-weight: 900; letter-spacing: .05em; }
+.demo-control-status b { color: var(--navy); font-size: 17px; }
+.demo-control-count { display: flex; align-items: baseline; gap: 7px; color: var(--navy); }
+.demo-control-count strong { font-size: 32px; line-height: 1; }
+.demo-control-card label { display: grid; gap: 5px; color: #405775; font-size: 12px; font-weight: 800; }
+.demo-control-card input { width: 100%; padding: 9px 10px; border: 1px solid #9fb4c8; border-radius: 8px; font: inherit; }
+.demo-control-card button { padding: 10px 12px; border: 1px solid var(--navy); border-radius: 8px; color: var(--navy); background: #fff; font: inherit; font-weight: 850; cursor: pointer; }
+.demo-control-card .demo-close-now { color: #fff; background: var(--navy); }
+.demo-countdown { color: #9a4c0b; font-size: 20px; font-variant-numeric: tabular-nums; }
 [hidden] { display: none !important; }
 
 @media (max-width: 980px) {
@@ -481,6 +505,9 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px
 @media (max-width: 760px) {
   .content-grid, .response-list, .unit-list, .sample-stream { grid-template-columns: 1fr; }
   .metrics-3, .metrics-2 { grid-template-columns: 1fr; }
+  .timer-notice, .unit-participation-card { align-items: flex-start; flex-direction: column; }
+  .missing-units { width: 100%; }
+  .missing-units ol { columns: 1; }
   .closed-view-switch { align-items: flex-start; flex-direction: column; }
   .view-switch-buttons { width: 100%; justify-content: flex-start; }
   .panel-heading, .panel-heading-actions { flex-direction: column; }

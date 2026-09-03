@@ -61,11 +61,11 @@ const context = {
 };
 
 vm.createContext(context);
-vm.runInContext(`${source}\nthis.__getDashboardData = getDashboardData_;`, context);
+vm.runInContext(`${source}\nthis.__getDashboardData = getDashboardData_; this.__aggregateUnitParticipation = aggregateUnitParticipation_;`, context);
 const data = context.__getDashboardData(true);
 
 assert.equal(data.sessions.length, 9);
-assert.equal(data.version, 5);
+assert.equal(data.version, 6);
 assert.equal(data.sessions[0].phase, "CLOSED");
 assert.equal(data.sessions[0].currentResponses, 1);
 assert.equal(data.sessions[0].totalResponses, 1);
@@ -116,5 +116,28 @@ assert.equal(serialized.includes("a@example.com"), false);
 assert.equal(serialized.includes("0912345678"), false);
 assert.equal(serialized.includes("[đã ẩn email]"), true);
 assert.equal(serialized.includes("[đã ẩn số điện thoại]"), true);
+
+const aliasStats = context.__aggregateUnitParticipation(
+  [["Cục CNTT"], ["cục công nghệ thông tin"]],
+  ["Đơn vị công tác"],
+  ["Cục Công nghệ thông tin", "Đơn vị khác"]
+);
+assert.equal(aliasStats.participatingUnits, 1);
+assert.equal(aliasStats.totalUnits, 2);
+assert.deepEqual(JSON.parse(JSON.stringify(aliasStats.missingUnits)), ["Đơn vị khác"]);
+assert.deepEqual(JSON.parse(JSON.stringify(aliasStats.unitBreakdown)), [{ unit: "Cục Công nghệ thông tin", count: 2 }]);
+
+const futureClose = new Date("2099-01-01T00:00:00.000Z");
+controlRows[0] = ["Phiên 1", "TIMED", futureClose, "", new Date("2098-12-31T23:45:00.000Z")];
+const timedData = context.__getDashboardData(true);
+assert.equal(timedData.sessions[0].phase, "LIVE");
+assert.equal(timedData.sessions[0].timerEndsAt, futureClose.toISOString());
+
+const pastClose = new Date("2020-01-01T00:00:00.000Z");
+controlRows[0] = ["Phiên 1", "TIMED", pastClose, "", new Date("2019-12-31T23:45:00.000Z")];
+const expiredData = context.__getDashboardData(true);
+assert.equal(expiredData.sessions[0].phase, "CLOSED");
+assert.equal(expiredData.sessions[0].closedAt, pastClose.toISOString());
+assert.equal(expiredData.sessions[0].totalResponses, 0);
 
 console.log("aggregate.test.js: OK");

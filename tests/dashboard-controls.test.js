@@ -20,6 +20,7 @@ const admin = read(path.join("apps-script", "Admin.html"));
 assert.match(index, /id="qr-dialog"/);
 assert.match(index, /id="control-fab"/);
 assert.match(index, /id="control-frame"/);
+assert.match(index, /id="demo-control"/);
 assert.doesNotMatch(index, /Mở trang quản trị đầy đủ/);
 assert.match(app, /assets\/qr\/session-\$\{session\.id\}\.png/);
 assert.match(app, /event\.source !== controlFrame\.contentWindow/);
@@ -30,6 +31,15 @@ assert.match(admin, /dashboard-session-updated/);
 assert.doesNotMatch(admin, /Đăng nhập: \$\{data\.email\}/);
 assert.match(admin, /Đang load dữ liệu…/);
 assert.match(admin, /notice\.classList\.add\('is-hidden'\)/);
+assert.match(admin, /startDashboardSessionTimer/);
+assert.match(admin, /data-countdown/);
+assert.match(admin, /Kết thúc ngay/);
+assert.match(app, /renderUnitParticipation/);
+assert.match(app, /Xem danh sách chưa tham gia/);
+assert.match(app, /demotimer/);
+assert.match(app, /CHẾ ĐỘ DEMO · KHÔNG ẢNH HƯỞNG DỮ LIỆU THẬT/);
+assert.match(app, /controlFrame\.hidden = true/);
+assert.match(app, /persistDemoUrlState/);
 
 const embeddedScript = admin.match(/<script>([\s\S]*?)<\/script>/)[1]
   .replace(/<\?!= JSON\.stringify\(requestedSession\) \?>/g, "1")

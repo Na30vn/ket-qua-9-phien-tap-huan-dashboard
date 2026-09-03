@@ -1,4 +1,4 @@
-const CONTROL_HEADERS = ['Phiên', 'Trạng thái', 'Thời gian chốt', 'Số bài lúc chốt'];
+const CONTROL_HEADERS = ['Phiên', 'Trạng thái', 'Thời gian kết thúc/chốt', 'Số bài lúc chốt', 'Bắt đầu đếm ngược'];
 
 function setupDashboardControl() {
   const spreadsheet = openDashboardSpreadsheet_();
@@ -11,6 +11,7 @@ function setupDashboardControl() {
     if (emails.indexOf(email.toLowerCase()) < 0) emails.push(email.toLowerCase());
     properties.setProperty('ADMIN_EMAILS', emails.join(','));
   }
+  ensureDashboardTimerTrigger_();
   clearDashboardCache_();
   return {
     ok: true,
@@ -34,7 +35,9 @@ function getAdminDashboardData() {
       closedAt: session.closedAt,
       totalResponses: session.totalResponses,
       currentResponses: session.currentResponses,
-      lateResponses: session.lateResponses
+      lateResponses: session.lateResponses,
+      timerEndsAt: session.timerEndsAt || null,
+      timerStartedAt: session.timerStartedAt || null
     }))
   };
 }
@@ -42,15 +45,28 @@ function getAdminDashboardData() {
 function closeDashboardSession(sessionId) {
   assertAdmin_();
   const id = validateSessionId_(sessionId);
+  return closeDashboardSessionAt_(id, new Date());
+}
+
+function startDashboardSessionTimer(sessionId, durationMinutes) {
+  assertAdmin_();
+  const id = validateSessionId_(sessionId);
+  const minutes = Number(durationMinutes);
+  if (!isFinite(minutes) || minutes <= 0 || minutes > 10080) {
+    throw new Error('Thời gian phải lớn hơn 0 và không quá 10.080 phút (7 ngày).');
+  }
   const spreadsheet = openDashboardSpreadsheet_();
   const controlSheet = ensureDashboardControlSheet_(spreadsheet);
-  const responseSheet = spreadsheet.getSheetByName(`Phiên ${id}`);
-  if (!responseSheet) throw new Error(`Không tìm thấy tab Phiên ${id}.`);
-  const count = countResponseRows_(responseSheet);
-  const now = new Date();
-  controlSheet.getRange(id + 1, 2, 1, 3).setValues([['CLOSED', now, count]]);
+  const existing = controlSheet.getRange(id + 1, 2, 1, 4).getValues()[0];
+  if (String(existing[0] || '').toUpperCase() === 'CLOSED') {
+    throw new Error(`Phiên ${id} đã chốt. Hãy mở lại trước khi đặt đếm ngược mới.`);
+  }
+  const startedAt = new Date();
+  const closeAt = new Date(startedAt.getTime() + minutes * 60000);
+  controlSheet.getRange(id + 1, 2, 1, 4).setValues([['TIMED', closeAt, '', startedAt]]);
+  ensureDashboardTimerTrigger_();
   clearDashboardCache_();
-  return { ok: true, sessionId: id, phase: 'CLOSED', closedAt: now.toISOString(), totalResponses: count };
+  return { ok: true, sessionId: id, phase: 'LIVE', timerStartedAt: startedAt.toISOString(), timerEndsAt: closeAt.toISOString() };
 }
 
 function reopenDashboardSession(sessionId) {
@@ -58,9 +74,72 @@ function reopenDashboardSession(sessionId) {
   const id = validateSessionId_(sessionId);
   const spreadsheet = openDashboardSpreadsheet_();
   const controlSheet = ensureDashboardControlSheet_(spreadsheet);
-  controlSheet.getRange(id + 1, 2, 1, 3).setValues([['LIVE', '', '']]);
+  controlSheet.getRange(id + 1, 2, 1, 4).setValues([['LIVE', '', '', '']]);
   clearDashboardCache_();
   return { ok: true, sessionId: id, phase: 'LIVE' };
+}
+
+/** Chạy bằng trigger mỗi phút; cutoff vẫn dùng đúng mốc tuyệt đối đã lưu. */
+function processExpiredDashboardTimers() {
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(20000)) return { ok: false, message: 'Đang có tiến trình chốt phiên khác.' };
+  try {
+    const spreadsheet = openDashboardSpreadsheet_();
+    const controlSheet = ensureDashboardControlSheet_(spreadsheet);
+    const values = controlSheet.getRange(2, 1, SESSION_CONFIG.length, CONTROL_HEADERS.length).getValues();
+    const now = new Date();
+    const closed = [];
+    values.forEach((row, index) => {
+      if (String(row[1] || '').toUpperCase() !== 'TIMED') return;
+      const closeAt = toDate_(row[2]);
+      if (!closeAt || closeAt.getTime() > now.getTime()) return;
+      const id = index + 1;
+      const responseSheet = spreadsheet.getSheetByName(`Phiên ${id}`);
+      if (!responseSheet) return;
+      const count = countResponseRowsAtOrBefore_(responseSheet, closeAt);
+      controlSheet.getRange(id + 1, 2, 1, 4).setValues([['CLOSED', closeAt, count, row[4] || '']]);
+      closed.push({ sessionId: id, closedAt: closeAt.toISOString(), totalResponses: count });
+    });
+    if (closed.length) clearDashboardCache_();
+    return { ok: true, closed };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function closeDashboardSessionAt_(id, closeAt) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const spreadsheet = openDashboardSpreadsheet_();
+    const controlSheet = ensureDashboardControlSheet_(spreadsheet);
+    const existing = controlSheet.getRange(id + 1, 2, 1, 4).getValues()[0];
+    if (String(existing[0] || '').toUpperCase() === 'CLOSED') {
+      const savedAt = toDate_(existing[1]);
+      return {
+        ok: true,
+        alreadyClosed: true,
+        sessionId: id,
+        phase: 'CLOSED',
+        closedAt: savedAt ? savedAt.toISOString() : null,
+        totalResponses: Number(existing[2]) || 0
+      };
+    }
+    const responseSheet = spreadsheet.getSheetByName(`Phiên ${id}`);
+    if (!responseSheet) throw new Error(`Không tìm thấy tab Phiên ${id}.`);
+    const count = countResponseRowsAtOrBefore_(responseSheet, closeAt);
+    controlSheet.getRange(id + 1, 2, 1, 4).setValues([['CLOSED', closeAt, count, existing[3] || '']]);
+    clearDashboardCache_();
+    return { ok: true, sessionId: id, phase: 'CLOSED', closedAt: closeAt.toISOString(), totalResponses: count };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function ensureDashboardTimerTrigger_() {
+  const handler = 'processExpiredDashboardTimers';
+  const exists = ScriptApp.getProjectTriggers().some(trigger => trigger.getHandlerFunction() === handler);
+  if (!exists) ScriptApp.newTrigger(handler).timeBased().everyMinutes(1).create();
 }
 
 function createSessionReport(sessionId) {
@@ -157,7 +236,9 @@ function ensureDashboardControlSheet_(spreadsheet) {
   const existing = sheet.getRange(2, 1, SESSION_CONFIG.length, CONTROL_HEADERS.length).getValues();
   const values = SESSION_CONFIG.map((config, index) => {
     const row = existing[index] || [];
-    return [config.name, String(row[1] || '').toUpperCase() === 'CLOSED' ? 'CLOSED' : 'LIVE', row[2] || '', row[3] || ''];
+    const rawStatus = String(row[1] || '').toUpperCase();
+    const status = rawStatus === 'CLOSED' || rawStatus === 'TIMED' ? rawStatus : 'LIVE';
+    return [config.name, status, row[2] || '', row[3] || '', row[4] || ''];
   });
   sheet.getRange(2, 1, values.length, CONTROL_HEADERS.length).setValues(values);
   sheet.getRange(1, 1, 1, CONTROL_HEADERS.length).setFontWeight('bold').setBackground('#000000').setFontColor('#ffffff');
@@ -180,6 +261,19 @@ function countResponseRows_(sheet) {
     .filter(row => row.some(value => String(value).trim() !== '')).length;
 }
 
+function countResponseRowsAtOrBefore_(sheet, cutoff) {
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return 0;
+  const lastColumn = sheet.getLastColumn();
+  const range = sheet.getRange(2, 1, lastRow - 1, lastColumn);
+  const rawRows = range.getValues();
+  const displayRows = range.getDisplayValues();
+  return displayRows.filter((row, index) =>
+    row.some(value => String(value).trim() !== '') &&
+    isAtOrBeforeCutoff_(rawRows[index][0], row[0], cutoff)
+  ).length;
+}
+
 function validateSessionId_(sessionId) {
   const id = Number(sessionId);
   if (!Number.isInteger(id) || id < 1 || id > 9) throw new Error('Phiên không hợp lệ.');
@@ -196,4 +290,5 @@ function assertAdmin_() {
 
 function clearDashboardCache_() {
   CacheService.getScriptCache().remove('dashboard-v5');
+  CacheService.getScriptCache().remove('dashboard-v6');
 }
