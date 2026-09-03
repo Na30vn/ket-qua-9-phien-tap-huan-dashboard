@@ -122,6 +122,9 @@ function closeDashboardSessionAt_(id, closeAt) {
     if (!isClosed) {
       controlSheet.getRange(id + 1, 2, 1, 4).setValues([['CLOSED', closeAt, count, existing[3] || '']]);
     }
+    // Xóa kết quả của lượt chấm trước. Top chỉ xuất hiện lại khi Gemini chấm
+    // hoàn tất và ghi mới vào _PUBLIC_TOP.
+    clearPublicTopForSession_(spreadsheet, id);
     
     // Tự động khởi tạo tab _GEMINI_REVIEW cho các phiên tự luận / tình huống
     try {
@@ -276,12 +279,19 @@ function formatGeminiReviewSheet_(reviewSheet, numRows, sessionId) {
     });
   }
   
-  // Tự động tính toán & cập nhật bảng Vinh danh _PUBLIC_TOP lên Dashboard
-  try {
-    capNhatTabPublicTop_(reviewSheet.getParent(), Number(sessionId));
-  } catch (e) {
-    Logger.log('Không thể tự động cập nhật _PUBLIC_TOP: ' + e);
-  }
+  // Không cập nhật _PUBLIC_TOP ở đây: công thức AI vừa được đặt và chưa chắc
+  // đã hoàn tất. Bước chấm AI sẽ gọi capNhatTabPublicTop_ sau cùng.
+}
+
+function clearPublicTopForSession_(spreadsheet, sessionId) {
+  const sheet = spreadsheet.getSheetByName('_PUBLIC_TOP');
+  if (!sheet || sheet.getLastRow() < 2) return;
+  const rows = sheet.getDataRange().getValues();
+  const header = rows.shift();
+  const retained = rows.filter(row => Number(row[0]) !== Number(sessionId));
+  sheet.clearContents();
+  sheet.getRange(1, 1, 1, header.length).setValues([header]);
+  if (retained.length) sheet.getRange(2, 1, retained.length, header.length).setValues(retained);
 }
 
 function capNhatTabPublicTop_(spreadsheet, sessionId) {

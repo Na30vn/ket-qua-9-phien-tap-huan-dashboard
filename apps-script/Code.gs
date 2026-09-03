@@ -230,18 +230,8 @@ function getDashboardData_(forceRefresh) {
   }
   const spreadsheet = openDashboardSpreadsheet_();
 
-  // Khi Dashboard reload, tự động đồng bộ kết quả Gemini AI sang _PUBLIC_TOP
-  // (an toàn vì lúc này Gemini đã fill xong cột I trong _GEMINI_REVIEW)
-  try {
-    if (typeof capNhatTabPublicTop_ === 'function') {
-      const reviewSheet = spreadsheet.getSheetByName('_GEMINI_REVIEW');
-      if (reviewSheet && reviewSheet.getLastRow() >= 2) {
-        [3, 5, 6, 7, 8].forEach(id => capNhatTabPublicTop_(spreadsheet, id));
-      }
-    }
-  } catch (e) {
-    Logger.log('Auto-sync Top N: ' + e);
-  }
+  // Không đồng bộ _PUBLIC_TOP khi chỉ tải dashboard. Top N chỉ được ghi sau khi
+  // Gemini hoàn tất chấm và hàm cập nhật Top N được gọi ở bước chấm.
   const control = getDashboardControl_(spreadsheet);
   const unitCatalog = getStandardUnitCatalog_(spreadsheet);
   const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config, control[config.id], unitCatalog));

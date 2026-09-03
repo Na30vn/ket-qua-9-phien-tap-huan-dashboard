@@ -446,7 +446,7 @@
     else if (session.kind === "ordering") content = live ? renderLiveOrdering(session) : renderOrderingDashboard(session);
     else if (session.kind === "true_false") content = renderTrueFalseDashboard(session, live);
     else content = renderOpenDashboard(session, live);
-    return (live ? "" : renderLeaderboard(session)) + content + renderUnitParticipation(session) + (live ? "" : renderUnitBreakdown(session));
+    return (live ? "" : renderLeaderboard(session)) + content + (session.kind === "open" ? "" : renderUnitParticipation(session)) + (live ? "" : renderUnitBreakdown(session));
   }
 
   function renderLeaderboard(session) {
@@ -470,7 +470,7 @@
         <span class="participant-info">
           <strong>${escapeHtml(person.name || "Chưa có họ tên")}</strong>
           <small class="participant-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
-          <small class="participant-submitted">Nộp: ${escapeHtml(person.submittedAt || "Chưa có thời điểm")}</small>
+          <small class="participant-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt))}</small>
         </span>
         <span class="participant-score">
           <span class="score-pill">${escapeHtml(person.scoreText || person.scoreChoice || "Đạt")}</span>
@@ -491,6 +491,11 @@
         ${remaining.length ? `<ol class="top-participants-list" start="4">${remaining.map((person, index) => `<li>${personCard(person, index + 3)}</li>`).join("")}</ol>` : ""}
       </section>
     `;
+  }
+
+  function formatSubmittedTime(value) {
+    const time = String(value || "").match(/\b\d{1,2}:\d{2}(?::\d{2})?\b/);
+    return time ? `Nộp lúc ${time[0]}` : "Chưa có giờ nộp";
   }
 
   function renderLiveQuiz(session) {
@@ -592,7 +597,8 @@
     const responses = live ? (session.liveResponses || (session.responses || []).slice(0, 10)) : (session.responses || []);
     const normalizedSearch = normalizeText(responseSearch);
     const filtered = live ? responses : responses.filter(text => normalizeText(text).includes(normalizedSearch));
-    return `<section class="content-grid open-dashboard">${renderPromptCard(session)}${live ? "" : `<article class="panel full reference-panel">${panelHeading("Gợi ý / đáp án tham chiếu", "Dùng để đối chiếu và trao đổi tại lớp")}${reference.length ? `<ol class="reference-list">${reference.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : renderInlineEmpty("Chưa có nội dung tham chiếu.")}</article>`}<article class="panel full ${live ? "panel-primary" : ""}"><div class="panel-heading panel-heading-actions"><div><p class="panel-kicker">PHẢN HỒI HỌC VIÊN</p><h3>${live ? "10 phản hồi đầu tiên" : `Danh sách câu trả lời (${filtered.length}/${responses.length})`}</h3></div>${live ? '<span>Nội dung phản hồi được hiển thị ẩn danh</span>' : `<label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>`}</div><p class="privacy-note">Chỉ hiển thị nội dung phản hồi ẩn danh. Họ tên không được đưa lên API; đơn vị chỉ xuất hiện dưới dạng số liệu tổng hợp.</p>${filtered.length ? `<div class="response-list open-response-list">${filtered.map((text, index) => `<article class="open-response-card"><header><span>Phản hồi ${index + 1}</span></header><p>${escapeHtml(text)}</p></article>`).join("")}</div>` : renderInlineEmpty(responses.length ? "Không tìm thấy phản hồi phù hợp." : "Chưa có phản hồi. Dashboard sẽ tự cập nhật khi có dữ liệu.")}</article></section>`;
+    const responseBlock = filtered.length ? `<details class="responses-disclosure" data-ui-state="session-${session.id}-responses" ${responseSearch ? "open" : ""}><summary><span>${live ? "Xem phản hồi đang nhận" : `Xem ${filtered.length} câu trả lời`}</span><small>${live ? "Tối đa 10 phản hồi đầu tiên" : "Bấm để mở hoặc thu gọn danh sách"}</small></summary><div class="response-list open-response-list">${filtered.map((text, index) => `<article class="open-response-card"><header><span>Phản hồi ${index + 1}</span></header><p>${escapeHtml(text)}</p></article>`).join("")}</div></details>` : renderInlineEmpty(responses.length ? "Không tìm thấy phản hồi phù hợp." : "Chưa có phản hồi. Dashboard sẽ tự cập nhật khi có dữ liệu.");
+    return `<section class="content-grid open-dashboard">${renderPromptCard(session)}${live ? "" : `<article class="panel full reference-panel">${panelHeading("Gợi ý / đáp án tham chiếu", "Dùng để đối chiếu và trao đổi tại lớp")}${reference.length ? `<ol class="reference-list">${reference.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : renderInlineEmpty("Chưa có nội dung tham chiếu.")}</article>`}<article class="panel full ${live ? "panel-primary" : ""}"><div class="panel-heading panel-heading-actions"><div><p class="panel-kicker">PHẢN HỒI HỌC VIÊN</p><h3>${live ? "Phản hồi đang nhận" : `Danh sách câu trả lời (${filtered.length}/${responses.length})`}</h3></div>${live ? '<span>Nội dung phản hồi được hiển thị ẩn danh</span>' : `<label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>`}</div><p class="privacy-note">Danh sách được thu gọn mặc định để dễ theo dõi. Nội dung phản hồi hiển thị ẩn danh.</p>${responseBlock}</article>${renderMissingUnitsPanel(session)}</section>`;
   }
 
   function renderPromptCard(session) {
@@ -616,6 +622,14 @@
     const participating = Number(session.participatingUnits || 0);
     const unmapped = Number(session.unmappedUnitResponses || 0);
     return `<section class="content-grid unit-participation-section"><article class="panel full unit-participation-card"><div class="unit-participation-copy"><p class="panel-kicker">THỐNG KÊ ĐƠN VỊ</p><h3>Đơn vị tham gia: ${formatNumber.format(participating)}/${formatNumber.format(total)}</h3><span>${missing.length ? `Chưa tham gia: ${formatNumber.format(missing.length)} đơn vị` : "Tất cả đơn vị đã tham gia"}</span>${unmapped ? `<small>Có ${formatNumber.format(unmapped)} phản hồi mang tên đơn vị chưa khớp danh mục chuẩn.</small>` : ""}</div>${missing.length ? `<details class="missing-units" data-ui-state="session-${session.id}-missing-units"><summary>Xem danh sách chưa tham gia</summary><ol>${missing.map(unit => `<li>${escapeHtml(unit)}</li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ</span>'}</article></section>`;
+  }
+
+  function renderMissingUnitsPanel(session) {
+    const missing = Array.isArray(session.missingUnits) ? session.missingUnits : [];
+    const total = Number(session.totalUnits || 0);
+    if (!total) return "";
+    const participating = Number(session.participatingUnits || 0);
+    return `<article class="panel full missing-units-panel"><div class="panel-heading"><div><p class="panel-kicker">ĐƠN VỊ CHƯA THAM GIA</p><h3>${missing.length ? `${formatNumber.format(missing.length)} đơn vị chưa có bài` : "Tất cả đơn vị đã tham gia"}</h3></div><span>${formatNumber.format(participating)}/${formatNumber.format(total)} đơn vị đã tham gia</span></div>${missing.length ? `<details class="missing-units missing-units-expanded" data-ui-state="session-${session.id}-missing-units" open><summary><span class="missing-open">Thu gọn danh sách</span><span class="missing-closed">Xem danh sách đơn vị chưa tham gia</span></summary><ol>${missing.map(unit => `<li>${escapeHtml(unit)}</li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ</span>'}</article>`;
   }
 
   function questionSelector(questions) {
@@ -651,7 +665,7 @@
           <div>
             <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
             <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
-            <p class="modal-submitted">Thời điểm nộp: ${escapeHtml(person.submittedAt || "Chưa có")}</p>
+            <p class="modal-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt))}</p>
           </div>
           <div class="modal-scores">
             <span class="modal-score-pill">${escapeHtml(person.scoreChoice || "70/70")}</span>
@@ -697,7 +711,7 @@
           <div>
             <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
             <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
-            <p class="modal-submitted">Thời điểm nộp: ${escapeHtml(person.submittedAt || "Chưa có")}</p>
+            <p class="modal-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt))}</p>
           </div>
           <div class="modal-scores">
             <span class="modal-score-pill">${escapeHtml(person.scoreText || "Đạt")}</span>
