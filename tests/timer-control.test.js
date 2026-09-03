@@ -87,8 +87,9 @@ const context = {
 };
 
 vm.createContext(context);
-vm.runInContext(`${source}\nthis.__start = startDashboardSessionTimer; this.__process = processExpiredDashboardTimers; this.__reopen = reopenDashboardSession; this.__close = closeDashboardSession;`, context);
+vm.runInContext(`${source}\nthis.__ensureTriggers = ensureDashboardTimerTrigger_; this.__start = startDashboardSessionTimer; this.__process = processExpiredDashboardTimers; this.__reopen = reopenDashboardSession; this.__close = closeDashboardSession;`, context);
 
+context.__ensureTriggers();
 const started = context.__start(1, 1);
 assert.equal(table[1][1], "TIMED");
 assert.equal(started.phase, "TIMED");

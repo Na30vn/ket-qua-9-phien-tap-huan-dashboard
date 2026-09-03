@@ -462,16 +462,15 @@ function buildPerfectLeaderboard_(entries, headers, config) {
       questionDetails
     };
   }).filter(item => item.name);
-  const bestByPerson = {};
+  const firstByPerson = {};
   candidates.forEach(item => {
     const key = normalizeLookup_(item.name) + '|' + normalizeLookup_(item.unit);
-    const current = bestByPerson[key];
-    if (!current || item.score > current.score ||
-        (item.score === current.score && item.completedAtValue < current.completedAtValue)) {
-      bestByPerson[key] = item;
+    const current = firstByPerson[key];
+    if (!current || item.completedAtValue < current.completedAtValue) {
+      firstByPerson[key] = item;
     }
   });
-  return Object.keys(bestByPerson).map(key => bestByPerson[key])
+  return Object.keys(firstByPerson).map(key => firstByPerson[key])
     .sort((a, b) => b.score - a.score || a.completedAtValue - b.completedAtValue || a.name.localeCompare(b.name, 'vi'))
     .slice(0, 10)
     .map((item, idx) => ({
@@ -824,8 +823,9 @@ function getTopParticipantsFromSheet_(spreadsheet, sessionId) {
           submittedAt: String(row[4] || ''),
           scoreChoice: String(row[5] || '70/70'),
           scoreExplanation: String(row[6] || ''),
-          aiFeedback: String(row[7] || ''),
-          questionDetails
+          aiFeedback: String(row[9] || ''),
+          questionDetails,
+          position: String(row[11] || '')
         };
       }
       let matchedItems = [];
@@ -840,7 +840,8 @@ function getTopParticipantsFromSheet_(spreadsheet, sessionId) {
         matchedItems,
         referenceAnswer: String(row[8] || ''),
         aiFeedback: String(row[9] || ''),
-        criticalErrors: Number(row[10]) || 0
+        criticalErrors: Number(row[10]) || 0,
+        position: String(row[11] || '')
       };
     } catch (err) {
       return null;

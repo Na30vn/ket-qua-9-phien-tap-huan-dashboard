@@ -1023,7 +1023,23 @@
         const session = payload?.sessions?.find(item => Number(item.id) === Number(event.data.sessionId));
         if (session) Object.assign(session, controlSessionStates.get(Number(event.data.sessionId)));
         render();
+      } else if (event.data.action === "reopen") {
+        pendingSessionActions.delete(Number(event.data.sessionId));
+        controlSessionStates.set(Number(event.data.sessionId), {
+          phase: "NOT_STARTED",
+          timerStartedAt: null,
+          timerEndsAt: null,
+          closedAt: null
+        });
+        const session = payload?.sessions?.find(item => Number(item.id) === Number(event.data.sessionId));
+        if (session) Object.assign(session, controlSessionStates.get(Number(event.data.sessionId)));
+        closedLivePreview = false;
+        render();
       }
+      return;
+    }
+    if (event.data?.type === "dashboard-ai-top-ready") {
+      loadData(true);
       return;
     }
     if (event.data?.type === "dashboard-session-failed") {

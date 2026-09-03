@@ -92,7 +92,6 @@ function startDashboardSessionTimer(sessionId, durationMinutes) {
   const startedAt = new Date();
   const closeAt = new Date(startedAt.getTime() + minutes * 60000);
   controlSheet.getRange(id + 1, 2, 1, 4).setValues([['TIMED', closeAt, '', startedAt]]);
-  ensureDashboardTimerTrigger_();
   clearDashboardCache_();
   return { ok: true, sessionId: id, phase: 'TIMED', durationMinutes: minutes, timerStartedAt: startedAt.toISOString(), timerEndsAt: closeAt.toISOString() };
 }
@@ -156,18 +155,30 @@ function closeDashboardSessionAt_(id, closeAt) {
     // hoàn tất và ghi mới vào _PUBLIC_TOP.
     clearPublicTopForSession_(spreadsheet, id);
     
-    // Tự động khởi tạo tab _GEMINI_REVIEW cho các phiên tự luận / tình huống
-    try {
-      taoTabGeminiReview_(spreadsheet, id);
-    } catch (e) {
-      Logger.log('Không thể tạo tab _GEMINI_REVIEW: ' + e);
-    }
-
     clearDashboardCache_();
     return { ok: true, alreadyClosed: isClosed, sessionId: id, phase: 'CLOSED', closedAt: closeAt.toISOString(), totalResponses: count };
   } finally {
     lock.releaseLock();
   }
+}
+
+// Tách phần tạo công thức Gemini khỏi thao tác chốt để dashboard chuyển trạng
+// thái ngay. Admin.html gọi hàm này sau khi đã nhận kết quả chốt thành công.
+function prepareGeminiReviewForClosedSession(sessionId) {
+  assertAdmin_();
+  const id = validateSessionId_(sessionId);
+  if ([3, 5, 6, 7, 8].indexOf(id) < 0) return { ok: true, skipped: true, sessionId: id };
+  const spreadsheet = openDashboardSpreadsheet_();
+  const state = getDashboardControl_(spreadsheet)[id];
+  if (!state || state.status !== 'CLOSED') throw new Error(`Phiên ${id} chưa được chốt.`);
+  taoTabGeminiReview_(spreadsheet, id);
+  return { ok: true, sessionId: id, reviewPrepared: true };
+}
+
+function publishGeminiTopIfReady(sessionId) {
+  assertAdmin_();
+  const id = validateSessionId_(sessionId);
+  return capNhatTabPublicTop_(openDashboardSpreadsheet_(), id) || { ok: false, pending: true, sessionId: id };
 }
 
 function taoTabGeminiReview_(spreadsheet, id) {
@@ -203,7 +214,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
       const explanations = explanationIndexes.map((col, qIdx) => `Câu ${qIdx + 1}: ${String(row[col] || '').trim()}`).join('\n');
       const references = referenceNotes.map((note, qIdx) => `Câu ${qIdx + 1}: ${note}`).join('\n');
 
-      const prompt = `Compare student explanations (Column G) with teacher reference criteria (Column H). Output in Vietnamese format: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=short feedback under 45 words.`;
+      const prompt = `Chấm độc lập từng lời giải thích theo căn cứ giáo viên. Cho E=1 khi học viên nêu đúng ý cốt lõi bằng nguyên văn hoặc cách diễn đạt tương đương; không đòi hỏi trùng từ khóa hay đủ nguyên câu. Chỉ cho E=0 khi thiếu ý cốt lõi, mâu thuẫn hoặc giải thích sai. Không hạ các câu khác chỉ vì một câu sai. Trả đúng định dạng: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=nhận xét tiếng Việt dưới 45 từ.`;
       const rowIdx = index + 2;
       const formulaAI = `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`;
       const formulaScore = `=IFERROR(VALUE(REGEXEXTRACT(J${rowIdx}, "E1=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E2=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E3=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E4=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E5=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E6=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E7=(\\d)")), "") & "/7"`;
@@ -220,11 +231,12 @@ function taoTabGeminiReview_(spreadsheet, id) {
   } else {
     const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Số lỗi nghiêm trọng', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
     const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer.join('\n') : String(config.referenceAnswer || '');
+    const semanticRule = 'Chấm RIÊNG từng ý chuẩn. Cho Y=1 nếu bài làm nêu được nội dung cốt lõi bằng nguyên văn, từ đồng nghĩa, viết tắt thông dụng hoặc cách diễn đạt tương đương; không bắt buộc trùng từ khóa, đủ câu hay đúng thứ tự. Một ý đạt không phụ thuộc các ý khác. Cho Y=0 chỉ khi ý cốt lõi thực sự vắng mặt, sai hoặc mâu thuẫn. Mốc 12 tháng tương đương cả năm. LOI_NGHIEM_TRONG=1 chỉ khi có khẳng định sai nghiêm trọng trái trực tiếp đáp án, không dùng cho thiếu ý hoặc viết ngắn. ';
     const promptMap = {
-      3: 'Compare student answer (Column F) with 3 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.',
-      5: 'Compare student answer (Column F) with 2 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.',
-      7: 'Compare student answer (Column F) with 2 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.',
-      8: 'Compare student answer (Column F) with 4 teacher criteria (Column G). Output in Vietnamese format: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=short feedback under 35 words.'
+      3: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 3 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.',
+      5: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 2 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.',
+      7: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 2 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.',
+      8: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 4 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.'
     };
     const promptText = promptMap[id] || 'Compare student answer (Column F) with teacher criteria (Column G).';
     const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
@@ -356,11 +368,16 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
   }
 
   const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer : [String(config.referenceAnswer || '')];
+  const participantMeta = getFirstParticipantMeta_(spreadsheet, config);
 
-  const parsedItems = sessionRows.map(row => {
+  const parsedItems = sessionRows.map((row, sourceOrder) => {
     const name = String(row[2] || '').trim();
     const unit = String(row[3] || '').trim();
     const submittedAt = String(row[4] || '').trim();
+    const submittedDate = parseDisplayTimestamp_(submittedAt);
+    const submittedAtValue = submittedDate ? submittedDate.getTime() : Number.MAX_SAFE_INTEGER - sessionRows.length + sourceOrder;
+    const participantKey = normalizeLookup_(name) + '|' + normalizeLookup_(unit);
+    const position = participantMeta[participantKey] ? participantMeta[participantKey].position : '';
     const essay = String(row[5] || '').trim();
     const rawResultAI = String(row[resultColumn] || '').trim();
     const displayFeedback = String(row[11] || '').trim();
@@ -373,7 +390,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
       }
       const numMatched = eMatched.filter(Boolean).length;
       const score = numMatched * 10;
-      return { name, unit, submittedAt, score, scoreChoice: '70/70', scoreExplanation: `${numMatched * 10}/70`, feedback: displayFeedback || rawResultAI, raw: row };
+      return { name, unit, position, submittedAt, submittedAtValue, sourceOrder, score, scoreChoice: '70/70', scoreExplanation: `${numMatched * 10}/70`, feedback: displayFeedback || rawResultAI, raw: row };
     }
 
     const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
@@ -396,7 +413,10 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     return {
       name,
       unit,
+      position,
       submittedAt,
+      submittedAtValue,
+      sourceOrder,
       score,
       scoreText: `Đạt ${numMatched}/${totalCriteria} ý chuẩn`,
       essay,
@@ -407,18 +427,26 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     };
   });
 
-  parsedItems.sort((a, b) => b.score - a.score || String(a.submittedAt).localeCompare(String(b.submittedAt), 'vi'));
-
-  const top10 = parsedItems.slice(0, 10);
+  const firstAttemptByPerson = {};
+  parsedItems.filter(item => item.name).forEach(item => {
+    const key = normalizeLookup_(item.name) + '|' + normalizeLookup_(item.unit);
+    const current = firstAttemptByPerson[key];
+    if (!current || item.submittedAtValue < current.submittedAtValue ||
+        (item.submittedAtValue === current.submittedAtValue && item.sourceOrder < current.sourceOrder)) {
+      firstAttemptByPerson[key] = item;
+    }
+  });
+  const top10 = Object.keys(firstAttemptByPerson).map(key => firstAttemptByPerson[key])
+    .sort((a, b) => b.score - a.score || a.submittedAtValue - b.submittedAtValue || a.name.localeCompare(b.name, 'vi'))
+    .slice(0, 10);
 
   let publicTopSheet = spreadsheet.getSheetByName('_PUBLIC_TOP');
   if (!publicTopSheet) {
     publicTopSheet = spreadsheet.insertSheet('_PUBLIC_TOP');
   }
 
-  // QUAN TRỌNG: Luôn dùng header chuẩn 11 cột để tránh lỗi dimension mismatch với setValues
-  const FIXED_HEADER = ['ID Phiên', 'Rank', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Điểm/Số ý', 'Bài làm', 'Các ý chuẩn (JSON)', 'Đáp án tham chiếu', 'Nhận xét AI', 'Lỗi nghiêm trọng'];
-  const NUM_COLS = FIXED_HEADER.length; // = 11
+  const FIXED_HEADER = ['ID Phiên', 'Rank', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Điểm/Số ý', 'Bài làm', 'Các ý chuẩn (JSON)', 'Đáp án tham chiếu', 'Nhận xét AI', 'Lỗi nghiêm trọng', 'Chức vụ'];
+  const NUM_COLS = FIXED_HEADER.length;
   
   const existingValues = publicTopSheet.getLastRow() >= 2 ? publicTopSheet.getDataRange().getValues() : [];
   
@@ -438,7 +466,8 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     item.matchedItemsJson || JSON.stringify(item.questionDetails || []),
     item.referenceAnswer || '',
     item.aiFeedback || '',
-    item.criticalErrors || 0
+    item.criticalErrors || 0,
+    item.position || ''
   ]);
 
   publicTopSheet.clear();
@@ -447,6 +476,33 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
   try { publicTopSheet.hideSheet(); } catch (e) {}
   clearDashboardCache_();
   return { ok: true, sessionId: id, total: newTopRows.length };
+}
+
+function getFirstParticipantMeta_(spreadsheet, config) {
+  const sheet = spreadsheet.getSheetByName(config.name);
+  if (!sheet || sheet.getLastRow() < 2) return {};
+  const range = sheet.getDataRange();
+  const displayRows = range.getDisplayValues();
+  const rawRows = range.getValues();
+  const headers = displayRows.shift() || [];
+  rawRows.shift();
+  const normalizedHeaders = headers.map(header => normalizeLookup_(header));
+  const nameIndexes = normalizedHeaders.map((value, index) => ({ value, index })).filter(item => /^ho va ten(?:\s|$)/.test(item.value)).map(item => item.index);
+  const unitIndexes = normalizedHeaders.map((value, index) => ({ value, index })).filter(item => /^don vi(?:\s|$)/.test(item.value)).map(item => item.index);
+  const positionIndexes = normalizedHeaders.map((value, index) => ({ value, index })).filter(item => /chuc vu|vi tri|chuc danh/.test(item.value)).map(item => item.index);
+  const result = {};
+  displayRows.forEach((row, index) => {
+    const name = lastNonEmptyField_(row, nameIndexes);
+    const unit = lastNonEmptyField_(row, unitIndexes);
+    if (!name) return;
+    const date = toDate_(rawRows[index] && rawRows[index][0]) || parseDisplayTimestamp_(row[0]);
+    const time = date ? date.getTime() : Number.MAX_SAFE_INTEGER - displayRows.length + index;
+    const key = normalizeLookup_(name) + '|' + normalizeLookup_(unit);
+    if (!result[key] || time < result[key].time) {
+      result[key] = { time, position: positionIndexes.length ? lastNonEmptyField_(row, positionIndexes) : '' };
+    }
+  });
+  return result;
 }
 
 /**
