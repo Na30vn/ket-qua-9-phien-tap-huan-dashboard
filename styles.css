@@ -489,25 +489,25 @@ th { color: #0a3c6b; background: #eaf2f8; font-size: 12px; text-transform: upper
 
 footer { display: flex; justify-content: space-between; gap: 16px; padding: 20px clamp(20px,5vw,72px); border-top: 1px solid var(--line); color: var(--muted); background: #fff; font-size: 12px; }
 
-.qr-dialog { width: min(560px, calc(100% - 28px)); padding: 26px 28px 24px; border: 0; border-radius: 22px; color: var(--navy); background: #fff; box-shadow: 0 28px 80px rgba(7,31,55,.34); text-align: center; }
+.qr-dialog { width: min(620px, calc(100% - 24px)); padding: 29px 31px 27px; border: 0; border-radius: 22px; color: var(--navy); background: #fff; box-shadow: 0 28px 80px rgba(7,31,55,.34); text-align: center; }
 .qr-dialog::backdrop { background: rgba(8,27,47,.72); backdrop-filter: blur(5px); }
 .qr-dialog .dialog-close { position: absolute; top: 12px; right: 14px; width: 38px; height: 38px; border: 0; border-radius: 50%; color: #173b60; background: #edf3f8; font-size: 27px; line-height: 1; cursor: pointer; }
 .qr-dialog > p:first-of-type { margin: 0 44px 6px; color: #09718b; font-size: 12px; font-weight: 900; letter-spacing: .13em; }
 .qr-dialog h2 { margin: 0 auto 18px; font-size: clamp(20px,4vw,29px); line-height: 1.25; }
-.qr-dialog img { display: block; width: min(380px, 82vw); height: min(380px, 82vw); margin: 0 auto; padding: 12px; border: 2px solid #d2dfeb; border-radius: 17px; background: #fff; image-rendering: crisp-edges; }
+.qr-dialog img { display: block; width: min(430px, 84vw); height: min(430px, 84vw); margin: 0 auto; padding: 12px; border: 2px solid #d2dfeb; border-radius: 17px; background: #fff; image-rendering: crisp-edges; }
 .qr-dialog .qr-dialog-note { margin: 15px 0 0; color: #4f657a; font-weight: 750; }
 
 .session-control { position: fixed; right: 22px; bottom: 22px; z-index: 40; }
 .control-fab { position: relative; z-index: 2; display: grid; place-items: center; width: 52px; height: 52px; margin-left: auto; border: 2px solid rgba(255,255,255,.8); border-radius: 50%; color: #fff; background: #123c69; box-shadow: 0 10px 28px rgba(18,60,105,.34); font-size: 30px; line-height: 1; cursor: pointer; transition: transform .2s ease, background .2s ease; }
 .control-fab:hover { background: #1f6f8b; transform: scale(1.06); }
 .control-fab[aria-expanded="true"] { background: #c84f3c; transform: rotate(90deg); }
-.control-panel { position: absolute; right: 0; bottom: 64px; width: min(390px, calc(100vw - 28px)); overflow: hidden; border: 1px solid #b8cadb; border-radius: 17px; background: #fff; box-shadow: 0 22px 60px rgba(12,37,62,.26); }
+.control-panel { position: absolute; right: 0; bottom: 64px; width: min(430px, calc(100vw - 24px)); overflow: hidden; border: 1px solid #b8cadb; border-radius: 17px; background: #fff; box-shadow: 0 22px 60px rgba(12,37,62,.26); }
 .control-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 15px; color: #fff; background: linear-gradient(120deg,#0d3156,#1d7186); }
 .control-panel-head div { display: grid; gap: 2px; }
 .control-panel-head span { font-size: 9px; font-weight: 900; letter-spacing: .12em; opacity: .78; }
 .control-panel-head strong { font-size: 18px; }
 .control-panel-head button { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; color: #fff; background: rgba(255,255,255,.12); font-size: 22px; cursor: pointer; }
-.control-panel iframe { display: block; width: 100%; height: 215px; border: 0; background: #f3f6f9; }
+.control-panel iframe { display: block; width: 100%; height: 250px; border: 0; background: #f3f6f9; }
 .demo-control { padding: 13px; background: #f3f6f9; }
 .demo-control-card { display: grid; gap: 10px; padding: 14px; border: 1px solid #c7d5e2; border-radius: 13px; background: #fff; }
 .demo-control-status { display: grid; gap: 5px; }

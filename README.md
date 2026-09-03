@@ -195,6 +195,7 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 
 ## Nhật ký cập nhật
 
+- **03/09/2026:** sửa quy tắc xác thực tab `_DASHBOARD_CONTROL` để chấp nhận `NOT_STARTED`, `TIMED`, `CLOSED`; tăng nhẹ kích thước popup QR và bảng điều khiển nhanh.
 - **03/09/2026:** thêm Top 10 người đạt kết quả tuyệt đối và nộp sớm nhất cho các phiên chấm khách quan; Phiên 2 hiển thị đủ nội dung 13 bước đúng; chuẩn hóa trạng thái Chưa bắt đầu/Đang đếm ngược và nhãn thời lượng theo phút; hợp nhất nhật ký cập nhật.
 - **03/09/2026:** hiển thị rõ “Đang load dữ liệu…” trong điều khiển nhanh; thêm QR Phiên 1–9, điều khiển nhanh gọn theo phiên và ẩn email đăng nhập khỏi giao diện.
 - **03/09/2026:** hoàn thiện script 09 Form với trường Chức vụ/Vị trí công tác và Required; bổ sung countdown/tự chốt bền vững; thêm thống kê đơn vị tham gia/chưa tham gia từ danh mục chuẩn và dữ liệu demo tương ứng.

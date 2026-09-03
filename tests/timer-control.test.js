@@ -8,6 +8,7 @@ const table = [
   ["Phiên", "Trạng thái", "Thời gian kết thúc/chốt", "Số bài lúc chốt", "Bắt đầu đếm ngược"],
   ...Array.from({ length: 9 }, (_, index) => [`Phiên ${index + 1}`, "NOT_STARTED", "", "", ""])
 ];
+let validationValues = [];
 
 function rangeFor(row, column, rowCount, columnCount) {
   const range = {
@@ -23,7 +24,9 @@ function rangeFor(row, column, rowCount, columnCount) {
     setFontWeight: () => range,
     setBackground: () => range,
     setFontColor: () => range,
-    setNumberFormat: () => range
+    setNumberFormat: () => range,
+    clearDataValidations: () => range,
+    setDataValidation: rule => { validationValues = rule.values; return range; }
   };
   return range;
 }
@@ -65,7 +68,14 @@ const context = {
     getProperty: key => key === "SPREADSHEET_ID" ? "test" : key === "ADMIN_EMAILS" ? "admin@example.com" : "",
     setProperty: () => {}
   }) },
-  SpreadsheetApp: { openById: () => spreadsheet },
+  SpreadsheetApp: {
+    openById: () => spreadsheet,
+    newDataValidation: () => ({
+      requireValueInList(values) { this.values = values; return this; },
+      setAllowInvalid() { return this; },
+      build() { return { values: this.values }; }
+    })
+  },
   CacheService: { getScriptCache: () => ({ remove: () => {} }) },
   LockService: { getScriptLock: () => lock },
   ScriptApp: {
@@ -83,6 +93,7 @@ const started = context.__start(1, 1);
 assert.equal(table[1][1], "TIMED");
 assert.equal(started.phase, "TIMED");
 assert.equal(started.durationMinutes, 1);
+assert.deepEqual(JSON.parse(JSON.stringify(validationValues)), ["NOT_STARTED", "TIMED", "CLOSED"]);
 assert.ok(new Date(started.timerEndsAt).getTime() > Date.now());
 assert.equal(triggerCreated, 1);
 

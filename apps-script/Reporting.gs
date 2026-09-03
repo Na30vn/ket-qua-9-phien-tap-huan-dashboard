@@ -233,6 +233,9 @@ function ensureDashboardControlSheet_(spreadsheet) {
   if (!sheet) sheet = spreadsheet.insertSheet(CONTROL_SHEET_NAME);
   ensureSheetSize_(sheet, SESSION_CONFIG.length + 1, CONTROL_HEADERS.length);
   sheet.getRange(1, 1, 1, CONTROL_HEADERS.length).setValues([CONTROL_HEADERS]);
+  const statusRange = sheet.getRange(2, 2, SESSION_CONFIG.length, 1);
+  // Xóa rule cũ (LIVE/CLOSED) trước khi ghi trạng thái mới để tránh lỗi xác thực ô B2:B10.
+  statusRange.clearDataValidations();
   const existing = sheet.getRange(2, 1, SESSION_CONFIG.length, CONTROL_HEADERS.length).getValues();
   const values = SESSION_CONFIG.map((config, index) => {
     const row = existing[index] || [];
@@ -241,6 +244,11 @@ function ensureDashboardControlSheet_(spreadsheet) {
     return [config.name, status, row[2] || '', row[3] || '', row[4] || ''];
   });
   sheet.getRange(2, 1, values.length, CONTROL_HEADERS.length).setValues(values);
+  const statusRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['NOT_STARTED', 'TIMED', 'CLOSED'], true)
+    .setAllowInvalid(false)
+    .build();
+  statusRange.setDataValidation(statusRule);
   sheet.getRange(1, 1, 1, CONTROL_HEADERS.length).setFontWeight('bold').setBackground('#000000').setFontColor('#ffffff');
   sheet.getRange(2, 3, values.length, 1).setNumberFormat('dd/MM/yyyy HH:mm:ss');
   sheet.setFrozenRows(1);
