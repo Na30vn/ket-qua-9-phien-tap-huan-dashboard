@@ -482,15 +482,16 @@
           <span class="rank-badge">#${rank}</span>
           <span class="participant-info">
             <strong class="participant-name">${escapeHtml(person.name || "Chưa có họ tên")}</strong>
-            <small class="participant-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
-            ${positionText ? `<small class="participant-position">${positionText}</small>` : ""}
-            <small class="participant-submitted"><b>${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</b></small>
+            <span class="participant-meta-line">
+              <small class="participant-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
+              ${positionText ? `<small class="participant-position">${positionText}</small>` : ""}
+            </span>
           </span>
-          <span class="participant-score">
+          <span class="participant-card-footer">
             <span class="score-pill">${escapeHtml(scoreBadge)}</span>
-            ${person.scoreExplanation ? `<small class="sub-score">${escapeHtml(person.scoreExplanation)}</small>` : ""}
+            <small class="participant-submitted"><b>${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</b></small>
+            <span class="view-detail-hint">Xem chi tiết <b>→</b></span>
           </span>
-          <span class="view-detail-hint">Xem chi tiết <b>→</b></span>
         </button>`;
     };
 
@@ -512,6 +513,13 @@
   function formatSubmittedTime(value) {
     if (!value) return "Chưa có giờ nộp";
     const text = String(value);
+    const d = new Date(text);
+    if (!isNaN(d.getTime()) && text.includes("T")) {
+      const hours = String(d.getHours()).padStart(2, "0");
+      const minutes = String(d.getMinutes()).padStart(2, "0");
+      const seconds = String(d.getSeconds()).padStart(2, "0");
+      return `Nộp lúc ${hours}:${minutes}:${seconds}`;
+    }
     const match = text.match(/(?:[01]?\d|2[0-3]):[0-5]\d(?::[0-5]\d)?/);
     return match ? `Nộp lúc ${match[0]}` : "Chưa có giờ nộp";
   }

@@ -144,7 +144,13 @@ function fakeQuizQuestion(question, total, correctCount, index) {
 function applyQuiz(session, profile) {
   session.totalResponses = profile.total;
   session.participatingUnits = sampleUnits.length;
-  session.questions = session.questions.map((question, index) =>
+  const sourceQuestions = (session.questions && session.questions.length)
+    ? session.questions
+    : profile.correct.map((_, idx) => ({
+        title: `Câu ${idx + 1}: Câu hỏi trắc nghiệm ${idx + 1}`,
+        correctAnswer: "A. Phương án đúng"
+      }));
+  session.questions = sourceQuestions.map((question, index) =>
     fakeQuizQuestion(question, profile.total, profile.correct[index], index));
   session.scoreStats = scoreStatsFromDistribution(profile.distribution, 10);
   const hardestIndex = profile.correct.reduce((lowest, value, index, values) => value < values[lowest] ? index : lowest, 0);
@@ -153,7 +159,7 @@ function applyQuiz(session, profile) {
     averageCorrectPercent: profile.correct.reduce((sum, count) => sum + count, 0) / (profile.total * profile.correct.length) * 100,
     hardestQuestion: {
       number: hardestIndex + 1,
-      title: session.questions[hardestIndex].title,
+      title: session.questions?.[hardestIndex]?.title || `Câu ${hardestIndex + 1}`,
       correctPercent: profile.correct[hardestIndex] / profile.total * 100
     },
     perfectCount,
@@ -235,11 +241,22 @@ function applyTrueFalse(session) {
     "Thiết bị này phục vụ hoạt động chung nên phải áp dụng đúng thẩm quyền quyết định.",
     "Cần phân biệt thiết bị dùng chung với thiết bị chuyên dùng tại cơ sở giáo dục.",
     "Thẩm quyền quyết định thuộc cơ quan chuyên môn theo phân cấp hiện hành.",
-    "Trường hợp không đủ tiêu chuẩn là tài sản cố định thì người đứng đầu đơn vị quyết định."
   ];
+  const titles = [
+    "Bí thư Đảng ủy xã được trang bị 1 máy tính xách tay max 25tr và 1 máy để bàn max 20tr",
+    "Phòng làm việc từ 3 người trở xuống được trang bị tối đa 1 máy in max 13tr",
+    "Mức giá máy tính 20 triệu đồng chưa bao gồm bản quyền phần mềm",
+    "Điều hòa nhiệt độ phòng làm việc là thiết bị chung, do Chủ tịch UBND xã quyết định",
+    "Màn hình LED hội trường là thiết bị dùng chung, do Chủ tịch UBND xã quyết định",
+    "Máy chiếu lớp học là thiết bị chuyên dùng, do Sở GD&ĐT ban hành tiêu chuẩn",
+    "Không đủ tiêu chuẩn tài sản cố định thì thủ trưởng đơn vị quyết định"
+  ];
+  const sourceQuestions = (session.questions && session.questions.length)
+    ? session.questions
+    : titles.map((title, idx) => ({ title, correctAnswer: idx === 2 || idx === 6 ? "Đúng" : "Sai" }));
   session.totalResponses = total;
   session.participatingUnits = sampleUnits.length;
-  session.questions = session.questions.map((question, index) => {
+  session.questions = sourceQuestions.map((question, index) => {
     const correct = question.correctAnswer;
     const correctCount = correctCounts[index];
     const trueCount = correct === "Đúng" ? correctCount : total - correctCount;
@@ -281,7 +298,7 @@ function applyTrueFalse(session) {
     averageCorrectPercent: session.scoreStats.averagePercent,
     hardestQuestion: {
       number: hardestIndex + 1,
-      title: session.questions[hardestIndex].title,
+      title: session.questions?.[hardestIndex]?.title || `Câu ${hardestIndex + 1}`,
       correctPercent: correctCounts[hardestIndex] / total * 100
     },
     perfectCount: 30,
@@ -291,19 +308,65 @@ function applyTrueFalse(session) {
   session.explanationStats = { count: 1619, rate: 1619 / (total * 7) * 100 };
 }
 
+const samplePositions = [
+  "Kế toán trưởng", "Phó Trưởng phòng", "Chủ tịch UBND xã", "Công chức Kế toán",
+  "Chuyên viên chính", "Phó Chủ tịch UBND xã", "Trưởng phòng", "Thủ quỹ",
+  "Chuyên viên", "Phó Chánh Văn phòng"
+];
+
 function applyTopParticipants(session) {
-  if (![3, 5, 6, 7, 8].includes(session.id)) return;
   const names = [
     "Trần Thị Minh Trang", "Nguyễn Hoàng Nam", "Lê Phương Anh", "Phạm Văn Đức",
     "Đỗ Hoài Thu", "Vũ Nhật Minh", "Bùi Thanh Hằng", "Đặng Quang Vinh",
     "Trương Mỹ Duyên", "Phan Tuấn Kiệt"
   ];
-  
-  if (session.id === 3) {
+
+  if (session.id === 1) {
     session.topParticipants = names.map((name, index) => ({
       rank: index + 1,
       name,
       unit: sampleUnits[index],
+      position: samplePositions[index],
+      submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 14, 10 + index * 12)).toISOString(),
+      scoreText: index < 3 ? "6/6 câu đúng" : index < 7 ? "5/6 câu đúng" : "4/6 câu đúng",
+      result: index < 3 ? "6/6 câu đúng" : index < 7 ? "5/6 câu đúng" : "4/6 câu đúng",
+      questionDetails: [
+        { number: 1, title: "Trong phân cấp ngân sách địa phương, khoản thu nào không thuộc ngân sách xã", userChoice: "A. Thu phí, lệ phí theo quy định", correctChoice: "A. Thu phí, lệ phí theo quy định", isCorrect: true },
+        { number: 2, title: "Yêu cầu không đúng khi quản lý thu phí, lệ phí", userChoice: "C. Để lại 100% không kê khai", correctChoice: "C. Để lại 100% không kê khai", isCorrect: true },
+        { number: 3, title: "Yêu cầu không đúng khi lập dự toán ngân sách xã", userChoice: "B. Lập dự toán không căn cứ vào kế hoạch", correctChoice: "B. Lập dự toán không căn cứ vào kế hoạch", isCorrect: true },
+        { number: 4, title: "Nội dung không đúng về sử dụng dự phòng ngân sách huyện", userChoice: "D. Tự ý chi ngoài dự toán", correctChoice: "D. Tự ý chi ngoài dự toán", isCorrect: true },
+        { number: 5, title: "Thẩm quyền quyết định sử dụng dự phòng ngân sách xã", userChoice: "A. Chủ tịch UBND xã", correctChoice: "A. Chủ tịch UBND xã", isCorrect: true },
+        { number: 6, title: "Cơ quan có quyền tạm đình chỉ chi ngân sách cấp xã", userChoice: index < 5 ? "C. Trưởng phòng Tài chính - Kế hoạch" : "B. Chủ tịch HĐND xã", correctChoice: "C. Trưởng phòng Tài chính - Kế hoạch", isCorrect: index < 5 }
+      ]
+    }));
+  } else if (session.id === 2) {
+    const correctSeq = ["3", "5", "1", "6", "4", "11", "9", "8", "10", "13", "2", "12", "7"];
+    session.topParticipants = names.map((name, index) => ({
+      rank: index + 1,
+      name,
+      unit: sampleUnits[index],
+      position: samplePositions[index],
+      submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 15, 5 + index * 10)).toISOString(),
+      scoreText: index === 0 ? "13/13 bước đúng" : index < 4 ? "12/13 bước đúng" : "11/13 bước đúng",
+      result: index === 0 ? "13/13 bước đúng" : index < 4 ? "12/13 bước đúng" : "11/13 bước đúng",
+      questionDetails: correctSeq.map((step, idx) => {
+        const isWrong = index > 0 && idx === 3;
+        const userStep = isWrong ? "4" : step;
+        return {
+          number: idx + 1,
+          title: `Vị trí ${idx + 1}`,
+          userChoice: `Bước ${userStep}: ${session.prompt?.items?.[Number(userStep) - 1] || ""}`,
+          correctChoice: `Bước ${step}: ${session.prompt?.items?.[Number(step) - 1] || ""}`,
+          isCorrect: !isWrong
+        };
+      })
+    }));
+  } else if (session.id === 3) {
+    session.topParticipants = names.map((name, index) => ({
+      rank: index + 1,
+      name,
+      unit: sampleUnits[index],
+      position: samplePositions[index],
       submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 14, 10 + index * 12)).toISOString(),
       scoreText: index < 5 ? "3/3 ý chuẩn" : "2/3 ý chuẩn",
       essay: `Xã A chưa đảm bảo công khai đầy đủ. Cần bổ sung công khai số liệu và thuyết minh dự toán ngân sách cấp xã trình HĐND xã; công khai thuyết minh quyết toán ngân sách đã được HĐND phê chuẩn. Đặc biệt tình hình thực hiện dự toán phải công khai theo các mốc 03 tháng, 06 tháng, 09 tháng và cả năm (mẫu số 03), không ghi chung hàng quý. (Bài làm mẫu học viên ${name})`,
@@ -321,6 +384,7 @@ function applyTopParticipants(session) {
       rank: index + 1,
       name,
       unit: sampleUnits[index],
+      position: samplePositions[index],
       submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 16, 5 + index * 15)).toISOString(),
       scoreText: index < 7 ? "2/2 ý chuẩn" : "1/2 ý chuẩn",
       essay: `Theo khoản 5 Điều 69 Luật Ngân sách nhà nước số 89/2025/QH15, khi đơn vị dự toán cấp I đồng thời là đơn vị sử dụng ngân sách thì lập báo cáo quyết toán gửi cơ quan tài chính để kiểm tra tính đầy đủ, khớp đúng với KBNN. Thủ trưởng đơn vị chịu trách nhiệm về quyết toán của đơn vị mình. (Bài làm mẫu học viên ${name})`,
@@ -337,6 +401,7 @@ function applyTopParticipants(session) {
       rank: index + 1,
       name,
       unit: sampleUnits[index],
+      position: samplePositions[index],
       submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 18, 20 + index * 10)).toISOString(),
       scoreText: index < 6 ? "2/2 ý chuẩn" : "1/2 ý chuẩn",
       essay: `Hồ sơ thừa và thiếu như sau: Thiếu trình Chủ tịch UBND xã quyết định tiêu chuẩn, định mức máy phát điện vì đây là thiết bị phục vụ hoạt động chung của cơ quan. Thừa hồ sơ trình UBND xã phê duyệt chủ trương và dự kiến kinh phí vì người đứng đầu đơn vị dự toán cấp I tự quyết định theo QĐ số 80/2026/QĐ-UBND. (Bài làm mẫu học viên ${name})`,
@@ -353,6 +418,7 @@ function applyTopParticipants(session) {
       rank: index + 1,
       name,
       unit: sampleUnits[index],
+      position: samplePositions[index],
       submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 20, 15 + index * 14)).toISOString(),
       scoreText: index < 4 ? "4/4 ý chuẩn" : index < 8 ? "3/4 ý chuẩn" : "2/4 ý chuẩn",
       essay: `Hồ sơ thừa thiếu gồm 4 điểm: 1. Trình Chủ tịch UBND xã (không phải tập thể UBND xã) quyết định tiêu chuẩn định mức. 2. Không trình UBND xã phê duyệt chủ trương (thuộc thẩm quyền người đứng đầu đơn vị cấp I theo QĐ 80/2026/QĐ-UBND). 3. Thừa bước thẩm định KHLCNT. 4. Thay QĐ chỉ định thầu bằng QĐ phê duyệt kết quả KQLCNT. (Bài làm mẫu học viên ${name})`,
@@ -371,6 +437,7 @@ function applyTopParticipants(session) {
       rank: index + 1,
       name,
       unit: sampleUnits[index],
+      position: samplePositions[index],
       submittedAt: new Date(Date.UTC(2026, 7, 31, 8, 22, 10 + index * 8)).toISOString(),
       scoreChoice: "70/70",
       scoreExplanation: `${7 - Math.floor(index / 3)}/7 giải thích đạt`,
