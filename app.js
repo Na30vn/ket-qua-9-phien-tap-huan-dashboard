@@ -660,7 +660,7 @@
     if (!total) return "";
     const participating = Number(session.participatingUnits || 0);
     const unmapped = Number(session.unmappedUnitResponses || 0);
-    return `<section class="content-grid unit-participation-section"><article class="panel full missing-units-panel"><div class="panel-heading"><div><p class="panel-kicker">THỐNG KÊ ĐƠN VỊ CHƯA THAM GIA</p><h3>${missing.length ? `${formatNumber.format(missing.length)} đơn vị chưa có bài` : "Tất cả đơn vị đã tham gia"}</h3></div><span class="type-pill">${formatNumber.format(participating)}/${formatNumber.format(total)} đơn vị đã tham gia</span></div>${unmapped ? `<p class="privacy-note" style="margin-top:0;">Có ${formatNumber.format(unmapped)} phản hồi mang tên đơn vị chưa khớp danh mục chuẩn.</p>` : ""}${missing.length ? `<details class="missing-units missing-units-expanded" data-ui-state="session-${session.id}-missing-units" open><summary><span class="missing-open">Thu gọn danh sách</span><span class="missing-closed">Xem danh sách chưa tham gia</span></summary><ol>${missing.map(unit => `<li>${escapeHtml(unit)}</li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ đơn vị trong danh mục</span>'}</article></section>`;
+    return `<section class="content-grid unit-participation-section"><article class="panel full missing-units-panel"><div class="panel-heading"><div><p class="panel-kicker">THỐNG KÊ ĐƠN VỊ CHƯA THAM GIA</p><h3>${missing.length ? `${formatNumber.format(missing.length)} đơn vị chưa có bài` : "Tất cả đơn vị đã tham gia"}</h3></div><span class="type-pill">${formatNumber.format(participating)}/${formatNumber.format(total)} đơn vị đã tham gia</span></div>${unmapped ? `<p class="privacy-note" style="margin-top:0;">Có ${formatNumber.format(unmapped)} phản hồi mang tên đơn vị chưa khớp danh mục chuẩn.</p>` : ""}${missing.length ? `<details class="missing-units missing-units-expanded" data-ui-state="session-${session.id}-missing-units" open><summary><span class="missing-open">Thu gọn danh sách</span><span class="missing-closed">Xem danh sách chưa tham gia</span></summary><ol class="missing-units-grid">${missing.map((unit, idx) => `<li><span class="unit-num">${idx + 1}.</span><span class="unit-name-text">${escapeHtml(unit)}</span></li>`).join("")}</ol></details>` : '<span class="all-units-badge">Đã đủ đơn vị trong danh mục</span>'}</article></section>`;
   }
 
   function renderMissingUnitsPanel(session) {
@@ -714,14 +714,23 @@
           ${questions.length ? `
             <div class="quiz-modal-list">
               ${questions.map(q => `
-                <div class="quiz-modal-item ${q.isCorrect ? "correct" : "incorrect"}">
-                  <div class="quiz-modal-qhead">
-                    <strong>Câu ${q.number}: ${escapeHtml(q.title)}</strong>
+                <div class="quiz-modal-card ${q.isCorrect ? "correct" : "incorrect"}">
+                  <div class="quiz-card-header">
+                    <span class="quiz-qnum">Câu ${q.number}</span>
+                    <strong class="quiz-qtitle">${escapeHtml(q.title)}</strong>
                     <span class="status-badge ${q.isCorrect ? "status-matched" : "status-unmatched"}">${q.isCorrect ? "✓ Đúng" : "✗ Sai"}</span>
                   </div>
-                  <div class="quiz-modal-choice">
-                    <span>Lựa chọn của học viên: <b>${escapeHtml(q.userChoice)}</b></span>
-                    ${!q.isCorrect && q.correctChoice ? `<br><small class="correct-text">Đáp án chuẩn: <b>${escapeHtml(q.correctChoice)}</b></small>` : ""}
+                  <div class="quiz-card-body">
+                    <div class="choice-line user-choice">
+                      <span class="choice-tag">Lựa chọn của học viên:</span>
+                      <strong>${escapeHtml(q.userChoice)}</strong>
+                    </div>
+                    ${!q.isCorrect && q.correctChoice ? `
+                      <div class="choice-line correct-choice">
+                        <span class="choice-tag">Đáp án chuẩn:</span>
+                        <strong>${escapeHtml(q.correctChoice)}</strong>
+                      </div>
+                    ` : ""}
                   </div>
                 </div>
               `).join("")}
@@ -747,8 +756,31 @@
           <div class="modal-scores"><span class="modal-score-pill">${escapeHtml(person.scoreText || person.result || "Đạt")}</span></div>
         </div>
         <div class="modal-section">
-          <h3>Trình tự học viên đã sắp xếp:</h3>
-          ${steps.length ? `<ol class="ordering-modal-list">${steps.map(step => `<li class="${step.isCorrect ? "correct" : "incorrect"}"><span class="ordering-position">${String(step.number).padStart(2, "0")}</span><div><strong>${escapeHtml(step.userChoice)}</strong>${!step.isCorrect ? `<small>Trình tự đúng: ${escapeHtml(step.correctChoice)}</small>` : ""}</div><span class="status-badge ${step.isCorrect ? "status-matched" : "status-unmatched"}">${step.isCorrect ? "Đúng vị trí" : "Sai vị trí"}</span></li>`).join("")}</ol>` : `<div class="modal-essay-box">Chưa có chi tiết trình tự. Hãy cập nhật phiên bản API mới để hiển thị từng bước.</div>`}
+          <h3>Chi tiết trình tự 13 bước đã sắp xếp:</h3>
+          ${steps.length ? `
+            <div class="ordering-modal-list">
+              ${steps.map(step => `
+                <div class="ordering-modal-card ${step.isCorrect ? "correct" : "incorrect"}">
+                  <div class="ordering-card-header">
+                    <span class="ordering-pos-badge">Vị trí ${String(step.number).padStart(2, "0")}</span>
+                    <span class="status-badge ${step.isCorrect ? "status-matched" : "status-unmatched"}">${step.isCorrect ? "✓ Đúng vị trí" : "✗ Sai vị trí"}</span>
+                  </div>
+                  <div class="ordering-card-body">
+                    <div class="step-line user-step">
+                      <span class="step-tag">Học viên xếp:</span>
+                      <strong>${escapeHtml(step.userChoice)}</strong>
+                    </div>
+                    ${!step.isCorrect ? `
+                      <div class="step-line correct-step">
+                        <span class="step-tag">Vị trí này đúng là:</span>
+                        <strong>${escapeHtml(step.correctChoice)}</strong>
+                      </div>
+                    ` : ""}
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          ` : `<div class="modal-essay-box">Chưa có chi tiết trình tự. Hãy cập nhật phiên bản API mới để hiển thị từng bước.</div>`}
         </div>`;
     } else if (isSession6) {
       const questions = person.questionDetails || [];
