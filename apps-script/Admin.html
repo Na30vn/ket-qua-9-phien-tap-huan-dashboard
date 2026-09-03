@@ -37,7 +37,15 @@
     .meta { font-size: 13px; margin-top: 5px; }
     .timer-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
     .timer-controls input { width: 88px; }
+    .duration-field { display: grid; gap: 4px; color: #35536f; font-size: 12px; font-weight: 800; }
+    .duration-input { position: relative; display: block; }
+    .duration-input input { width: 100%; padding-right: 48px; }
+    .duration-input b { position: absolute; top: 50%; right: 11px; transform: translateY(-50%); color: #60768c; pointer-events: none; }
     .timer-countdown { display: block; margin-top: 6px; color: #a14f00; font-size: 16px; font-weight: 900; }
+    .action-feedback { margin: 0 0 10px; padding: 9px 11px; border-radius: 8px; font-size: 13px; font-weight: 800; }
+    .action-feedback.pending { color: #6d3c00; background: #fff4d8; }
+    .action-feedback.success { color: #07543d; background: #d8f4e7; }
+    .action-feedback.error { color: #8a241c; background: #fde8e6; }
     #notice { min-height: 24px; margin: 12px 2px; font-weight: 700; }
     body.compact { background: #f3f6f9; }
     body.compact main { width: 100%; margin: 0; padding: 12px; }
@@ -76,13 +84,17 @@
   const scheduleFilter = document.getElementById('schedule-filter');
   let loadTimeout;
   let countdownExpired = false;
+  let actionFeedback = null;
   if (requestedView === 'compact') document.body.classList.add('compact');
 
   function escapeHtml(value) { return String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char])); }
   function setBusy(isBusy, message) { document.querySelectorAll('button').forEach(button => button.disabled = isBusy); notice.textContent = message || ''; }
   function fail(error) {
     clearTimeout(loadTimeout);
-    setBusy(false, error && error.message ? error.message : String(error));
+    const message = error && error.message ? error.message : String(error);
+    actionFeedback = { kind: 'error', message };
+    if (window.lastAdminData) render(window.lastAdminData);
+    setBusy(false, message);
   }
   function load() {
     clearTimeout(loadTimeout);
@@ -103,6 +115,9 @@
       { key: '6-9-morning', date: '6/9', period: 'Sáng', label: 'Tài sản công', ids: [9] }
     ];
     const sessionRows = new Map(data.sessions.map(session => [Number(session.id), session]));
+    const feedbackHtml = session => actionFeedback && Number(actionFeedback.sessionId || session.id) === Number(session.id)
+      ? `<div class="action-feedback ${actionFeedback.kind}">${escapeHtml(actionFeedback.message)}</div>` : '';
+    const phaseLabel = session => session.phase === 'CLOSED' ? 'Đã chốt' : session.phase === 'TIMED' ? 'Đang đếm ngược' : 'Chưa bắt đầu';
     const renderRow = session => {
       const closed = session.phase === 'CLOSED';
       const count = closed ? session.totalResponses : session.currentResponses;
@@ -111,8 +126,8 @@
       const timerStatus = timed ? `<span class="timer-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span>` : '';
       const controls = closed
         ? `<button data-action="reopen" data-id="${session.id}" type="button">Mở lại</button>`
-        : `<div class="timer-controls"><input data-duration type="number" min="0.1" max="10080" step="0.1" value="15" aria-label="Số phút Phiên ${session.id}"><button data-action="timer" data-id="${session.id}" type="button">${timed ? 'Đặt lại giờ' : 'Bắt đầu'}</button><button class="primary" data-action="close" data-id="${session.id}" type="button">Kết thúc ngay</button></div>`;
-      return `<tr id="session-${session.id}"><td><strong>Phiên ${session.id}</strong><div class="meta">${escapeHtml(session.description)}</div></td><td><span class="status">${closed ? 'Đã chốt' : timed ? 'Đang đếm ngược' : 'Đang nhận bài'}</span>${timerStatus}${closed && session.closedAt ? `<div class="meta">${new Date(session.closedAt).toLocaleString('vi-VN')}</div>` : ''}</td><td><strong>${Number(count || 0).toLocaleString('vi-VN')} bài</strong>${late}</td><td>${controls}</td><td><button data-action="export" data-id="${session.id}" type="button">Xuất Phiên ${session.id}</button></td></tr>`;
+        : `<div class="timer-controls"><label class="duration-field">Thời gian làm bài (phút)<input data-duration type="number" min="0.1" max="10080" step="0.1" value="15" aria-label="Số phút Phiên ${session.id}"></label><button data-action="timer" data-id="${session.id}" type="button">${timed ? 'Đặt lại giờ' : 'Bắt đầu'}</button><button class="primary" data-action="close" data-id="${session.id}" type="button">Kết thúc ngay</button></div>`;
+      return `<tr id="session-${session.id}"><td><strong>Phiên ${session.id}</strong><div class="meta">${escapeHtml(session.description)}</div></td><td><span class="status">${phaseLabel(session)}</span>${timerStatus}${closed && session.closedAt ? `<div class="meta">${new Date(session.closedAt).toLocaleString('vi-VN')}</div>` : ''}</td><td><strong>${Number(count || 0).toLocaleString('vi-VN')} bài</strong>${late}</td><td>${feedbackHtml(session)}${controls}</td><td><button data-action="export" data-id="${session.id}" type="button">Xuất Phiên ${session.id}</button></td></tr>`;
     };
     if (requestedView === 'compact') {
       const session = sessionRows.get(Number(requestedSession));
@@ -120,7 +135,7 @@
       const closed = session.phase === 'CLOSED';
       const count = closed ? session.totalResponses : session.currentResponses;
       const timed = !closed && Boolean(session.timerEndsAt);
-      body.innerHTML = `<section class="compact-card"><div class="compact-card-top"><h2>Phiên ${session.id}</h2><span class="status">${closed ? 'Đã chốt' : timed ? 'Đang đếm ngược' : 'Đang nhận bài'}</span></div><p>${escapeHtml(session.description)}</p>${timed ? `<span class="timer-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span>` : ''}<div class="compact-count"><strong>${Number(count || 0).toLocaleString('vi-VN')}</strong><span>bài hiện tại</span></div>${closed ? `<button class="primary-action" data-action="reopen" data-id="${session.id}" type="button">Mở lại phiên</button>` : `<div class="compact-timer"><input data-duration type="number" min="0.1" max="10080" step="0.1" value="15" aria-label="Số phút"><button data-action="timer" data-id="${session.id}" type="button">${timed ? 'Đặt lại' : 'Bắt đầu'}</button></div><button class="primary-action primary" data-action="close" data-id="${session.id}" type="button">Kết thúc ngay</button>`}</section>`;
+      body.innerHTML = `<section class="compact-card"><div class="compact-card-top"><h2>Phiên ${session.id}</h2><span class="status">${phaseLabel(session)}</span></div><p>${escapeHtml(session.description)}</p>${timed ? `<span class="timer-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span>` : ''}<div class="compact-count"><strong>${Number(count || 0).toLocaleString('vi-VN')}</strong><span>bài hiện tại</span></div>${feedbackHtml(session)}${closed ? `<button class="primary-action" data-action="reopen" data-id="${session.id}" type="button">Mở lại phiên</button>` : `<div class="compact-timer"><label class="duration-field">Thời gian làm bài<span class="duration-input"><input data-duration type="number" min="0.1" max="10080" step="0.1" value="15" aria-label="Thời gian làm bài tính bằng phút"><b>phút</b></span></label><button data-action="timer" data-id="${session.id}" type="button">${timed ? 'Đặt lại' : 'Bắt đầu'}</button></div><button class="primary-action primary" data-action="close" data-id="${session.id}" type="button">Kết thúc ngay</button>`}</section>`;
       body.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', act));
       updateCountdowns();
       return;
@@ -140,6 +155,8 @@
       const input = button.parentElement.querySelector('[data-duration]');
       const minutes = Number(input && input.value);
       if (!(minutes > 0)) { fail(new Error('Hãy nhập số phút lớn hơn 0.')); return; }
+      actionFeedback = { kind: 'pending', sessionId: id, message: `Đang bắt đầu ${minutes} phút…` };
+      if (window.lastAdminData) render(window.lastAdminData);
       setBusy(true, `Đang bắt đầu đếm ngược Phiên ${id}…`);
       google.script.run.withSuccessHandler(result => mutationDone(result)).withFailureHandler(fail).startDashboardSessionTimer(id, minutes);
     } else if (action === 'close') {
@@ -176,8 +193,14 @@
     if (!hasExpired) countdownExpired = false;
   }
   function mutationDone(result) {
+    clearTimeout(loadTimeout);
+    if (!result || !result.sessionId) { fail(new Error('Apps Script không trả về kết quả cập nhật.')); return; }
+    const session = window.lastAdminData && window.lastAdminData.sessions.find(item => Number(item.id) === Number(result.sessionId));
+    if (session) Object.assign(session, result);
+    const endText = result.timerEndsAt ? ` · kết thúc lúc ${new Date(result.timerEndsAt).toLocaleTimeString('vi-VN')}` : '';
+    actionFeedback = { kind: 'success', sessionId: result.sessionId, message: result.phase === 'TIMED' ? `Đã bắt đầu ${result.durationMinutes} phút${endText}` : 'Đã cập nhật trạng thái phiên.' };
+    if (window.lastAdminData) render(window.lastAdminData); else load();
     if (requestedView === 'compact') parent.postMessage({ type: 'dashboard-session-updated', sessionId: result.sessionId, phase: result.phase }, '*');
-    load();
   }
   function openReport(result) { setBusy(false, `Đã tạo ${result.name}. Nếu tệp chưa tự tải, trình duyệt có thể đang chặn cửa sổ bật lên.`); window.open(result.downloadUrl, '_blank', 'noopener'); }
   refreshButton.addEventListener('click', load);

@@ -240,7 +240,9 @@ function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
   rawValues.shift();
   const allEntries = displayValues.map((display, index) => ({ display, raw: rawValues[index] || [] }))
     .filter(entry => entry.display.some(cell => String(cell).trim() !== ''));
-  const phase = controlState && controlState.status === 'CLOSED' ? 'CLOSED' : 'LIVE';
+  const phase = controlState && ['NOT_STARTED', 'TIMED', 'CLOSED'].indexOf(controlState.status) >= 0
+    ? controlState.status
+    : 'NOT_STARTED';
   const closedAt = phase === 'CLOSED' ? controlState.closedAt : null;
   const entries = closedAt
     ? allEntries.filter(entry => isAtOrBeforeCutoff_(entry.raw[0], entry.display[0], closedAt))
@@ -258,8 +260,8 @@ function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
     prompt: config.prompt || null,
     phase,
     closedAt: closedAt ? closedAt.toISOString() : null,
-    timerStartedAt: phase === 'LIVE' && controlState && controlState.timerStartedAt ? controlState.timerStartedAt.toISOString() : null,
-    timerEndsAt: phase === 'LIVE' && controlState && controlState.timerEndsAt ? controlState.timerEndsAt.toISOString() : null,
+    timerStartedAt: phase === 'TIMED' && controlState && controlState.timerStartedAt ? controlState.timerStartedAt.toISOString() : null,
+    timerEndsAt: phase === 'TIMED' && controlState && controlState.timerEndsAt ? controlState.timerEndsAt.toISOString() : null,
     currentResponses: allEntries.length,
     lateResponses: Math.max(0, allEntries.length - rows.length),
     totalResponses: rows.length,
@@ -618,7 +620,7 @@ function sanitizePublicText_(value) {
 function getDashboardControl_(spreadsheet) {
   const defaults = {};
   SESSION_CONFIG.forEach(config => {
-    defaults[config.id] = { status: 'LIVE', closedAt: null, closedCount: null, timerStartedAt: null, timerEndsAt: null };
+    defaults[config.id] = { status: 'NOT_STARTED', closedAt: null, closedCount: null, timerStartedAt: null, timerEndsAt: null };
   });
   const sheet = spreadsheet.getSheetByName(CONTROL_SHEET_NAME);
   if (!sheet || sheet.getLastRow() < 2) return defaults;
@@ -631,10 +633,12 @@ function getDashboardControl_(spreadsheet) {
     const storedEndAt = toDate_(row[2]);
     const timerStartedAt = toDate_(row[4]);
     const timerExpired = rawStatus === 'TIMED' && storedEndAt && storedEndAt.getTime() <= Date.now();
-    const status = rawStatus === 'CLOSED' || timerExpired ? 'CLOSED' : 'LIVE';
+    const status = rawStatus === 'CLOSED' || timerExpired
+      ? 'CLOSED'
+      : rawStatus === 'TIMED' ? 'TIMED' : 'NOT_STARTED';
     const closedAt = status === 'CLOSED' ? storedEndAt : null;
     defaults[id] = {
-      status: closedAt ? 'CLOSED' : 'LIVE',
+      status,
       closedAt,
       closedCount: Number(row[3]) || null,
       timerStartedAt: rawStatus === 'TIMED' && !timerExpired ? timerStartedAt : null,

@@ -130,8 +130,13 @@ assert.deepEqual(JSON.parse(JSON.stringify(aliasStats.unitBreakdown)), [{ unit: 
 const futureClose = new Date("2099-01-01T00:00:00.000Z");
 controlRows[0] = ["Phiên 1", "TIMED", futureClose, "", new Date("2098-12-31T23:45:00.000Z")];
 const timedData = context.__getDashboardData(true);
-assert.equal(timedData.sessions[0].phase, "LIVE");
+assert.equal(timedData.sessions[0].phase, "TIMED");
 assert.equal(timedData.sessions[0].timerEndsAt, futureClose.toISOString());
+
+controlRows[0] = ["Phiên 1", "NOT_STARTED", "", "", ""];
+const notStartedData = context.__getDashboardData(true);
+assert.equal(notStartedData.sessions[0].phase, "NOT_STARTED");
+assert.equal(notStartedData.sessions[0].timerEndsAt, null);
 
 const pastClose = new Date("2020-01-01T00:00:00.000Z");
 controlRows[0] = ["Phiên 1", "TIMED", pastClose, "", new Date("2019-12-31T23:45:00.000Z")];

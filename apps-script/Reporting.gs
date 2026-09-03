@@ -66,7 +66,7 @@ function startDashboardSessionTimer(sessionId, durationMinutes) {
   controlSheet.getRange(id + 1, 2, 1, 4).setValues([['TIMED', closeAt, '', startedAt]]);
   ensureDashboardTimerTrigger_();
   clearDashboardCache_();
-  return { ok: true, sessionId: id, phase: 'LIVE', timerStartedAt: startedAt.toISOString(), timerEndsAt: closeAt.toISOString() };
+  return { ok: true, sessionId: id, phase: 'TIMED', durationMinutes: minutes, timerStartedAt: startedAt.toISOString(), timerEndsAt: closeAt.toISOString() };
 }
 
 function reopenDashboardSession(sessionId) {
@@ -74,9 +74,9 @@ function reopenDashboardSession(sessionId) {
   const id = validateSessionId_(sessionId);
   const spreadsheet = openDashboardSpreadsheet_();
   const controlSheet = ensureDashboardControlSheet_(spreadsheet);
-  controlSheet.getRange(id + 1, 2, 1, 4).setValues([['LIVE', '', '', '']]);
+  controlSheet.getRange(id + 1, 2, 1, 4).setValues([['NOT_STARTED', '', '', '']]);
   clearDashboardCache_();
-  return { ok: true, sessionId: id, phase: 'LIVE' };
+  return { ok: true, sessionId: id, phase: 'NOT_STARTED' };
 }
 
 /** Chạy bằng trigger mỗi phút; cutoff vẫn dùng đúng mốc tuyệt đối đã lưu. */
@@ -237,7 +237,7 @@ function ensureDashboardControlSheet_(spreadsheet) {
   const values = SESSION_CONFIG.map((config, index) => {
     const row = existing[index] || [];
     const rawStatus = String(row[1] || '').toUpperCase();
-    const status = rawStatus === 'CLOSED' || rawStatus === 'TIMED' ? rawStatus : 'LIVE';
+    const status = rawStatus === 'CLOSED' || rawStatus === 'TIMED' ? rawStatus : 'NOT_STARTED';
     return [config.name, status, row[2] || '', row[3] || '', row[4] || ''];
   });
   sheet.getRange(2, 1, values.length, CONTROL_HEADERS.length).setValues(values);

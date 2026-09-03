@@ -6,7 +6,7 @@ const vm = require("node:vm");
 const source = fs.readFileSync(path.join(__dirname, "..", "apps-script", "Reporting.gs"), "utf8");
 const table = [
   ["Phiên", "Trạng thái", "Thời gian kết thúc/chốt", "Số bài lúc chốt", "Bắt đầu đếm ngược"],
-  ...Array.from({ length: 9 }, (_, index) => [`Phiên ${index + 1}`, "LIVE", "", "", ""])
+  ...Array.from({ length: 9 }, (_, index) => [`Phiên ${index + 1}`, "NOT_STARTED", "", "", ""])
 ];
 
 function rangeFor(row, column, rowCount, columnCount) {
@@ -81,6 +81,8 @@ vm.runInContext(`${source}\nthis.__start = startDashboardSessionTimer; this.__pr
 
 const started = context.__start(1, 1);
 assert.equal(table[1][1], "TIMED");
+assert.equal(started.phase, "TIMED");
+assert.equal(started.durationMinutes, 1);
 assert.ok(new Date(started.timerEndsAt).getTime() > Date.now());
 assert.equal(triggerCreated, 1);
 
@@ -92,7 +94,7 @@ assert.equal(table[1][3], 1);
 assert.equal(context.__process().closed.length, 0);
 
 context.__reopen(1);
-assert.deepEqual(table[1].slice(1, 5), ["LIVE", "", "", ""]);
+assert.deepEqual(table[1].slice(1, 5), ["NOT_STARTED", "", "", ""]);
 const closed = context.__close(1);
 assert.equal(closed.phase, "CLOSED");
 assert.equal(context.__close(1).alreadyClosed, true);

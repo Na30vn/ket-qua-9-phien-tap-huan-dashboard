@@ -22,8 +22,8 @@
   const formatNumber = new Intl.NumberFormat("vi-VN");
   const urlParams = new URLSearchParams(location.search);
   const fakeMode = urlParams.get("demo") === "1";
-  const fakePhase = fakeMode && ["live", "closed"].includes(urlParams.get("trangthai"))
-    ? urlParams.get("trangthai").toUpperCase()
+  const fakePhase = fakeMode && ["live", "timed", "not_started", "closed"].includes(urlParams.get("trangthai"))
+    ? (urlParams.get("trangthai") === "live" ? "NOT_STARTED" : urlParams.get("trangthai").toUpperCase())
     : "";
   const fakeTimerMinutes = fakeMode ? Math.max(0, Number(urlParams.get("demotimer") || 0)) : 0;
   const requestedFakeTimerEnd = fakeMode ? Number(urlParams.get("democloseat") || 0) : 0;
@@ -95,7 +95,16 @@
       }
       return demoState.phase;
     }
-    return fakePhase || (session.phase === "LIVE" ? "LIVE" : "CLOSED");
+    if (fakePhase) return fakePhase;
+    if (session.phase === "CLOSED") return "CLOSED";
+    if (session.phase === "TIMED" || session.timerEndsAt) return "TIMED";
+    return "NOT_STARTED";
+  }
+
+  function phaseLabel(phase) {
+    if (phase === "CLOSED") return "Đã chốt";
+    if (phase === "TIMED") return "Đang đếm ngược";
+    return "Chưa bắt đầu";
   }
 
   function getDemoSessionState(session) {
@@ -104,7 +113,7 @@
     if (!demoSessionStates.has(id)) {
       const hasInitialTimer = id === fakeTimerSessionId && Boolean(fakeTimerEndsAt);
       demoSessionStates.set(id, {
-        phase: hasInitialTimer ? (Date.now() < fakeTimerEndsAt ? "LIVE" : "CLOSED") : (fakePhase || session.phase || "CLOSED"),
+        phase: hasInitialTimer ? (Date.now() < fakeTimerEndsAt ? "TIMED" : "CLOSED") : (fakePhase || (session.phase === "CLOSED" ? "CLOSED" : "NOT_STARTED")),
         closedAt: hasInitialTimer && Date.now() >= fakeTimerEndsAt ? fakeTimerEndsAt : (session.closedAt ? new Date(session.closedAt).getTime() : 0),
         timerStartedAt: hasInitialTimer ? fakeTimerStartedAt : 0,
         timerEndsAt: hasInitialTimer && Date.now() < fakeTimerEndsAt ? fakeTimerEndsAt : 0
@@ -176,7 +185,7 @@
         <div><p class="section-kicker">KẾT QUẢ PHIÊN ${session.id}</p><h2>${escapeHtml(session.description || session.name)}</h2></div>
         <div class="section-tools">
           <button class="session-qr" type="button" data-open-qr="${session.id}" aria-label="Phóng to mã QR Phiên ${session.id}"><img src="assets/qr/session-${session.id}.png" alt=""><span><small>MÃ QR LÀM BÀI</small><strong>Phiên ${session.id}</strong><em>Nhấn để phóng to</em></span></button>
-          <div class="section-badges"><span class="phase-pill phase-${phase.toLowerCase()}">${phase === "LIVE" ? "Đang nhận bài" : "Đã chốt"}</span><span class="type-pill">${escapeHtml(session.typeLabel)}</span></div>
+          <div class="section-badges"><span class="phase-pill phase-${phase.toLowerCase()}">${phaseLabel(phase)}</span><span class="type-pill">${escapeHtml(session.typeLabel)}</span></div>
         </div>
       </section>
       ${renderClosedViewSwitch(phase, showingClosedLivePreview)}
@@ -211,7 +220,7 @@
     const closed = phase === "CLOSED";
     const timed = !closed && Boolean(session.timerEndsAt);
     const count = closed ? session.totalResponses : (session.currentResponses ?? session.totalResponses ?? 0);
-    demoControl.innerHTML = `<section class="demo-control-card"><div class="demo-control-status"><span>CHẾ ĐỘ DEMO · KHÔNG ẢNH HƯỞNG DỮ LIỆU THẬT</span><b>${closed ? "Đã chốt giả lập" : timed ? "Đang đếm ngược giả lập" : "Đang nhận bài giả lập"}</b></div>${timed ? `<strong class="demo-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</strong>` : ""}<div class="demo-control-count"><strong>${formatNumber.format(count)}</strong><span>bài giả lập</span></div>${closed ? `<button type="button" data-demo-action="reopen">Mở lại phiên demo</button>` : `<label>Thời gian làm bài (phút)<input type="number" min="0.1" max="10080" step="0.1" value="15" data-demo-duration></label><button type="button" data-demo-action="timer">${timed ? "Đặt lại giờ demo" : "Bắt đầu đếm ngược"}</button><button class="demo-close-now" type="button" data-demo-action="close">Kết thúc ngay bản demo</button>`}</section>`;
+    demoControl.innerHTML = `<section class="demo-control-card"><div class="demo-control-status"><span>CHẾ ĐỘ DEMO · KHÔNG ẢNH HƯỞNG DỮ LIỆU THẬT</span><b>${closed ? "Đã chốt giả lập" : timed ? "Đang đếm ngược giả lập" : "Chưa bắt đầu giả lập"}</b></div>${timed ? `<strong class="demo-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</strong>` : ""}<div class="demo-control-count"><strong>${formatNumber.format(count)}</strong><span>bài giả lập</span></div>${closed ? `<button type="button" data-demo-action="reopen">Mở lại phiên demo</button>` : `<label>Thời gian làm bài <span>(phút)</span><input type="number" min="0.1" max="10080" step="0.1" value="15" data-demo-duration aria-label="Thời gian làm bài tính bằng phút"></label><button type="button" data-demo-action="timer">${timed ? "Đặt lại giờ demo" : "Bắt đầu đếm ngược"}</button><button class="demo-close-now" type="button" data-demo-action="close">Kết thúc ngay bản demo</button>`}</section>`;
     demoControl.querySelectorAll("[data-demo-action]").forEach(button => button.addEventListener("click", () => mutateDemoSession(session, button.dataset.demoAction)));
     updateCountdowns();
   }
@@ -223,7 +232,7 @@
       const minutes = Number(demoControl.querySelector("[data-demo-duration]")?.value);
       if (!(minutes > 0)) return;
       timerMinutes = minutes;
-      state.phase = "LIVE";
+      state.phase = "TIMED";
       state.closedAt = 0;
       state.timerStartedAt = Date.now();
       state.timerEndsAt = state.timerStartedAt + minutes * 60000;
@@ -233,7 +242,7 @@
       state.timerStartedAt = 0;
       state.timerEndsAt = 0;
     } else if (action === "reopen") {
-      state.phase = "LIVE";
+      state.phase = "NOT_STARTED";
       state.closedAt = 0;
       state.timerStartedAt = 0;
       state.timerEndsAt = 0;
@@ -284,8 +293,8 @@
   }
 
   function renderPhaseNotice(session, phase, showingLivePreview) {
-    if (phase === "LIVE") {
-      if (!session.timerEndsAt) return "";
+    if (phase !== "CLOSED") {
+      if (!session.timerEndsAt) return `<div class="phase-notice live-notice"><strong>Phiên chưa bắt đầu</strong><span>Nhấn “Bắt đầu” trong bảng điều khiển để chạy thời gian làm bài.</span></div>`;
       return `<div class="phase-notice timer-notice"><strong>Phiên đang đếm ngược</strong><span class="public-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span></div>`;
     }
     const closedAt = session.closedAt ? new Date(session.closedAt).toLocaleString("vi-VN") : "theo dữ liệu mô phỏng";
@@ -330,7 +339,7 @@
   }
 
   function renderMetrics(session, phase, showingClosedLivePreview = false) {
-    if (phase === "LIVE") {
+    if (phase !== "CLOSED") {
       const responseCount = showingClosedLivePreview ? session.totalResponses : (session.currentResponses ?? session.totalResponses ?? 0);
       const responseNote = showingClosedLivePreview ? "Số bài tại thời điểm chốt" : "Cập nhật theo phản hồi mới";
       return `<section class="metrics metrics-2">${metric("Số bài đã nhận", formatNumber.format(responseCount || 0), responseNote)}${metric("Đơn vị tham gia", formatUnitParticipation(session), unitParticipationNote(session))}</section>`;
@@ -373,7 +382,7 @@
 
   function renderSessionContent(session, phase) {
     if (session.error) return `<div class="empty">${escapeHtml(session.error)}</div>`;
-    const live = phase === "LIVE";
+    const live = phase !== "CLOSED";
     let content;
     if (session.kind === "quiz") content = live ? renderLiveQuiz(session) : renderQuizDashboard(session);
     else if (session.kind === "ordering") content = live ? renderLiveOrdering(session) : renderOrderingDashboard(session);
@@ -569,9 +578,11 @@
   });
   window.addEventListener("message", event => {
     if (event.source !== controlFrame.contentWindow || event.data?.type !== "dashboard-session-updated") return;
-    controlPanel.hidden = true;
-    controlFab.setAttribute("aria-expanded", "false");
-    controlFab.textContent = "+";
+    if (event.data.phase !== "TIMED") {
+      controlPanel.hidden = true;
+      controlFab.setAttribute("aria-expanded", "false");
+      controlFab.textContent = "+";
+    }
     loadData(true);
   });
   loadData();
