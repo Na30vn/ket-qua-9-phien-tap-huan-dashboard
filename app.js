@@ -588,7 +588,31 @@
     const ordering = session.ordering || {};
     const positions = ordering.positionAccuracy || [];
     const correctSteps = ordering.correctSteps || String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => ({ position: index + 1, step: step.trim(), text: session.prompt?.items?.[Number(step) - 1] || "" }));
-    return `<section class="content-grid ordering-dashboard">${renderPromptCard(session, true)}<article class="panel full reference-panel ordering-reference-panel">${panelHeading("Trình tự đúng", "13 bước theo thứ tự thực hiện")}<ol class="correct-step-list correct-step-list-compact">${correctSteps.map(item => `<li><span>${String(item.position).padStart(2, "0")}</span><div><small>Bước ${escapeHtml(item.step)}</small><strong>${escapeHtml(item.text || "Chưa có nội dung bước")}</strong></div></li>`).join("")}</ol></article><article class="panel full">${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}<div class="horizontal-chart position-chart">${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}</div></article><article class="panel full">${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}${renderWrongSequences(ordering.commonSequences || [])}</article></section>`;
+    return `<section class="content-grid ordering-dashboard">
+      ${renderPromptCard(session, true)}
+      <article class="panel full reference-panel ordering-reference-panel">
+        ${panelHeading("Trình tự đúng quy trình (13 bước)", "Các bước theo thứ tự thực hiện chuẩn từ Bước 1 đến Bước 13")}
+        <div class="ordering-ref-list correct-step-list">
+          ${correctSteps.map(item => `
+            <div class="ordering-ref-row">
+              <span class="ordering-ref-pos">Vị trí ${String(item.position).padStart(2, "0")}</span>
+              <span class="ordering-ref-step">Bước ${escapeHtml(item.step)}</span>
+              <strong class="ordering-ref-text">${escapeHtml(item.text || "Chưa có nội dung bước")}</strong>
+            </div>
+          `).join("")}
+        </div>
+      </article>
+      <article class="panel full">
+        ${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}
+        <div class="horizontal-chart position-chart">
+          ${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}
+        </div>
+      </article>
+      <article class="panel full">
+        ${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}
+        ${renderWrongSequences(ordering.commonSequences || [])}
+      </article>
+    </section>`;
   }
 
   function renderOrderingSample(value, index) {
@@ -636,14 +660,39 @@
     const responses = live ? (session.liveResponses || (session.responses || []).slice(0, 10)) : (session.responses || []);
     const normalizedSearch = normalizeText(responseSearch);
     const filtered = live ? responses : responses.filter(text => normalizeText(text).includes(normalizedSearch));
-    const responseBlock = filtered.length ? `<details class="responses-disclosure" data-ui-state="session-${session.id}-responses" ${responseSearch ? "open" : ""}><summary><span>${live ? "Xem phản hồi đang nhận" : `Xem ${filtered.length} câu trả lời`}</span><small>${live ? "Tối đa 10 phản hồi đầu tiên" : "Bấm để mở hoặc thu gọn danh sách"}</small></summary><div class="response-list open-response-list">${filtered.map((text, index) => `<article class="open-response-card"><header><span>Phản hồi ${index + 1}</span></header><p>${escapeHtml(text)}</p></article>`).join("")}</div></details>` : renderInlineEmpty(responses.length ? "Không tìm thấy phản hồi phù hợp." : "Chưa có phản hồi. Dashboard sẽ tự cập nhật khi có dữ liệu.");
-    return `<section class="content-grid open-dashboard">${renderPromptCard(session)}${live ? "" : `<article class="panel full reference-panel">${panelHeading("Gợi ý / đáp án tham chiếu", "Dùng để đối chiếu và trao đổi tại lớp")}${reference.length ? `<ol class="reference-list">${reference.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : renderInlineEmpty("Chưa có nội dung tham chiếu.")}</article>`}<article class="panel full ${live ? "panel-primary" : ""}"><div class="panel-heading panel-heading-actions"><div><p class="panel-kicker">PHẢN HỒI HỌC VIÊN</p><h3>${live ? "Phản hồi đang nhận" : `Danh sách câu trả lời (${filtered.length}/${responses.length})`}</h3></div>${live ? '<span>Nội dung phản hồi được hiển thị ẩn danh</span>' : `<label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>`}</div><p class="privacy-note">Danh sách được thu gọn mặc định để dễ theo dõi. Nội dung phản hồi hiển thị ẩn danh.</p>${responseBlock}</article></section>`;
+    const responseBlock = filtered.length ? `
+      <details class="responses-disclosure" data-ui-state="session-${session.id}-responses" open>
+        <summary>
+          <span>${live ? "Các bài nộp đang nhận trực tiếp" : `Xem ${filtered.length} câu trả lời`}</span>
+          <small>${live ? "Tự động cập nhật các bài nộp mới nhất" : "Bấm để mở hoặc thu gọn danh sách"}</small>
+        </summary>
+        <div class="response-list open-response-list">
+          ${filtered.map((text, index) => `<article class="open-response-card"><header><span>Phản hồi #${index + 1}</span></header><p>${escapeHtml(text)}</p></article>`).join("")}
+        </div>
+      </details>
+    ` : renderInlineEmpty(responses.length ? "Không tìm thấy phản hồi phù hợp." : "Chưa có phản hồi. Dashboard sẽ tự cập nhật khi học viên gửi bài.");
+
+    return `<section class="content-grid open-dashboard">
+      ${renderPromptCard(session)}
+      ${live ? "" : `<article class="panel full reference-panel">${panelHeading("Gợi ý / đáp án tham chiếu", "Dùng để đối chiếu và trao đổi tại lớp")}${reference.length ? `<ol class="reference-list">${reference.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : renderInlineEmpty("Chưa có nội dung tham chiếu.")}</article>`}
+      <article class="panel full ${live ? "panel-primary live-monitoring-panel" : ""}">
+        <div class="panel-heading panel-heading-actions">
+          <div>
+            <p class="panel-kicker">${live ? "TRỰC TIẾP LÚC NHẬN BÀI" : "PHẢN HỒI HỌC VIÊN"}</p>
+            <h3>${live ? "Hệ thống đang nhận bài làm của học viên..." : `Danh sách câu trả lời (${filtered.length}/${responses.length})`}</h3>
+          </div>
+          ${live ? '<span class="live-indicator-badge">🟢 Đang tự động cập nhật phản hồi mới</span>' : `<label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>`}
+        </div>
+        <p class="privacy-note">${live ? "Nội dung học viên gửi sẽ xuất hiện ngay lập tức bên dưới (hiển thị ẩn danh)." : "Danh sách được thu gọn mặc định để dễ theo dõi. Nội dung phản hồi hiển thị ẩn danh."}</p>
+        ${responseBlock}
+      </article>
+    </section>`;
   }
 
   function renderPromptCard(session, compact = false) {
     const prompt = session.prompt;
     if (!prompt) return "";
-    const body = `${(prompt.paragraphs || []).map(text => `<p>${escapeHtml(text)}</p>`).join("")}${(prompt.items || []).length ? `<ol class="prompt-list">${prompt.items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : ""}${prompt.question ? `<div class="prompt-question"><span>Câu hỏi</span><strong>${escapeHtml(prompt.question)}</strong></div>` : ""}${prompt.instruction ? `<p class="prompt-instruction"><strong>Cách nhập:</strong> ${escapeHtml(prompt.instruction)}</p>` : ""}`;
+    const body = `${(prompt.paragraphs || []).map(text => `<p>${escapeHtml(text)}</p>`).join("")}${(prompt.items || []).length ? `<div class="prompt-items-list">${prompt.items.map((item, index) => `<div class="prompt-item-row"><span class="prompt-item-badge">${index + 1}</span><span class="prompt-item-text">${escapeHtml(item)}</span></div>`).join("")}</div>` : ""}${prompt.question ? `<div class="prompt-question"><span>Câu hỏi</span><strong>${escapeHtml(prompt.question)}</strong></div>` : ""}${prompt.instruction ? `<p class="prompt-instruction"><strong>Cách nhập:</strong> ${escapeHtml(prompt.instruction)}</p>` : ""}`;
     return `<details class="panel full prompt-card ${compact ? "prompt-card-compact" : ""}" data-ui-state="session-${session.id}-prompt" ${compact ? "" : "open"}><summary><span class="prompt-label">${escapeHtml(prompt.label || "ĐỀ BÀI")}</span><strong>${escapeHtml(prompt.title || "")}</strong><span class="prompt-toggle"><span class="toggle-open">Thu gọn đề bài</span><span class="toggle-closed">Xem đầy đủ đề bài</span><i aria-hidden="true"></i></span></summary><div class="prompt-body">${body}</div></details>`;
   }
 
