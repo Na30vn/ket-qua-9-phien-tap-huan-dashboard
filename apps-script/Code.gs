@@ -410,16 +410,27 @@ function buildPerfectLeaderboard_(entries, headers, config) {
       completedAt: completedAt ? completedAt.toISOString() : null,
       completedAtValue: completedAt ? completedAt.getTime() : Number.MAX_SAFE_INTEGER
     };
-  }).filter(item => item.name && item.score === maximum);
+  }).filter(item => item.name);
   const bestByPerson = {};
   candidates.forEach(item => {
     const key = normalizeLookup_(item.name) + '|' + normalizeLookup_(item.unit);
-    if (!bestByPerson[key] || item.completedAtValue < bestByPerson[key].completedAtValue) bestByPerson[key] = item;
+    const current = bestByPerson[key];
+    if (!current || item.score > current.score ||
+        (item.score === current.score && item.completedAtValue < current.completedAtValue)) {
+      bestByPerson[key] = item;
+    }
   });
   return Object.keys(bestByPerson).map(key => bestByPerson[key])
-    .sort((a, b) => a.completedAtValue - b.completedAtValue || a.name.localeCompare(b.name, 'vi'))
+    .sort((a, b) => b.score - a.score || a.completedAtValue - b.completedAtValue || a.name.localeCompare(b.name, 'vi'))
     .slice(0, 10)
-    .map(item => ({ name: item.name, unit: item.unit, result: item.result, completedAt: item.completedAt }));
+    .map(item => ({
+      name: item.name,
+      unit: item.unit,
+      score: item.score,
+      maxScore: item.maxScore,
+      result: item.result,
+      completedAt: item.completedAt
+    }));
 }
 
 function lastNonEmptyField_(row, indexes) {

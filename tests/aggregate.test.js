@@ -77,6 +77,11 @@ assert.deepEqual(
   JSON.parse(JSON.stringify(data.sessions[0].unitBreakdown)),
   [{ unit: "Đơn vị A", count: 1 }]
 );
+assert.equal(data.sessions[0].leaderboard.length, 1);
+assert.equal(data.sessions[0].leaderboard[0].name, "Nguyễn Văn A");
+assert.equal(data.sessions[0].leaderboard[0].score, 50);
+assert.equal(data.sessions[0].leaderboard[0].maxScore, 60);
+assert.equal(data.sessions[0].leaderboard[0].result, "5/6 câu đúng");
 assert.equal(data.sessions[0].quizSummary.hardestQuestion.number, 6);
 assert.deepEqual(
   JSON.parse(JSON.stringify(data.sessions[0].quizSummary.correctDistribution)),
