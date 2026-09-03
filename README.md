@@ -197,6 +197,7 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 ## Nhật ký cập nhật
 
 - **03/09/2026:** bảng điều khiển nhanh đóng ngay khi bắt đầu/kết thúc; khi đang chốt, dashboard ẩn đồng hồ và hiển thị trạng thái xử lý cho đến khi có kết quả tổng hợp.
+- **03/09/2026:** bảng vinh danh các phiên có chấm điểm hiển thị tối đa 10 người; số Top hiển thị đúng với số người đủ dữ liệu thực tế và bảng điều khiển luôn tải bản Apps Script mới.
 - **03/09/2026:** sửa quy tắc xác thực tab `_DASHBOARD_CONTROL` để chấp nhận `NOT_STARTED`, `TIMED`, `CLOSED`; tăng nhẹ kích thước popup QR và bảng điều khiển nhanh.
 - **03/09/2026:** Top 10 sau khi chốt được xếp theo điểm từ cao xuống thấp, nếu bằng điểm thì ưu tiên người nộp sớm hơn; Phiên 2 hiển thị đủ nội dung 13 bước đúng; chuẩn hóa trạng thái Chưa bắt đầu/Đang đếm ngược và nhãn thời lượng theo phút; hợp nhất nhật ký cập nhật.
 - **03/09/2026:** hiển thị rõ “Đang load dữ liệu…” trong điều khiển nhanh; thêm QR Phiên 1–9, điều khiển nhanh gọn theo phiên và ẩn email đăng nhập khỏi giao diện.

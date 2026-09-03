@@ -426,7 +426,8 @@
   function renderLeaderboard(session) {
     const leaders = session.leaderboard || [];
     if (!leaders.length) return "";
-    return `<section class="leaderboard panel"><div class="leaderboard-heading"><div><p class="panel-kicker">VINH DANH</p><h3>Top ${leaders.length} điểm cao nhất</h3></div><span>Xếp theo điểm, ưu tiên nộp sớm</span></div><ol class="leaderboard-list">${leaders.map((leader, index) => `<li class="leaderboard-item rank-${index + 1}"><span class="leaderboard-rank">${index + 1}</span><div><strong>${escapeHtml(leader.name)}</strong><small>${escapeHtml(leader.unit || "Chưa xác định đơn vị")}</small></div><b>${escapeHtml(leader.result || "Chưa có kết quả")}</b><time>${leader.completedAt ? `Hoàn thành lúc ${new Date(leader.completedAt).toLocaleTimeString("vi-VN")}` : "Không có giờ nộp"}</time></li>`).join("")}</ol></section>`;
+    const label = leaders.length === 1 ? "Top 1" : `Top ${leaders.length}`;
+    return `<section class="leaderboard panel"><div class="leaderboard-heading"><div><p class="panel-kicker">VINH DANH</p><h3>${label} điểm cao nhất</h3></div><span>Tối đa 10 người · xếp theo điểm, ưu tiên nộp sớm</span></div><ol class="leaderboard-list">${leaders.map((leader, index) => `<li class="leaderboard-item rank-${index + 1}"><span class="leaderboard-rank">${index + 1}</span><div><strong>${escapeHtml(leader.name)}</strong><small>${escapeHtml(leader.unit || "Chưa xác định đơn vị")}</small></div><b>${escapeHtml(leader.result || "Chưa có kết quả")}</b><time>${leader.completedAt ? `Hoàn thành lúc ${new Date(leader.completedAt).toLocaleTimeString("vi-VN")}` : "Không có giờ nộp"}</time></li>`).join("")}</ol></section>`;
   }
 
   function renderLiveQuiz(session) {
@@ -606,7 +607,7 @@
       } else {
         const separator = config.adminUrl.includes("?") ? "&" : "?";
         controlFrame.dataset.session = String(activeSession);
-        controlFrame.src = `${config.adminUrl}${separator}admin=1&view=compact&session=${activeSession}`;
+        controlFrame.src = `${config.adminUrl}${separator}admin=1&view=compact&session=${activeSession}&_=${Date.now()}`;
       }
     }
   });
