@@ -400,7 +400,7 @@ function buildPerfectLeaderboard_(entries, headers, config) {
   if (!nameIndexes.length || !unitIndexes.length) return [];
   const maximum = config.correctAnswers && config.questionIndexes
     ? config.questionIndexes.length * (config.pointsPerQuestion || 1)
-    : config.kind === 'ordering' ? 10 : 0;
+    : config.kind === 'ordering' ? normalizeSequence_(config.correctSequence).split(',').filter(Boolean).length : 0;
   if (!maximum) return [];
   const candidates = entries.map(entry => {
     const row = entry.display;
@@ -423,9 +423,24 @@ function buildPerfectLeaderboard_(entries, headers, config) {
       }, 0);
       score = correctCount * (config.pointsPerQuestion || 1);
     } else if (config.kind === 'ordering') {
-      totalCount = normalizeSequence_(config.correctSequence).split(',').filter(Boolean).length;
-      correctCount = normalizeSequence_(row[config.answerIndex]) === normalizeSequence_(config.correctSequence) ? totalCount : 0;
-      score = correctCount === totalCount ? maximum : 0;
+      const correctSteps = normalizeSequence_(config.correctSequence).split(',').filter(Boolean);
+      const submittedSteps = normalizeSequence_(row[config.answerIndex]).split(',').filter(Boolean);
+      totalCount = correctSteps.length;
+      questionDetails = correctSteps.map((step, index) => {
+        const submittedStep = submittedSteps[index] || '';
+        const isCorrect = submittedStep === step;
+        return {
+          number: index + 1,
+          title: `Vị trí ${index + 1}`,
+          userChoice: submittedStep
+            ? `Bước ${submittedStep}: ${(config.prompt?.items || [])[Number(submittedStep) - 1] || ''}`
+            : 'Chưa xếp bước này',
+          correctChoice: `Bước ${step}: ${(config.prompt?.items || [])[Number(step) - 1] || ''}`,
+          isCorrect
+        };
+      });
+      correctCount = questionDetails.filter(item => item.isCorrect).length;
+      score = correctCount;
     }
     const completedAt = toDate_(entry.raw[0]) || parseDisplayTimestamp_(row[0]);
     const position = positionIndexes.length ? lastNonEmptyField_(row, positionIndexes) : '';
@@ -437,7 +452,7 @@ function buildPerfectLeaderboard_(entries, headers, config) {
       score,
       maxScore: maximum,
       result: config.kind === 'ordering' ? `${correctCount}/${totalCount} bước đúng` : `${correctCount}/${totalCount} câu đúng`,
-      scoreText: `${correctCount}/${totalCount} câu đúng`,
+      scoreText: config.kind === 'ordering' ? `${correctCount}/${totalCount} bước đúng` : `${correctCount}/${totalCount} câu đúng`,
       completedAt: completedAt ? completedAt.toISOString() : null,
       completedAtValue: completedAt ? completedAt.getTime() : Number.MAX_SAFE_INTEGER,
       questionDetails

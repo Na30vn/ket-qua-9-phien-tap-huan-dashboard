@@ -477,6 +477,19 @@
       const scoreBadge = person.scoreText || person.scoreChoice || person.result || "Đạt";
       const positionText = person.position ? escapeHtml(person.position) : "";
       
+      if (!featuredCard) {
+        return `
+          <button type="button" class="top-participant-card ranking-card ${rankClass}" data-open-participant="${actualIndex}">
+            <span class="rank-badge">#${rank}</span>
+            <span class="ranking-identity">
+              <strong class="participant-name">${escapeHtml(person.name || "Chưa có họ tên")}</strong>
+              ${positionText ? `<small class="participant-position">${positionText}</small>` : ""}
+            </span>
+            <strong class="ranking-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</strong>
+            <small class="participant-submitted"><b>${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</b></small>
+            <span class="ranking-actions"><span class="score-pill">${escapeHtml(scoreBadge)}</span><span class="view-detail-hint">Xem chi tiết <b>→</b></span></span>
+          </button>`;
+      }
       return `
         <button type="button" class="top-participant-card ${featuredCard ? "podium-card" : "ranking-card"} ${rankClass}" data-open-participant="${actualIndex}">
           <span class="rank-badge">#${rank}</span>
@@ -575,7 +588,7 @@
     const ordering = session.ordering || {};
     const positions = ordering.positionAccuracy || [];
     const correctSteps = ordering.correctSteps || String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => ({ position: index + 1, step: step.trim(), text: session.prompt?.items?.[Number(step) - 1] || "" }));
-    return `<section class="content-grid">${renderPromptCard(session)}<article class="panel full reference-panel">${panelHeading("Trình tự đúng", "Đầy đủ nội dung 13 hoạt động theo thứ tự")}<ol class="correct-step-list">${correctSteps.map(item => `<li><span>${String(item.position).padStart(2, "0")}</span><div><small>Bước ${escapeHtml(item.step)}</small><strong>${escapeHtml(item.text || "Chưa có nội dung bước")}</strong></div></li>`).join("")}</ol></article><article class="panel full">${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}<div class="horizontal-chart position-chart">${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}</div></article><article class="panel full">${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}${renderWrongSequences(ordering.commonSequences || [])}</article></section>`;
+    return `<section class="content-grid ordering-dashboard">${renderPromptCard(session, true)}<article class="panel full reference-panel ordering-reference-panel">${panelHeading("Trình tự đúng", "13 bước theo thứ tự thực hiện")}<ol class="correct-step-list correct-step-list-compact">${correctSteps.map(item => `<li><span>${String(item.position).padStart(2, "0")}</span><div><small>Bước ${escapeHtml(item.step)}</small><strong>${escapeHtml(item.text || "Chưa có nội dung bước")}</strong></div></li>`).join("")}</ol></article><article class="panel full">${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}<div class="horizontal-chart position-chart">${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}</div></article><article class="panel full">${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}${renderWrongSequences(ordering.commonSequences || [])}</article></section>`;
   }
 
   function renderOrderingSample(value, index) {
@@ -627,11 +640,11 @@
     return `<section class="content-grid open-dashboard">${renderPromptCard(session)}${live ? "" : `<article class="panel full reference-panel">${panelHeading("Gợi ý / đáp án tham chiếu", "Dùng để đối chiếu và trao đổi tại lớp")}${reference.length ? `<ol class="reference-list">${reference.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : renderInlineEmpty("Chưa có nội dung tham chiếu.")}</article>`}<article class="panel full ${live ? "panel-primary" : ""}"><div class="panel-heading panel-heading-actions"><div><p class="panel-kicker">PHẢN HỒI HỌC VIÊN</p><h3>${live ? "Phản hồi đang nhận" : `Danh sách câu trả lời (${filtered.length}/${responses.length})`}</h3></div>${live ? '<span>Nội dung phản hồi được hiển thị ẩn danh</span>' : `<label class="search-box"><span class="sr-only">Tìm trong câu trả lời</span><input id="response-search" type="search" placeholder="Tìm trong nội dung phản hồi…" value="${escapeHtml(responseSearch)}"></label>`}</div><p class="privacy-note">Danh sách được thu gọn mặc định để dễ theo dõi. Nội dung phản hồi hiển thị ẩn danh.</p>${responseBlock}</article></section>`;
   }
 
-  function renderPromptCard(session) {
+  function renderPromptCard(session, compact = false) {
     const prompt = session.prompt;
     if (!prompt) return "";
     const body = `${(prompt.paragraphs || []).map(text => `<p>${escapeHtml(text)}</p>`).join("")}${(prompt.items || []).length ? `<ol class="prompt-list">${prompt.items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>` : ""}${prompt.question ? `<div class="prompt-question"><span>Câu hỏi</span><strong>${escapeHtml(prompt.question)}</strong></div>` : ""}${prompt.instruction ? `<p class="prompt-instruction"><strong>Cách nhập:</strong> ${escapeHtml(prompt.instruction)}</p>` : ""}`;
-    return `<details class="panel full prompt-card" data-ui-state="session-${session.id}-prompt" open><summary><span class="prompt-label">${escapeHtml(prompt.label || "ĐỀ BÀI")}</span><strong>${escapeHtml(prompt.title || "")}</strong><span class="prompt-toggle"><span class="toggle-open">Thu gọn đề bài</span><span class="toggle-closed">Xem đầy đủ đề bài</span><i aria-hidden="true"></i></span></summary><div class="prompt-body">${body}</div></details>`;
+    return `<details class="panel full prompt-card ${compact ? "prompt-card-compact" : ""}" data-ui-state="session-${session.id}-prompt" ${compact ? "" : "open"}><summary><span class="prompt-label">${escapeHtml(prompt.label || "ĐỀ BÀI")}</span><strong>${escapeHtml(prompt.title || "")}</strong><span class="prompt-toggle"><span class="toggle-open">Thu gọn đề bài</span><span class="toggle-closed">Xem đầy đủ đề bài</span><i aria-hidden="true"></i></span></summary><div class="prompt-body">${body}</div></details>`;
   }
 
   function renderUnitBreakdown(session) {
@@ -676,12 +689,13 @@
   function openParticipantModal(person, session) {
     if (!participantDialog || !participantDialogContent) return;
     const isSession6 = Number(session.id) === 6;
-    const isQuiz = session.kind === "quiz" || session.kind === "ordering";
+    const isQuiz = session.kind === "quiz";
+    const isOrdering = session.kind === "ordering";
     const rankLabel = `#${person.rank || 1}`;
     const rankClass = person.rank === 1 ? "rank-1" : person.rank === 2 ? "rank-2" : person.rank === 3 ? "rank-3" : `rank-${person.rank || 1}`;
     
     let detailsHtml = "";
-    if (isQuiz || (person.questionDetails && person.questionDetails.length && !isSession6)) {
+    if (isQuiz || (person.questionDetails && person.questionDetails.length && !isSession6 && !isOrdering)) {
       const questions = person.questionDetails || [];
       detailsHtml = `
         <div class="participant-modal-head">
@@ -720,6 +734,22 @@
           `}
         </div>
       `;
+    } else if (isOrdering) {
+      const steps = person.questionDetails || [];
+      detailsHtml = `
+        <div class="participant-modal-head">
+          <span class="modal-rank-badge ${rankClass}">${rankLabel}</span>
+          <div>
+            <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
+            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}${person.position ? ` • ${escapeHtml(person.position)}` : ""}</p>
+            <p class="modal-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</p>
+          </div>
+          <div class="modal-scores"><span class="modal-score-pill">${escapeHtml(person.scoreText || person.result || "Đạt")}</span></div>
+        </div>
+        <div class="modal-section">
+          <h3>Trình tự học viên đã sắp xếp:</h3>
+          ${steps.length ? `<ol class="ordering-modal-list">${steps.map(step => `<li class="${step.isCorrect ? "correct" : "incorrect"}"><span class="ordering-position">${String(step.number).padStart(2, "0")}</span><div><strong>${escapeHtml(step.userChoice)}</strong>${!step.isCorrect ? `<small>Trình tự đúng: ${escapeHtml(step.correctChoice)}</small>` : ""}</div><span class="status-badge ${step.isCorrect ? "status-matched" : "status-unmatched"}">${step.isCorrect ? "Đúng vị trí" : "Sai vị trí"}</span></li>`).join("")}</ol>` : `<div class="modal-essay-box">Chưa có chi tiết trình tự. Hãy cập nhật phiên bản API mới để hiển thị từng bước.</div>`}
+        </div>`;
     } else if (isSession6) {
       const questions = person.questionDetails || [];
       detailsHtml = `

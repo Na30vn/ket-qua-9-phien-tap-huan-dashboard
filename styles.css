@@ -507,12 +507,12 @@ th { color: #0a3c6b; background: #eaf2f8; font-size: 12px; text-transform: upper
 
 footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clamp(20px,5vw,72px); border-top: 1px solid var(--line); color: var(--muted); background: #fff; font-size: 12px; }
 
-.qr-dialog { width: min(620px, calc(100% - 24px)); padding: 29px 31px 27px; border: 0; border-radius: 22px; color: var(--navy); background: #fff; box-shadow: 0 28px 80px rgba(7,31,55,.34); text-align: center; }
+.qr-dialog { width: min(680px, calc(100% - 32px)); padding: 29px 31px 27px; border: 0; border-radius: 22px; color: var(--navy); background: #fff; box-shadow: 0 28px 80px rgba(7,31,55,.34); text-align: center; }
 .qr-dialog::backdrop { background: rgba(8,27,47,.72); backdrop-filter: blur(5px); }
 .qr-dialog .dialog-close { position: absolute; top: 12px; right: 14px; width: 38px; height: 38px; border: 0; border-radius: 50%; color: #173b60; background: #edf3f8; font-size: 27px; line-height: 1; cursor: pointer; }
 .qr-dialog > p:first-of-type { margin: 0 44px 6px; color: #09718b; font-size: 12px; font-weight: 900; letter-spacing: .13em; }
 .qr-dialog h2 { margin: 0 auto 18px; font-size: clamp(20px,4vw,29px); line-height: 1.25; }
-.qr-dialog img { display: block; width: min(430px, 84vw); height: min(430px, 84vw); margin: 0 auto; padding: 12px; border: 2px solid #d2dfeb; border-radius: 17px; background: #fff; image-rendering: crisp-edges; }
+.qr-dialog img { display: block; width: min(470px, 82vw); height: min(470px, 82vw); margin: 0 auto; padding: 12px; border: 2px solid #d2dfeb; border-radius: 17px; background: #fff; image-rendering: crisp-edges; }
 .qr-dialog .qr-dialog-note { margin: 15px 0 0; color: #4f657a; font-weight: 750; }
 
 .session-control { position: fixed; right: 22px; bottom: 22px; z-index: 40; }
@@ -829,17 +829,35 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
 }
 .ranking-card {
   min-height: 76px;
-}
-.ranking-card .participant-info {
   display: grid;
-  grid-template-columns: minmax(160px, 1.2fr) minmax(130px, 1fr) minmax(130px, 1fr) minmax(130px, 1fr);
-  column-gap: 14px;
+  grid-template-columns: 42px minmax(185px, 1.15fr) minmax(160px, 1fr) minmax(130px, .82fr) auto;
   align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
 }
-.ranking-card .participant-name { grid-column: 1; grid-row: 1; }
-.ranking-card .participant-unit { grid-column: 2; grid-row: 1; }
-.ranking-card .participant-position { grid-column: 3; grid-row: 1; margin-top: 0; }
-.ranking-card .participant-submitted { grid-column: 4; grid-row: 1; margin-top: 0; }
+.ranking-identity { display: grid; gap: 4px; min-width: 0; }
+.ranking-unit { color: #334155; font-size: 13.5px; line-height: 1.35; }
+.ranking-card .participant-position { justify-self: start; }
+.ranking-card .participant-submitted { white-space: nowrap; }
+.ranking-actions { display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+
+.prompt-card-compact summary { padding: 13px 16px; }
+.prompt-card-compact .prompt-body { padding: 0 16px 15px; font-size: 14px; line-height: 1.5; }
+.prompt-card-compact .prompt-list { margin: 9px 0 0; gap: 6px; }
+.ordering-reference-panel { padding-bottom: 18px; }
+.correct-step-list-compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+.correct-step-list-compact li { min-height: 0; padding: 9px 10px; gap: 9px; }
+.correct-step-list-compact li > span { width: 30px; height: 30px; font-size: 12px; }
+.correct-step-list-compact li small { font-size: 11px; }
+.correct-step-list-compact li strong { font-size: 13px; line-height: 1.38; }
+
+.ordering-modal-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.ordering-modal-list li { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #dbe4ef; border-radius: 10px; background: #f8fafc; }
+.ordering-modal-list li.correct { border-left: 4px solid #10b981; }
+.ordering-modal-list li.incorrect { border-left: 4px solid #ef4444; }
+.ordering-position { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: #e2e8f0; color: #0f3e72; font-weight: 900; font-size: 12px; }
+.ordering-modal-list strong { display: block; font-size: 13.5px; line-height: 1.38; }
+.ordering-modal-list small { display: block; margin-top: 4px; color: #a13a16; font-size: 12.5px; line-height: 1.35; }
 
 /* Modal Popup Styles - Compact & High Contrast */
 .top-participant-dialog {
@@ -1056,8 +1074,9 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
 @media (max-width: 860px) {
   .top-podium { grid-template-columns: 1fr; }
   .podium-card.rank-1, .podium-card.rank-2, .podium-card.rank-3 { order: initial; min-height: 0; }
-  .ranking-card .participant-info { display: block; }
-  .ranking-card .participant-info small { margin-top: 3px; }
+  .ranking-card { grid-template-columns: 42px minmax(0, 1fr) auto; }
+  .ranking-unit, .ranking-card .participant-submitted { grid-column: 2; }
+  .ranking-actions { grid-column: 3; grid-row: 1 / span 2; flex-direction: column; align-items: flex-end; gap: 6px; }
 }
 
 @media (max-width: 600px) {
@@ -1068,6 +1087,12 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   .participant-info { flex-basis: calc(100% - 58px); }
   .participant-score { margin-left: 56px; }
   .view-detail-hint { margin-left: auto; }
+  .ranking-card { grid-template-columns: 36px minmax(0, 1fr); gap: 8px; }
+  .ranking-card .rank-badge { width: 32px; height: 32px; }
+  .ranking-actions { grid-column: 2; grid-row: auto; flex-direction: row; justify-content: flex-start; align-items: center; }
+  .correct-step-list-compact { grid-template-columns: 1fr; }
+  .ordering-modal-list li { grid-template-columns: 30px minmax(0, 1fr); }
+  .ordering-modal-list .status-badge { grid-column: 2; justify-self: start; }
   .top-participant-dialog { width: calc(100% - 24px); padding: 22px; }
   .participant-modal-head { align-items: flex-start; flex-wrap: wrap; }
   .modal-scores { margin-left: 60px; }
