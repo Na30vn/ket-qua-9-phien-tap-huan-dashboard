@@ -218,6 +218,7 @@
       ${closing ? "" : renderClosedViewSwitch(phase, showingClosedLivePreview)}
       ${closing ? renderProcessingNotice() : renderPhaseNotice(session, phase, showingClosedLivePreview)}
       ${renderMetrics(session, contentPhase, showingClosedLivePreview)}
+      ${renderUnitParticipation(session)}
       ${renderSessionContent(session, contentPhase)}
     `;
     restoreUiState();
@@ -235,7 +236,7 @@
     controlSessionLabel.textContent = `Phiên ${session.id}`;
     const separator = config.adminUrl.includes("?") ? "&" : "?";
     const compactUrl = `${config.adminUrl}${separator}admin=1&view=compact&session=${session.id}`;
-    if (!controlPanel.hidden && controlFrame.dataset.session !== String(session.id)) {
+    if (controlFrame.dataset.session !== String(session.id)) {
       controlFrame.dataset.session = String(session.id);
       controlFrame.src = compactUrl;
     }
@@ -447,7 +448,7 @@
     else if (session.kind === "ordering") content = live ? renderLiveOrdering(session) : renderOrderingDashboard(session);
     else if (session.kind === "true_false") content = renderTrueFalseDashboard(session, live);
     else content = renderOpenDashboard(session, live);
-    return (live ? "" : renderLeaderboard(session)) + content + (session.kind === "open" ? "" : renderUnitParticipation(session)) + (live ? "" : renderUnitBreakdown(session));
+    return (live ? "" : renderLeaderboard(session)) + content + (live ? "" : renderUnitBreakdown(session));
   }
 
   function renderLeaderboard(session) {
@@ -669,17 +670,58 @@
   function openParticipantModal(person, session) {
     if (!participantDialog || !participantDialogContent) return;
     const isSession6 = Number(session.id) === 6;
+    const isQuiz = session.kind === "quiz" || session.kind === "ordering";
     const rankLabel = `#${person.rank || 1}`;
+    const rankClass = person.rank === 1 ? "rank-1" : person.rank === 2 ? "rank-2" : person.rank === 3 ? "rank-3" : `rank-${person.rank || 1}`;
     
     let detailsHtml = "";
-    if (isSession6) {
+    if (isQuiz || (person.questionDetails && person.questionDetails.length && !isSession6)) {
       const questions = person.questionDetails || [];
       detailsHtml = `
         <div class="participant-modal-head">
-          <span class="modal-rank-badge rank-${person.rank || 1}">${rankLabel}</span>
+          <span class="modal-rank-badge ${rankClass}">${rankLabel}</span>
           <div>
             <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
-            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
+            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}${person.position ? ` • ${escapeHtml(person.position)}` : ""}</p>
+            <p class="modal-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</p>
+          </div>
+          <div class="modal-scores">
+            <span class="modal-score-pill">${escapeHtml(person.scoreText || person.result || "Đạt")}</span>
+          </div>
+        </div>
+        <div class="modal-section">
+          <h3>Chi tiết kết quả làm bài:</h3>
+          ${questions.length ? `
+            <div class="quiz-modal-list">
+              ${questions.map(q => `
+                <div class="quiz-modal-item ${q.isCorrect ? "correct" : "incorrect"}">
+                  <div class="quiz-modal-qhead">
+                    <strong>Câu ${q.number}: ${escapeHtml(q.title)}</strong>
+                    <span class="status-badge ${q.isCorrect ? "status-matched" : "status-unmatched"}">${q.isCorrect ? "✓ Đúng" : "✗ Sai"}</span>
+                  </div>
+                  <div class="quiz-modal-choice">
+                    <span>Lựa chọn của học viên: <b>${escapeHtml(q.userChoice)}</b></span>
+                    ${!q.isCorrect && q.correctChoice ? `<br><small class="correct-text">Đáp án chuẩn: <b>${escapeHtml(q.correctChoice)}</b></small>` : ""}
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          ` : `
+            <div class="modal-essay-box">
+              <strong>Kết quả làm bài:</strong> ${escapeHtml(person.scoreText || person.result || "Đã hoàn thành bài làm")}<br>
+              <span style="color:#64748b; font-size:13px;">Ưu tiên xếp hạng theo điểm số và thời gian nộp bài sớm nhất.</span>
+            </div>
+          `}
+        </div>
+      `;
+    } else if (isSession6) {
+      const questions = person.questionDetails || [];
+      detailsHtml = `
+        <div class="participant-modal-head">
+          <span class="modal-rank-badge ${rankClass}">${rankLabel}</span>
+          <div>
+            <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
+            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}${person.position ? ` • ${escapeHtml(person.position)}` : ""}</p>
             <p class="modal-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt))}</p>
           </div>
           <div class="modal-scores">
@@ -722,10 +764,10 @@
       const items = person.matchedItems || [];
       detailsHtml = `
         <div class="participant-modal-head">
-          <span class="modal-rank-badge rank-${person.rank || 1}">${rankLabel}</span>
+          <span class="modal-rank-badge ${rankClass}">${rankLabel}</span>
           <div>
             <h2 id="participant-dialog-title">${escapeHtml(person.name)}</h2>
-            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</p>
+            <p class="modal-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}${person.position ? ` • ${escapeHtml(person.position)}` : ""}</p>
             <p class="modal-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt))}</p>
           </div>
           <div class="modal-scores">

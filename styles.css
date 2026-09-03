@@ -638,24 +638,25 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   border-color: #1e3a8a;
 }
 
-/* Vinh danh học viên & popup chi tiết */
+/* Vinh danh học viên & popup chi tiết - Nền vàng hồng ấm áp sang trọng */
 .top-participants-panel {
-  background: linear-gradient(135deg, #0b2545 0%, #133a68 100%);
-  color: #fff;
+  background: linear-gradient(145deg, #fffdf2 0%, #fff7ed 100%);
+  color: #0f172a;
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 24px;
-  border-top: 4px solid #fbbf24;
-  box-shadow: 0 10px 30px rgba(11, 37, 69, 0.25);
+  border: 1px solid #fed7aa;
+  border-top: 5px solid #f59e0b;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.12);
 }
 .top-participants-panel .panel-kicker {
-  color: #fbbf24;
+  color: #d97706;
   font-weight: 800;
   letter-spacing: 0.8px;
   font-size: 12px;
 }
 .top-participants-panel h3 {
-  color: #ffffff;
+  color: #0f172a;
   font-size: 22px;
   margin: 4px 0 2px;
   font-weight: 800;
@@ -664,12 +665,12 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   max-width: 440px;
   padding: 8px 14px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff !important;
+  background: #fff3dc;
+  color: #92400e !important;
   font-size: 13px !important;
   font-weight: 700;
   line-height: 1.4;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #fde68a;
 }
 .top-podium {
   display: grid;
@@ -682,42 +683,43 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   align-items: center;
   gap: 14px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 14px;
   padding: 14px 16px;
-  color: #fff;
+  color: #0f172a;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   text-align: left;
 }
 .top-participant-card:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: #fffbeb;
+  border-color: #fde68a;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.15);
 }
 
 /* Nổi bật Top 1, Top 2, Top 3 */
 .podium-card.rank-1 {
   order: 2;
-  border: 2px solid #fbbf24;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.45) 100%);
+  border: 2px solid #f59e0b;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
   min-height: 116px;
-  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.35);
+  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.25);
 }
 .podium-card.rank-2 {
   order: 1;
   border: 2px solid #cbd5e1;
-  background: linear-gradient(135deg, rgba(148, 163, 184, 0.28) 0%, rgba(71, 85, 105, 0.38) 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   min-height: 108px;
-  box-shadow: 0 6px 18px rgba(203, 213, 225, 0.2);
+  box-shadow: 0 4px 14px rgba(148, 163, 184, 0.18);
 }
 .podium-card.rank-3 {
   order: 3;
   border: 2px solid #fb923c;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.28) 0%, rgba(194, 65, 12, 0.38) 100%);
+  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
   min-height: 108px;
-  box-shadow: 0 6px 18px rgba(249, 115, 22, 0.2);
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.18);
 }
 
 .rank-badge {
@@ -729,13 +731,13 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   border-radius: 50%;
   font-weight: 900;
   font-size: 15px;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: #f1f5f9;
+  color: #0f172a;
   flex-shrink: 0;
 }
 .top-participant-card.rank-1 .rank-badge { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0f172a; font-size: 17px; }
-.top-participant-card.rank-2 .rank-badge { background: linear-gradient(135deg, #f1f5f9, #cbd5e1); color: #0f172a; font-size: 16px; }
-.top-participant-card.rank-3 .rank-badge { background: linear-gradient(135deg, #fdba74, #f97316); color: #0f172a; font-size: 16px; }
+.top-participant-card.rank-2 .rank-badge { background: linear-gradient(135deg, #cbd5e1, #94a3b8); color: #ffffff; font-size: 16px; }
+.top-participant-card.rank-3 .rank-badge { background: linear-gradient(135deg, #fb923c, #ea580c); color: #ffffff; font-size: 16px; }
 
 .participant-info {
   flex: 1;
@@ -744,28 +746,28 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
 .participant-name {
   display: block;
   font-size: 16px;
-  color: #ffffff;
+  color: #0f172a;
   line-height: 1.3;
   font-weight: 800;
 }
 .participant-unit {
   display: block;
   font-size: 14px !important;
-  color: #ffffff !important;
+  color: #334155 !important;
   font-weight: 700;
   line-height: 1.35;
 }
 .participant-position {
   display: block;
   font-size: 13px !important;
-  color: #fbbf24 !important;
-  font-weight: 600;
+  color: #d97706 !important;
+  font-weight: 700;
   margin-top: 2px;
 }
 .participant-submitted {
   display: block;
   font-size: 12px;
-  color: #cbd5e1 !important;
+  color: #64748b !important;
   margin-top: 3px;
   font-variant-numeric: tabular-nums;
 }
@@ -785,13 +787,13 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
 .sub-score {
   display: block;
   font-size: 11px;
-  color: #cbd5e1;
+  color: #64748b;
   margin-top: 3px;
 }
 .view-detail-hint {
   font-size: 12.5px;
-  color: #e2e8f0;
-  font-weight: 600;
+  color: #d97706;
+  font-weight: 700;
   white-space: nowrap;
 }
 .view-detail-hint b { font-size: 16px; }
