@@ -394,6 +394,9 @@ function buildPerfectLeaderboard_(entries, headers, config) {
     .filter(item => /^ho va ten(?:\s|$)/.test(item.value)).map(item => item.index);
   const unitIndexes = headers.map((header, index) => ({ value: normalizeLookup_(header), index }))
     .filter(item => /^don vi(?:\s|$)/.test(item.value)).map(item => item.index);
+  const positionIndexes = headers.map((header, index) => ({ value: normalizeLookup_(header), index }))
+    .filter(item => /chuc vu|vi tri|chuc danh/.test(item.value)).map(item => item.index);
+
   if (!nameIndexes.length || !unitIndexes.length) return [];
   const maximum = config.correctAnswers && config.questionIndexes
     ? config.questionIndexes.length * (config.pointsPerQuestion || 1)
@@ -404,10 +407,20 @@ function buildPerfectLeaderboard_(entries, headers, config) {
     let score = 0;
     let correctCount = 0;
     let totalCount = 0;
+    let questionDetails = [];
     if (config.correctAnswers && config.questionIndexes) {
       totalCount = config.questionIndexes.length;
-      correctCount = config.questionIndexes.reduce((sum, columnIndex, index) =>
-        sum + (sameAnswer_(row[columnIndex], config.correctAnswers[index]) ? 1 : 0), 0);
+      correctCount = config.questionIndexes.reduce((sum, columnIndex, index) => {
+        const isCorrect = sameAnswer_(row[columnIndex], config.correctAnswers[index]);
+        questionDetails.push({
+          number: index + 1,
+          title: cleanQuestionTitle_(headers[columnIndex] || `Câu ${index + 1}`),
+          userChoice: String(row[columnIndex] || '').trim() || 'Chưa trả lời',
+          correctChoice: config.correctAnswers[index],
+          isCorrect
+        });
+        return sum + (isCorrect ? 1 : 0);
+      }, 0);
       score = correctCount * (config.pointsPerQuestion || 1);
     } else if (config.kind === 'ordering') {
       totalCount = normalizeSequence_(config.correctSequence).split(',').filter(Boolean).length;
@@ -415,14 +428,19 @@ function buildPerfectLeaderboard_(entries, headers, config) {
       score = correctCount === totalCount ? maximum : 0;
     }
     const completedAt = toDate_(entry.raw[0]) || parseDisplayTimestamp_(row[0]);
+    const position = positionIndexes.length ? lastNonEmptyField_(row, positionIndexes) : '';
+
     return {
       name: lastNonEmptyField_(row, nameIndexes),
       unit: lastNonEmptyField_(row, unitIndexes),
+      position,
       score,
       maxScore: maximum,
       result: config.kind === 'ordering' ? `${correctCount}/${totalCount} bước đúng` : `${correctCount}/${totalCount} câu đúng`,
+      scoreText: `${correctCount}/${totalCount} câu đúng`,
       completedAt: completedAt ? completedAt.toISOString() : null,
-      completedAtValue: completedAt ? completedAt.getTime() : Number.MAX_SAFE_INTEGER
+      completedAtValue: completedAt ? completedAt.getTime() : Number.MAX_SAFE_INTEGER,
+      questionDetails
     };
   }).filter(item => item.name);
   const bestByPerson = {};
@@ -437,13 +455,18 @@ function buildPerfectLeaderboard_(entries, headers, config) {
   return Object.keys(bestByPerson).map(key => bestByPerson[key])
     .sort((a, b) => b.score - a.score || a.completedAtValue - b.completedAtValue || a.name.localeCompare(b.name, 'vi'))
     .slice(0, 10)
-    .map(item => ({
+    .map((item, idx) => ({
+      rank: idx + 1,
       name: item.name,
       unit: item.unit,
+      position: item.position || '',
       score: item.score,
       maxScore: item.maxScore,
       result: item.result,
-      completedAt: item.completedAt
+      scoreText: item.scoreText,
+      completedAt: item.completedAt,
+      submittedAt: item.completedAt,
+      questionDetails: item.questionDetails
     }));
 }
 

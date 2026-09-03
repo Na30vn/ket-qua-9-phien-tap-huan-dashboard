@@ -351,10 +351,11 @@
       if (!session.timerEndsAt) return `<div class="phase-notice live-notice"><strong>Phiên chưa bắt đầu</strong><span>Nhấn “Bắt đầu” trong bảng điều khiển để chạy thời gian làm bài.</span></div>`;
       return `<div class="phase-notice timer-notice"><strong>Phiên đang đếm ngược</strong><span class="public-countdown" data-countdown="${escapeHtml(session.timerEndsAt)}">Còn lại: --:--</span></div>`;
     }
-    const closedAt = session.closedAt ? new Date(session.closedAt).toLocaleString("vi-VN") : "theo dữ liệu mô phỏng";
-    const late = Number(session.lateResponses || 0);
-    if (showingLivePreview) return `<div class="phase-notice preview-notice"><strong>Đang xem lại giao diện lúc nhận bài</strong><span>Sử dụng ${formatNumber.format(session.totalResponses || 0)} bài tại thời điểm chốt ${escapeHtml(closedAt)}. Phiên vẫn đã chốt và không nhận thêm dữ liệu vào kết quả này.</span></div>`;
-    return `<div class="phase-notice closed-notice"><strong>Số liệu đã chốt: ${formatNumber.format(session.totalResponses || 0)} bài</strong><span>Thời điểm chốt: ${escapeHtml(closedAt)}.${late ? ` Có ${formatNumber.format(late)} bài gửi sau thời điểm chốt và không được cộng vào kết quả.` : ""}</span></div>`;
+    if (showingLivePreview) {
+      const closedAt = session.closedAt ? new Date(session.closedAt).toLocaleString("vi-VN") : "theo dữ liệu mô phỏng";
+      return `<div class="phase-notice preview-notice"><strong>Đang xem lại giao diện lúc nhận bài</strong><span>Sử dụng ${formatNumber.format(session.totalResponses || 0)} bài tại thời điểm chốt ${escapeHtml(closedAt)}.</span></div>`;
+    }
+    return "";
   }
 
   function renderProcessingNotice() {
@@ -457,27 +458,41 @@
     const leaders = session.leaderboard || [];
     if (!leaders.length) return "";
     const label = leaders.length === 1 ? "Top 1" : `Top ${leaders.length}`;
-    return `<section class="leaderboard panel"><div class="leaderboard-heading"><div><p class="panel-kicker">VINH DANH</p><h3>${label} điểm cao nhất</h3></div><span>Tối đa 10 người · xếp theo điểm, ưu tiên nộp sớm</span></div><ol class="leaderboard-list">${leaders.map((leader, index) => `<li class="leaderboard-item rank-${index + 1}"><span class="leaderboard-rank">${index + 1}</span><div><strong>${escapeHtml(leader.name)}</strong><small>${escapeHtml(leader.unit || "Chưa xác định đơn vị")}</small></div><b>${escapeHtml(leader.result || "Chưa có kết quả")}</b><time>${leader.completedAt ? `Hoàn thành lúc ${new Date(leader.completedAt).toLocaleTimeString("vi-VN")}` : "Không có giờ nộp"}</time></li>`).join("")}</ol></section>`;
+    return renderTopParticipantsLeaderboard(session, leaders);
+  }
+  function _legacyLeaderboardNote() {
+    return "Tối đa 10 người · xếp theo điểm, ưu tiên nộp sớm";
   }
 
   function renderTopParticipantsLeaderboard(session, participants) {
     const label = participants.length === 1 ? "Top 1" : `Top ${participants.length}`;
+    const isQuiz = session.kind === "quiz" || session.kind === "true_false";
     const featured = participants.slice(0, 3);
     const remaining = participants.slice(3);
-    const personCard = (person, index, featuredCard = false) => `
-      <button type="button" class="top-participant-card ${featuredCard ? "podium-card" : "ranking-card"} rank-${person.rank || index + 1}" data-open-participant="${index}">
-        <span class="rank-badge">#${person.rank || index + 1}</span>
-        <span class="participant-info">
-          <strong>${escapeHtml(person.name || "Chưa có họ tên")}</strong>
-          <small class="participant-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
-          <small class="participant-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt))}</small>
-        </span>
-        <span class="participant-score">
-          <span class="score-pill">${escapeHtml(person.scoreText || person.scoreChoice || "Đạt")}</span>
-          ${person.scoreExplanation ? `<small class="sub-score">${escapeHtml(person.scoreExplanation)}</small>` : ""}
-        </span>
-        <span class="view-detail-hint">Xem đáp án <b>→</b></span>
-      </button>`;
+
+    const personCard = (person, index, featuredCard = false) => {
+      const rank = person.rank || index + 1;
+      const rankClass = rank === 1 ? "rank-1" : rank === 2 ? "rank-2" : rank === 3 ? "rank-3" : `rank-${rank}`;
+      const scoreBadge = person.scoreText || person.scoreChoice || person.result || "Đạt";
+      const positionText = person.position ? escapeHtml(person.position) : "";
+      
+      return `
+        <button type="button" class="top-participant-card ${featuredCard ? "podium-card" : "ranking-card"} ${rankClass}" data-open-participant="${index}">
+          <span class="rank-badge">#${rank}</span>
+          <span class="participant-info">
+            <strong class="participant-name">${escapeHtml(person.name || "Chưa có họ tên")}</strong>
+            <small class="participant-unit">${escapeHtml(person.unit || "Chưa xác định đơn vị")}</small>
+            ${positionText ? `<small class="participant-position">${positionText}</small>` : ""}
+            <small class="participant-submitted">${escapeHtml(formatSubmittedTime(person.submittedAt || person.completedAt))}</small>
+          </span>
+          <span class="participant-score">
+            <span class="score-pill">${escapeHtml(scoreBadge)}</span>
+            ${person.scoreExplanation ? `<small class="sub-score">${escapeHtml(person.scoreExplanation)}</small>` : ""}
+          </span>
+          <span class="view-detail-hint">Xem chi tiết <b>→</b></span>
+        </button>`;
+    };
+
     return `
       <section class="leaderboard panel top-participants-panel">
         <div class="leaderboard-heading">
@@ -485,7 +500,7 @@
             <p class="panel-kicker">VINH DANH TOP NỘI DUNG TỐT NHẤT</p>
             <h3>${label} bài làm xuất sắc nhất</h3>
           </div>
-          <span class="leaderboard-ai-note">Kết quả có sự hỗ trợ của AI · Click từng học viên để xem chi tiết đáp án</span>
+          <span class="leaderboard-ai-note">${isQuiz ? "Tự động chấm theo đáp án chuẩn · Click từng học viên để xem chi tiết đáp án" : "Kết quả có sự hỗ trợ của AI · Click từng học viên để xem chi tiết đáp án"}</span>
         </div>
         <div class="top-podium" aria-label="Ba học viên đứng đầu">${featured.map((person, index) => personCard(person, index, true)).join("")}</div>
         ${remaining.length ? `<ol class="top-participants-list" start="4">${remaining.map((person, index) => `<li>${personCard(person, index + 3)}</li>`).join("")}</ol>` : ""}
