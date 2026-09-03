@@ -179,6 +179,11 @@ function applyOrdering(session) {
   };
   session.ordering = {
     ...session.ordering,
+    correctSteps: correctSteps.map((step, index) => ({
+      position: index + 1,
+      step: Number(step),
+      text: session.prompt.items[Number(step) - 1]
+    })),
     correctCount,
     correctRate: correctCount / total * 100,
     uniqueSequenceCount: 96,
@@ -203,6 +208,21 @@ function applyOrdering(session) {
       "3,5,1,6,4,11,9,10,8,13,2,12,7", "3,5,1,6,4,11,9,8,10,2,13,12,7"
     ]
   };
+}
+
+function applyLeaderboard(session) {
+  if (![1, 2, 4, 6, 9].includes(session.id)) {
+    session.leaderboard = [];
+    return;
+  }
+  const names = ["Nguyễn Minh Anh", "Trần Thu Hà", "Lê Quốc Bảo", "Phạm Hoài Nam", "Đỗ Thanh Hương", "Võ Đức Anh", "Nguyễn Hải Yến", "Bùi Quang Huy", "Trương Mỹ Linh", "Lê Ngọc Sơn"];
+  const total = session.kind === "ordering" ? 13 : session.questions.length;
+  session.leaderboard = names.map((name, index) => ({
+    name,
+    unit: sampleUnits[index],
+    result: session.kind === "ordering" ? `${total}/${total} bước đúng` : `${total}/${total} câu đúng`,
+    completedAt: new Date(Date.UTC(2026, 7, 31, 8, 15, 10 + index * 7)).toISOString()
+  }));
 }
 
 function applyTrueFalse(session) {
@@ -297,9 +317,10 @@ for (const session of payload.sessions) {
   session.timerEndsAt = null;
   session.currentResponses = session.totalResponses;
   session.lateResponses = 0;
+  applyLeaderboard(session);
 }
 
-payload.version = 6;
+payload.version = 7;
 payload.fake = true;
 payload.updatedAt = new Date().toISOString();
 fs.writeFileSync(outputPath, JSON.stringify(payload, null, 2) + "\n", "utf8");

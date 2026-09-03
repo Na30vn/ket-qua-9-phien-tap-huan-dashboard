@@ -42,7 +42,12 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 
 ## Trạng thái và đếm ngược của mỗi phiên
 
-### Đang nhận bài
+### Chưa bắt đầu
+
+- Dashboard hiển thị rõ phiên chưa bắt đầu và chưa có đồng hồ đếm ngược.
+- Quản trị viên nhập thời gian làm bài theo đơn vị phút rồi bấm **Bắt đầu**.
+
+### Đang đếm ngược và nhận bài
 
 - Dashboard tiếp tục nhận dữ liệu mới.
 - Không trả đáp án chuẩn, điểm, tỷ lệ đúng hoặc gợi ý tham chiếu ra giao diện công khai.
@@ -66,11 +71,12 @@ Dashboard GitHub Pages tự lấy dữ liệu và vẽ giao diện
 ## Cách hiển thị theo từng dạng bài
 
 - **Phiên 1, 4 và 9:** lúc nhận bài hiển thị phân bố A/B/C/D theo từng câu; khi mở rộng, câu hỏi và phương án được hiển thị đầy đủ. Sau khi chốt có số đúng, tỷ lệ đúng và phân bố kết quả cần thiết.
-- **Phiên 2:** hiển thị đầy đủ đề bài và 13 hoạt động gốc; 10 bài gửi đầu tiên được tách thành các ô **Vị trí / Bước** rõ ràng. Sau khi chốt có trình tự tham chiếu, tỷ lệ đặt đúng theo từng vị trí và các trình tự sai phổ biến.
+- **Phiên 2:** hiển thị đầy đủ đề bài và 13 hoạt động gốc; 10 bài gửi đầu tiên được tách thành các ô **Vị trí / Bước** rõ ràng. Sau khi chốt, trình tự đúng hiển thị đủ nội dung từng hoạt động theo thứ tự, cùng tỷ lệ đặt đúng theo từng vị trí và các trình tự sai phổ biến.
 - **Phiên 6:** lúc nhận bài hiển thị lựa chọn Đúng/Sai và tối đa 10 giải thích cho mỗi câu, cân bằng tối đa 5 giải thích của nhóm chọn Đúng và 5 của nhóm chọn Sai; từng giải thích ghi rõ lựa chọn đi kèm. Sau khi chốt, lựa chọn đúng được đánh dấu xanh ngay trên 7 thẻ tổng hợp; bảng kết quả lặp lại đã được bỏ.
 - **Phiên 3, 5, 7 và 8:** đề bài, dữ kiện và câu hỏi được hiển thị đầy đủ ở cả hai trạng thái. Lúc nhận bài hiển thị tối đa 10 phản hồi bằng thẻ nội dung mở, chữ lớn; sau khi chốt có gợi ý tham chiếu, tìm kiếm và tối đa 40 phản hồi đã ẩn thông tin cá nhân.
 - Thống kê đơn vị dùng tab `DM_DON_VI` làm danh mục chuẩn, hiển thị số đơn vị tham gia trên tổng số và danh sách đơn vị chưa tham gia; tên được chuẩn hóa theo chữ hoa/thường, dấu và dạng viết tắt trước khi đối sánh.
 - Bảng số bài theo đơn vị chỉ hiển thị những đơn vị có ít nhất một người tham gia phiên đang xem.
+- Sau khi chốt, các Phiên 1, 2, 4, 6 và 9 hiển thị tối đa 10 người đạt kết quả tuyệt đối, xếp theo thời điểm nộp sớm nhất. Google Form chỉ cung cấp thời điểm nộp nên giao diện dùng nhãn **Hoàn thành lúc**, không suy diễn thành thời lượng làm bài.
 
 ## Quyền riêng tư và cấu hình Google Form
 
@@ -81,7 +87,11 @@ Cả 09 Form được cấu hình:
 - Cho phép bất kỳ ai có đường liên kết truy cập.
 - Không cho người học xem câu trả lời sai, đáp án đúng hoặc giá trị điểm.
 - Các trường **Họ và tên**, **Đơn vị công tác** và **Chức vụ/Vị trí công tác** là bắt buộc; mọi câu hỏi nghiệp vụ có thể trả lời cũng được đặt bắt buộc. Tiêu đề, mô tả và section không bị áp dụng Required.
-- Ba trường thông tin được dùng để quản lý tại Sheet và báo cáo; API công khai không trả họ tên, chức vụ hoặc email.
+- Ba trường thông tin được dùng để quản lý tại Sheet và báo cáo. API công khai không trả chức vụ, email hoặc danh sách toàn bộ họ tên; ngoại lệ duy nhất là tối đa 10 họ tên và đơn vị đủ điều kiện vinh danh sau khi phiên đã chốt.
+
+## Đánh giá nội dung tự luận
+
+Phiên 3, 5, 7, 8 và phần giải thích của Phiên 6 hiện dùng đáp án/căn cứ tham chiếu để giảng viên đối chiếu, chưa tự động chấm bằng AI. Không bật gọi AI khi chưa có rubric được duyệt và chưa cấu hình khóa API phía máy chủ; điều này tránh tiêu tốn quota, tránh gọi lại khi dashboard tự làm mới và không tạo điểm số thiếu căn cứ. Lỗi hoặc việc chưa có AI không ảnh hưởng kết quả Đúng/Sai, thống kê hay dashboard.
 
 Google Forms có thể vẫn hiện nút **Xem câu trả lời chính xác** sau khi nộp. Với ba quyền xem kết quả đều tắt, nút này chỉ cho người học xem lại lựa chọn của mình, không cho biết đúng/sai, đáp án chuẩn hoặc điểm số.
 
@@ -130,17 +140,6 @@ Khi thay đổi tên một phiên, phải đồng bộ tối thiểu các vị t
 6. Đẩy nhánh `main` lên GitHub để GitHub Pages cập nhật giao diện và tài liệu.
 
 Không đổi tên tab `Phiên 1`–`Phiên 9`, không đổi câu hỏi hoặc thứ tự cột trong lúc đang thu bài. Nếu thay đổi cấu trúc Form, phải kiểm tra lại header Sheet, cấu hình chỉ số câu hỏi và kết quả API trước khi triển khai.
-
-## Nhật ký cập nhật
-
-- **03/09/2026:** hiển thị rõ “Đang load dữ liệu…” trong điều khiển nhanh cho đến khi phiên tải xong; bổ sung hướng dẫn thêm tài khoản được chốt phiên bằng tay.
-- **03/09/2026:** thêm QR riêng cho Phiên 1–9, hỗ trợ phóng lớn giữa màn hình; chuyển điều khiển phiên sang nút `+` kín đáo và bổ sung giao diện quản trị gọn cho đúng phiên đang xem.
-- **03/09/2026:** ẩn email đăng nhập và bỏ liên kết sang trang quản trị đầy đủ khỏi điều khiển nhanh; trang quản trị riêng vẫn giữ nguyên để cán bộ kỹ thuật hỗ trợ.
-- **02/09/2026:** bổ sung đề bài đầy đủ cho Phiên 2, 3, 5, 7 và 8; thiết kế lại trình tự 10 bài đầu thành các ô vị trí/bước; chuyển phản hồi tự luận sang thẻ nội dung mở, chữ lớn để trình chiếu rõ hơn.
-- **02/09/2026:** làm rõ nút xem/thu gọn đề bài cho toàn bộ phiên tình huống; đổi 10 bài đầu của Phiên 2 sang dãy số ngang nổi bật; thêm phiên bản tài nguyên để tránh trình duyệt dùng lại CSS cũ.
-- **02/09/2026:** giữ nguyên trạng thái mở/thu gọn câu hỏi, phần giải thích và vị trí cuộn khi dữ liệu tự cập nhật sau mỗi 10 giây.
-- **02/09/2026:** Phiên 6 hiển thị tối đa 5 giải thích của nhóm chọn Đúng và 5 của nhóm chọn Sai cho mỗi câu, kèm nhãn lựa chọn của từng phản hồi ở cả hai trạng thái.
-- **02/09/2026:** bỏ bảng tổng hợp lặp lại của Phiên 6 sau chốt, đánh dấu xanh đáp án đúng trên từng thẻ; chuẩn hóa nhãn Phiên 3, 5, 7 và 8 thành “TÌNH HUỐNG”.
 
 ## Kết nối Google Sheet và Apps Script
 
@@ -196,6 +195,8 @@ Workflow `.github/workflows/pages.yml` tự triển khai khi có thay đổi đ�
 
 ## Nhật ký cập nhật
 
+- **03/09/2026:** thêm Top 10 người đạt kết quả tuyệt đối và nộp sớm nhất cho các phiên chấm khách quan; Phiên 2 hiển thị đủ nội dung 13 bước đúng; chuẩn hóa trạng thái Chưa bắt đầu/Đang đếm ngược và nhãn thời lượng theo phút; hợp nhất nhật ký cập nhật.
+- **03/09/2026:** hiển thị rõ “Đang load dữ liệu…” trong điều khiển nhanh; thêm QR Phiên 1–9, điều khiển nhanh gọn theo phiên và ẩn email đăng nhập khỏi giao diện.
 - **03/09/2026:** hoàn thiện script 09 Form với trường Chức vụ/Vị trí công tác và Required; bổ sung countdown/tự chốt bền vững; thêm thống kê đơn vị tham gia/chưa tham gia từ danh mục chuẩn và dữ liệu demo tương ứng.
 - **03/09/2026:** tách hoàn toàn điều khiển nhanh của bản demo khỏi Apps Script production; chốt, mở lại và đặt timer trong demo chỉ tác động dữ liệu giả lập.
 

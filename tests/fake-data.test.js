@@ -5,7 +5,7 @@ const path = require("node:path");
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "fake.json"), "utf8"));
 
 assert.equal(data.fake, true);
-assert.equal(data.version, 6);
+assert.equal(data.version, 7);
 assert.equal(data.sessions.length, 9);
 assert.deepEqual(data.sessions.map(session => session.id), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -47,6 +47,8 @@ for (const session of data.sessions) {
 
 const ordering = data.sessions.find(session => session.id === 2).ordering;
 assert.equal(ordering.positionAccuracy.length, 13);
+assert.equal(ordering.correctSteps.length, 13);
+assert.ok(ordering.correctSteps.every(item => item.text));
 assert.ok(ordering.commonSequences.length <= 5);
 assert.equal(ordering.samples.length, 10);
 assert.equal(data.sessions.find(session => session.id === 2).prompt.items.length, 13);
@@ -55,7 +57,9 @@ for (const id of [2, 3, 5, 7, 8]) {
 }
 for (const id of [3, 5, 7, 8]) {
   assert.equal(data.sessions.find(session => session.id === id).prompt.label, "TÌNH HUỐNG");
+  assert.equal(data.sessions.find(session => session.id === id).leaderboard.length, 0);
 }
+for (const id of [1, 2, 4, 6, 9]) assert.equal(data.sessions.find(session => session.id === id).leaderboard.length, 10);
 
 const serialized = JSON.stringify(data);
 assert.equal(/"email"\s*:|"phone"\s*:|"fullName"\s*:/.test(serialized), false);

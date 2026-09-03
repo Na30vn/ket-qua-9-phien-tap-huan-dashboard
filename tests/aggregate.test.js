@@ -65,7 +65,7 @@ vm.runInContext(`${source}\nthis.__getDashboardData = getDashboardData_; this.__
 const data = context.__getDashboardData(true);
 
 assert.equal(data.sessions.length, 9);
-assert.equal(data.version, 6);
+assert.equal(data.version, 7);
 assert.equal(data.sessions[0].phase, "CLOSED");
 assert.equal(data.sessions[0].currentResponses, 1);
 assert.equal(data.sessions[0].totalResponses, 1);
@@ -87,6 +87,11 @@ assert.equal(data.sessions[1].scoreStats.average, 10);
 assert.equal(data.sessions[1].ordering.correctRate, 100);
 assert.equal(data.sessions[1].ordering.uniqueSequenceCount, 1);
 assert.equal(data.sessions[1].ordering.positionAccuracy.length, 13);
+assert.equal(data.sessions[1].ordering.correctSteps.length, 13);
+assert.match(data.sessions[1].ordering.correctSteps[0].text, /Cơ quan thu lập dự toán/);
+assert.equal(data.sessions[1].leaderboard.length, 1);
+assert.equal(data.sessions[1].leaderboard[0].name, "Nguyễn Văn A");
+assert.equal(data.sessions[1].leaderboard[0].result, "13/13 bước đúng");
 assert.equal(data.sessions[1].ordering.positionAccuracy[0].percent, 100);
 assert.deepEqual(JSON.parse(JSON.stringify(data.sessions[1].ordering.samples)), ["3,5,1,6,4,11,9,8,10,13,2,12,7"]);
 assert.equal(data.sessions[1].prompt.items.length, 13);
@@ -110,7 +115,7 @@ for (const id of [3, 5, 7, 8]) {
 }
 
 const serialized = JSON.stringify(data);
-assert.equal(serialized.includes("Nguyễn Văn A"), false);
+assert.equal(data.sessions[2].leaderboard.length, 0);
 assert.equal(serialized.includes("Đơn vị A"), true);
 assert.equal(serialized.includes("a@example.com"), false);
 assert.equal(serialized.includes("0912345678"), false);

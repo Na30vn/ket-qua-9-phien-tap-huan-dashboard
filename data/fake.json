@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "updatedAt": "2026-09-03T07:20:29.894Z",
+  "version": 7,
+  "updatedAt": "2026-09-03T09:02:08.786Z",
   "sessions": [
     {
       "id": 1,
@@ -625,7 +625,69 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": [
+        {
+          "name": "Nguyễn Minh Anh",
+          "unit": "Sở Tài chính",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:10.000Z"
+        },
+        {
+          "name": "Trần Thu Hà",
+          "unit": "Phường Hải Châu",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:17.000Z"
+        },
+        {
+          "name": "Lê Quốc Bảo",
+          "unit": "Phường Hòa Cường",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:24.000Z"
+        },
+        {
+          "name": "Phạm Hoài Nam",
+          "unit": "Phường Thanh Khê",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:31.000Z"
+        },
+        {
+          "name": "Đỗ Thanh Hương",
+          "unit": "Phường An Khê",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:38.000Z"
+        },
+        {
+          "name": "Võ Đức Anh",
+          "unit": "Phường An Hải",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:45.000Z"
+        },
+        {
+          "name": "Nguyễn Hải Yến",
+          "unit": "Phường Sơn Trà",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:52.000Z"
+        },
+        {
+          "name": "Bùi Quang Huy",
+          "unit": "Phường Ngũ Hành Sơn",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:15:59.000Z"
+        },
+        {
+          "name": "Trương Mỹ Linh",
+          "unit": "Phường Hòa Khánh",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:16:06.000Z"
+        },
+        {
+          "name": "Lê Ngọc Sơn",
+          "unit": "Phường Liên Chiểu",
+          "result": "6/6 câu đúng",
+          "completedAt": "2026-08-31T08:16:13.000Z"
+        }
+      ]
     },
     {
       "id": 2,
@@ -770,6 +832,73 @@
           "3,5,1,6,4,9,11,8,10,13,2,12,7",
           "3,5,1,6,4,11,9,10,8,13,2,12,7",
           "3,5,1,6,4,11,9,8,10,2,13,12,7"
+        ],
+        "correctSteps": [
+          {
+            "position": 1,
+            "step": 3,
+            "text": "Cơ quan thu lập dự toán các khoản thu ngân sách."
+          },
+          {
+            "position": 2,
+            "step": 5,
+            "text": "Các đơn vị sử dụng ngân sách, đơn vị dự toán lập dự toán thu, chi của đơn vị."
+          },
+          {
+            "position": 3,
+            "step": 1,
+            "text": "Cơ quan tài chính cấp xã tổng hợp, cân đối, lập dự toán ngân sách cấp xã, phương án phân bổ dự toán ngân sách cấp xã, báo cáo Ủy ban nhân dân cấp xã."
+          },
+          {
+            "position": 4,
+            "step": 6,
+            "text": "Ủy ban nhân dân cấp xã trình Thường trực Hội đồng nhân dân cấp xã xem xét cho ý kiến trước khi báo cáo Sở Tài chính."
+          },
+          {
+            "position": 5,
+            "step": 4,
+            "text": "Sau khi có ý kiến của Thường trực Hội đồng nhân dân cấp xã, Ủy ban nhân dân cấp xã gửi dự toán thu ngân sách nhà nước trên địa bàn, dự toán thu, chi ngân sách cấp xã đến Ủy ban nhân dân cấp tỉnh và Sở Tài chính."
+          },
+          {
+            "position": 6,
+            "step": 11,
+            "text": "Chậm nhất sau 10 ngày kể từ ngày Hội đồng nhân dân cấp tỉnh quyết định dự toán và phân bổ ngân sách, căn cứ quyết định giao dự toán ngân sách của Ủy ban nhân dân cấp tỉnh, Hội đồng nhân dân cấp xã quyết định dự toán thu ngân sách nhà nước trên địa bàn, thu, chi ngân sách cấp xã và phân bổ dự toán ngân sách cấp xã."
+          },
+          {
+            "position": 7,
+            "step": 9,
+            "text": "Chậm nhất sau 05 ngày làm việc kể từ ngày Hội đồng nhân dân cấp xã quyết định dự toán ngân sách, Ủy ban nhân dân cấp xã giao dự toán thu, chi ngân sách cho từng cơ quan, đơn vị trực thuộc, đồng thời báo cáo Sở Tài chính về dự toán ngân sách đã được Hội đồng nhân dân cấp xã quyết định và Ủy ban nhân dân cấp xã giao."
+          },
+          {
+            "position": 8,
+            "step": 8,
+            "text": "Các đơn vị sử dụng ngân sách lập hồ sơ đề nghị chi gửi Kho bạc Nhà nước để thanh toán hoặc tạm ứng theo quy định."
+          },
+          {
+            "position": 9,
+            "step": 10,
+            "text": "Điều chỉnh dự toán ngân sách cấp xã hằng năm (nếu có)."
+          },
+          {
+            "position": 10,
+            "step": 13,
+            "text": "Các đơn vị được giao dự toán ngân sách khoá sổ, lập quyết toán thu, chi ngân sách nhà nước của đơn vị mình gửi cơ quan tài chính cấp xã để kiểm tra tính đầy đủ, khớp đúng giữa các số liệu quyết toán với xác nhận của KBNN."
+          },
+          {
+            "position": 11,
+            "step": 2,
+            "text": "Cơ quan tài chính cấp xã tổng hợp quyết toán năm của các đơn vị dự toán cấp I thuộc ngân sách cấp mình, trình Ủy ban nhân dân cấp xã."
+          },
+          {
+            "position": 12,
+            "step": 12,
+            "text": "Ủy ban nhân dân cấp xã lập quyết toán thu ngân sách nhà nước trên địa bàn và quyết toán thu, chi ngân sách cấp xã báo cáo Thường trực Hội đồng nhân dân cùng cấp cho ý kiến trước ngày 10 tháng 3 năm sau và tiếp thu, hoàn chỉnh để trình Hội đồng nhân dân cùng cấp xem xét, phê chuẩn, đồng thời gửi Sở Tài chính."
+          },
+          {
+            "position": 13,
+            "step": 7,
+            "text": "Hội đồng nhân dân cấp xã xem xét, phê chuẩn báo cáo quyết toán ngân sách cấp mình trước ngày 31 tháng 3 năm sau, gửi Ủy ban nhân dân cấp tỉnh chậm nhất sau 05 ngày làm việc kể từ ngày báo cáo quyết toán được phê chuẩn."
+          }
         ]
       },
       "unitBreakdown": [
@@ -1129,7 +1258,69 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": [
+        {
+          "name": "Nguyễn Minh Anh",
+          "unit": "Sở Tài chính",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:10.000Z"
+        },
+        {
+          "name": "Trần Thu Hà",
+          "unit": "Phường Hải Châu",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:17.000Z"
+        },
+        {
+          "name": "Lê Quốc Bảo",
+          "unit": "Phường Hòa Cường",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:24.000Z"
+        },
+        {
+          "name": "Phạm Hoài Nam",
+          "unit": "Phường Thanh Khê",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:31.000Z"
+        },
+        {
+          "name": "Đỗ Thanh Hương",
+          "unit": "Phường An Khê",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:38.000Z"
+        },
+        {
+          "name": "Võ Đức Anh",
+          "unit": "Phường An Hải",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:45.000Z"
+        },
+        {
+          "name": "Nguyễn Hải Yến",
+          "unit": "Phường Sơn Trà",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:52.000Z"
+        },
+        {
+          "name": "Bùi Quang Huy",
+          "unit": "Phường Ngũ Hành Sơn",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:15:59.000Z"
+        },
+        {
+          "name": "Trương Mỹ Linh",
+          "unit": "Phường Hòa Khánh",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:16:06.000Z"
+        },
+        {
+          "name": "Lê Ngọc Sơn",
+          "unit": "Phường Liên Chiểu",
+          "result": "13/13 bước đúng",
+          "completedAt": "2026-08-31T08:16:13.000Z"
+        }
+      ]
     },
     {
       "id": 3,
@@ -1522,7 +1713,8 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": []
     },
     {
       "id": 4,
@@ -2270,7 +2462,69 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": [
+        {
+          "name": "Nguyễn Minh Anh",
+          "unit": "Sở Tài chính",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:10.000Z"
+        },
+        {
+          "name": "Trần Thu Hà",
+          "unit": "Phường Hải Châu",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:17.000Z"
+        },
+        {
+          "name": "Lê Quốc Bảo",
+          "unit": "Phường Hòa Cường",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:24.000Z"
+        },
+        {
+          "name": "Phạm Hoài Nam",
+          "unit": "Phường Thanh Khê",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:31.000Z"
+        },
+        {
+          "name": "Đỗ Thanh Hương",
+          "unit": "Phường An Khê",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:38.000Z"
+        },
+        {
+          "name": "Võ Đức Anh",
+          "unit": "Phường An Hải",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:45.000Z"
+        },
+        {
+          "name": "Nguyễn Hải Yến",
+          "unit": "Phường Sơn Trà",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:52.000Z"
+        },
+        {
+          "name": "Bùi Quang Huy",
+          "unit": "Phường Ngũ Hành Sơn",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:15:59.000Z"
+        },
+        {
+          "name": "Trương Mỹ Linh",
+          "unit": "Phường Hòa Khánh",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:16:06.000Z"
+        },
+        {
+          "name": "Lê Ngọc Sơn",
+          "unit": "Phường Liên Chiểu",
+          "result": "9/9 câu đúng",
+          "completedAt": "2026-08-31T08:16:13.000Z"
+        }
+      ]
     },
     {
       "id": 5,
@@ -2660,7 +2914,8 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": []
     },
     {
       "id": 6,
@@ -3481,7 +3736,69 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": [
+        {
+          "name": "Nguyễn Minh Anh",
+          "unit": "Sở Tài chính",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:10.000Z"
+        },
+        {
+          "name": "Trần Thu Hà",
+          "unit": "Phường Hải Châu",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:17.000Z"
+        },
+        {
+          "name": "Lê Quốc Bảo",
+          "unit": "Phường Hòa Cường",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:24.000Z"
+        },
+        {
+          "name": "Phạm Hoài Nam",
+          "unit": "Phường Thanh Khê",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:31.000Z"
+        },
+        {
+          "name": "Đỗ Thanh Hương",
+          "unit": "Phường An Khê",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:38.000Z"
+        },
+        {
+          "name": "Võ Đức Anh",
+          "unit": "Phường An Hải",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:45.000Z"
+        },
+        {
+          "name": "Nguyễn Hải Yến",
+          "unit": "Phường Sơn Trà",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:52.000Z"
+        },
+        {
+          "name": "Bùi Quang Huy",
+          "unit": "Phường Ngũ Hành Sơn",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:15:59.000Z"
+        },
+        {
+          "name": "Trương Mỹ Linh",
+          "unit": "Phường Hòa Khánh",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:16:06.000Z"
+        },
+        {
+          "name": "Lê Ngọc Sơn",
+          "unit": "Phường Liên Chiểu",
+          "result": "7/7 câu đúng",
+          "completedAt": "2026-08-31T08:16:13.000Z"
+        }
+      ]
     },
     {
       "id": 7,
@@ -3876,7 +4193,8 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": []
     },
     {
       "id": 8,
@@ -4282,7 +4600,8 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": []
     },
     {
       "id": 9,
@@ -4743,7 +5062,69 @@
       ],
       "unmappedUnitResponses": 0,
       "timerStartedAt": null,
-      "timerEndsAt": null
+      "timerEndsAt": null,
+      "leaderboard": [
+        {
+          "name": "Nguyễn Minh Anh",
+          "unit": "Sở Tài chính",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:10.000Z"
+        },
+        {
+          "name": "Trần Thu Hà",
+          "unit": "Phường Hải Châu",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:17.000Z"
+        },
+        {
+          "name": "Lê Quốc Bảo",
+          "unit": "Phường Hòa Cường",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:24.000Z"
+        },
+        {
+          "name": "Phạm Hoài Nam",
+          "unit": "Phường Thanh Khê",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:31.000Z"
+        },
+        {
+          "name": "Đỗ Thanh Hương",
+          "unit": "Phường An Khê",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:38.000Z"
+        },
+        {
+          "name": "Võ Đức Anh",
+          "unit": "Phường An Hải",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:45.000Z"
+        },
+        {
+          "name": "Nguyễn Hải Yến",
+          "unit": "Phường Sơn Trà",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:52.000Z"
+        },
+        {
+          "name": "Bùi Quang Huy",
+          "unit": "Phường Ngũ Hành Sơn",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:15:59.000Z"
+        },
+        {
+          "name": "Trương Mỹ Linh",
+          "unit": "Phường Hòa Khánh",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:16:06.000Z"
+        },
+        {
+          "name": "Lê Ngọc Sơn",
+          "unit": "Phường Liên Chiểu",
+          "result": "2/2 câu đúng",
+          "completedAt": "2026-08-31T08:16:13.000Z"
+        }
+      ]
     }
   ],
   "fake": true

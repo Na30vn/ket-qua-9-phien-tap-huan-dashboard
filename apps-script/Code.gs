@@ -215,7 +215,7 @@ function doGet(e) {
 function getDashboardData_(forceRefresh) {
   const cache = CacheService.getScriptCache();
   if (!forceRefresh) {
-    const cached = cache.get('dashboard-v6');
+    const cached = cache.get('dashboard-v7');
     if (cached) return JSON.parse(cached);
   }
   const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
@@ -224,9 +224,9 @@ function getDashboardData_(forceRefresh) {
   const control = getDashboardControl_(spreadsheet);
   const unitCatalog = getStandardUnitCatalog_(spreadsheet);
   const sessions = SESSION_CONFIG.map(config => aggregateSession_(spreadsheet, config, control[config.id], unitCatalog));
-  const payload = { version: 6, updatedAt: new Date().toISOString(), sessions };
+  const payload = { version: 7, updatedAt: new Date().toISOString(), sessions };
   const serialized = JSON.stringify(payload);
-  if (serialized.length < 95000) cache.put('dashboard-v6', serialized, CACHE_SECONDS);
+  if (serialized.length < 95000) cache.put('dashboard-v7', serialized, CACHE_SECONDS);
   return payload;
 }
 
@@ -274,6 +274,9 @@ function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
       ? getScoreStats_(rows, resolvedConfig)
       : { count: 0, distribution: [], mode: 'Ẩn trong lúc nhận bài' }
   };
+  result.leaderboard = phase === 'CLOSED'
+    ? buildPerfectLeaderboard_(entries, headers, resolvedConfig)
+    : [];
 
   if (config.kind === 'quiz' || config.kind === 'true_false') {
     const configuredChoices = config.kind === 'quiz' ? (config.choices || []) : [];
@@ -341,6 +344,7 @@ function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
     result.ordering = phase === 'CLOSED'
       ? {
           correctSequence: config.correctSequence,
+          correctSteps: buildCorrectOrderingSteps_(config),
           correctCount: answers.filter(answer => answer === correct).length,
           correctRate: rows.length ? answers.filter(answer => answer === correct).length / rows.length * 100 : 0,
           uniqueSequenceCount: new Set(answers).size,
@@ -360,6 +364,67 @@ function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
     result.liveResponses = result.responses.slice(0, MAX_LIVE_RESPONSES);
   }
   return result;
+}
+
+function buildCorrectOrderingSteps_(config) {
+  const items = config.prompt && config.prompt.items ? config.prompt.items : [];
+  return normalizeSequence_(config.correctSequence).split(',').filter(Boolean).map((step, index) => ({
+    position: index + 1,
+    step: Number(step),
+    text: items[Number(step) - 1] || ''
+  }));
+}
+
+function buildPerfectLeaderboard_(entries, headers, config) {
+  const nameIndexes = headers.map((header, index) => ({ value: normalizeLookup_(header), index }))
+    .filter(item => /^ho va ten(?:\s|$)/.test(item.value)).map(item => item.index);
+  const unitIndexes = headers.map((header, index) => ({ value: normalizeLookup_(header), index }))
+    .filter(item => /^don vi(?:\s|$)/.test(item.value)).map(item => item.index);
+  if (!nameIndexes.length || !unitIndexes.length) return [];
+  const maximum = config.correctAnswers && config.questionIndexes
+    ? config.questionIndexes.length * (config.pointsPerQuestion || 1)
+    : config.kind === 'ordering' ? 10 : 0;
+  if (!maximum) return [];
+  const candidates = entries.map(entry => {
+    const row = entry.display;
+    let score = 0;
+    let correctCount = 0;
+    let totalCount = 0;
+    if (config.correctAnswers && config.questionIndexes) {
+      totalCount = config.questionIndexes.length;
+      correctCount = config.questionIndexes.reduce((sum, columnIndex, index) =>
+        sum + (sameAnswer_(row[columnIndex], config.correctAnswers[index]) ? 1 : 0), 0);
+      score = correctCount * (config.pointsPerQuestion || 1);
+    } else if (config.kind === 'ordering') {
+      totalCount = normalizeSequence_(config.correctSequence).split(',').filter(Boolean).length;
+      correctCount = normalizeSequence_(row[config.answerIndex]) === normalizeSequence_(config.correctSequence) ? totalCount : 0;
+      score = correctCount === totalCount ? maximum : 0;
+    }
+    const completedAt = toDate_(entry.raw[0]) || parseDisplayTimestamp_(row[0]);
+    return {
+      name: lastNonEmptyField_(row, nameIndexes),
+      unit: lastNonEmptyField_(row, unitIndexes),
+      score,
+      maxScore: maximum,
+      result: config.kind === 'ordering' ? `${correctCount}/${totalCount} bước đúng` : `${correctCount}/${totalCount} câu đúng`,
+      completedAt: completedAt ? completedAt.toISOString() : null,
+      completedAtValue: completedAt ? completedAt.getTime() : Number.MAX_SAFE_INTEGER
+    };
+  }).filter(item => item.name && item.score === maximum);
+  const bestByPerson = {};
+  candidates.forEach(item => {
+    const key = normalizeLookup_(item.name) + '|' + normalizeLookup_(item.unit);
+    if (!bestByPerson[key] || item.completedAtValue < bestByPerson[key].completedAtValue) bestByPerson[key] = item;
+  });
+  return Object.keys(bestByPerson).map(key => bestByPerson[key])
+    .sort((a, b) => a.completedAtValue - b.completedAtValue || a.name.localeCompare(b.name, 'vi'))
+    .slice(0, 10)
+    .map(item => ({ name: item.name, unit: item.unit, result: item.result, completedAt: item.completedAt }));
+}
+
+function lastNonEmptyField_(row, indexes) {
+  const values = indexes.map(index => String(row[index] || '').replace(/\s+/g, ' ').trim()).filter(Boolean);
+  return values[values.length - 1] || '';
 }
 
 function buildQuizSummary_(questions, scoreStats, pointsPerQuestion) {

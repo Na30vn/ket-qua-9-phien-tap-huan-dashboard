@@ -291,4 +291,5 @@ function assertAdmin_() {
 function clearDashboardCache_() {
   CacheService.getScriptCache().remove('dashboard-v5');
   CacheService.getScriptCache().remove('dashboard-v6');
+  CacheService.getScriptCache().remove('dashboard-v7');
 }

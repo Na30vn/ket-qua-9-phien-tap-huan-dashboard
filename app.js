@@ -388,7 +388,13 @@
     else if (session.kind === "ordering") content = live ? renderLiveOrdering(session) : renderOrderingDashboard(session);
     else if (session.kind === "true_false") content = renderTrueFalseDashboard(session, live);
     else content = renderOpenDashboard(session, live);
-    return content + renderUnitParticipation(session) + (live ? "" : renderUnitBreakdown(session));
+    return (live ? "" : renderLeaderboard(session)) + content + renderUnitParticipation(session) + (live ? "" : renderUnitBreakdown(session));
+  }
+
+  function renderLeaderboard(session) {
+    const leaders = session.leaderboard || [];
+    if (!leaders.length) return "";
+    return `<section class="leaderboard panel"><div class="leaderboard-heading"><div><p class="panel-kicker">VINH DANH</p><h3>Top ${leaders.length} làm đúng và hoàn thành sớm nhất</h3></div><span>Chỉ hiển thị người đạt kết quả tối đa</span></div><ol class="leaderboard-list">${leaders.map((leader, index) => `<li class="leaderboard-item rank-${index + 1}"><span class="leaderboard-rank">${index + 1}</span><div><strong>${escapeHtml(leader.name)}</strong><small>${escapeHtml(leader.unit || "Chưa xác định đơn vị")}</small></div><b>${escapeHtml(leader.result || "Đúng hoàn toàn")}</b><time>${leader.completedAt ? `Hoàn thành lúc ${new Date(leader.completedAt).toLocaleTimeString("vi-VN")}` : "Không có giờ nộp"}</time></li>`).join("")}</ol></section>`;
   }
 
   function renderLiveQuiz(session) {
@@ -441,7 +447,8 @@
   function renderOrderingDashboard(session) {
     const ordering = session.ordering || {};
     const positions = ordering.positionAccuracy || [];
-    return `<section class="content-grid">${renderPromptCard(session)}<article class="panel full reference-panel">${panelHeading("Trình tự tham chiếu", "13 vị trí trên một hàng; đọc từ trái sang phải")}<div class="sequence-flow" data-ui-scroll="session-${session.id}-reference-sequence">${String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => `<div class="sequence-step"><span>Vị trí ${index + 1}</span><strong>Bước ${escapeHtml(step.trim())}</strong></div>`).join("")}</div></article><article class="panel full">${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}<div class="horizontal-chart position-chart">${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}</div></article><article class="panel full">${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}${renderWrongSequences(ordering.commonSequences || [])}</article></section>`;
+    const correctSteps = ordering.correctSteps || String(ordering.correctSequence || "").split(",").filter(Boolean).map((step, index) => ({ position: index + 1, step: step.trim(), text: session.prompt?.items?.[Number(step) - 1] || "" }));
+    return `<section class="content-grid">${renderPromptCard(session)}<article class="panel full reference-panel">${panelHeading("Trình tự đúng", "Đầy đủ nội dung 13 hoạt động theo thứ tự")}<ol class="correct-step-list">${correctSteps.map(item => `<li><span>${String(item.position).padStart(2, "0")}</span><div><small>Bước ${escapeHtml(item.step)}</small><strong>${escapeHtml(item.text || "Chưa có nội dung bước")}</strong></div></li>`).join("")}</ol></article><article class="panel full">${panelHeading("Tỷ lệ đặt đúng vị trí của từng bước", "Nhận diện bước thường bị đặt sai")}<div class="horizontal-chart position-chart">${positions.length ? positions.map(item => `<div class="horizontal-row"><span class="axis-label wide">Bước ${escapeHtml(item.step)} ở vị trí ${item.position}</span><div class="bar-track"><div class="bar-fill ${Number(item.percent || 0) < 50 ? "red" : ""}" style="width:${clampPercent(item.percent)}%"></div></div><strong>${score(item.percent || 0)}%</strong></div>`).join("") : renderInlineEmpty()}</div></article><article class="panel full">${panelHeading("Các phương án sai phổ biến", "Tối đa 5 trình tự được gửi nhiều nhất")}${renderWrongSequences(ordering.commonSequences || [])}</article></section>`;
   }
 
   function renderOrderingSample(value, index) {
