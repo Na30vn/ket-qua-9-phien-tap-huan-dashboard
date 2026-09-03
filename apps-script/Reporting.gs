@@ -98,6 +98,8 @@ function processExpiredDashboardTimers() {
       if (!responseSheet) return;
       const count = countResponseRowsAtOrBefore_(responseSheet, closeAt);
       controlSheet.getRange(id + 1, 2, 1, 4).setValues([['CLOSED', closeAt, count, row[4] || '']]);
+      clearPublicTopForSession_(spreadsheet, id);
+      try { taoTabGeminiReview_(spreadsheet, id); } catch (e) { Logger.log('Không thể tạo tab _GEMINI_REVIEW: ' + e); }
       closed.push({ sessionId: id, closedAt: closeAt.toISOString(), totalResponses: count });
     });
     if (closed.length) clearDashboardCache_();
@@ -309,6 +311,17 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
   const sessionRows = values.filter(row => Number(row[0]) === id);
   if (!sessionRows.length) return;
 
+  // Công thức =AI có thể đang xử lý. Nếu còn bất kỳ bài nào chưa nhận chuỗi
+  // kết quả hợp lệ, không được công bố Top N tạm với điểm 0/3.
+  const resultColumn = id === 6 ? 9 : 8;
+  const expectedMarker = id === 6 ? /^E1=[01](?:;|\s|$)/i : /^Y1=[01](?:;|\s|$)/i;
+  const pendingCount = sessionRows.filter(row => !expectedMarker.test(String(row[resultColumn] || '').trim())).length;
+  if (pendingCount) {
+    clearPublicTopForSession_(spreadsheet, id);
+    clearDashboardCache_();
+    return { ok: false, pending: true, sessionId: id, pendingCount };
+  }
+
   const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer : [String(config.referenceAnswer || '')];
 
   const parsedItems = sessionRows.map(row => {
@@ -316,7 +329,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     const unit = String(row[3] || '').trim();
     const submittedAt = String(row[4] || '').trim();
     const essay = String(row[5] || '').trim();
-    const rawResultAI = String(row[8] || '').trim();
+    const rawResultAI = String(row[resultColumn] || '').trim();
     const displayFeedback = String(row[11] || '').trim();
 
     if (id === 6) {
@@ -399,6 +412,8 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
   const finalRows = [FIXED_HEADER, ...otherSessionsRows, ...newTopRows];
   publicTopSheet.getRange(1, 1, finalRows.length, NUM_COLS).setValues(finalRows);
   try { publicTopSheet.hideSheet(); } catch (e) {}
+  clearDashboardCache_();
+  return { ok: true, sessionId: id, total: newTopRows.length };
 }
 
 /**
@@ -407,32 +422,37 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
 function taoTabGeminiReviewPhien3() {
   const spreadsheet = openDashboardSpreadsheet_();
   taoTabGeminiReview_(spreadsheet, 3);
-  capNhatTabPublicTop_(spreadsheet, 3);
-  Logger.log('Đã tạo tab _GEMINI_REVIEW và cập nhật Vinh danh Top N Phiên 3 thành công!');
+  clearPublicTopForSession_(spreadsheet, 3);
+  clearDashboardCache_();
+  Logger.log('Đã tạo tab _GEMINI_REVIEW Phiên 3. Chỉ chạy capNhatPublicTopPhien3 sau khi Gemini chấm xong toàn bộ.');
 }
 
 function taoTabGeminiReviewPhien5() {
   const spreadsheet = openDashboardSpreadsheet_();
   taoTabGeminiReview_(spreadsheet, 5);
-  capNhatTabPublicTop_(spreadsheet, 5);
+  clearPublicTopForSession_(spreadsheet, 5);
+  clearDashboardCache_();
 }
 
 function taoTabGeminiReviewPhien6() {
   const spreadsheet = openDashboardSpreadsheet_();
   taoTabGeminiReview_(spreadsheet, 6);
-  capNhatTabPublicTop_(spreadsheet, 6);
+  clearPublicTopForSession_(spreadsheet, 6);
+  clearDashboardCache_();
 }
 
 function taoTabGeminiReviewPhien7() {
   const spreadsheet = openDashboardSpreadsheet_();
   taoTabGeminiReview_(spreadsheet, 7);
-  capNhatTabPublicTop_(spreadsheet, 7);
+  clearPublicTopForSession_(spreadsheet, 7);
+  clearDashboardCache_();
 }
 
 function taoTabGeminiReviewPhien8() {
   const spreadsheet = openDashboardSpreadsheet_();
   taoTabGeminiReview_(spreadsheet, 8);
-  capNhatTabPublicTop_(spreadsheet, 8);
+  clearPublicTopForSession_(spreadsheet, 8);
+  clearDashboardCache_();
 }
 
 function capNhatPublicTopTatCaPhien() {

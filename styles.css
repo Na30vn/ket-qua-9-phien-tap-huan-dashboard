@@ -827,6 +827,9 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   display: grid;
   gap: 10px;
 }
+.ai-review-pending { border-color: #f4bf48; background: #fffaf0; }
+.ai-review-pending h3 { margin: 4px 0 8px; color: #8a4d00; }
+.ai-review-pending p:last-child { margin: 0; color: #5d4a27; line-height: 1.55; }
 .ranking-card {
   min-height: 76px;
   display: grid;

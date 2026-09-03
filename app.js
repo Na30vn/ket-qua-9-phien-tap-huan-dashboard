@@ -42,6 +42,7 @@
   let responseSearch = "";
   let closedLivePreview = false;
   let timer = null;
+  let lastLivePayload = null;
   let countdownExpired = false;
   let isLoading = false;
   let usingFallbackData = false;
@@ -159,21 +160,38 @@
       if (!dataUrl) throw new Error("DATA_URL_EMPTY");
       const separator = dataUrl.includes("?") ? "&" : "?";
       const force = !fakeMode && forceRefresh === true ? "&refresh=1" : "";
-      const response = await fetch(`${dataUrl}${separator}_=${Date.now()}${force}`, { cache: "no-store" });
+      const response = await fetchWithTimeout(`${dataUrl}${separator}_=${Date.now()}${force}`);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       payload = await response.json();
+      lastLivePayload = payload;
       usingFallbackData = false;
       setStatus(fakeMode ? "demo" : "live", fakeMode ? "Dữ liệu giả lập" : "Dữ liệu trực tiếp");
     } catch (error) {
-      const response = await fetch(`${config.demoDataUrl || "data/demo.json"}?_=${Date.now()}`, { cache: "no-store" });
-      payload = await response.json();
-      usingFallbackData = !fakeMode;
-      setStatus(config.apiUrl ? "error" : "demo", config.apiUrl ? "Không kết nối được dữ liệu" : "Chế độ xem trước");
+      if (!fakeMode && lastLivePayload) {
+        payload = lastLivePayload;
+        usingFallbackData = false;
+        setStatus("error", "Mất kết nối tạm thời · đang hiển thị dữ liệu gần nhất");
+      } else {
+        const response = await fetchWithTimeout(`${config.demoDataUrl || "data/demo.json"}?_=${Date.now()}`, 8000);
+        payload = await response.json();
+        usingFallbackData = !fakeMode;
+        setStatus(config.apiUrl ? "error" : "demo", config.apiUrl ? "Không kết nối được dữ liệu" : "Chế độ xem trước");
+      }
     } finally {
       isLoading = false;
     }
     applyPendingControlStates();
     render();
+  }
+
+  async function fetchWithTimeout(url, timeoutMs = 12000) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      return await fetch(url, { cache: "no-store", signal: controller.signal });
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   function applyPendingControlStates() {
@@ -455,6 +473,9 @@
     const topParticipants = session.topParticipants || [];
     if (topParticipants.length > 0) {
       return renderTopParticipantsLeaderboard(session, topParticipants);
+    }
+    if (session.aiReviewPending) {
+      return `<section class="ai-review-pending panel"><p class="panel-kicker">KẾT QUẢ ĐANG ĐƯỢC CHẤM</p><h3>Chưa công bố vinh danh</h3><p>Gemini đang chấm bài trong Sheet. Khi hoàn tất và cập nhật bảng <strong>_PUBLIC_TOP</strong>, tải lại dashboard để công bố Top nội dung.</p></section>`;
     }
     const leaders = session.leaderboard || [];
     if (!leaders.length) return "";
@@ -994,9 +1015,13 @@
         globalTimerBanner.hidden = true;
         render();
       } else if (event.data.action === "timer") {
-        controlSessionStates.set(Number(event.data.sessionId), { phase: "TIMED" });
+        controlSessionStates.set(Number(event.data.sessionId), {
+          phase: "TIMED",
+          timerStartedAt: event.data.timerStartedAt || null,
+          timerEndsAt: event.data.timerEndsAt || null
+        });
         const session = payload?.sessions?.find(item => Number(item.id) === Number(event.data.sessionId));
-        if (session) session.phase = "TIMED";
+        if (session) Object.assign(session, controlSessionStates.get(Number(event.data.sessionId)));
         render();
       }
       return;
@@ -1021,12 +1046,12 @@
       render();
       updateCountdowns();
     }
-    loadData(true);
+    setTimeout(() => loadData(false), 700);
   });
   loadData();
-  if (Number(config.refreshSeconds) > 0) timer = setInterval(() => loadData(true), Number(config.refreshSeconds) * 1000);
+  if (Number(config.refreshSeconds) > 0) timer = setInterval(() => loadData(false), Number(config.refreshSeconds) * 1000);
   const countdownTicker = setInterval(updateCountdowns, 500);
-  window.addEventListener("focus", () => loadData(true));
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) loadData(true); });
+  window.addEventListener("focus", () => loadData(false));
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) loadData(false); });
   window.addEventListener("beforeunload", () => { clearInterval(timer); clearInterval(countdownTicker); });
 })();

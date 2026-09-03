@@ -32,7 +32,7 @@ assert.match(admin, /requestedView === 'compact'/);
 assert.match(admin, /dashboard-session-updated/);
 assert.match(admin, /dashboard-session-pending/);
 assert.match(admin, /dashboard-session-failed/);
-assert.match(admin, /beginCompactAction\(id, 'timer'\)/);
+assert.match(admin, /beginCompactAction\(id, 'timer', \{ timerStartedAt, timerEndsAt \}\)/);
 assert.match(admin, /beginCompactAction\(id, 'close'\)/);
 assert.match(admin, /timerEndsAt: result\.timerEndsAt/);
 assert.doesNotMatch(admin, /Đăng nhập: \$\{data\.email\}/);

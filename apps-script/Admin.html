@@ -105,10 +105,10 @@
     if (window.lastAdminData) render(window.lastAdminData);
     setBusy(false, message);
   }
-  function beginCompactAction(sessionId, action) {
+  function beginCompactAction(sessionId, action, timing) {
     if (requestedView !== 'compact') return;
     pendingCompactAction = { sessionId, action };
-    parent.postMessage({ type: 'dashboard-session-pending', sessionId, action }, '*');
+    parent.postMessage({ type: 'dashboard-session-pending', sessionId, action, ...(timing || {}) }, '*');
   }
   function load() {
     clearTimeout(loadTimeout);
@@ -169,7 +169,9 @@
       const input = button.parentElement.querySelector('[data-duration]');
       const minutes = Number(input && input.value);
       if (!(minutes > 0)) { fail(new Error('Hãy nhập số phút lớn hơn 0.')); return; }
-      beginCompactAction(id, 'timer');
+      const timerStartedAt = new Date().toISOString();
+      const timerEndsAt = new Date(Date.now() + minutes * 60000).toISOString();
+      beginCompactAction(id, 'timer', { timerStartedAt, timerEndsAt });
       actionFeedback = { kind: 'pending', sessionId: id, message: `Đang bắt đầu ${minutes} phút…` };
       if (window.lastAdminData) render(window.lastAdminData);
       setBusy(true, `Đang bắt đầu đếm ngược Phiên ${id}…`);

@@ -285,11 +285,15 @@ function aggregateSession_(spreadsheet, config, controlState, unitCatalog) {
       ? getScoreStats_(rows, resolvedConfig)
       : { count: 0, distribution: [], mode: 'Ẩn trong lúc nhận bài' }
   };
-  result.leaderboard = phase === 'CLOSED'
+  const requiresAiReview = [3, 5, 6, 7, 8].indexOf(config.id) >= 0;
+  // Các phiên có Gemini chỉ lấy Top N đã được công bố từ _PUBLIC_TOP. Tuyệt đối
+  // không dựng bảng xếp hạng tạm từ câu trả lời gốc, vì kết quả đó chưa được chấm.
+  result.leaderboard = phase === 'CLOSED' && !requiresAiReview
     ? buildPerfectLeaderboard_(entries, headers, resolvedConfig)
     : [];
-  if (phase === 'CLOSED' && [3, 5, 6, 7, 8].indexOf(config.id) >= 0) {
+  if (phase === 'CLOSED' && requiresAiReview) {
     result.topParticipants = getTopParticipantsFromSheet_(spreadsheet, config.id);
+    result.aiReviewPending = !result.topParticipants.length;
   }
 
   if (config.kind === 'quiz' || config.kind === 'true_false') {
