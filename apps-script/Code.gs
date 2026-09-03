@@ -865,6 +865,11 @@ function taoDuLieuMauChoPhien_(spreadsheet, sessionId) {
     "Phường Sơn Trà", "Phường Ngũ Hành Sơn", "Phường Hòa Khánh", "Phường Liên Chiểu", "Phường Hải Vân",
     "Xã Hòa Vang", "Xã Hòa Tiến"
   ];
+  const samplePositions = [
+    "Chuyên viên", "Công chức Tài chính - Kế toán", "Phó Trưởng phòng", "Kế toán trưởng",
+    "Chuyên viên", "Công chức Tài chính - Kế toán", "Phó Chủ tịch UBND", "Trưởng phòng",
+    "Chuyên viên", "Kế toán", "Công chức Tài chính - Kế toán", "Chuyên viên"
+  ];
   
   const now = new Date();
   const rowsToAdd = [];
@@ -885,7 +890,7 @@ function taoDuLieuMauChoPhien_(spreadsheet, sessionId) {
       "Cần bổ sung thuyết minh quyết toán và mốc công khai 9 tháng. (BÀI MẪU TEST)"
     ];
     sampleNames.forEach((name, i) => {
-      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+      rowsToAdd.push(buildOpenSampleRow_(sheet, config, new Date(now.getTime() - i * 60000), name, sampleUnits[i], samplePositions[i], essays[i]));
     });
   } else if (config.id === 5) {
     const essays = [
@@ -903,7 +908,7 @@ function taoDuLieuMauChoPhien_(spreadsheet, sessionId) {
       "Thủ trưởng đơn vị chịu trách nhiệm tính chính xác của quyết toán. (BÀI MẪU TEST)"
     ];
     sampleNames.forEach((name, i) => {
-      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+      rowsToAdd.push(buildOpenSampleRow_(sheet, config, new Date(now.getTime() - i * 60000), name, sampleUnits[i], samplePositions[i], essays[i]));
     });
   } else if (config.id === 7) {
     const essays = [
@@ -921,7 +926,7 @@ function taoDuLieuMauChoPhien_(spreadsheet, sessionId) {
       "Bỏ bước trình UBND xã phê duyệt chủ trương theo QĐ 80/2026. (BÀI MẪU TEST)"
     ];
     sampleNames.forEach((name, i) => {
-      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+      rowsToAdd.push(buildOpenSampleRow_(sheet, config, new Date(now.getTime() - i * 60000), name, sampleUnits[i], samplePositions[i], essays[i]));
     });
   } else if (config.id === 8) {
     const essays = [
@@ -939,7 +944,7 @@ function taoDuLieuMauChoPhien_(spreadsheet, sessionId) {
       "Bổ sung quyết định phê duyệt kết quả lựa chọn nhà thầu. (BÀI MẪU TEST)"
     ];
     sampleNames.forEach((name, i) => {
-      rowsToAdd.push([new Date(now.getTime() - i * 60000), name, sampleUnits[i], essays[i]]);
+      rowsToAdd.push(buildOpenSampleRow_(sheet, config, new Date(now.getTime() - i * 60000), name, sampleUnits[i], samplePositions[i], essays[i]));
     });
   } else if (config.id === 6) {
     sampleNames.forEach((name, i) => {
@@ -969,6 +974,21 @@ function taoDuLieuMauChoPhien_(spreadsheet, sessionId) {
   }
   
   return { success: true, count: rowsToAdd.length };
+}
+
+function buildOpenSampleRow_(sheet, config, timestamp, name, unit, position, essay) {
+  const headers = sheet.getRange(1, 1, 1, Math.max(1, sheet.getLastColumn())).getDisplayValues()[0];
+  const resolved = resolveColumns_(headers, config);
+  const row = Array(headers.length).fill('');
+  row[0] = timestamp;
+  headers.forEach((header, index) => {
+    const normalized = normalizeLookup_(header);
+    if (/^ho va ten(?:\s|$)/.test(normalized)) row[index] = name;
+    else if (/^don vi(?:\s|$)/.test(normalized)) row[index] = unit;
+    else if (/chuc vu|vi tri|chuc danh/.test(normalized)) row[index] = position;
+  });
+  row[resolved.answerIndex] = essay;
+  return row;
 }
 
 function xoaDuLieuMauChoPhien_(spreadsheet, sessionId) {
