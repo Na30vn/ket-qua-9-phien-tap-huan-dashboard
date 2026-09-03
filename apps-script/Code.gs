@@ -1021,32 +1021,34 @@ function onOpen() {
 
 function capNhatPublicTopPhien3() {
   const spreadsheet = openDashboardSpreadsheet_();
-  capNhatTabPublicTop_(spreadsheet, 3);
-  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 3 lên Dashboard!\nHãy mở Dashboard và bấm F5.'); } catch(e) { Logger.log('✅ Đã cập nhật Top N Phiên 3 xong!'); }
+  notifyPublicTopUpdate_(capNhatTabPublicTop_(spreadsheet, 3), 3);
 }
 
 function capNhatPublicTopPhien5() {
   const spreadsheet = openDashboardSpreadsheet_();
-  capNhatTabPublicTop_(spreadsheet, 5);
-  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 5!'); } catch(e) { Logger.log('✅ Phiên 5 xong!'); }
+  notifyPublicTopUpdate_(capNhatTabPublicTop_(spreadsheet, 5), 5);
 }
 
 function capNhatPublicTopPhien6() {
   const spreadsheet = openDashboardSpreadsheet_();
-  capNhatTabPublicTop_(spreadsheet, 6);
-  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 6!'); } catch(e) { Logger.log('✅ Phiên 6 xong!'); }
+  notifyPublicTopUpdate_(capNhatTabPublicTop_(spreadsheet, 6), 6);
 }
 
 function capNhatPublicTopPhien7() {
   const spreadsheet = openDashboardSpreadsheet_();
-  capNhatTabPublicTop_(spreadsheet, 7);
-  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 7!'); } catch(e) { Logger.log('✅ Phiên 7 xong!'); }
+  notifyPublicTopUpdate_(capNhatTabPublicTop_(spreadsheet, 7), 7);
 }
 
 function capNhatPublicTopPhien8() {
   const spreadsheet = openDashboardSpreadsheet_();
-  capNhatTabPublicTop_(spreadsheet, 8);
-  try { SpreadsheetApp.getUi().alert('✅ Đã cập nhật Top N Phiên 8!'); } catch(e) { Logger.log('✅ Phiên 8 xong!'); }
+  notifyPublicTopUpdate_(capNhatTabPublicTop_(spreadsheet, 8), 8);
+}
+
+function notifyPublicTopUpdate_(result, sessionId) {
+  const message = result && result.pending
+    ? `⏳ Phiên ${sessionId} còn ${result.pendingCount} bài Gemini chưa chấm xong. Dashboard chưa công bố Top.`
+    : `✅ Đã cập nhật Top N Phiên ${sessionId} lên Dashboard. Hãy tải lại dashboard.`;
+  try { SpreadsheetApp.getUi().alert(message); } catch(e) { Logger.log(message); }
 }
 
 /**
