@@ -21,6 +21,62 @@ function setupDashboardControl() {
   };
 }
 
+// Chuẩn hóa 09 tab phản hồi mà không đổi thứ tự hay nội dung các cột hiện có.
+// Cột chức vụ được nối ở cuối nếu chưa có để không làm lệch liên kết Google Form.
+function chuanHoa9SheetPhien() {
+  assertAdmin_();
+  const spreadsheet = openDashboardSpreadsheet_();
+  const report = [];
+  SESSION_CONFIG.forEach(config => {
+    const sheet = spreadsheet.getSheetByName(config.name);
+    if (!sheet) {
+      report.push({ phien: config.id, ok: false, loi: 'Không tìm thấy sheet' });
+      return;
+    }
+    let lastColumn = Math.max(1, sheet.getLastColumn());
+    let headers = sheet.getRange(1, 1, 1, lastColumn).getDisplayValues()[0];
+    const hasPosition = headers.some(header => /chuc vu|vi tri|chuc danh/.test(normalizeLookup_(header)));
+    if (!hasPosition) {
+      sheet.insertColumnAfter(lastColumn);
+      lastColumn += 1;
+      sheet.getRange(1, lastColumn).setValue('Chức vụ/Vị trí công tác');
+      headers = sheet.getRange(1, 1, 1, lastColumn).getDisplayValues()[0];
+    }
+    const lastRow = Math.max(1, sheet.getLastRow());
+    const usedRange = sheet.getRange(1, 1, lastRow, lastColumn);
+    usedRange.setFontFamily('Arial').setFontSize(10).setVerticalAlignment('top');
+    sheet.getRange(1, 1, 1, lastColumn)
+      .setBackground('#1b365d').setFontColor('#ffffff').setFontWeight('bold')
+      .setFontSize(10).setHorizontalAlignment('center').setVerticalAlignment('middle').setWrap(true);
+    sheet.setRowHeight(1, 44);
+    sheet.setFrozenRows(1);
+    sheet.setHiddenGridlines(true);
+    headers.forEach((header, index) => {
+      const normalized = normalizeLookup_(header);
+      const column = index + 1;
+      let width = 180;
+      if (index === 0 || /thoi gian|timestamp/.test(normalized)) width = 145;
+      else if (/^ho va ten/.test(normalized)) width = 190;
+      else if (/^don vi/.test(normalized)) width = 200;
+      else if (/chuc vu|vi tri|chuc danh/.test(normalized)) width = 190;
+      else if (/score|diem/.test(normalized)) width = 85;
+      else if (/giai thich|phan tich|tinh huong|cau tra loi|sap xep/.test(normalized)) width = 320;
+      else if (/^cau\s*\d+|^\d+\./.test(normalized)) width = 235;
+      sheet.setColumnWidth(column, width);
+      if (lastRow > 1) {
+        sheet.getRange(2, column, lastRow - 1, 1)
+          .setHorizontalAlignment(/score|diem/.test(normalized) ? 'center' : 'left')
+          .setWrap(true);
+      }
+    });
+    if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, 1).setNumberFormat('dd/MM/yyyy HH:mm:ss');
+    report.push({ phien: config.id, ok: true, themCotChucVu: !hasPosition, soDong: Math.max(0, lastRow - 1) });
+  });
+  clearDashboardCache_();
+  Logger.log(JSON.stringify(report));
+  return report;
+}
+
 function getAdminDashboardData() {
   const email = assertAdmin_();
   const data = getDashboardData_(true);
@@ -214,7 +270,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
       const explanations = explanationIndexes.map((col, qIdx) => `Câu ${qIdx + 1}: ${String(row[col] || '').trim()}`).join('\n');
       const references = referenceNotes.map((note, qIdx) => `Câu ${qIdx + 1}: ${note}`).join('\n');
 
-      const prompt = `Chấm độc lập từng lời giải thích theo căn cứ giáo viên. Cho E=1 khi học viên nêu đúng ý cốt lõi bằng nguyên văn hoặc cách diễn đạt tương đương; không đòi hỏi trùng từ khóa hay đủ nguyên câu. Chỉ cho E=0 khi thiếu ý cốt lõi, mâu thuẫn hoặc giải thích sai. Không hạ các câu khác chỉ vì một câu sai. Trả đúng định dạng: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=nhận xét tiếng Việt dưới 45 từ.`;
+      const prompt = `Grade each explanation independently against the teacher reference. Set E=1 when the student states the correct core idea verbatim or with an equivalent paraphrase; exact keyword matching and complete sentences are not required. Set E=0 only when the core idea is absent, contradictory, or incorrect. Do not lower other items because one item is wrong. Return exactly: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
       const rowIdx = index + 2;
       const formulaAI = `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`;
       const formulaScore = `=IFERROR(VALUE(REGEXEXTRACT(J${rowIdx}, "E1=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E2=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E3=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E4=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E5=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E6=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E7=(\\d)")), "") & "/7"`;
@@ -231,12 +287,12 @@ function taoTabGeminiReview_(spreadsheet, id) {
   } else {
     const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Số lỗi nghiêm trọng', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
     const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer.join('\n') : String(config.referenceAnswer || '');
-    const semanticRule = 'Chấm RIÊNG từng ý chuẩn. Cho Y=1 nếu bài làm nêu được nội dung cốt lõi bằng nguyên văn, từ đồng nghĩa, viết tắt thông dụng hoặc cách diễn đạt tương đương; không bắt buộc trùng từ khóa, đủ câu hay đúng thứ tự. Một ý đạt không phụ thuộc các ý khác. Cho Y=0 chỉ khi ý cốt lõi thực sự vắng mặt, sai hoặc mâu thuẫn. Mốc 12 tháng tương đương cả năm. LOI_NGHIEM_TRONG=1 chỉ khi có khẳng định sai nghiêm trọng trái trực tiếp đáp án, không dùng cho thiếu ý hoặc viết ngắn. ';
+    const semanticRule = 'Grade EACH teacher criterion independently. Set Y=1 when the student states the correct core idea verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Exact keyword matching, complete sentences, and the same order are not required. One criterion must not affect another. Set Y=0 only when the core idea is truly absent, wrong, or contradictory. Treat 12 months as equivalent to the full year. Set LOI_NGHIEM_TRONG=1 only for a serious statement that directly contradicts the reference, never for an omission or a short answer. ';
     const promptMap = {
-      3: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 3 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.',
-      5: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 2 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.',
-      7: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 2 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.',
-      8: semanticRule + 'Đối chiếu bài làm ở cột F với đúng 4 ý ở cột G. Trả đúng định dạng: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=nhận xét tiếng Việt dưới 35 từ.'
+      3: semanticRule + 'Compare the answer in column F with exactly 3 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+      5: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+      7: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+      8: semanticRule + 'Compare the answer in column F with exactly 4 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.'
     };
     const promptText = promptMap[id] || 'Compare student answer (Column F) with teacher criteria (Column G).';
     const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
