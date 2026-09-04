@@ -330,29 +330,41 @@ function taoTabGeminiReview_(spreadsheet, id) {
   const values = (sourceSheet && sourceSheet.getLastRow() >= 2) ? sourceSheet.getDataRange().getDisplayValues() : [];
   const headers = values.shift() || [];
   const rows = values.filter(row => row.some(cell => String(cell).trim() !== ''));
+  const normalizedHeaders = headers.map(header => normalizeLookup_(header));
+  const nameIndexes = normalizedHeaders
+    .map((value, index) => ({ value, index }))
+    .filter(item => /^ho va ten(?:\s|$)/.test(item.value))
+    .map(item => item.index);
+  const unitIndexes = normalizedHeaders
+    .map((value, index) => ({ value, index }))
+    .filter(item => /^don vi(?:\s|$)/.test(item.value))
+    .map(item => item.index);
+  const resolvedConfig = resolveColumns_(headers, config);
 
   if (Number(id) === 6) {
     const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bảy lựa chọn', 'Bảy giải thích', 'Căn cứ giáo viên', 'Điểm Đúng/Sai', 'Kết quả AI', 'Số giải thích đạt', 'Nhận xét AI (Rõ nét)'];
     const referenceNotes = config.referenceNotes || [];
     const correctAnswers = config.correctAnswers || [];
-    const questionIndexes = config.questionIndexes || [];
-    const explanationIndexes = config.explanationIndexes || [];
+    const questionIndexes = resolvedConfig.questionIndexes || [];
+    const explanationIndexes = resolvedConfig.explanationIndexes || [];
 
     const outputRows = [reviewHeaders];
     rows.forEach((row, index) => {
       const timestamp = row[0] || '';
-      const name = row[1] || `Học viên ${index + 1}`;
-      const unit = row[2] || '';
+      const name = lastNonEmptyField_(row, nameIndexes) || `Học viên ${index + 1}`;
+      const unit = lastNonEmptyField_(row, unitIndexes);
       const choices = questionIndexes.map(col => String(row[col] || '').trim()).join('; ');
       const explanations = explanationIndexes.map((col, qIdx) => `Câu ${qIdx + 1}: ${String(row[col] || '').trim()}`).join('\n');
       const references = referenceNotes.map((note, qIdx) => `Câu ${qIdx + 1}: ${note}`).join('\n');
+      const correctChoiceCount = questionIndexes.reduce((sum, col, qIdx) =>
+        sum + (sameAnswer_(row[col], correctAnswers[qIdx]) ? 1 : 0), 0);
 
       const prompt = `Grade each explanation independently against the teacher reference. Set E=1 when the student states the correct core idea verbatim or with an equivalent paraphrase; exact keyword matching and complete sentences are not required. Set E=0 only when the core idea is absent, contradictory, or incorrect. Do not lower other items because one item is wrong. Return exactly: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
 
       outputRows.push([
         id, index + 1, name, unit, timestamp,
         choices, explanations, references + '\n---\nPrompt:\n' + prompt,
-        '', '', '', ''
+        `${correctChoiceCount}/7`, '', '', ''
       ]);
     });
     reviewSheet.getRange(1, 1, outputRows.length, reviewHeaders.length).setValues(outputRows);
@@ -374,12 +386,11 @@ function taoTabGeminiReview_(spreadsheet, id) {
     const promptText = getGeminiEssayPrompt_(id);
     const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
 
-    const resolvedConfig = resolveColumns_(headers, config);
     const outputRows = [reviewHeaders];
     rows.forEach((row, index) => {
       const timestamp = row[0] || '';
-      const name = row[1] || `Học viên ${index + 1}`;
-      const unit = row[2] || '';
+      const name = lastNonEmptyField_(row, nameIndexes) || `Học viên ${index + 1}`;
+      const unit = lastNonEmptyField_(row, unitIndexes);
       const essay = String(row[resolvedConfig.answerIndex] || '').trim();
 
       outputRows.push([
@@ -533,8 +544,19 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
         eMatched.push(m ? Number(m[1]) === 1 : false);
       }
       const numMatched = eMatched.filter(Boolean).length;
-      const score = numMatched * 10;
-      return { name, unit, position, submittedAt, submittedAtValue, sourceOrder, score, scoreChoice: '70/70', scoreExplanation: `${numMatched * 10}/70`, feedback: displayFeedback || rawResultAI, raw: row };
+      const choiceMatch = String(row[8] || '').match(/(\d+)\s*\/\s*7/);
+      const choiceCorrectCount = choiceMatch ? Number(choiceMatch[1]) : 0;
+      const score = choiceCorrectCount * 10;
+      return {
+        name, unit, position, submittedAt, submittedAtValue, sourceOrder, score,
+        choiceCorrectCount,
+        explanationMatchedCount: numMatched,
+        scoreText: `Đúng ${choiceCorrectCount}/7 · Giải thích đạt ${numMatched}/7`,
+        scoreChoice: `${choiceCorrectCount * 10}/70`,
+        scoreExplanation: `${numMatched * 10}/70`,
+        feedback: displayFeedback || rawResultAI,
+        raw: row
+      };
     }
 
     const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
@@ -579,7 +601,12 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     }
   });
   const top10 = Object.keys(firstAttemptByPerson).map(key => firstAttemptByPerson[key])
-    .sort((a, b) => b.score - a.score || a.submittedAtValue - b.submittedAtValue || a.name.localeCompare(b.name, 'vi'))
+    .sort((a, b) => id === 6
+      ? (b.choiceCorrectCount - a.choiceCorrectCount ||
+         a.submittedAtValue - b.submittedAtValue ||
+         b.explanationMatchedCount - a.explanationMatchedCount ||
+         a.name.localeCompare(b.name, 'vi'))
+      : (b.score - a.score || a.submittedAtValue - b.submittedAtValue || a.name.localeCompare(b.name, 'vi')))
     .slice(0, 10);
 
   let publicTopSheet = spreadsheet.getSheetByName('_PUBLIC_TOP');
