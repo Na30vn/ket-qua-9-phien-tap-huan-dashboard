@@ -45,7 +45,7 @@ function buildSpreadsheet(sessionName, sourceRows) {
 
 const context = { console };
 vm.createContext(context);
-vm.runInContext(`${code}\n${reporting}\nthis.__createReview = taoTabGeminiReview_; this.__compareTop = compareTopParticipants_;`, context);
+vm.runInContext(`${code}\n${reporting}\nthis.__createReview = taoTabGeminiReview_; this.__compareTop = compareTopParticipants_; this.__criteriaCount = getGeminiCriteriaCount_;`, context);
 
 const openFixture = buildSpreadsheet('Phiên 5', [
   ['Timestamp', 'Họ và tên Anh/Chị', 'Chức vụ/Vị trí công tác', 'Đơn vị công tác', 'Câu trả lời của bạn (Trình bày căn cứ và giải thích chi tiết):'],
@@ -92,7 +92,11 @@ assert.doesNotMatch(reporting, /Treat 12 months as equivalent to the full year/)
 assert.match(reporting, /Evaluate semantic agreement only/);
 assert.match(reporting, /teacher text is always the accepted factual reason/);
 assert.match(reporting, /Do not output analysis, steps, or reasoning/);
-assert.match(reporting, /id === 5 \? 1 : 2/);
+assert.equal(context.__criteriaCount(3), 3);
+assert.equal(context.__criteriaCount(5), 1);
+assert.equal(context.__criteriaCount(7), 2);
+assert.equal(context.__criteriaCount(8), 4);
+assert.match(reporting, /length: getGeminiCriteriaCount_\(id\)/);
 assert.match(reporting, /questionDetails = Array\.from\(\{ length: 7 \}/);
 
 const ranked = [

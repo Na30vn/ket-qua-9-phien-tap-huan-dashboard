@@ -314,6 +314,14 @@ function getGeminiEssayPrompt_(id) {
   return promptMap[Number(id)] || 'Compare the student answer in column F with the teacher criteria in column G.';
 }
 
+function getGeminiCriteriaCount_(sessionId) {
+  const id = Number(sessionId);
+  if (id === 8) return 4;
+  if (id === 3) return 3;
+  if (id === 5) return 1;
+  return 2;
+}
+
 function taoTabGeminiReview_(spreadsheet, id) {
   if ([3, 5, 6, 7, 8].indexOf(Number(id)) < 0) return;
   const config = SESSION_CONFIG.find(item => item.id === Number(id));
@@ -423,7 +431,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
       ? config.referenceAnswer.map((criterion, index) => `Y${index + 1}: ${criterion}`).join('\n')
       : `Y1: ${String(config.referenceAnswer || '')}`;
     const promptText = getGeminiEssayPrompt_(id);
-    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : id === 5 ? 1 : 2;
+    const totalCriteria = getGeminiCriteriaCount_(id);
 
     const outputRows = [reviewHeaders];
     rows.forEach((row, index) => {
@@ -550,7 +558,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
   const resultColumn = id === 6 ? 9 : 8;
   const requiredMarkers = id === 6
     ? ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7']
-    : Array.from({ length: id === 8 ? 4 : id === 3 ? 3 : 2 }, (_, index) => `Y${index + 1}`);
+    : Array.from({ length: getGeminiCriteriaCount_(id) }, (_, index) => `Y${index + 1}`);
   const hasAllAiScores = value => requiredMarkers.every(marker =>
     new RegExp(`${marker}\\s*=\\s*[01]`, 'i').test(String(value || ''))
   );
@@ -614,7 +622,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
       };
     }
 
-    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : id === 5 ? 1 : 2;
+    const totalCriteria = getGeminiCriteriaCount_(id);
     let yMatched = [];
     for (let k = 1; k <= totalCriteria; k++) {
       const m = rawResultAI.match(new RegExp('Y' + k + '=(\\d)'));
