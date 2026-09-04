@@ -52,11 +52,17 @@ const ACTIVE_UNIT_OPTIONS = [
   'Phường Hội An',
   'Phường Hội An Đông',
   'Phường Hội An Tây',
+  'Phường Cẩm Lệ',
+  'Phường Hòa Xuân',
   'Xã Hòa Vang',
   'Xã Hòa Tiến',
   'Xã Bà Nà',
   'Xã Tam Anh',
   'Xã Tam Xuân',
+  'Xã Núi Thành',
+  'Xã Tam Mỹ',
+  'Xã Tam Hải',
+  'Xã Phú Ninh',
   'Xã Tây Hồ',
   'Xã Chiên Đàn',
   'Xã Tiên Phước',
@@ -78,6 +84,7 @@ const ACTIVE_UNIT_OPTIONS = [
   'Xã Thăng Phú',
   'Xã Đồng Dương',
   'Xã Quế Sơn Trung',
+  'Xã Quế Sơn',
   'Xã Xuân Phú',
   'Xã Nông Sơn',
   'Xã Quế Phước',
@@ -94,6 +101,8 @@ const ACTIVE_UNIT_OPTIONS = [
   'Xã Vu Gia',
   'Xã Phú Thuận',
   'Xã Thạnh Mỹ',
+  'Xã Bến Hiên',
+  'Xã Hùng Sơn',
   'Xã Bến Giằng',
   'Xã Nam Giang',
   'Xã Đắc Pring',
@@ -112,6 +121,8 @@ const ACTIVE_UNIT_OPTIONS = [
   'Xã Phước Chánh',
   'Xã Phước Thành',
   'Xã Phước Hiệp',
+  'Xã Trà Linh',
+  'Xã Đức Phú',
   'Xã Lãnh Ngọc'
 ];
 
@@ -252,6 +263,45 @@ function dongBoDropdownDonViCho9Phien() {
   });
   console.log(JSON.stringify(report, null, 2));
   return report;
+}
+
+/**
+ * Đồng bộ dropdown đơn vị cho các phiên chưa triển khai (5–9) từ tab DM_DON_VI.
+ * Không ghi lại danh mục, không mở và không sửa Form Phiên 1–4.
+ */
+function dongBoDropdownDonViChoPhien5Den9() {
+  const units = getUnitCatalogFromSheet_();
+  const report = [];
+  [5, 6, 7, 8, 9].forEach(sessionNumber => {
+    try {
+      const form = openParticipantForm_(PARTICIPANT_FORM_TARGETS[sessionNumber]);
+      const listItem = replaceUnitItemsWithDropdown_(form, units);
+      report.push({
+        phien: sessionNumber,
+        ok: true,
+        form: form.getTitle(),
+        soDonVi: listItem.getChoices().length,
+        batBuoc: listItem.isRequired()
+      });
+    } catch (error) {
+      report.push({ phien: sessionNumber, ok: false, loi: String(error.message || error) });
+    }
+  });
+  console.log(JSON.stringify(report, null, 2));
+  return report;
+}
+
+function getUnitCatalogFromSheet_() {
+  const spreadsheetId = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!spreadsheetId) throw new Error('Chưa cấu hình Script Property SPREADSHEET_ID');
+  const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  const sheet = spreadsheet.getSheetByName('DM_DON_VI');
+  if (!sheet || sheet.getLastRow() < 2) throw new Error('Tab DM_DON_VI chưa có danh mục đơn vị.');
+  const units = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getDisplayValues()
+    .flat().map(value => String(value || '').trim()).filter(Boolean);
+  const uniqueUnits = Array.from(new Set(units));
+  if (uniqueUnits.length !== units.length) throw new Error('Tab DM_DON_VI có tên đơn vị bị trùng.');
+  return uniqueUnits;
 }
 
 /**
