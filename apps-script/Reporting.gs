@@ -601,12 +601,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     }
   });
   const top10 = Object.keys(firstAttemptByPerson).map(key => firstAttemptByPerson[key])
-    .sort((a, b) => id === 6
-      ? (b.choiceCorrectCount - a.choiceCorrectCount ||
-         a.submittedAtValue - b.submittedAtValue ||
-         b.explanationMatchedCount - a.explanationMatchedCount ||
-         a.name.localeCompare(b.name, 'vi'))
-      : (b.score - a.score || a.submittedAtValue - b.submittedAtValue || a.name.localeCompare(b.name, 'vi')))
+    .sort((a, b) => compareTopParticipants_(a, b, id))
     .slice(0, 10);
 
   let publicTopSheet = spreadsheet.getSheetByName('_PUBLIC_TOP');
@@ -645,6 +640,18 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
   try { publicTopSheet.hideSheet(); } catch (e) {}
   clearDashboardCache_();
   return { ok: true, sessionId: id, total: newTopRows.length };
+}
+
+function compareTopParticipants_(a, b, sessionId) {
+  if (Number(sessionId) === 6) {
+    return b.choiceCorrectCount - a.choiceCorrectCount ||
+      b.explanationMatchedCount - a.explanationMatchedCount ||
+      a.submittedAtValue - b.submittedAtValue ||
+      a.name.localeCompare(b.name, 'vi');
+  }
+  return b.score - a.score ||
+    a.submittedAtValue - b.submittedAtValue ||
+    a.name.localeCompare(b.name, 'vi');
 }
 
 function getFirstParticipantMeta_(spreadsheet, config) {

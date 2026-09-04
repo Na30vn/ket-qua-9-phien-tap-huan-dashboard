@@ -45,7 +45,7 @@ function buildSpreadsheet(sessionName, sourceRows) {
 
 const context = { console };
 vm.createContext(context);
-vm.runInContext(`${code}\n${reporting}\nthis.__createReview = taoTabGeminiReview_;`, context);
+vm.runInContext(`${code}\n${reporting}\nthis.__createReview = taoTabGeminiReview_; this.__compareTop = compareTopParticipants_;`, context);
 
 const openFixture = buildSpreadsheet('Phiên 5', [
   ['Timestamp', 'Họ và tên Anh/Chị', 'Chức vụ/Vị trí công tác', 'Đơn vị công tác', 'Câu trả lời của bạn (Trình bày căn cứ và giải thích chi tiết):'],
@@ -67,5 +67,16 @@ context.__createReview(trueFalseFixture.spreadsheet, 6);
 assert.equal(trueFalseFixture.getOutput()[1][3], 'Xã Hòa Tiến');
 assert.equal(trueFalseFixture.getOutput()[1][5], 'Sai; Sai; Đúng; Sai; Sai; Sai; Đúng');
 assert.equal(trueFalseFixture.getOutput()[1][8], '7/7');
+
+const ranked = [
+  { name: 'Nộp sớm nhưng giải thích ít', choiceCorrectCount: 6, explanationMatchedCount: 3, submittedAtValue: 1 },
+  { name: 'Nộp muộn nhưng giải thích nhiều', choiceCorrectCount: 6, explanationMatchedCount: 5, submittedAtValue: 2 },
+  { name: 'Nhiều câu đúng nhất', choiceCorrectCount: 7, explanationMatchedCount: 0, submittedAtValue: 3 }
+].sort((a, b) => context.__compareTop(a, b, 6));
+assert.deepEqual(ranked.map(item => item.name), [
+  'Nhiều câu đúng nhất',
+  'Nộp muộn nhưng giải thích nhiều',
+  'Nộp sớm nhưng giải thích ít'
+]);
 
 console.log('reporting-columns.test.js: OK');
