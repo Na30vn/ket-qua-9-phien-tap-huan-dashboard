@@ -73,9 +73,24 @@ assert.match(trueFalseFixture.getOutput()[1][7], /^E1 TEACHER:/);
 assert.doesNotMatch(trueFalseFixture.getOutput()[1][7], /Prompt:/);
 assert.equal(trueFalseFixture.getOutput()[1][8], '7/7');
 
+const manyTrueFalseRows = [trueFalseHeaders];
+for (let index = 0; index < 12; index++) {
+  const row = ['04/09/2026 09:' + String(index).padStart(2, '0') + ':00', `Học viên ${index + 1}`, 'Chuyên viên', `Đơn vị ${index + 1}`];
+  const answers = index < 10
+    ? ['Sai', 'Sai', 'Đúng', 'Sai', 'Sai', 'Sai', 'Đúng']
+    : ['Đúng', 'Sai', 'Đúng', 'Sai', 'Sai', 'Sai', 'Đúng'];
+  answers.forEach((answer, questionIndex) => row.push(answer, `Giải thích ${questionIndex + 1}`));
+  manyTrueFalseRows.push(row);
+}
+const optimizedTrueFalseFixture = buildSpreadsheet('Phiên 6', manyTrueFalseRows);
+context.__createReview(optimizedTrueFalseFixture.spreadsheet, 6);
+assert.equal(optimizedTrueFalseFixture.getOutput().length, 11);
+assert.ok(optimizedTrueFalseFixture.getOutput().slice(1).every(row => row[8] === '7/7'));
+
 assert.doesNotMatch(reporting, /Treat 12 months as equivalent to the full year/);
 assert.match(reporting, /Evaluate only the explanation text/);
 assert.match(reporting, /id === 5 \? 1 : 2/);
+assert.match(reporting, /questionDetails = Array\.from\(\{ length: 7 \}/);
 
 const ranked = [
   { name: 'Nộp sớm nhưng giải thích ít', choiceCorrectCount: 6, explanationMatchedCount: 3, submittedAtValue: 1 },

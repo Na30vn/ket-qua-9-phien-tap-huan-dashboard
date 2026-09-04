@@ -349,19 +349,52 @@ function taoTabGeminiReview_(spreadsheet, id) {
     const explanationIndexes = resolvedConfig.explanationIndexes || [];
     const prompt = `The input contains seven Vietnamese student explanations labeled E1 STUDENT through E7 STUDENT and seven Vietnamese teacher references labeled E1 TEACHER through E7 TEACHER. Grade each numbered explanation independently against the reference with the same number. Evaluate only the explanation text; the separate True/False choices are scored by the system and must not affect E1-E7. Set E=1 when the explanation states the correct central reason verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Do not require exact wording, complete sentences, legal document numbers, or full supporting detail. Set E=0 only when the central reason is absent, wrong, or contradictory. Do not infer content the student did not write and do not lower other items because one item is wrong. Return exactly: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
 
-    const outputRows = [reviewHeaders];
-    rows.forEach((row, index) => {
+    const candidates = rows.map((row, index) => {
       const timestamp = row[0] || '';
       const name = lastNonEmptyField_(row, nameIndexes) || `Học viên ${index + 1}`;
       const unit = lastNonEmptyField_(row, unitIndexes);
+      const correctChoiceCount = questionIndexes.reduce((sum, col, qIdx) =>
+        sum + (sameAnswer_(row[col], correctAnswers[qIdx]) ? 1 : 0), 0);
+      const parsedTimestamp = parseDisplayTimestamp_(timestamp);
+      return {
+        row, sourceIndex: index, timestamp, name, unit, correctChoiceCount,
+        submittedAtValue: parsedTimestamp ? parsedTimestamp.getTime() : Number.MAX_SAFE_INTEGER - rows.length + index
+      };
+    });
+
+    // Chỉ chấm số nhóm điểm Đúng/Sai tối thiểu cần thiết để xác định chính xác
+    // Top 10. Ví dụ nếu đã có ít nhất 10 người đạt 7/7 thì Gemini không cần
+    // xử lý các bài 6/7 trở xuống.
+    const firstAttemptByPerson = {};
+    candidates.forEach(candidate => {
+      const key = normalizeLookup_(candidate.name) + '|' + normalizeLookup_(candidate.unit);
+      const current = firstAttemptByPerson[key];
+      if (!current || candidate.submittedAtValue < current.submittedAtValue ||
+          (candidate.submittedAtValue === current.submittedAtValue && candidate.sourceIndex < current.sourceIndex)) {
+        firstAttemptByPerson[key] = candidate;
+      }
+    });
+    const firstAttempts = Object.keys(firstAttemptByPerson).map(key => firstAttemptByPerson[key]);
+    let minimumChoiceScore = 0;
+    let accumulated = 0;
+    for (let scoreBand = 7; scoreBand >= 0; scoreBand--) {
+      accumulated += firstAttempts.filter(candidate => candidate.correctChoiceCount === scoreBand).length;
+      minimumChoiceScore = scoreBand;
+      if (accumulated >= 10) break;
+    }
+    const reviewCandidates = firstAttempts
+      .filter(candidate => candidate.correctChoiceCount >= minimumChoiceScore)
+      .sort((a, b) => b.correctChoiceCount - a.correctChoiceCount || a.submittedAtValue - b.submittedAtValue || a.sourceIndex - b.sourceIndex);
+
+    const outputRows = [reviewHeaders];
+    reviewCandidates.forEach(candidate => {
+      const { row, sourceIndex, timestamp, name, unit, correctChoiceCount } = candidate;
       const choices = questionIndexes.map(col => String(row[col] || '').trim()).join('; ');
       const explanations = explanationIndexes.map((col, qIdx) => `E${qIdx + 1} STUDENT: ${String(row[col] || '').trim()}`).join('\n');
       const references = referenceNotes.map((note, qIdx) => `E${qIdx + 1} TEACHER: ${note}`).join('\n');
-      const correctChoiceCount = questionIndexes.reduce((sum, col, qIdx) =>
-        sum + (sameAnswer_(row[col], correctAnswers[qIdx]) ? 1 : 0), 0);
 
       outputRows.push([
-        id, index + 1, name, unit, timestamp,
+        id, sourceIndex + 1, name, unit, timestamp,
         choices, explanations, references,
         `${correctChoiceCount}/7`, '', '', ''
       ]);
@@ -548,14 +581,30 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
       const choiceMatch = String(row[8] || '').match(/(\d+)\s*\/\s*7/);
       const choiceCorrectCount = choiceMatch ? Number(choiceMatch[1]) : 0;
       const score = choiceCorrectCount * 10;
+      const choices = String(row[5] || '').split(';').map(value => value.trim());
+      const studentExplanations = String(row[6] || '').split(/\n(?=E\d+\s+STUDENT:)/i).map(value =>
+        value.replace(/^E\d+\s+STUDENT:\s*/i, '').trim()
+      );
+      const teacherReferences = String(row[7] || '').split(/\n(?=E\d+\s+TEACHER:)/i).map(value =>
+        value.replace(/^E\d+\s+TEACHER:\s*/i, '').trim()
+      );
+      const questionDetails = Array.from({ length: 7 }, (_, index) => ({
+        number: index + 1,
+        userChoice: choices[index] || '',
+        correctChoice: (config.correctAnswers || [])[index] || '',
+        userExplanation: studentExplanations[index] || '',
+        referenceNote: teacherReferences[index] || (config.referenceNotes || [])[index] || '',
+        explanationMatched: Boolean(eMatched[index])
+      }));
       return {
         name, unit, position, submittedAt, submittedAtValue, sourceOrder, score,
         choiceCorrectCount,
         explanationMatchedCount: numMatched,
         scoreText: `Đúng ${choiceCorrectCount}/7 · Giải thích đạt ${numMatched}/7`,
-        scoreChoice: `${choiceCorrectCount * 10}/70`,
-        scoreExplanation: `${numMatched * 10}/70`,
-        feedback: displayFeedback || rawResultAI,
+        scoreChoice: `Đúng ${choiceCorrectCount}/7`,
+        scoreExplanation: `Giải thích đạt ${numMatched}/7`,
+        aiFeedback: displayFeedback || rawResultAI,
+        questionDetails,
         raw: row
       };
     }
@@ -626,8 +675,8 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     item.name,
     item.unit,
     item.submittedAt,
-    item.scoreText || item.scoreChoice || '',
-    item.essay || '',
+    id === 6 ? item.scoreChoice : (item.scoreText || ''),
+    id === 6 ? item.scoreExplanation : (item.essay || ''),
     item.matchedItemsJson || JSON.stringify(item.questionDetails || []),
     item.referenceAnswer || '',
     item.aiFeedback || '',
