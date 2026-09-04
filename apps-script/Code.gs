@@ -1031,6 +1031,8 @@ function onOpen() {
         .addItem('Phiên 8 → Đẩy Top N lên Dashboard', 'capNhatPublicTopPhien8')
         .addItem('Tất cả phiên → Đẩy Top N', 'capNhatPublicTopTatCaPhien'))
       .addSeparator()
+      .addItem('🎨 Đưa cột Chức vụ lên sau Họ tên & Format 9 Sheet', 'chuanHoa9SheetPhien')
+      .addSeparator()
       .addItem('📝 Tạo 12 bài làm mẫu (Phiên 3)', 'taoDuLieuMauPhien3')
       .addItem('📝 Tạo bài mẫu (Tất cả các phiên)', 'taoDuLieuMauTatCaPhien')
       .addItem('🧹 Xóa sạch bài làm mẫu', 'xoaDuLieuMauTatCaPhien')
