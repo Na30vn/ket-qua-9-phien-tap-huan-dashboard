@@ -237,6 +237,23 @@ function publishGeminiTopIfReady(sessionId) {
   return capNhatTabPublicTop_(openDashboardSpreadsheet_(), id) || { ok: false, pending: true, sessionId: id };
 }
 
+function kiemTraTrangThaiGeminiPhien3() {
+  assertAdmin_();
+  const sheet = openDashboardSpreadsheet_().getSheetByName('_GEMINI_REVIEW');
+  if (!sheet || sheet.getLastRow() < 2) return { tong: 0, hopLe: 0, dangCho: 0, loiNgonNgu: 0 };
+  const results = sheet.getRange(2, 9, sheet.getLastRow() - 1, 1).getDisplayValues().flat();
+  const formulas = sheet.getRange(2, 9, sheet.getLastRow() - 1, 1).getFormulas().flat();
+  const report = {
+    tong: results.length,
+    hopLe: results.filter(value => /Y1\s*=\s*[01]/i.test(String(value))).length,
+    dangCho: results.filter(value => !String(value || '').trim()).length,
+    loiNgonNgu: results.filter(value => /language entered is not supported/i.test(String(value))).length,
+    congThucDangChuoi: results.filter(value => /^=AI\(/i.test(String(value).trim())).length
+  };
+  Logger.log(JSON.stringify({ report: report, mauKetQua: results.slice(0, 5), mauCongThuc: formulas.slice(0, 5) }));
+  return report;
+}
+
 function taoTabGeminiReview_(spreadsheet, id) {
   if ([3, 5, 6, 7, 8].indexOf(Number(id)) < 0) return;
   const config = SESSION_CONFIG.find(item => item.id === Number(id));
@@ -271,18 +288,25 @@ function taoTabGeminiReview_(spreadsheet, id) {
       const references = referenceNotes.map((note, qIdx) => `Câu ${qIdx + 1}: ${note}`).join('\n');
 
       const prompt = `Grade each explanation independently against the teacher reference. Set E=1 when the student states the correct core idea verbatim or with an equivalent paraphrase; exact keyword matching and complete sentences are not required. Set E=0 only when the core idea is absent, contradictory, or incorrect. Do not lower other items because one item is wrong. Return exactly: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
-      const rowIdx = index + 2;
-      const formulaAI = `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`;
-      const formulaScore = `=IFERROR(VALUE(REGEXEXTRACT(J${rowIdx}, "E1=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E2=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E3=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E4=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E5=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E6=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E7=(\\d)")), "") & "/7"`;
-      const formulaFeedback = `=IFERROR(REGEXEXTRACT(J${rowIdx}, "NHAN_XET=(.+)"), J${rowIdx})`;
 
       outputRows.push([
         id, index + 1, name, unit, timestamp,
         choices, explanations, references + '\n---\nPrompt:\n' + prompt,
-        '', formulaAI, formulaScore, formulaFeedback, 'Chờ AI'
+        '', '', '', '', 'Chờ AI'
       ]);
     });
     reviewSheet.getRange(1, 1, outputRows.length, reviewHeaders.length).setValues(outputRows);
+    if (outputRows.length > 1) {
+      const formulaRows = outputRows.slice(1).map((row, index) => {
+        const rowIdx = index + 2;
+        return [
+          `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`,
+          `=IFERROR(VALUE(REGEXEXTRACT(J${rowIdx}, "E1=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E2=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E3=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E4=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E5=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E6=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E7=(\\d)")), "") & "/7"`,
+          `=IFERROR(REGEXEXTRACT(J${rowIdx}, "NHAN_XET=(.+)"), J${rowIdx})`
+        ];
+      });
+      reviewSheet.getRange(2, 10, formulaRows.length, 3).setFormulas(formulaRows);
+    }
     formatGeminiReviewSheet_(reviewSheet, outputRows.length, 6);
   } else {
     const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Số lỗi nghiêm trọng', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
@@ -304,24 +328,30 @@ function taoTabGeminiReview_(spreadsheet, id) {
       const name = row[1] || `Học viên ${index + 1}`;
       const unit = row[2] || '';
       const essay = String(row[resolvedConfig.answerIndex] || '').trim();
-      const rowIdx = index + 2;
-      const formulaAI = `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`;
-      
-      let sumParts = [];
-      for (let c = 1; c <= totalCriteria; c++) {
-        sumParts.push(`IFERROR(VALUE(REGEXEXTRACT(I${rowIdx}, "Y${c}=(\\d)")), 0)`);
-      }
-      const formulaScore = `=IFERROR(${sumParts.join(" + ")}, "") & "/${totalCriteria}"`;
-      const formulaError = `=IFERROR(VALUE(REGEXEXTRACT(I${rowIdx}, "LOI_NGHIEM_TRONG=(\\d)")), 0)`;
-      const formulaFeedback = `=IFERROR(REGEXEXTRACT(I${rowIdx}, "NHAN_XET=(.+)"), I${rowIdx})`;
 
       outputRows.push([
         id, index + 1, name, unit, timestamp,
         essay, referenceAnswers, promptText,
-        formulaAI, formulaScore, formulaError, formulaFeedback, 'Chờ AI'
+        '', '', '', '', 'Chờ AI'
       ]);
     });
     reviewSheet.getRange(1, 1, outputRows.length, reviewHeaders.length).setValues(outputRows);
+    if (outputRows.length > 1) {
+      const formulaRows = outputRows.slice(1).map((row, index) => {
+        const rowIdx = index + 2;
+        const sumParts = [];
+        for (let c = 1; c <= totalCriteria; c++) {
+          sumParts.push(`IFERROR(VALUE(REGEXEXTRACT(I${rowIdx}, "Y${c}=(\\d)")), 0)`);
+        }
+        return [
+          `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`,
+          `=IFERROR(${sumParts.join(' + ')}, "") & "/${totalCriteria}"`,
+          `=IFERROR(VALUE(REGEXEXTRACT(I${rowIdx}, "LOI_NGHIEM_TRONG=(\\d)")), 0)`,
+          `=IFERROR(REGEXEXTRACT(I${rowIdx}, "NHAN_XET=(.+)"), I${rowIdx})`
+        ];
+      });
+      reviewSheet.getRange(2, 9, formulaRows.length, 4).setFormulas(formulaRows);
+    }
     formatGeminiReviewSheet_(reviewSheet, outputRows.length, id);
   }
 }
