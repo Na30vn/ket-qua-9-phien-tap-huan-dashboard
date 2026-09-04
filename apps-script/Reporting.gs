@@ -21,8 +21,7 @@ function setupDashboardControl() {
   };
 }
 
-// Chuẩn hóa 09 tab phản hồi mà không đổi thứ tự hay nội dung các cột hiện có.
-// Cột chức vụ được nối ở cuối nếu chưa có để không làm lệch liên kết Google Form.
+// Chuẩn hóa 09 tab phản hồi sao cho cột Chức vụ đứng sau cột Họ và tên Anh/Chị (cột C).
 function chuanHoa9SheetPhien() {
   assertAdmin_();
   const spreadsheet = openDashboardSpreadsheet_();
@@ -35,13 +34,28 @@ function chuanHoa9SheetPhien() {
     }
     let lastColumn = Math.max(1, sheet.getLastColumn());
     let headers = sheet.getRange(1, 1, 1, lastColumn).getDisplayValues()[0];
-    const hasPosition = headers.some(header => /chuc vu|vi tri|chuc danh/.test(normalizeLookup_(header)));
-    if (!hasPosition) {
-      sheet.insertColumnAfter(lastColumn);
+    
+    // Tìm vị trí cột Họ và tên Anh/Chị
+    const nameIndex = headers.findIndex(header => /^ho va ten(?:\s|$)/.test(normalizeLookup_(header)));
+    // Target position for Chức vụ (1-based column index): right after Name column (e.g. Column 3 if Name is Column 2)
+    const targetCol = nameIndex >= 0 ? nameIndex + 2 : 3;
+
+    let posColIndex = headers.findIndex(header => /chuc vu|vi tri|chuc danh/.test(normalizeLookup_(header))) + 1; // 1-based
+
+    if (posColIndex <= 0) {
+      // Nếu chưa có cột chức vụ -> Chèn vào ngay sau cột Họ và tên
+      sheet.insertColumnAfter(targetCol - 1);
       lastColumn += 1;
-      sheet.getRange(1, lastColumn).setValue('Chức vụ/Vị trí công tác');
-      headers = sheet.getRange(1, 1, 1, lastColumn).getDisplayValues()[0];
+      sheet.getRange(1, targetCol).setValue('Chức vụ/Vị trí công tác');
+    } else if (posColIndex !== targetCol) {
+      // Đã có cột chức vụ ở vị trí khác -> di chuyển về đứng ngay sau cột Họ và tên
+      sheet.moveColumns(sheet.getRange(1, posColIndex, Math.max(1, sheet.getLastRow()), 1), targetCol);
     }
+
+    // Lấy lại danh sách header sau khi di chuyển/chèn cột
+    lastColumn = Math.max(1, sheet.getLastColumn());
+    headers = sheet.getRange(1, 1, 1, lastColumn).getDisplayValues()[0];
+
     const lastRow = Math.max(1, sheet.getLastRow());
     const usedRange = sheet.getRange(1, 1, lastRow, lastColumn);
     usedRange.setFontFamily('Arial').setFontSize(10).setVerticalAlignment('top');
@@ -50,15 +64,15 @@ function chuanHoa9SheetPhien() {
       .setFontSize(10).setHorizontalAlignment('center').setVerticalAlignment('middle').setWrap(true);
     sheet.setRowHeight(1, 44);
     sheet.setFrozenRows(1);
-    sheet.setHiddenGridlines(true);
+    sheet.setHiddenGridlines(false);
     headers.forEach((header, index) => {
       const normalized = normalizeLookup_(header);
       const column = index + 1;
       let width = 180;
       if (index === 0 || /thoi gian|timestamp/.test(normalized)) width = 145;
       else if (/^ho va ten/.test(normalized)) width = 190;
-      else if (/^don vi/.test(normalized)) width = 200;
       else if (/chuc vu|vi tri|chuc danh/.test(normalized)) width = 190;
+      else if (/^don vi/.test(normalized)) width = 200;
       else if (/score|diem/.test(normalized)) width = 85;
       else if (/giai thich|phan tich|tinh huong|cau tra loi|sap xep/.test(normalized)) width = 320;
       else if (/^cau\s*\d+|^\d+\./.test(normalized)) width = 235;
@@ -69,11 +83,9 @@ function chuanHoa9SheetPhien() {
           .setWrap(true);
       }
     });
-    if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, 1).setNumberFormat('dd/MM/yyyy HH:mm:ss');
-    report.push({ phien: config.id, ok: true, themCotChucVu: !hasPosition, soDong: Math.max(0, lastRow - 1) });
+    report.push({ phien: config.id, ok: true });
   });
   clearDashboardCache_();
-  Logger.log(JSON.stringify(report));
   return report;
 }
 
@@ -254,6 +266,31 @@ function kiemTraTrangThaiGeminiPhien3() {
   return report;
 }
 
+function capNhatPromptGeminiPhien3() {
+  assertAdmin_();
+  const spreadsheet = openDashboardSpreadsheet_();
+  const sheet = spreadsheet.getSheetByName('_GEMINI_REVIEW');
+  if (!sheet || sheet.getLastRow() < 2 || Number(sheet.getRange(2, 1).getValue()) !== 3) {
+    throw new Error('Tab _GEMINI_REVIEW hiện không chứa dữ liệu Phiên 3.');
+  }
+  const prompt = getGeminiEssayPrompt_(3);
+  const rowCount = sheet.getLastRow() - 1;
+  sheet.getRange(2, 8, rowCount, 1).setValues(Array.from({ length: rowCount }, () => [prompt]));
+  SpreadsheetApp.flush();
+  return { ok: true, sessionId: 3, rowsUpdated: rowCount };
+}
+
+function getGeminiEssayPrompt_(id) {
+  const semanticRule = 'Grade EACH teacher criterion independently. Set Y=1 when the student states the correct core idea verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Exact keyword matching, complete sentences, and the same order are not required. One criterion must not affect another. Set Y=0 only when the core idea is truly absent, wrong, or contradictory. Treat 12 months as equivalent to the full year. Set LOI_NGHIEM_TRONG=1 only for a serious statement that directly contradicts the reference, never for an omission or a short answer. ';
+  const promptMap = {
+    3: 'You are grading a short Vietnamese case-study answer. Column F is the student answer and column G contains exactly three teacher criteria. Grade each criterion independently by meaning, using a lenient but consistent rule. Award Y=1 when the answer clearly identifies the central missing topic, even if it omits supporting details, figures, the approving authority, or exact wording; do not require a complete reproduction of the reference. For Y1, mentioning a missing budget-estimate explanation (thuyết minh dự toán) is sufficient. For Y2, mentioning a missing approved settlement or settlement explanation (quyết toán được duyệt/phê chuẩn or thuyết minh quyết toán) is sufficient. Award Y3 only when the answer identifies the required publication milestones of 03, 06, 09 months and the year, or an unambiguous equivalent; saying only quarterly is not sufficient. Do not infer a criterion that is not mentioned. Set LOI_NGHIEM_TRONG=1 only for a serious direct contradiction, never for an omission or a short answer. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+    5: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+    7: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+    8: semanticRule + 'Compare the answer in column F with exactly 4 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.'
+  };
+  return promptMap[Number(id)] || 'Compare the student answer in column F with the teacher criteria in column G.';
+}
+
 function taoTabGeminiReview_(spreadsheet, id) {
   if ([3, 5, 6, 7, 8].indexOf(Number(id)) < 0) return;
   const config = SESSION_CONFIG.find(item => item.id === Number(id));
@@ -311,14 +348,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
   } else {
     const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Số lỗi nghiêm trọng', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
     const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer.join('\n') : String(config.referenceAnswer || '');
-    const semanticRule = 'Grade EACH teacher criterion independently. Set Y=1 when the student states the correct core idea verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Exact keyword matching, complete sentences, and the same order are not required. One criterion must not affect another. Set Y=0 only when the core idea is truly absent, wrong, or contradictory. Treat 12 months as equivalent to the full year. Set LOI_NGHIEM_TRONG=1 only for a serious statement that directly contradicts the reference, never for an omission or a short answer. ';
-    const promptMap = {
-      3: semanticRule + 'Compare the answer in column F with exactly 3 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
-      5: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
-      7: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
-      8: semanticRule + 'Compare the answer in column F with exactly 4 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.'
-    };
-    const promptText = promptMap[id] || 'Compare student answer (Column F) with teacher criteria (Column G).';
+    const promptText = getGeminiEssayPrompt_(id);
     const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
 
     const resolvedConfig = resolveColumns_(headers, config);
