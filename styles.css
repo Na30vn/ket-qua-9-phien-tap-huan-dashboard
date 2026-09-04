@@ -444,6 +444,18 @@ th { color: #0a3c6b; background: #eaf2f8; font-size: 12px; text-transform: upper
 .missing-units ol { max-height: 250px; margin: 0; padding: 4px 18px 14px 42px; overflow-y: auto; color: #263d55; columns: 2; column-gap: 28px; }
 .missing-units li { margin: 7px 0; break-inside: avoid; }
 .missing-units-panel { padding: 20px 22px; }
+.missing-units-panel.has-missing-units {
+  border-color: #ef9a9a;
+  background: linear-gradient(180deg, #fffafa 0%, #fff5f5 100%);
+  box-shadow: 0 10px 28px rgba(185, 28, 28, .1);
+}
+.missing-units-panel.has-missing-units .panel-kicker { color: #b42318; }
+.missing-units-panel.has-missing-units .panel-heading h3 { color: #8f1d1d; }
+.missing-units-panel.has-missing-units .type-pill {
+  border: 1px solid #f2aaaa;
+  color: #9f1d1d;
+  background: #ffe4e4;
+}
 .missing-units-expanded { width: 100%; margin-top: 12px; }
 .missing-units-expanded summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .missing-closed { display: none; }
@@ -1311,9 +1323,9 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   list-style: none;
   padding: 14px 18px;
   margin: 10px 0 0;
-  background: #f8fafc;
+  background: #fffafa;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #f1b5b5;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 @media (max-width: 1024px) {
@@ -1332,18 +1344,21 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   gap: 6px;
   font-size: 13.5px;
   line-height: 1.5;
-  color: #0f172a;
-  font-weight: 600;
-  padding: 3px 6px;
-  border-radius: 6px;
+  color: #561515;
+  font-weight: 750;
+  padding: 7px 9px;
+  border: 1px solid #f4cccc;
+  border-radius: 8px;
+  background: #ffffff;
   transition: background 0.15s ease;
   font-family: inherit;
 }
 .missing-units-grid li:hover {
-  background: #e2e8f0;
+  border-color: #df7777;
+  background: #ffeaea;
 }
 .missing-units-grid li .unit-num {
-  color: #0284c7;
+  color: #b42318;
   font-weight: 800;
   font-size: 13px;
   min-width: 26px;
@@ -1352,11 +1367,10 @@ footer { display: flex; justify-content: flex-end; gap: 16px; padding: 20px clam
   font-variant-numeric: tabular-nums;
 }
 .missing-units-grid li .unit-name-text {
-  color: #1e293b;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: #571818;
+  font-weight: 800;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Modal Table for Session 6 */
