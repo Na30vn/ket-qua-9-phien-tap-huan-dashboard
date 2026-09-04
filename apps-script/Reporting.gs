@@ -280,13 +280,36 @@ function capNhatPromptGeminiPhien3() {
   return { ok: true, sessionId: 3, rowsUpdated: rowCount };
 }
 
+function donGianHoaTabGeminiReview() {
+  assertAdmin_();
+  const spreadsheet = openDashboardSpreadsheet_();
+  const sheet = spreadsheet.getSheetByName('_GEMINI_REVIEW');
+  if (!sheet || sheet.getLastRow() < 1) throw new Error('Không tìm thấy tab _GEMINI_REVIEW.');
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getDisplayValues()[0];
+  const removableColumns = headers
+    .map((header, index) => ({ normalized: normalizeLookup_(header), column: index + 1 }))
+    .filter(item => item.normalized === 'trang thai' || item.normalized === 'so loi nghiem trong')
+    .sort((a, b) => b.column - a.column);
+  removableColumns.forEach(item => sheet.deleteColumn(item.column));
+
+  const sessionId = sheet.getLastRow() >= 2 ? Number(sheet.getRange(2, 1).getValue()) : 0;
+  if ([3, 5, 7, 8].indexOf(sessionId) >= 0 && sheet.getLastRow() >= 2) {
+    const prompt = getGeminiEssayPrompt_(sessionId);
+    const rowCount = sheet.getLastRow() - 1;
+    sheet.getRange(2, 8, rowCount, 1).setValues(Array.from({ length: rowCount }, () => [prompt]));
+  }
+  formatGeminiReviewSheet_(sheet, sheet.getLastRow(), sessionId);
+  SpreadsheetApp.flush();
+  return { ok: true, sessionId, removedColumns: removableColumns.map(item => item.column) };
+}
+
 function getGeminiEssayPrompt_(id) {
-  const semanticRule = 'Grade EACH teacher criterion independently. Set Y=1 when the student states the correct core idea verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Exact keyword matching, complete sentences, and the same order are not required. One criterion must not affect another. Set Y=0 only when the core idea is truly absent, wrong, or contradictory. Treat 12 months as equivalent to the full year. Set LOI_NGHIEM_TRONG=1 only for a serious statement that directly contradicts the reference, never for an omission or a short answer. ';
+  const semanticRule = 'Grade EACH teacher criterion independently. Set Y=1 when the student states the correct core idea verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Exact keyword matching, complete sentences, and the same order are not required. One criterion must not affect another. Set Y=0 only when the core idea is truly absent, wrong, or contradictory. Treat 12 months as equivalent to the full year. ';
   const promptMap = {
-    3: 'You are grading a short case-study answer written in Vietnamese. Column F is the student answer and column G contains exactly three teacher criteria. Grade each criterion independently by meaning, using a lenient but consistent rule. Award Y=1 when the answer clearly identifies the central missing topic, even if it omits supporting details, figures, the approving authority, or exact wording; do not require a complete reproduction of the reference. For Y1, mentioning a missing explanation for the budget estimate is sufficient. For Y2, mentioning a missing approved settlement or a missing explanation for the settlement is sufficient. Award Y3 only when the answer identifies the required publication milestones of 03, 06, 09 months and the year, or an unambiguous equivalent; saying only quarterly is not sufficient. Do not infer a criterion that is not mentioned. Set LOI_NGHIEM_TRONG=1 only for a serious direct contradiction, never for an omission or a short answer. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise feedback in Vietnamese under 35 words.',
-    5: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
-    7: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
-    8: semanticRule + 'Compare the answer in column F with exactly 4 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; LOI_NGHIEM_TRONG=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.'
+    3: 'You are grading a short case-study answer written in Vietnamese. Column F is the student answer and column G contains exactly three teacher criteria. Grade each criterion independently by meaning, using a lenient but consistent rule. Award Y=1 when the answer clearly identifies the central missing topic, even if it omits supporting details, figures, the approving authority, or exact wording; do not require a complete reproduction of the reference. For Y1, mentioning a missing explanation for the budget estimate is sufficient. For Y2, mentioning a missing approved settlement or a missing explanation for the settlement is sufficient. Award Y3 only when the answer identifies the required publication milestones of 03, 06, 09 months and the year, or an unambiguous equivalent; saying only quarterly is not sufficient. Do not infer a criterion that is not mentioned. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; NHAN_XET=concise feedback in Vietnamese under 35 words.',
+    5: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+    7: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+    8: semanticRule + 'Compare the answer in column F with exactly 4 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.'
   };
   return promptMap[Number(id)] || 'Compare the student answer in column F with the teacher criteria in column G.';
 }
@@ -309,7 +332,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
   const rows = values.filter(row => row.some(cell => String(cell).trim() !== ''));
 
   if (Number(id) === 6) {
-    const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bảy lựa chọn', 'Bảy giải thích', 'Căn cứ giáo viên', 'Điểm Đúng/Sai', 'Kết quả AI', 'Số giải thích đạt', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
+    const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bảy lựa chọn', 'Bảy giải thích', 'Căn cứ giáo viên', 'Điểm Đúng/Sai', 'Kết quả AI', 'Số giải thích đạt', 'Nhận xét AI (Rõ nét)'];
     const referenceNotes = config.referenceNotes || [];
     const correctAnswers = config.correctAnswers || [];
     const questionIndexes = config.questionIndexes || [];
@@ -329,7 +352,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
       outputRows.push([
         id, index + 1, name, unit, timestamp,
         choices, explanations, references + '\n---\nPrompt:\n' + prompt,
-        '', '', '', '', 'Chờ AI'
+        '', '', '', ''
       ]);
     });
     reviewSheet.getRange(1, 1, outputRows.length, reviewHeaders.length).setValues(outputRows);
@@ -346,7 +369,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
     }
     formatGeminiReviewSheet_(reviewSheet, outputRows.length, 6);
   } else {
-    const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Số lỗi nghiêm trọng', 'Nhận xét AI (Rõ nét)', 'Trạng thái'];
+    const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Nhận xét AI (Rõ nét)'];
     const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer.join('\n') : String(config.referenceAnswer || '');
     const promptText = getGeminiEssayPrompt_(id);
     const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
@@ -362,7 +385,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
       outputRows.push([
         id, index + 1, name, unit, timestamp,
         essay, referenceAnswers, promptText,
-        '', '', '', '', 'Chờ AI'
+        '', '', ''
       ]);
     });
     reviewSheet.getRange(1, 1, outputRows.length, reviewHeaders.length).setValues(outputRows);
@@ -376,11 +399,10 @@ function taoTabGeminiReview_(spreadsheet, id) {
         return [
           `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`,
           `=IFERROR(${sumParts.join(' + ')}, "") & "/${totalCriteria}"`,
-          `=IFERROR(VALUE(REGEXEXTRACT(I${rowIdx}, "LOI_NGHIEM_TRONG=(\\d)")), 0)`,
           `=IFERROR(REGEXEXTRACT(I${rowIdx}, "NHAN_XET=(.+)"), I${rowIdx})`
         ];
       });
-      reviewSheet.getRange(2, 9, formulaRows.length, 4).setFormulas(formulaRows);
+      reviewSheet.getRange(2, 9, formulaRows.length, 3).setFormulas(formulaRows);
     }
     formatGeminiReviewSheet_(reviewSheet, outputRows.length, id);
   }
@@ -388,7 +410,11 @@ function taoTabGeminiReview_(spreadsheet, id) {
 
 function formatGeminiReviewSheet_(reviewSheet, numRows, sessionId) {
   if (!reviewSheet || numRows < 1) return;
-  const totalCols = 13;
+  const isTrueFalseSession = Number(sessionId) === 6;
+  const totalCols = isTrueFalseSession ? 12 : 11;
+  const resultColumn = isTrueFalseSession ? 10 : 9;
+  const scoreColumn = isTrueFalseSession ? 11 : 10;
+  const feedbackColumn = isTrueFalseSession ? 12 : 11;
   
   // 1. Unhide all columns first then hide Column H (Prompt Gemini)
   reviewSheet.showColumns(1, totalCols);
@@ -405,7 +431,9 @@ function formatGeminiReviewSheet_(reviewSheet, numRows, sessionId) {
   reviewSheet.setFrozenRows(1);
   
   // 3. Set Column Widths
-  const widths = [60, 60, 160, 160, 140, 320, 280, 200, 220, 80, 110, 350, 90];
+  const widths = isTrueFalseSession
+    ? [60, 60, 160, 160, 140, 260, 320, 300, 110, 220, 100, 350]
+    : [60, 60, 160, 160, 140, 320, 280, 200, 220, 80, 350];
   widths.forEach((w, colIdx) => reviewSheet.setColumnWidth(colIdx + 1, w));
   
   // 4. Set Text Wrapping, Formatting & Colors for Data Rows
@@ -413,26 +441,26 @@ function formatGeminiReviewSheet_(reviewSheet, numRows, sessionId) {
     const dataRange = reviewSheet.getRange(2, 1, numRows - 1, totalCols);
     dataRange.setVerticalAlignment('top').setFontSize(10);
     
-    // Columns F, G, H, I, L wrap text
-    [6, 7, 8, 9, 12].forEach(colIdx => {
+    // Nội dung dài, kết quả AI và nhận xét được xuống dòng.
+    [6, 7, 8, resultColumn, feedbackColumn].forEach(colIdx => {
       reviewSheet.getRange(2, colIdx, numRows - 1, 1).setWrap(true);
     });
     
     // Highlight Column I (Kết quả AI Gốc) with soft gray background
-    reviewSheet.getRange(2, 9, numRows - 1, 1).setBackground('#f1f3f4').setFontSize(9).setFontColor('#5f6368');
+    reviewSheet.getRange(2, resultColumn, numRows - 1, 1).setBackground('#f1f3f4').setFontSize(9).setFontColor('#5f6368');
     
     // HIGHLIGHT COL L (NHẬN XÉT AI RÕ NÉT FOR GIẢNG VIÊN) WITH BOLD GREEN/TEAL FONT & SOFT MINT BACKGROUND
-    const feedbackRange = reviewSheet.getRange(2, 12, numRows - 1, 1);
+    const feedbackRange = reviewSheet.getRange(2, feedbackColumn, numRows - 1, 1);
     feedbackRange.setBackground('#e6f4ea')
       .setFontWeight('bold')
       .setFontSize(11)
       .setFontColor('#137333');
       
     // Highlight Column J (Số ý đạt) with soft blue
-    reviewSheet.getRange(2, 10, numRows - 1, 1).setFontWeight('bold').setFontSize(11).setBackground('#e8f0fe');
+    reviewSheet.getRange(2, scoreColumn, numRows - 1, 1).setFontWeight('bold').setFontSize(11).setBackground('#e8f0fe');
     
     // Alignments
-    [1, 2, 5, 10, 11, 13].forEach(colIdx => {
+    [1, 2, 5, scoreColumn].concat(isTrueFalseSession ? [9] : []).forEach(colIdx => {
       reviewSheet.getRange(2, colIdx, numRows - 1, 1).setHorizontalAlignment('center');
     });
   }
@@ -496,7 +524,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
     const position = participantMeta[participantKey] ? participantMeta[participantKey].position : '';
     const essay = String(row[5] || '').trim();
     const rawResultAI = String(row[resultColumn] || '').trim();
-    const displayFeedback = String(row[11] || '').trim();
+    const displayFeedback = String(row[id === 6 ? 11 : 10] || '').trim();
 
     if (id === 6) {
       let eMatched = [];
@@ -515,11 +543,9 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
       const m = rawResultAI.match(new RegExp('Y' + k + '=(\\d)'));
       yMatched.push(m ? Number(m[1]) === 1 : false);
     }
-    const errMatch = rawResultAI.match(/LOI_NGHIEM_TRONG=(\d)/);
-    const criticalError = errMatch ? Number(errMatch[1]) : 0;
     const numMatched = yMatched.filter(Boolean).length;
 
-    const score = numMatched * 10 - criticalError * 5;
+    const score = numMatched * 10;
 
     const matchedItems = referenceAnswers.map((criteriaText, idx) => ({
       label: criteriaText,
@@ -539,7 +565,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
       matchedItemsJson: JSON.stringify(matchedItems),
       referenceAnswer: referenceAnswers.join('\n'),
       aiFeedback: displayFeedback || rawResultAI,
-      criticalErrors: criticalError
+      criticalErrors: 0
     };
   });
 
