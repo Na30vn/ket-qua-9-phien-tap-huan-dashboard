@@ -347,7 +347,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
     const correctAnswers = config.correctAnswers || [];
     const questionIndexes = resolvedConfig.questionIndexes || [];
     const explanationIndexes = resolvedConfig.explanationIndexes || [];
-    const prompt = `The input contains seven Vietnamese student explanations labeled E1 STUDENT through E7 STUDENT and seven Vietnamese teacher references labeled E1 TEACHER through E7 TEACHER. Grade each numbered explanation independently against the reference with the same number. Evaluate only the explanation text; the separate True/False choices are scored by the system and must not affect E1-E7. Set E=1 when the explanation states the correct central reason verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Do not require exact wording, complete sentences, legal document numbers, or full supporting detail. Set E=0 only when the central reason is absent, wrong, or contradictory. Do not infer content the student did not write and do not lower other items because one item is wrong. Return exactly: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
+    const prompt = `The input contains seven Vietnamese student explanations labeled E1 STUDENT through E7 STUDENT and seven authoritative accepted explanations labeled E1 TEACHER through E7 TEACHER. Grade each numbered student explanation independently against the teacher explanation with the same number. The teacher text is always the accepted factual reason; do not question, reverse, or reinterpret it as a false premise. Evaluate semantic agreement only. The separate True/False choices are already scored by the system and must not affect E1-E7. Set E=1 when the student states the same central factual reason, including verbatim wording, synonyms, common abbreviations, or an equivalent paraphrase. A student explanation copied from or substantially matching the teacher explanation must receive E=1. Do not require exact wording, complete sentences, legal document numbers, or full supporting detail. Set E=0 only when the central factual reason is absent, different, or contradictory. Do not infer content the student did not write and do not lower other items because one item is wrong. Do not output analysis, steps, or reasoning. Return only this exact format on one line: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
 
     const candidates = rows.map((row, index) => {
       const timestamp = row[0] || '';
@@ -391,7 +391,12 @@ function taoTabGeminiReview_(spreadsheet, id) {
       const { row, sourceIndex, timestamp, name, unit, correctChoiceCount } = candidate;
       const choices = questionIndexes.map(col => String(row[col] || '').trim()).join('; ');
       const explanations = explanationIndexes.map((col, qIdx) => `E${qIdx + 1} STUDENT: ${String(row[col] || '').trim()}`).join('\n');
-      const references = referenceNotes.map((note, qIdx) => `E${qIdx + 1} TEACHER: ${note}`).join('\n');
+      const references = referenceNotes.map((note, qIdx) => {
+        // “Đúng/Sai” là đáp án lựa chọn, không phải một phần của lý do chuẩn.
+        // Bỏ tiền tố này để Gemini không hiểu nhầm căn cứ đúng là mệnh đề cần bác bỏ.
+        const acceptedReason = String(note || '').replace(/^\s*(?:Đúng|Sai)\s*:\s*/i, '').trim();
+        return `E${qIdx + 1} TEACHER: ${acceptedReason}`;
+      }).join('\n');
 
       outputRows.push([
         id, sourceIndex + 1, name, unit, timestamp,

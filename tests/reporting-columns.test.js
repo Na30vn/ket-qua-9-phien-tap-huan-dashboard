@@ -71,6 +71,7 @@ assert.equal(trueFalseFixture.getOutput()[1][5], 'Sai; Sai; Đúng; Sai; Sai; Sa
 assert.match(trueFalseFixture.getOutput()[1][6], /^E1 STUDENT:/);
 assert.match(trueFalseFixture.getOutput()[1][7], /^E1 TEACHER:/);
 assert.doesNotMatch(trueFalseFixture.getOutput()[1][7], /Prompt:/);
+assert.doesNotMatch(trueFalseFixture.getOutput()[1][7], /TEACHER:\s*(?:Đúng|Sai)\s*:/i);
 assert.equal(trueFalseFixture.getOutput()[1][8], '7/7');
 
 const manyTrueFalseRows = [trueFalseHeaders];
@@ -88,7 +89,9 @@ assert.equal(optimizedTrueFalseFixture.getOutput().length, 11);
 assert.ok(optimizedTrueFalseFixture.getOutput().slice(1).every(row => row[8] === '7/7'));
 
 assert.doesNotMatch(reporting, /Treat 12 months as equivalent to the full year/);
-assert.match(reporting, /Evaluate only the explanation text/);
+assert.match(reporting, /Evaluate semantic agreement only/);
+assert.match(reporting, /teacher text is always the accepted factual reason/);
+assert.match(reporting, /Do not output analysis, steps, or reasoning/);
 assert.match(reporting, /id === 5 \? 1 : 2/);
 assert.match(reporting, /questionDetails = Array\.from\(\{ length: 7 \}/);
 
