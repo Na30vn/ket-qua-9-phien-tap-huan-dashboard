@@ -55,6 +55,8 @@ context.__createReview(openFixture.spreadsheet, 5);
 assert.equal(openFixture.getOutput()[1][2], 'Nguyễn Văn A');
 assert.equal(openFixture.getOutput()[1][3], 'Phường Hải Châu');
 assert.equal(openFixture.getOutput()[1][5], 'Bài tự luận');
+assert.match(openFixture.getOutput()[1][6], /^Y1:/);
+assert.doesNotMatch(openFixture.getOutput()[1][6], /^Y2:/m);
 
 const trueFalseHeaders = ['Timestamp', 'Họ và tên Anh/Chị', 'Chức vụ/Vị trí công tác', 'Đơn vị công tác'];
 const trueFalseRow = ['04/09/2026 09:01:00', 'Trần Thị B', 'Kế toán', 'Xã Hòa Tiến'];
@@ -66,7 +68,14 @@ const trueFalseFixture = buildSpreadsheet('Phiên 6', [trueFalseHeaders, trueFal
 context.__createReview(trueFalseFixture.spreadsheet, 6);
 assert.equal(trueFalseFixture.getOutput()[1][3], 'Xã Hòa Tiến');
 assert.equal(trueFalseFixture.getOutput()[1][5], 'Sai; Sai; Đúng; Sai; Sai; Sai; Đúng');
+assert.match(trueFalseFixture.getOutput()[1][6], /^E1 STUDENT:/);
+assert.match(trueFalseFixture.getOutput()[1][7], /^E1 TEACHER:/);
+assert.doesNotMatch(trueFalseFixture.getOutput()[1][7], /Prompt:/);
 assert.equal(trueFalseFixture.getOutput()[1][8], '7/7');
+
+assert.doesNotMatch(reporting, /Treat 12 months as equivalent to the full year/);
+assert.match(reporting, /Evaluate only the explanation text/);
+assert.match(reporting, /id === 5 \? 1 : 2/);
 
 const ranked = [
   { name: 'Nộp sớm nhưng giải thích ít', choiceCorrectCount: 6, explanationMatchedCount: 3, submittedAtValue: 1 },

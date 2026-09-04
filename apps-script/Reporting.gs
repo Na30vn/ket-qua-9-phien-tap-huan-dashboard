@@ -304,12 +304,12 @@ function donGianHoaTabGeminiReview() {
 }
 
 function getGeminiEssayPrompt_(id) {
-  const semanticRule = 'Grade EACH teacher criterion independently. Set Y=1 when the student states the correct core idea verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Exact keyword matching, complete sentences, and the same order are not required. One criterion must not affect another. Set Y=0 only when the core idea is truly absent, wrong, or contradictory. Treat 12 months as equivalent to the full year. ';
+  const semanticRule = 'The student answer and teacher criteria are written in Vietnamese. Grade EACH teacher criterion independently by meaning. Set Y=1 when the student states the central idea verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Do not require exact wording, a complete legal citation, a decision number, or the same order. One criterion must not affect another. Set Y=0 only when its central idea is absent, wrong, or contradictory. Do not infer content that the student did not write. ';
   const promptMap = {
     3: 'You are grading a short case-study answer written in Vietnamese. Column F is the student answer and column G contains exactly three teacher criteria. Grade each criterion independently by meaning, using a lenient but consistent rule. Award Y=1 when the answer clearly identifies the central missing topic, even if it omits supporting details, figures, the approving authority, or exact wording; do not require a complete reproduction of the reference. For Y1, mentioning a missing explanation for the budget estimate is sufficient. For Y2, mentioning a missing approved settlement or a missing explanation for the settlement is sufficient. Award Y3 only when the answer identifies the required publication milestones of 03, 06, 09 months and the year, or an unambiguous equivalent; saying only quarterly is not sufficient. Do not infer a criterion that is not mentioned. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; NHAN_XET=concise feedback in Vietnamese under 35 words.',
-    5: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
-    7: semanticRule + 'Compare the answer in column F with exactly 2 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
-    8: semanticRule + 'Compare the answer in column F with exactly 4 criteria in column G. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.'
+    5: semanticRule + 'Compare the answer in column F with exactly one criterion labeled Y1 in column G. Award Y1=1 when the student conveys that a first-level budget unit which is also a budget-using unit must send its settlement report to the finance authority for checking, or equivalently says that it does not perform the settlement approval itself. Mentioning the head of the unit being responsible is optional and must not be required. Return exactly: Y1=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+    7: semanticRule + 'Compare the answer in column F with exactly two criteria labeled Y1 and Y2 in column G. For Y1, identifying the missing decision by the Chairperson of the commune-level People’s Committee on standards/norms for the generator is sufficient; legal document numbers are optional. For Y2, identifying the submission to the commune-level People’s Committee for approval of the procurement policy and estimated funding as unnecessary, or assigning that authority to the head of the first-level budget unit, is sufficient. Return exactly: Y1=0/1; Y2=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.',
+    8: semanticRule + 'Compare the answer in column F with exactly four criteria labeled Y1 through Y4 in column G. For Y1, correctly replacing the commune-level People’s Committee with its Chairperson as the authority for equipment standards/norms is sufficient. For Y2, identifying the submission to the commune-level People’s Committee for procurement-policy and estimated-funding approval as unnecessary, or assigning that authority to the head of the first-level budget unit, is sufficient. For Y3, identifying appraisal of the contractor-selection plan as unnecessary is sufficient. For Y4, replacing the direct-appointment decision with a decision approving contractor-selection results is sufficient. Legal document numbers are optional. Return exactly: Y1=0/1; Y2=0/1; Y3=0/1; Y4=0/1; NHAN_XET=concise Vietnamese feedback under 35 words.'
   };
   return promptMap[Number(id)] || 'Compare the student answer in column F with the teacher criteria in column G.';
 }
@@ -347,6 +347,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
     const correctAnswers = config.correctAnswers || [];
     const questionIndexes = resolvedConfig.questionIndexes || [];
     const explanationIndexes = resolvedConfig.explanationIndexes || [];
+    const prompt = `The input contains seven Vietnamese student explanations labeled E1 STUDENT through E7 STUDENT and seven Vietnamese teacher references labeled E1 TEACHER through E7 TEACHER. Grade each numbered explanation independently against the reference with the same number. Evaluate only the explanation text; the separate True/False choices are scored by the system and must not affect E1-E7. Set E=1 when the explanation states the correct central reason verbatim, with synonyms, common abbreviations, or an equivalent paraphrase. Do not require exact wording, complete sentences, legal document numbers, or full supporting detail. Set E=0 only when the central reason is absent, wrong, or contradictory. Do not infer content the student did not write and do not lower other items because one item is wrong. Return exactly: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
 
     const outputRows = [reviewHeaders];
     rows.forEach((row, index) => {
@@ -354,16 +355,14 @@ function taoTabGeminiReview_(spreadsheet, id) {
       const name = lastNonEmptyField_(row, nameIndexes) || `Học viên ${index + 1}`;
       const unit = lastNonEmptyField_(row, unitIndexes);
       const choices = questionIndexes.map(col => String(row[col] || '').trim()).join('; ');
-      const explanations = explanationIndexes.map((col, qIdx) => `Câu ${qIdx + 1}: ${String(row[col] || '').trim()}`).join('\n');
-      const references = referenceNotes.map((note, qIdx) => `Câu ${qIdx + 1}: ${note}`).join('\n');
+      const explanations = explanationIndexes.map((col, qIdx) => `E${qIdx + 1} STUDENT: ${String(row[col] || '').trim()}`).join('\n');
+      const references = referenceNotes.map((note, qIdx) => `E${qIdx + 1} TEACHER: ${note}`).join('\n');
       const correctChoiceCount = questionIndexes.reduce((sum, col, qIdx) =>
         sum + (sameAnswer_(row[col], correctAnswers[qIdx]) ? 1 : 0), 0);
 
-      const prompt = `Grade each explanation independently against the teacher reference. Set E=1 when the student states the correct core idea verbatim or with an equivalent paraphrase; exact keyword matching and complete sentences are not required. Set E=0 only when the core idea is absent, contradictory, or incorrect. Do not lower other items because one item is wrong. Return exactly: E1=0/1; E2=0/1; E3=0/1; E4=0/1; E5=0/1; E6=0/1; E7=0/1; NHAN_XET=concise Vietnamese feedback under 45 words.`;
-
       outputRows.push([
         id, index + 1, name, unit, timestamp,
-        choices, explanations, references + '\n---\nPrompt:\n' + prompt,
+        choices, explanations, references,
         `${correctChoiceCount}/7`, '', '', ''
       ]);
     });
@@ -372,7 +371,7 @@ function taoTabGeminiReview_(spreadsheet, id) {
       const formulaRows = outputRows.slice(1).map((row, index) => {
         const rowIdx = index + 2;
         return [
-          `=AI(H${rowIdx}, F${rowIdx}:G${rowIdx})`,
+          `=AI("${prompt.replace(/"/g, '""')}", G${rowIdx}:H${rowIdx})`,
           `=IFERROR(VALUE(REGEXEXTRACT(J${rowIdx}, "E1=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E2=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E3=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E4=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E5=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E6=(\\d)")) + VALUE(REGEXEXTRACT(J${rowIdx}, "E7=(\\d)")), "") & "/7"`,
           `=IFERROR(REGEXEXTRACT(J${rowIdx}, "NHAN_XET=(.+)"), J${rowIdx})`
         ];
@@ -382,9 +381,11 @@ function taoTabGeminiReview_(spreadsheet, id) {
     formatGeminiReviewSheet_(reviewSheet, outputRows.length, 6);
   } else {
     const reviewHeaders = ['ID Phiên', 'ID Bài', 'Họ và tên', 'Đơn vị', 'Thời điểm nộp', 'Bài làm', 'Ý chuẩn giáo viên', 'Prompt Gemini', 'Kết quả AI', 'Số ý đạt', 'Nhận xét AI (Rõ nét)'];
-    const referenceAnswers = Array.isArray(config.referenceAnswer) ? config.referenceAnswer.join('\n') : String(config.referenceAnswer || '');
+    const referenceAnswers = Array.isArray(config.referenceAnswer)
+      ? config.referenceAnswer.map((criterion, index) => `Y${index + 1}: ${criterion}`).join('\n')
+      : `Y1: ${String(config.referenceAnswer || '')}`;
     const promptText = getGeminiEssayPrompt_(id);
-    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
+    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : id === 5 ? 1 : 2;
 
     const outputRows = [reviewHeaders];
     rows.forEach((row, index) => {
@@ -559,7 +560,7 @@ function capNhatTabPublicTop_(spreadsheet, sessionId) {
       };
     }
 
-    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : 2;
+    const totalCriteria = id === 8 ? 4 : id === 3 ? 3 : id === 5 ? 1 : 2;
     let yMatched = [];
     for (let k = 1; k <= totalCriteria; k++) {
       const m = rawResultAI.match(new RegExp('Y' + k + '=(\\d)'));
